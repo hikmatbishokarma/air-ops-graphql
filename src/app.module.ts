@@ -5,6 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import config from './configs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
+import { GqlConfigService } from './configs/gql-config.service';
 
 @Module({
   imports: [
@@ -13,12 +17,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: true,
+      load: [config],
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
+    // MongooseModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     uri: configService.get<string>('MONGODB_URI'),
+    //   }),
+    // }),
+    GraphQLModule.forRootAsync({
+      driver: ApolloDriver,
+      useClass: GqlConfigService,
     }),
   ],
   controllers: [AppController],
