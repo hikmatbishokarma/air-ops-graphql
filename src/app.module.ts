@@ -16,7 +16,7 @@ import { GqlConfigService } from './configs/gql-config.service';
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      ignoreEnvFile: true,
+      // ignoreEnvFile: true,
       load: [config],
     }),
     MongooseModule.forRootAsync({
@@ -24,6 +24,7 @@ import { GqlConfigService } from './configs/gql-config.service';
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
       }),
+      inject: [ConfigService],
     }),
     GraphQLModule.forRootAsync({
       driver: ApolloDriver,
