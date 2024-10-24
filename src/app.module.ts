@@ -19,12 +19,12 @@ import { GqlConfigService } from './configs/gql-config.service';
       ignoreEnvFile: true,
       load: [config],
     }),
-    // MongooseModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: async (configService: ConfigService) => ({
-    //     uri: configService.get<string>('MONGODB_URI'),
-    //   }),
-    // }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+      }),
+    }),
     GraphQLModule.forRootAsync({
       driver: ApolloDriver,
       useClass: GqlConfigService,

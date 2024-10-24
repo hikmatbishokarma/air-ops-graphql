@@ -27,7 +27,7 @@ export class MongooseQueryService<Entity extends Document>
   }
 
   /**
-   * Query for multiple entities, using a Query from `@nestjs-query/core`.
+   * Query for multiple entities, using a Query from `@app/core`.
    *
    * @example
    * ```ts
@@ -108,7 +108,7 @@ export class MongooseQueryService<Entity extends Document>
   }
 
   /**
-   * Update multiple entities with a `@nestjs-query/core` Filter.
+   * Update multiple entities with a `@app/core` Filter.
    *
    * @example
    * ```ts
@@ -150,7 +150,7 @@ export class MongooseQueryService<Entity extends Document>
   }
 
   /**
-   * Delete multiple records with a `@nestjs-query/core` `Filter`.
+   * Delete multiple records with a `@app/core` `Filter`.
    *
    * @example
    *
