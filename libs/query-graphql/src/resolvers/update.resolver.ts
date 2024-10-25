@@ -15,7 +15,7 @@ import {
   PartialType,
   Resolver,
 } from '@nestjs/graphql';
-import omit from 'lodash.omit';
+import { omit } from 'lodash';
 import { HookTypes } from '../hooks';
 import { DTONames, getDTONames } from '../common';
 import { EventType, getDTOEventName } from '../subscription';

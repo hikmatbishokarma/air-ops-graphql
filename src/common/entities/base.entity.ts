@@ -2,6 +2,8 @@ import { Prop } from '@nestjs/mongoose';
 import { Document, SchemaTypes } from 'mongoose';
 
 export abstract class BaseEntity extends Document {
+  @Prop({ default: false })
+  status: boolean;
   @Prop({ default: () => new Date(), type: SchemaTypes.Date })
   createdAt?: string;
 

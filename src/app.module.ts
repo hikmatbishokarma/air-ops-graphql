@@ -9,11 +9,13 @@ import config from './configs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { GqlConfigService } from './configs/gql-config.service';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    RolesModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

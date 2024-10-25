@@ -40,6 +40,9 @@ export abstract class BaseDTO {
   })
   deletedBy?: string;
 
-  @Field({ nullable: true, description: 'The roles assigned to the user' })
+  @Field(() => [String], {
+    nullable: true,
+    description: 'The roles assigned to the user',
+  })
   roles?: string[];
 }

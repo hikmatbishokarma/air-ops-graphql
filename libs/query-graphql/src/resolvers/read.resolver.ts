@@ -1,6 +1,6 @@
 import { Class, Filter, mergeQuery, QueryService } from '@app/core';
 import { ArgsType, Resolver } from '@nestjs/graphql';
-import omit from 'lodash.omit';
+import { omit } from 'lodash';
 import { getDTONames } from '../common';
 import { AuthorizerFilter, HookArgs, ResolverQuery } from '../decorators';
 import {

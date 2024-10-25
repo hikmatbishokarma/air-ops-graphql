@@ -2,6 +2,369 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateManyRolesInput {
+  """Array of records to create"""
+  roles: [CreateRole!]!
+}
+
+input CreateManyUsersInput {
+  """Array of records to create"""
+  users: [CreateUser!]!
+}
+
+input CreateOneRoleInput {
+  """The record to create"""
+  role: CreateRole!
+}
+
+input CreateOneUserInput {
+  """The record to create"""
+  user: CreateUser!
+}
+
+input CreateRole {
+  description: String
+  name: String
+  permission: [String!]
+  resources: String
+}
+
+input CreateUser {
+  address: [JSONObject!]
+  email: String
+  mobile: String
+  name: String
+  password: String
+}
+
+type DeleteManyResponse {
+  """The number of records deleted."""
+  deletedCount: Int!
+}
+
+input DeleteManyRolesInput {
+  """Filter to find records to delete"""
+  filter: roleDeleteFilter!
+}
+
+input DeleteManyUsersInput {
+  """Filter to find records to delete"""
+  filter: UserDeleteFilter!
+}
+
+input DeleteOneRoleInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneUserInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type Mutation {
+  createManyRoles(input: CreateManyRolesInput!): [role!]!
+  createManyUsers(input: CreateManyUsersInput!): [User!]!
+  createOneRole(input: CreateOneRoleInput!): role!
+  createOneUser(input: CreateOneUserInput!): User!
+  deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
+  deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
+  deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
+  deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
+  updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
+  updateOneRole(input: UpdateOneRoleInput!): role!
+  updateOneUser(input: UpdateOneUserInput!): User!
+}
+
+type OffsetPageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+}
+
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
 type Query {
   getUser(id: String!): String!
+  role(
+    """The id of the record to find."""
+    id: ID!
+  ): role
+  roles(
+    """Specify to filter the records returned."""
+    filter: roleFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [roleSort!]! = []
+  ): RoleConnection!
+  user(
+    """The id of the record to find."""
+    id: ID!
+  ): User
+  users(
+    """Specify to filter the records returned."""
+    filter: UserFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [UserSort!]! = []
+  ): UserConnection!
+}
+
+type RoleConnection {
+  """Array of nodes."""
+  nodes: [role!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RoleDeleteResponse {
+  description: String
+  name: String
+  permission: [String!]
+  resources: String
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+input StringFieldComparison {
+  eq: String
+  gt: String
+  gte: String
+  iLike: String
+  in: [String!]
+  is: Boolean
+  isNot: Boolean
+  like: String
+  lt: String
+  lte: String
+  neq: String
+  notILike: String
+  notIn: [String!]
+  notLike: String
+}
+
+type UpdateManyResponse {
+  """The number of records updated."""
+  updatedCount: Int!
+}
+
+input UpdateManyRolesInput {
+  """Filter used to find fields to update"""
+  filter: roleUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateRole!
+}
+
+input UpdateManyUsersInput {
+  """Filter used to find fields to update"""
+  filter: UserUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateUser!
+}
+
+input UpdateOneRoleInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateRole!
+}
+
+input UpdateOneUserInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateUser!
+}
+
+input UpdateRole {
+  description: String
+  name: String
+  permission: [String!]
+  resources: String
+}
+
+input UpdateUser {
+  address: [JSONObject!]
+  email: String
+  mobile: String
+  name: String
+  password: String
+}
+
+"""user dto"""
+type User {
+  address: [JSONObject!]!
+  email: String!
+  mobile: String!
+  name: String!
+  password: String!
+}
+
+type UserAggregateGroupBy {
+  email: String
+  mobile: String
+  name: String
+}
+
+type UserConnection {
+  """Array of nodes."""
+  nodes: [User!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type UserCountAggregate {
+  email: Int
+  mobile: Int
+  name: Int
+}
+
+input UserDeleteFilter {
+  and: [UserDeleteFilter!]
+  email: StringFieldComparison
+  mobile: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserDeleteFilter!]
+}
+
+type UserDeleteResponse {
+  address: [JSONObject!]
+  email: String
+  mobile: String
+  name: String
+  password: String
+}
+
+input UserFilter {
+  and: [UserFilter!]
+  email: StringFieldComparison
+  mobile: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserFilter!]
+}
+
+type UserMaxAggregate {
+  email: String
+  mobile: String
+  name: String
+}
+
+type UserMinAggregate {
+  email: String
+  mobile: String
+  name: String
+}
+
+input UserSort {
+  direction: SortDirection!
+  field: UserSortFields!
+  nulls: SortNulls
+}
+
+enum UserSortFields {
+  email
+  mobile
+  name
+}
+
+input UserUpdateFilter {
+  and: [UserUpdateFilter!]
+  email: StringFieldComparison
+  mobile: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserUpdateFilter!]
+}
+
+"""User Roles"""
+type role {
+  description: String!
+  name: String!
+  permission: [String!]!
+  resources: String!
+}
+
+type roleAggregateGroupBy {
+  name: String
+}
+
+type roleCountAggregate {
+  name: Int
+}
+
+input roleDeleteFilter {
+  and: [roleDeleteFilter!]
+  name: StringFieldComparison
+  or: [roleDeleteFilter!]
+}
+
+input roleFilter {
+  and: [roleFilter!]
+  name: StringFieldComparison
+  or: [roleFilter!]
+}
+
+type roleMaxAggregate {
+  name: String
+}
+
+type roleMinAggregate {
+  name: String
+}
+
+input roleSort {
+  direction: SortDirection!
+  field: roleSortFields!
+  nulls: SortNulls
+}
+
+enum roleSortFields {
+  name
+}
+
+input roleUpdateFilter {
+  and: [roleUpdateFilter!]
+  name: StringFieldComparison
+  or: [roleUpdateFilter!]
 }

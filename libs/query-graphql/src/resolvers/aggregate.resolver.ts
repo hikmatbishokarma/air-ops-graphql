@@ -7,7 +7,7 @@ import {
   QueryService,
 } from '@app/core';
 import { Args, ArgsType, Resolver } from '@nestjs/graphql';
-import omit from 'lodash.omit';
+import { omit } from 'lodash';
 import { AuthorizerInterceptor } from '../interceptors';
 import { getDTONames } from '../common';
 import {

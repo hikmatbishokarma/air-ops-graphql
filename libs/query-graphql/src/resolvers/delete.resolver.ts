@@ -6,7 +6,7 @@ import {
   mergeFilter,
   QueryService,
 } from '@app/core';
-import omit from 'lodash.omit';
+import { omit } from 'lodash';
 import {
   Args,
   ArgsType,
