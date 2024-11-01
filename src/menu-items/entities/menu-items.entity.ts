@@ -23,13 +23,13 @@ export class MenuItemsEntity extends BaseEntity {
   ratingCount: number;
   @Prop()
   isVeg: boolean;
-  @Prop(() => CuisineType)
+  @Prop({ type: String, enum: CuisineType })
   cuisineType: CuisineType;
-  @Prop(() => MealType)
+  @Prop({ type: String, enum: MealType })
   mealType: MealType;
-  @Prop(() => DietaryPreference)
+  @Prop({ type: String, enum: DietaryPreference })
   dietaryPreference: DietaryPreference;
-  @Prop(() => Specialty)
+  @Prop({ type: String, enum: Specialty })
   specialty: Specialty;
 }
 

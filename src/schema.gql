@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input BooleanFieldComparison {
+  is: Boolean
+  isNot: Boolean
+}
+
+input CreateManyMenuItemsInput {
+  """Array of records to create"""
+  menuItems: [CreateMenuItem!]!
+}
+
 input CreateManyRolesInput {
   """Array of records to create"""
   roles: [CreateRole!]!
@@ -10,6 +20,25 @@ input CreateManyRolesInput {
 input CreateManyUsersInput {
   """Array of records to create"""
   users: [CreateUser!]!
+}
+
+input CreateMenuItem {
+  cuisineType: CuisineType
+  description: String
+  dietaryPreference: DietaryPreference
+  isVeg: Boolean
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int = 0
+  specialty: Specialty
+  tag: String
+}
+
+input CreateOneMenuItemInput {
+  """The record to create"""
+  menuItem: CreateMenuItem!
 }
 
 input CreateOneRoleInput {
@@ -37,6 +66,35 @@ input CreateUser {
   password: String
 }
 
+enum CuisineType {
+  Chiness
+  Indian
+  Italian
+  Mexican
+}
+
+input CuisineTypeFilterComparison {
+  eq: CuisineType
+  gt: CuisineType
+  gte: CuisineType
+  iLike: CuisineType
+  in: [CuisineType!]
+  is: Boolean
+  isNot: Boolean
+  like: CuisineType
+  lt: CuisineType
+  lte: CuisineType
+  neq: CuisineType
+  notILike: CuisineType
+  notIn: [CuisineType!]
+  notLike: CuisineType
+}
+
+input DeleteManyMenuItemsInput {
+  """Filter to find records to delete"""
+  filter: MenuItemDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
@@ -52,6 +110,11 @@ input DeleteManyUsersInput {
   filter: UserDeleteFilter!
 }
 
+input DeleteOneMenuItemInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneRoleInput {
   """The id of the record to delete."""
   id: ID!
@@ -62,24 +125,266 @@ input DeleteOneUserInput {
   id: ID!
 }
 
+enum DietaryPreference {
+  GlutenFree
+  Keto
+  LowCard
+  Vegan
+  Vegetarian
+}
+
+input DietaryPreferenceFilterComparison {
+  eq: DietaryPreference
+  gt: DietaryPreference
+  gte: DietaryPreference
+  iLike: DietaryPreference
+  in: [DietaryPreference!]
+  is: Boolean
+  isNot: Boolean
+  like: DietaryPreference
+  lt: DietaryPreference
+  lte: DietaryPreference
+  neq: DietaryPreference
+  notILike: DietaryPreference
+  notIn: [DietaryPreference!]
+  notLike: DietaryPreference
+}
+
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSONObject
 
+enum MealType {
+  Breakfast
+  Desserts
+  Dinner
+  Lunch
+  Snacks
+}
+
+input MealTypeFilterComparison {
+  eq: MealType
+  gt: MealType
+  gte: MealType
+  iLike: MealType
+  in: [MealType!]
+  is: Boolean
+  isNot: Boolean
+  like: MealType
+  lt: MealType
+  lte: MealType
+  neq: MealType
+  notILike: MealType
+  notIn: [MealType!]
+  notLike: MealType
+}
+
+"""Menu Items"""
+type MenuItem {
+  cuisineType: CuisineType!
+  description: String!
+  dietaryPreference: DietaryPreference
+  isVeg: Boolean!
+  mealType: MealType!
+  name: String!
+  price: Int!
+  rating: Int!
+  ratingCount: Int
+  specialty: Specialty
+  tag: String!
+}
+
+type MenuItemAggregateGroupBy {
+  cuisineType: CuisineType
+  dietaryPreference: DietaryPreference
+  isVeg: Boolean
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int
+  specialty: Specialty
+  tag: String
+}
+
+type MenuItemAvgAggregate {
+  price: Float
+  rating: Float
+  ratingCount: Float
+}
+
+type MenuItemConnection {
+  """Array of nodes."""
+  nodes: [MenuItem!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type MenuItemCountAggregate {
+  cuisineType: Int
+  dietaryPreference: Int
+  isVeg: Int
+  mealType: Int
+  name: Int
+  price: Int
+  rating: Int
+  ratingCount: Int
+  specialty: Int
+  tag: Int
+}
+
+input MenuItemDeleteFilter {
+  and: [MenuItemDeleteFilter!]
+  cuisineType: CuisineTypeFilterComparison
+  dietaryPreference: DietaryPreferenceFilterComparison
+  isVeg: BooleanFieldComparison
+  mealType: MealTypeFilterComparison
+  name: StringFieldComparison
+  or: [MenuItemDeleteFilter!]
+  price: NumberFieldComparison
+  rating: NumberFieldComparison
+  ratingCount: NumberFieldComparison
+  specialty: SpecialtyFilterComparison
+  tag: StringFieldComparison
+}
+
+type MenuItemDeleteResponse {
+  cuisineType: CuisineType
+  description: String
+  dietaryPreference: DietaryPreference
+  isVeg: Boolean
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int
+  specialty: Specialty
+  tag: String
+}
+
+input MenuItemFilter {
+  and: [MenuItemFilter!]
+  cuisineType: CuisineTypeFilterComparison
+  dietaryPreference: DietaryPreferenceFilterComparison
+  isVeg: BooleanFieldComparison
+  mealType: MealTypeFilterComparison
+  name: StringFieldComparison
+  or: [MenuItemFilter!]
+  price: NumberFieldComparison
+  rating: NumberFieldComparison
+  ratingCount: NumberFieldComparison
+  specialty: SpecialtyFilterComparison
+  tag: StringFieldComparison
+}
+
+type MenuItemMaxAggregate {
+  cuisineType: CuisineType
+  dietaryPreference: DietaryPreference
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int
+  specialty: Specialty
+  tag: String
+}
+
+type MenuItemMinAggregate {
+  cuisineType: CuisineType
+  dietaryPreference: DietaryPreference
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int
+  specialty: Specialty
+  tag: String
+}
+
+input MenuItemSort {
+  direction: SortDirection!
+  field: MenuItemSortFields!
+  nulls: SortNulls
+}
+
+enum MenuItemSortFields {
+  cuisineType
+  dietaryPreference
+  isVeg
+  mealType
+  name
+  price
+  rating
+  ratingCount
+  specialty
+  tag
+}
+
+type MenuItemSumAggregate {
+  price: Float
+  rating: Float
+  ratingCount: Float
+}
+
+input MenuItemUpdateFilter {
+  and: [MenuItemUpdateFilter!]
+  cuisineType: CuisineTypeFilterComparison
+  dietaryPreference: DietaryPreferenceFilterComparison
+  isVeg: BooleanFieldComparison
+  mealType: MealTypeFilterComparison
+  name: StringFieldComparison
+  or: [MenuItemUpdateFilter!]
+  price: NumberFieldComparison
+  rating: NumberFieldComparison
+  ratingCount: NumberFieldComparison
+  specialty: SpecialtyFilterComparison
+  tag: StringFieldComparison
+}
+
 type Mutation {
+  createManyMenuItems(input: CreateManyMenuItemsInput!): [MenuItem!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
+  createOneMenuItem(input: CreateOneMenuItemInput!): MenuItem!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneUser(input: CreateOneUserInput!): User!
+  deleteManyMenuItems(input: DeleteManyMenuItemsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
+  deleteOneMenuItem(input: DeleteOneMenuItemInput!): MenuItemDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  updateManyMenuItems(input: UpdateManyMenuItemsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
+  updateOneMenuItem(input: UpdateOneMenuItemInput!): MenuItem!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneUser(input: UpdateOneUserInput!): User!
+}
+
+input NumberFieldComparison {
+  between: NumberFieldComparisonBetween
+  eq: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  is: Boolean
+  isNot: Boolean
+  lt: Int
+  lte: Int
+  neq: Int
+  notBetween: NumberFieldComparisonBetween
+  notIn: [Int!]
+}
+
+input NumberFieldComparisonBetween {
+  lower: Int!
+  upper: Int!
 }
 
 type OffsetPageInfo {
@@ -100,6 +405,20 @@ input OffsetPaging {
 
 type Query {
   getUser(id: String!): String!
+  menuItem(
+    """The id of the record to find."""
+    id: ID!
+  ): MenuItem
+  menuItems(
+    """Specify to filter the records returned."""
+    filter: MenuItemFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [MenuItemSort!]! = []
+  ): MenuItemConnection!
   role(
     """The id of the record to find."""
     id: ID!
@@ -160,6 +479,30 @@ enum SortNulls {
   NULLS_LAST
 }
 
+enum Specialty {
+  ChefsSpecials
+  ComboDeals
+  FamilyMeals
+  SeasonalDishes
+}
+
+input SpecialtyFilterComparison {
+  eq: Specialty
+  gt: Specialty
+  gte: Specialty
+  iLike: Specialty
+  in: [Specialty!]
+  is: Boolean
+  isNot: Boolean
+  like: Specialty
+  lt: Specialty
+  lte: Specialty
+  neq: Specialty
+  notILike: Specialty
+  notIn: [Specialty!]
+  notLike: Specialty
+}
+
 input StringFieldComparison {
   eq: String
   gt: String
@@ -175,6 +518,14 @@ input StringFieldComparison {
   notILike: String
   notIn: [String!]
   notLike: String
+}
+
+input UpdateManyMenuItemsInput {
+  """Filter used to find fields to update"""
+  filter: MenuItemUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateMenuItem!
 }
 
 type UpdateManyResponse {
@@ -196,6 +547,28 @@ input UpdateManyUsersInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateUser!
+}
+
+input UpdateMenuItem {
+  cuisineType: CuisineType
+  description: String
+  dietaryPreference: DietaryPreference
+  isVeg: Boolean
+  mealType: MealType
+  name: String
+  price: Int
+  rating: Int
+  ratingCount: Int = 0
+  specialty: Specialty
+  tag: String
+}
+
+input UpdateOneMenuItemInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateMenuItem!
 }
 
 input UpdateOneRoleInput {
