@@ -21,6 +21,9 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 export class MenuItemsDTO extends BaseDTO {
   @IsString()
   @FilterableField()
+  partnerId: string;
+  @IsString()
+  @FilterableField()
   name: string;
   @IsString()
   @Field()
