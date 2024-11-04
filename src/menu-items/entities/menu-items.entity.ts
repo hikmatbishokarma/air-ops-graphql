@@ -10,6 +10,8 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 @Schema({ collection: 'menu-items' })
 export class MenuItemsEntity extends BaseEntity {
   @Prop()
+  partnerId: string;
+  @Prop({ index: true })
   name: string;
   @Prop()
   description: string;
