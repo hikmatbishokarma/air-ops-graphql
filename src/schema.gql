@@ -2,14 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddRolePermissionsToRoleInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
 }
 
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
 input CreateManyMenuItemsInput {
   """Array of records to create"""
   menuItems: [CreateMenuItem!]!
+}
+
+input CreateManyOrdersInput {
+  """Array of records to create"""
+  orders: [CreateOrder!]!
+}
+
+input CreateManyRolePermissionsInput {
+  """Array of records to create"""
+  rolePermissions: [CreateRolePermission!]!
 }
 
 input CreateManyRolesInput {
@@ -23,17 +44,37 @@ input CreateManyUsersInput {
 }
 
 input CreateMenuItem {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
   cuisineType: CuisineType
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
   dietaryPreference: DietaryPreference
+  id: ID
   isVeg: Boolean
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int = 0
   specialty: Specialty
+  status: Boolean = true
   tag: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreateOneMenuItemInput {
@@ -41,9 +82,19 @@ input CreateOneMenuItemInput {
   menuItem: CreateMenuItem!
 }
 
+input CreateOneOrderInput {
+  """The record to create"""
+  order: CreateOrder!
+}
+
 input CreateOneRoleInput {
   """The record to create"""
   role: CreateRole!
+}
+
+input CreateOneRolePermissionInput {
+  """The record to create"""
+  rolePermission: CreateRolePermission!
 }
 
 input CreateOneUserInput {
@@ -51,26 +102,121 @@ input CreateOneUserInput {
   user: CreateUser!
 }
 
+input CreateOrder {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  deliveryAddress: String
+  id: ID
+  instructions: String
+  menuItems: [JSONObject!]
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  status: Boolean = true
+  totalAmount: Float
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+  userId: String
+}
+
 input CreateRole {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
+  id: ID
   name: String
-  permission: [String!]
-  resources: String
+  roleType: RoleType
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateRolePermission {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  permissions: [JSONObject!]
+  role: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreateUser {
   address: [JSONObject!]
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   email: String
-  mobile: String
+  id: ID
   name: String
   password: String
+  phone: String
+  role: String
+  roleType: RoleType
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 enum CuisineType {
-  Chiness
-  Indian
-  Italian
-  Mexican
+  CHINESE
+  INDIAN
+  ITALIAN
+  MEXICAN
 }
 
 input CuisineTypeFilterComparison {
@@ -90,14 +236,63 @@ input CuisineTypeFilterComparison {
   notLike: CuisineType
 }
 
+input CursorPaging {
+  """Paginate after opaque cursor"""
+  after: ConnectionCursor
+
+  """Paginate before opaque cursor"""
+  before: ConnectionCursor
+
+  """Paginate first"""
+  first: Int
+
+  """Paginate last"""
+  last: Int
+}
+
+input DateFieldComparison {
+  between: DateFieldComparisonBetween
+  eq: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  is: Boolean
+  isNot: Boolean
+  lt: DateTime
+  lte: DateTime
+  neq: DateTime
+  notBetween: DateFieldComparisonBetween
+  notIn: [DateTime!]
+}
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 input DeleteManyMenuItemsInput {
   """Filter to find records to delete"""
   filter: MenuItemDeleteFilter!
 }
 
+input DeleteManyOrdersInput {
+  """Filter to find records to delete"""
+  filter: orderDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
+}
+
+input DeleteManyRolePermissionsInput {
+  """Filter to find records to delete"""
+  filter: RolePermissionDeleteFilter!
 }
 
 input DeleteManyRolesInput {
@@ -115,7 +310,17 @@ input DeleteOneMenuItemInput {
   id: ID!
 }
 
+input DeleteOneOrderInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneRoleInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneRolePermissionInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -126,11 +331,11 @@ input DeleteOneUserInput {
 }
 
 enum DietaryPreference {
-  GlutenFree
-  Keto
-  LowCard
-  Vegan
-  Vegetarian
+  GLUTEN_FREE
+  KETO
+  LOW_CARB
+  VEGAN
+  VEGETARIAN
 }
 
 input DietaryPreferenceFilterComparison {
@@ -150,17 +355,37 @@ input DietaryPreferenceFilterComparison {
   notLike: DietaryPreference
 }
 
+input FloatFieldComparison {
+  between: FloatFieldComparisonBetween
+  eq: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  is: Boolean
+  isNot: Boolean
+  lt: Float
+  lte: Float
+  neq: Float
+  notBetween: FloatFieldComparisonBetween
+  notIn: [Float!]
+}
+
+input FloatFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
+}
+
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSONObject
 
 enum MealType {
-  Breakfast
-  Desserts
-  Dinner
-  Lunch
-  Snacks
+  BREAKFAST
+  DESSERTS
+  DINNER
+  LUNCH
+  SNACKS
 }
 
 input MealTypeFilterComparison {
@@ -182,17 +407,37 @@ input MealTypeFilterComparison {
 
 """Menu Items"""
 type MenuItem {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
   cuisineType: CuisineType!
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String!
   dietaryPreference: DietaryPreference
+  id: ID!
   isVeg: Boolean!
   mealType: MealType!
   name: String!
+  partnerId: String!
   price: Int!
   rating: Int!
   ratingCount: Int
   specialty: Specialty
+  status: Boolean!
   tag: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 type MenuItemAggregateGroupBy {
@@ -201,10 +446,12 @@ type MenuItemAggregateGroupBy {
   isVeg: Boolean
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
+  status: Boolean
   tag: String
 }
 
@@ -231,10 +478,12 @@ type MenuItemCountAggregate {
   isVeg: Int
   mealType: Int
   name: Int
+  partnerId: Int
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Int
+  status: Int
   tag: Int
 }
 
@@ -246,25 +495,47 @@ input MenuItemDeleteFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemDeleteFilter!]
+  partnerId: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
+  status: BooleanFieldComparison
   tag: StringFieldComparison
 }
 
 type MenuItemDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
   cuisineType: CuisineType
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
   dietaryPreference: DietaryPreference
+  id: ID
   isVeg: Boolean
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
+  status: Boolean
   tag: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input MenuItemFilter {
@@ -275,10 +546,12 @@ input MenuItemFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemFilter!]
+  partnerId: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
+  status: BooleanFieldComparison
   tag: StringFieldComparison
 }
 
@@ -287,6 +560,7 @@ type MenuItemMaxAggregate {
   dietaryPreference: DietaryPreference
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int
@@ -299,6 +573,7 @@ type MenuItemMinAggregate {
   dietaryPreference: DietaryPreference
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int
@@ -318,10 +593,12 @@ enum MenuItemSortFields {
   isVeg
   mealType
   name
+  partnerId
   price
   rating
   ratingCount
   specialty
+  status
   tag
 }
 
@@ -339,31 +616,49 @@ input MenuItemUpdateFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemUpdateFilter!]
+  partnerId: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
+  status: BooleanFieldComparison
   tag: StringFieldComparison
 }
 
 type Mutation {
+  addRolePermissionsToRole(input: AddRolePermissionsToRoleInput!): role!
   createManyMenuItems(input: CreateManyMenuItemsInput!): [MenuItem!]!
+  createManyOrders(input: CreateManyOrdersInput!): [order!]!
+  createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneMenuItem(input: CreateOneMenuItemInput!): MenuItem!
+  createOneOrder(input: CreateOneOrderInput!): order!
   createOneRole(input: CreateOneRoleInput!): role!
+  createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyMenuItems(input: DeleteManyMenuItemsInput!): DeleteManyResponse!
+  deleteManyOrders(input: DeleteManyOrdersInput!): DeleteManyResponse!
+  deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneMenuItem(input: DeleteOneMenuItemInput!): MenuItemDeleteResponse!
+  deleteOneOrder(input: DeleteOneOrderInput!): OrderDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
+  deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
+  setRoleOnUser(input: SetRoleOnUserInput!): User!
+  setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
   updateManyMenuItems(input: UpdateManyMenuItemsInput!): UpdateManyResponse!
+  updateManyOrders(input: UpdateManyOrdersInput!): UpdateManyResponse!
+  updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneMenuItem(input: UpdateOneMenuItemInput!): MenuItem!
+  updateOneOrder(input: UpdateOneOrderInput!): order!
   updateOneRole(input: UpdateOneRoleInput!): role!
+  updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
 }
 
@@ -403,6 +698,59 @@ input OffsetPaging {
   offset: Int
 }
 
+type OrderConnection {
+  """Array of edges."""
+  edges: [orderEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
+type OrderDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  deliveryAddress: String
+  id: ID
+  instructions: String
+  menuItems: [JSONObject!]
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  status: Boolean
+  totalAmount: Float
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+  userId: String
+}
+
+type PageInfo {
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+}
+
 type Query {
   getUser(id: String!): String!
   menuItem(
@@ -419,10 +767,38 @@ type Query {
     """Specify to sort results."""
     sorting: [MenuItemSort!]! = []
   ): MenuItemConnection!
+  order(
+    """The id of the record to find."""
+    id: ID!
+  ): order
+  orders(
+    """Specify to filter the records returned."""
+    filter: orderFilter! = {}
+
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [orderSort!]! = []
+  ): OrderConnection!
   role(
     """The id of the record to find."""
     id: ID!
   ): role
+  rolePermission(
+    """The id of the record to find."""
+    id: ID!
+  ): RolePermission
+  rolePermissions(
+    """Specify to filter the records returned."""
+    filter: RolePermissionFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [RolePermissionSort!]! = []
+  ): RolePermissionConnection!
   roles(
     """Specify to filter the records returned."""
     filter: roleFilter! = {}
@@ -461,10 +837,185 @@ type RoleConnection {
 }
 
 type RoleDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
+  id: ID
   name: String
-  permission: [String!]
-  resources: String
+  roleType: RoleType
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+"""Role Permission"""
+type RolePermission {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  permissions: [JSONObject!]!
+  role: role!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type RolePermissionAggregateGroupBy {
+  role: String
+  status: Boolean
+}
+
+type RolePermissionConnection {
+  """Array of nodes."""
+  nodes: [RolePermission!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RolePermissionCountAggregate {
+  role: Int
+  status: Int
+}
+
+input RolePermissionDeleteFilter {
+  and: [RolePermissionDeleteFilter!]
+  or: [RolePermissionDeleteFilter!]
+  role: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+type RolePermissionDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  permissions: [JSONObject!]
+  role: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input RolePermissionFilter {
+  and: [RolePermissionFilter!]
+  or: [RolePermissionFilter!]
+  role: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+type RolePermissionMaxAggregate {
+  role: String
+}
+
+type RolePermissionMinAggregate {
+  role: String
+}
+
+input RolePermissionSort {
+  direction: SortDirection!
+  field: RolePermissionSortFields!
+  nulls: SortNulls
+}
+
+enum RolePermissionSortFields {
+  role
+  status
+}
+
+input RolePermissionUpdateFilter {
+  and: [RolePermissionUpdateFilter!]
+  or: [RolePermissionUpdateFilter!]
+  role: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+enum RoleType {
+  ADMIN
+  CUSTOMER
+  PARTNER
+}
+
+input RoleTypeFilterComparison {
+  eq: RoleType
+  gt: RoleType
+  gte: RoleType
+  iLike: RoleType
+  in: [RoleType!]
+  is: Boolean
+  isNot: Boolean
+  like: RoleType
+  lt: RoleType
+  lte: RoleType
+  neq: RoleType
+  notILike: RoleType
+  notIn: [RoleType!]
+  notLike: RoleType
+}
+
+input SetRoleOnRolePermissionInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetRoleOnUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetRolePermissionsOnRoleInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 """Sort Directions"""
@@ -480,10 +1031,10 @@ enum SortNulls {
 }
 
 enum Specialty {
-  ChefsSpecials
-  ComboDeals
-  FamilyMeals
-  SeasonalDishes
+  CHEFS_SPECIALS
+  COMBO_DEALS
+  FAMILY_MEALS
+  SEASONAL_DISHES
 }
 
 input SpecialtyFilterComparison {
@@ -528,9 +1079,25 @@ input UpdateManyMenuItemsInput {
   update: UpdateMenuItem!
 }
 
+input UpdateManyOrdersInput {
+  """Filter used to find fields to update"""
+  filter: orderUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateOrder!
+}
+
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
+}
+
+input UpdateManyRolePermissionsInput {
+  """Filter used to find fields to update"""
+  filter: RolePermissionUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateRolePermission!
 }
 
 input UpdateManyRolesInput {
@@ -550,17 +1117,37 @@ input UpdateManyUsersInput {
 }
 
 input UpdateMenuItem {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
   cuisineType: CuisineType
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
   dietaryPreference: DietaryPreference
+  id: ID
   isVeg: Boolean
   mealType: MealType
   name: String
+  partnerId: String
   price: Int
   rating: Int
   ratingCount: Int = 0
   specialty: Specialty
+  status: Boolean = true
   tag: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateOneMenuItemInput {
@@ -571,12 +1158,28 @@ input UpdateOneMenuItemInput {
   update: UpdateMenuItem!
 }
 
+input UpdateOneOrderInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateOrder!
+}
+
 input UpdateOneRoleInput {
   """The id of the record to update"""
   id: ID!
 
   """The update to apply."""
   update: UpdateRole!
+}
+
+input UpdateOneRolePermissionInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateRolePermission!
 }
 
 input UpdateOneUserInput {
@@ -587,34 +1190,154 @@ input UpdateOneUserInput {
   update: UpdateUser!
 }
 
+input UpdateOrder {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  deliveryAddress: String
+  id: ID
+  instructions: String
+  menuItems: [JSONObject!]
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  status: Boolean = true
+  totalAmount: Float
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+  userId: String
+}
+
 input UpdateRole {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String
+  id: ID
   name: String
-  permission: [String!]
-  resources: String
+  roleType: RoleType
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateRolePermission {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  permissions: [JSONObject!]
+  role: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateUser {
   address: [JSONObject!]
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   email: String
-  mobile: String
+  id: ID
   name: String
   password: String
+  phone: String
+  role: String
+  roleType: RoleType
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 """user dto"""
 type User {
   address: [JSONObject!]!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   email: String!
-  mobile: String!
+  id: ID!
   name: String!
   password: String!
+  phone: String!
+  role: role!
+  roleType: RoleType!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 type UserAggregateGroupBy {
   email: String
-  mobile: String
   name: String
+  phone: String
+  role: String
+  roleType: RoleType
+  status: Boolean
 }
 
 type UserConnection {
@@ -630,44 +1353,79 @@ type UserConnection {
 
 type UserCountAggregate {
   email: Int
-  mobile: Int
   name: Int
+  phone: Int
+  role: Int
+  roleType: Int
+  status: Int
 }
 
 input UserDeleteFilter {
   and: [UserDeleteFilter!]
   email: StringFieldComparison
-  mobile: StringFieldComparison
   name: StringFieldComparison
   or: [UserDeleteFilter!]
+  phone: StringFieldComparison
+  role: StringFieldComparison
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
 }
 
 type UserDeleteResponse {
   address: [JSONObject!]
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   email: String
-  mobile: String
+  id: ID
   name: String
   password: String
+  phone: String
+  role: String
+  roleType: RoleType
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UserFilter {
   and: [UserFilter!]
   email: StringFieldComparison
-  mobile: StringFieldComparison
   name: StringFieldComparison
   or: [UserFilter!]
+  phone: StringFieldComparison
+  role: StringFieldComparison
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
 }
 
 type UserMaxAggregate {
   email: String
-  mobile: String
   name: String
+  phone: String
+  role: String
+  roleType: RoleType
 }
 
 type UserMinAggregate {
   email: String
-  mobile: String
   name: String
+  phone: String
+  role: String
+  roleType: RoleType
 }
 
 input UserSort {
@@ -678,52 +1436,231 @@ input UserSort {
 
 enum UserSortFields {
   email
-  mobile
   name
+  phone
+  role
+  roleType
+  status
 }
 
 input UserUpdateFilter {
   and: [UserUpdateFilter!]
   email: StringFieldComparison
-  mobile: StringFieldComparison
   name: StringFieldComparison
   or: [UserUpdateFilter!]
+  phone: StringFieldComparison
+  role: StringFieldComparison
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
+}
+
+"""Orders"""
+type order {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  deliveryAddress: String
+  id: ID!
+  instructions: String
+  menuItems: [JSONObject!]!
+  orderDate: DateTime!
+  orderId: String!
+  orderStatus: String!
+  partnerId: String!
+  status: Boolean!
+  totalAmount: Float!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+  userId: String!
+}
+
+type orderAggregateGroupBy {
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  status: Boolean
+  totalAmount: Float
+  userId: String
+}
+
+type orderAvgAggregate {
+  totalAmount: Float
+}
+
+type orderCountAggregate {
+  orderDate: Int
+  orderId: Int
+  orderStatus: Int
+  partnerId: Int
+  status: Int
+  totalAmount: Int
+  userId: Int
+}
+
+input orderDeleteFilter {
+  and: [orderDeleteFilter!]
+  or: [orderDeleteFilter!]
+  orderDate: DateFieldComparison
+  orderId: StringFieldComparison
+  orderStatus: StringFieldComparison
+  partnerId: StringFieldComparison
+  status: BooleanFieldComparison
+  totalAmount: FloatFieldComparison
+  userId: StringFieldComparison
+}
+
+type orderEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the order"""
+  node: order!
+}
+
+input orderFilter {
+  and: [orderFilter!]
+  or: [orderFilter!]
+  orderDate: DateFieldComparison
+  orderId: StringFieldComparison
+  orderStatus: StringFieldComparison
+  partnerId: StringFieldComparison
+  status: BooleanFieldComparison
+  totalAmount: FloatFieldComparison
+  userId: StringFieldComparison
+}
+
+type orderMaxAggregate {
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  totalAmount: Float
+  userId: String
+}
+
+type orderMinAggregate {
+  orderDate: DateTime
+  orderId: String
+  orderStatus: String
+  partnerId: String
+  totalAmount: Float
+  userId: String
+}
+
+input orderSort {
+  direction: SortDirection!
+  field: orderSortFields!
+  nulls: SortNulls
+}
+
+enum orderSortFields {
+  orderDate
+  orderId
+  orderStatus
+  partnerId
+  status
+  totalAmount
+  userId
+}
+
+type orderSumAggregate {
+  totalAmount: Float
+}
+
+input orderUpdateFilter {
+  and: [orderUpdateFilter!]
+  or: [orderUpdateFilter!]
+  orderDate: DateFieldComparison
+  orderId: StringFieldComparison
+  orderStatus: StringFieldComparison
+  partnerId: StringFieldComparison
+  status: BooleanFieldComparison
+  totalAmount: FloatFieldComparison
+  userId: StringFieldComparison
 }
 
 """User Roles"""
 type role {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
   description: String!
+  id: ID!
   name: String!
-  permission: [String!]!
-  resources: String!
+  rolePermissions(
+    """Specify to filter the records returned."""
+    filter: RolePermissionFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [RolePermissionSort!]! = []
+  ): [RolePermission!]
+  roleType: RoleType!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 type roleAggregateGroupBy {
   name: String
+  roleType: RoleType
+  status: Boolean
 }
 
 type roleCountAggregate {
   name: Int
+  roleType: Int
+  status: Int
 }
 
 input roleDeleteFilter {
   and: [roleDeleteFilter!]
   name: StringFieldComparison
   or: [roleDeleteFilter!]
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
 }
 
 input roleFilter {
   and: [roleFilter!]
   name: StringFieldComparison
   or: [roleFilter!]
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
 }
 
 type roleMaxAggregate {
   name: String
+  roleType: RoleType
 }
 
 type roleMinAggregate {
   name: String
+  roleType: RoleType
 }
 
 input roleSort {
@@ -734,10 +1671,14 @@ input roleSort {
 
 enum roleSortFields {
   name
+  roleType
+  status
 }
 
 input roleUpdateFilter {
   and: [roleUpdateFilter!]
   name: StringFieldComparison
   or: [roleUpdateFilter!]
+  roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
 }

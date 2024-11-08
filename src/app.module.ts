@@ -12,6 +12,7 @@ import { GqlConfigService } from './configs/gql-config.service';
 import { RolesModule } from './roles/roles.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
 import { OrdersModule } from './orders/orders.module';
+import { RolePermissionModule } from './role-permission/role-permission.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { OrdersModule } from './orders/orders.module';
     RolesModule,
     MenuItemsModule,
     OrdersModule,
+    RolePermissionModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,
