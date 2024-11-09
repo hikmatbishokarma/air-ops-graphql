@@ -20,7 +20,7 @@ export class UserEntity extends BaseEntity {
   password: string;
 
   @Prop({ type: [Object] })
-  address: Addresses[]; // Using the Address interface here
+  addresses: Addresses[]; // Using the Address interface here
 
   @Prop({ type: String, required: true, enum: RoleType })
   roleType: RoleType;

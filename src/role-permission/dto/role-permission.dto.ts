@@ -14,7 +14,7 @@ import { RoleDTO } from 'src/roles/dto/roles.dto';
 export class PermissionDTO {
   @Field()
   resource: string;
-  @Field(() => ResourceAction)
+  @Field(() => [ResourceAction])
   action: ResourceAction[];
 }
 

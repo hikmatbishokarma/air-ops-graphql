@@ -12,6 +12,7 @@ import { AddressTag, RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { RoleDTO } from 'src/roles/dto/roles.dto';
 import { CreateUserHook } from '../hooks/create-user.hook';
+import { Exclude } from 'class-transformer';
 
 export class UserDTO1 {
   id: number;
@@ -23,11 +24,11 @@ export class UserDTO1 {
 export class AddressesDTO {
   @Field()
   address: string;
-  @Field({ description: 'House/Falt No' })
+  @Field({ description: 'House/Falt No', nullable: true })
   house: string;
-  @Field()
+  @Field({ nullable: true })
   landMark: string;
-  @Field(() => AddressTag)
+  @Field(() => AddressTag, { defaultValue: AddressTag.OTHER })
   tag: AddressTag;
 }
 
@@ -42,6 +43,7 @@ export class UserDTO extends BaseDTO {
   @FilterableField()
   name: string;
 
+  @Exclude()
   @Field()
   password: string;
 
@@ -54,7 +56,7 @@ export class UserDTO extends BaseDTO {
   phone: string;
 
   @Field(() => [GraphQLJSONObject])
-  address: AddressesDTO[];
+  addresses: AddressesDTO[];
 
   @FilterableField(() => RoleType)
   roleType: RoleType;

@@ -183,7 +183,7 @@ input CreateRolePermission {
 }
 
 input CreateUser {
-  address: [JSONObject!]
+  addresses: [JSONObject!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -379,6 +379,13 @@ input FloatFieldComparisonBetween {
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSONObject
+
+input LoginInputs {
+  password: String!
+
+  """userName will be email or phone"""
+  username: String!
+}
 
 enum MealType {
   BREAKFAST
@@ -753,6 +760,7 @@ type PageInfo {
 
 type Query {
   getUser(id: String!): String!
+  login(input: LoginInputs!): loginResponseDTO!
   menuItem(
     """The id of the record to find."""
     id: ID!
@@ -1271,7 +1279,7 @@ input UpdateRolePermission {
 }
 
 input UpdateUser {
-  address: [JSONObject!]
+  addresses: [JSONObject!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1302,7 +1310,7 @@ input UpdateUser {
 
 """user dto"""
 type User {
-  address: [JSONObject!]!
+  addresses: [JSONObject!]!
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1372,7 +1380,7 @@ input UserDeleteFilter {
 }
 
 type UserDeleteResponse {
-  address: [JSONObject!]
+  addresses: [JSONObject!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1452,6 +1460,10 @@ input UserUpdateFilter {
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
   status: BooleanFieldComparison
+}
+
+type loginResponseDTO {
+  access_token: String!
 }
 
 """Orders"""
