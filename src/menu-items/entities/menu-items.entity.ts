@@ -1,24 +1,26 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { SchemaTypes, Types } from 'mongoose';
 import {
   CuisineType,
   DietaryPreference,
   MealType,
+  PopularityTags,
   Specialty,
 } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'menu-items' })
 export class MenuItemsEntity extends BaseEntity {
-  @Prop()
-  partnerId: string;
+  @Prop({ ref: 'UserEntity', type: SchemaTypes.ObjectId, required: true })
+  partner: Types.ObjectId;
   @Prop({ index: true })
   name: string;
   @Prop()
   description: string;
   @Prop()
   price: number;
-  @Prop()
-  tag: string;
+  @Prop({ type: String, enum: PopularityTags })
+  tag: PopularityTags;
   @Prop()
   rating: number;
   @Prop()

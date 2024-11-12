@@ -2,6 +2,7 @@ import {
   FilterableField,
   PagingStrategies,
   QueryOptions,
+  Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsBoolean, IsNumber, IsString } from 'class-validator';
@@ -9,19 +10,22 @@ import {
   CuisineType,
   DietaryPreference,
   MealType,
+  PopularityTags,
   Specialty,
 } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { UserDTO } from 'src/users/dto/users.dto';
 
 @ObjectType('MenuItem', { description: 'Menu Items' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
+@Relation('partner', () => UserDTO, { disableRemove: true })
 export class MenuItemsDTO extends BaseDTO {
   @IsString()
   @FilterableField()
-  partnerId: string;
+  partner: string;
   @IsString()
   @FilterableField()
   name: string;
@@ -31,8 +35,6 @@ export class MenuItemsDTO extends BaseDTO {
   @IsNumber()
   @FilterableField()
   price: number;
-  @FilterableField()
-  tag: string;
   @IsNumber()
   @FilterableField()
   rating: number;
@@ -42,10 +44,12 @@ export class MenuItemsDTO extends BaseDTO {
   @IsBoolean()
   @FilterableField()
   isVeg: boolean;
-  @FilterableField(() => CuisineType)
-  cuisineType: CuisineType;
+  @FilterableField(() => PopularityTags)
+  tag: PopularityTags;
   @FilterableField(() => MealType)
   mealType: MealType;
+  @FilterableField(() => CuisineType, { nullable: true })
+  cuisineType: CuisineType;
   @FilterableField(() => DietaryPreference, { nullable: true })
   dietaryPreference: DietaryPreference;
   @FilterableField(() => Specialty, { nullable: true })

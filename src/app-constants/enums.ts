@@ -86,3 +86,17 @@ registerEnumType(ResourceAction, {
 });
 
 //#endregion
+
+//#region POPULARITY TAGS ENUM
+
+export enum PopularityTags {
+  BEST_SELLER = 'bestSeller',
+  FEATURED = 'featured',
+  NEW = 'new',
+  CHEFS_RECOMMENDATION = 'chefsRecommendation',
+}
+
+registerEnumType(PopularityTags, {
+  name: 'PopularityTags',
+});
+//#endregion
