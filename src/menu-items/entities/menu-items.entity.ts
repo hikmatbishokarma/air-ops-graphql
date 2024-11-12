@@ -4,7 +4,7 @@ import {
   DietaryPreference,
   MealType,
   Specialty,
-} from 'src/app-constants/menu-category-type.enum';
+} from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'menu-items' })

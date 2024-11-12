@@ -3,6 +3,7 @@ import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { Module } from '@nestjs/common';
 import { RoleEntity, RoleSchema } from './entities/roles.entity';
 import { RoleDTO } from './dto/roles.dto';
+import { RolesService } from './services/roles.service';
 
 @Module({
   imports: [
@@ -24,5 +25,7 @@ import { RoleDTO } from './dto/roles.dto';
       ],
     }),
   ],
+  providers: [RolesService],
+  exports: [RolesService],
 })
 export class RolesModule {}

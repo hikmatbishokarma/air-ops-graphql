@@ -1,5 +1,7 @@
-import { Field, ID } from '@nestjs/graphql';
+import { FilterableField } from '@app/query-graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
+@ObjectType({ isAbstract: true })
 export abstract class BaseDTO {
   @Field(() => ID)
   id!: string;
@@ -40,9 +42,11 @@ export abstract class BaseDTO {
   })
   deletedBy?: string;
 
-  @Field(() => [String], {
-    nullable: true,
-    description: 'The roles assigned to the user',
-  })
-  roles?: string[];
+  // @Field(() => [String], {
+  //   nullable: true,
+  //   description: 'The roles assigned to the user',
+  // })
+  // roles?: string[];
+  @FilterableField(() => Boolean, { defaultValue: true })
+  status: boolean;
 }

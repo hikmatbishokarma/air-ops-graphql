@@ -6,12 +6,16 @@ import { UserEntity, UserSchema } from './entities/user.entity';
 import { NestjsQueryGraphQLModule } from '@app/query-graphql';
 import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { UserDTO } from './dto/users.dto';
+import { RolesModule } from 'src/roles/roles.module';
+import { RolesService } from 'src/roles/services/roles.service';
 
 @Module({
   imports: [
+    RolesModule,
     // MongooseModule.forFeature([{ name: UserEntity.name, schema: UserSchema }]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
+        RolesModule,
         NestjsQueryMongooseModule.forFeature([
           {
             document: UserEntity,

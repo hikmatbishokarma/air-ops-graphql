@@ -1,12 +1,18 @@
 import {
+  BeforeCreateOne,
   FilterableField,
   PagingStrategies,
   QueryOptions,
+  Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsMobilePhone } from 'class-validator';
 import { GraphQLJSONObject } from 'graphql-type-json';
+import { AddressTag, RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { RoleDTO } from 'src/roles/dto/roles.dto';
+import { CreateUserHook } from '../hooks/create-user.hook';
+import { Exclude } from 'class-transformer';
 
 export class UserDTO1 {
   id: number;
@@ -14,17 +20,16 @@ export class UserDTO1 {
   password: string;
 }
 
-export class AddressDTO {
+@ObjectType()
+export class AddressesDTO {
   @Field()
-  street: string;
-  @Field()
-  city: string;
-  @Field()
-  state: string;
-  @Field()
-  country: string;
-  @Field()
-  zipCode: string;
+  address: string;
+  @Field({ description: 'House/Falt No', nullable: true })
+  house: string;
+  @Field({ nullable: true })
+  landMark: string;
+  @Field(() => AddressTag, { defaultValue: AddressTag.OTHER })
+  tag: AddressTag;
 }
 
 @ObjectType('User', { description: 'user dto' })
@@ -32,9 +37,13 @@ export class AddressDTO {
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
+@Relation('role', () => RoleDTO, { disableRemove: true })
+@BeforeCreateOne(CreateUserHook)
 export class UserDTO extends BaseDTO {
   @FilterableField()
   name: string;
+
+  @Exclude()
   @Field()
   password: string;
 
@@ -44,8 +53,14 @@ export class UserDTO extends BaseDTO {
 
   @IsMobilePhone()
   @FilterableField()
-  mobile: string;
+  phone: string;
 
   @Field(() => [GraphQLJSONObject])
-  address: AddressDTO[]; // Using the Address interface here
+  addresses: AddressesDTO[];
+
+  @FilterableField(() => RoleType)
+  roleType: RoleType;
+
+  @FilterableField()
+  role: string;
 }

@@ -8,7 +8,9 @@ export interface NestjsQueryExecutionContext extends ExecutionContext {
   nestjsQueryLoaders?: Record<string, Dataloader<unknown, unknown>>;
 }
 export class DataLoaderFactory {
-  private static initializeContext(context: NestjsQueryExecutionContext): Record<string, Dataloader<unknown, unknown>> {
+  private static initializeContext(
+    context: NestjsQueryExecutionContext,
+  ): Record<string, Dataloader<unknown, unknown>> {
     if (!context.nestjsQueryLoaders) {
       // eslint-disable-next-line no-param-reassign
       context.nestjsQueryLoaders = {};
