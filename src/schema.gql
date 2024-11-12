@@ -62,13 +62,13 @@ input CreateMenuItem {
   isVeg: Boolean
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int = 0
   specialty: Specialty
   status: Boolean = true
-  tag: String
+  tag: PopularityTags
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -419,7 +419,7 @@ type MenuItem {
 
   """The email of the user who created the record"""
   createdBy: String
-  cuisineType: CuisineType!
+  cuisineType: CuisineType
 
   """The date when the record was deleted"""
   deletedAt: DateTime
@@ -432,13 +432,13 @@ type MenuItem {
   isVeg: Boolean!
   mealType: MealType!
   name: String!
-  partnerId: String!
+  partner: User!
   price: Int!
   rating: Int!
   ratingCount: Int
   specialty: Specialty
   status: Boolean!
-  tag: String!
+  tag: PopularityTags!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -453,13 +453,13 @@ type MenuItemAggregateGroupBy {
   isVeg: Boolean
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
   status: Boolean
-  tag: String
+  tag: PopularityTags
 }
 
 type MenuItemAvgAggregate {
@@ -485,7 +485,7 @@ type MenuItemCountAggregate {
   isVeg: Int
   mealType: Int
   name: Int
-  partnerId: Int
+  partner: Int
   price: Int
   rating: Int
   ratingCount: Int
@@ -502,13 +502,13 @@ input MenuItemDeleteFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemDeleteFilter!]
-  partnerId: StringFieldComparison
+  partner: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
   status: BooleanFieldComparison
-  tag: StringFieldComparison
+  tag: PopularityTagsFilterComparison
 }
 
 type MenuItemDeleteResponse {
@@ -530,13 +530,13 @@ type MenuItemDeleteResponse {
   isVeg: Boolean
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
   status: Boolean
-  tag: String
+  tag: PopularityTags
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -553,13 +553,13 @@ input MenuItemFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemFilter!]
-  partnerId: StringFieldComparison
+  partner: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
   status: BooleanFieldComparison
-  tag: StringFieldComparison
+  tag: PopularityTagsFilterComparison
 }
 
 type MenuItemMaxAggregate {
@@ -567,12 +567,12 @@ type MenuItemMaxAggregate {
   dietaryPreference: DietaryPreference
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
-  tag: String
+  tag: PopularityTags
 }
 
 type MenuItemMinAggregate {
@@ -580,12 +580,12 @@ type MenuItemMinAggregate {
   dietaryPreference: DietaryPreference
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int
   specialty: Specialty
-  tag: String
+  tag: PopularityTags
 }
 
 input MenuItemSort {
@@ -600,7 +600,7 @@ enum MenuItemSortFields {
   isVeg
   mealType
   name
-  partnerId
+  partner
   price
   rating
   ratingCount
@@ -623,13 +623,13 @@ input MenuItemUpdateFilter {
   mealType: MealTypeFilterComparison
   name: StringFieldComparison
   or: [MenuItemUpdateFilter!]
-  partnerId: StringFieldComparison
+  partner: StringFieldComparison
   price: NumberFieldComparison
   rating: NumberFieldComparison
   ratingCount: NumberFieldComparison
   specialty: SpecialtyFilterComparison
   status: BooleanFieldComparison
-  tag: StringFieldComparison
+  tag: PopularityTagsFilterComparison
 }
 
 type Mutation {
@@ -654,6 +654,7 @@ type Mutation {
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  setPartnerOnMenuItem(input: SetPartnerOnMenuItemInput!): MenuItem!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
   setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
@@ -756,6 +757,30 @@ type PageInfo {
 
   """The cursor of the first returned record."""
   startCursor: ConnectionCursor
+}
+
+enum PopularityTags {
+  BEST_SELLER
+  CHEFS_RECOMMENDATION
+  FEATURED
+  NEW
+}
+
+input PopularityTagsFilterComparison {
+  eq: PopularityTags
+  gt: PopularityTags
+  gte: PopularityTags
+  iLike: PopularityTags
+  in: [PopularityTags!]
+  is: Boolean
+  isNot: Boolean
+  like: PopularityTags
+  lt: PopularityTags
+  lte: PopularityTags
+  neq: PopularityTags
+  notILike: PopularityTags
+  notIn: [PopularityTags!]
+  notLike: PopularityTags
 }
 
 type Query {
@@ -1002,6 +1027,14 @@ input RoleTypeFilterComparison {
   notLike: RoleType
 }
 
+input SetPartnerOnMenuItemInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetRoleOnRolePermissionInput {
   """The id of the record."""
   id: ID!
@@ -1143,13 +1176,13 @@ input UpdateMenuItem {
   isVeg: Boolean
   mealType: MealType
   name: String
-  partnerId: String
+  partner: String
   price: Int
   rating: Int
   ratingCount: Int = 0
   specialty: Specialty
   status: Boolean = true
-  tag: String
+  tag: PopularityTags
 
   """The date when the record was last updated"""
   updatedAt: DateTime
