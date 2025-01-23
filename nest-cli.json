@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  "projects": {
+    "query-graphql": {
+      "type": "library",
+      "root": "libs/query-graphql",
+      "entryFile": "index",
+      "sourceRoot": "libs/query-graphql/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/query-graphql/tsconfig.lib.json"
+      }
+    },
+    "query-mongoose": {
+      "type": "library",
+      "root": "libs/query-mongoose",
+      "entryFile": "index",
+      "sourceRoot": "libs/query-mongoose/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/query-mongoose/tsconfig.lib.json"
+      }
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    }
+  }
+}

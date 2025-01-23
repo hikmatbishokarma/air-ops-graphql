@@ -1,0 +1,21 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@app/query-graphql/(.*)": "<rootDir>/../libs/query-graphql/src/$1",
+    "@app/query-graphql": "<rootDir>/../libs/query-graphql/src",
+    "@app/query-mongoose/(.*)": "<rootDir>/../libs/query-mongoose/src/$1",
+    "@app/query-mongoose": "<rootDir>/../libs/query-mongoose/src",
+    "@app/core/(.*)": "<rootDir>/../libs/core/src/$1",
+    "@app/core": "<rootDir>/../libs/core/src"
+  }
+}
