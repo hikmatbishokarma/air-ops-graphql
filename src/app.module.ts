@@ -11,6 +11,9 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { GqlConfigService } from './configs/gql-config.service';
 import { RolesModule } from './roles/roles.module';
 import { RolePermissionModule } from './role-permission/role-permission.module';
+import { AircraftCategoriesModule } from './aircraft-categories/aircraft-categories.module';
+import { AircraftsModule } from './aircrafts/aircrafts.module';
+import { AirpotsModule } from './airpots/airpots.module';
 
 @Module({
   imports: [
@@ -18,6 +21,9 @@ import { RolePermissionModule } from './role-permission/role-permission.module';
     UsersModule,
     RolesModule,
     RolePermissionModule,
+    AircraftCategoriesModule,
+    AircraftsModule,
+    AirpotsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,
