@@ -1,7 +1,7 @@
 import { NestjsQueryGraphQLModule } from '@app/query-graphql';
 import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { Module } from '@nestjs/common';
-import { AircraftDto } from 'src/aircrafts/dto/aircrafts.dto';
+import { AircraftsDto } from 'src/aircrafts/dto/aircrafts.dto';
 
 import {
   AircraftsEntity,
@@ -23,7 +23,7 @@ import { AircraftsService } from 'src/aircrafts/services/aircrafts.service';
       ],
       resolvers: [
         {
-          DTOClass: AircraftDto,
+          DTOClass: AircraftsDto,
           EntityClass: AircraftsEntity,
         },
       ],

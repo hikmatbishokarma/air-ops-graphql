@@ -14,7 +14,7 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
-export class AircraftDto extends BaseDTO {
+export class AircraftsDto extends BaseDTO {
   @FilterableField()
   name: string;
   @FilterableField()

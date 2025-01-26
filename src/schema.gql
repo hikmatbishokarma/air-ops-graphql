@@ -10,22 +10,484 @@ input AddRolePermissionsToRoleInput {
   relationIds: [ID!]!
 }
 
+"""Aircraft"""
+type Aircraft {
+  category: AircraftCategory!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  name: String!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type AircraftAggregateGroupBy {
+  category: String
+  name: String
+  status: Boolean
+}
+
+"""AircraftCategory"""
+type AircraftCategory {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  description: String!
+  id: ID!
+  name: String!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type AircraftCategoryAggregateGroupBy {
+  description: String
+  name: String
+  status: Boolean
+}
+
+type AircraftCategoryConnection {
+  """Array of nodes."""
+  nodes: [AircraftCategory!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type AircraftCategoryCountAggregate {
+  description: Int
+  name: Int
+  status: Int
+}
+
+input AircraftCategoryDeleteFilter {
+  and: [AircraftCategoryDeleteFilter!]
+  description: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftCategoryDeleteFilter!]
+  status: BooleanFieldComparison
+}
+
+type AircraftCategoryDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  description: String
+  id: ID
+  name: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input AircraftCategoryFilter {
+  and: [AircraftCategoryFilter!]
+  description: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftCategoryFilter!]
+  status: BooleanFieldComparison
+}
+
+type AircraftCategoryMaxAggregate {
+  description: String
+  name: String
+}
+
+type AircraftCategoryMinAggregate {
+  description: String
+  name: String
+}
+
+input AircraftCategorySort {
+  direction: SortDirection!
+  field: AircraftCategorySortFields!
+  nulls: SortNulls
+}
+
+enum AircraftCategorySortFields {
+  description
+  name
+  status
+}
+
+input AircraftCategoryUpdateFilter {
+  and: [AircraftCategoryUpdateFilter!]
+  description: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftCategoryUpdateFilter!]
+  status: BooleanFieldComparison
+}
+
+type AircraftConnection {
+  """Array of nodes."""
+  nodes: [Aircraft!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type AircraftCountAggregate {
+  category: Int
+  name: Int
+  status: Int
+}
+
+input AircraftDeleteFilter {
+  and: [AircraftDeleteFilter!]
+  category: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftDeleteFilter!]
+  status: BooleanFieldComparison
+}
+
+type AircraftDeleteResponse {
+  category: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  name: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input AircraftFilter {
+  and: [AircraftFilter!]
+  category: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftFilter!]
+  status: BooleanFieldComparison
+}
+
+type AircraftMaxAggregate {
+  category: String
+  name: String
+}
+
+type AircraftMinAggregate {
+  category: String
+  name: String
+}
+
+input AircraftSort {
+  direction: SortDirection!
+  field: AircraftSortFields!
+  nulls: SortNulls
+}
+
+enum AircraftSortFields {
+  category
+  name
+  status
+}
+
+input AircraftUpdateFilter {
+  and: [AircraftUpdateFilter!]
+  category: StringFieldComparison
+  name: StringFieldComparison
+  or: [AircraftUpdateFilter!]
+  status: BooleanFieldComparison
+}
+
+"""Airpot"""
+type Airpot {
+  city: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  iata_code: String!
+  icao_code: String!
+  id: ID!
+  latitude: Int!
+  longitude: Int!
+  name: String!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type AirpotAggregateGroupBy {
+  city: String
+  iata_code: String
+  icao_code: String
+  name: String
+  status: Boolean
+}
+
+type AirpotConnection {
+  """Array of nodes."""
+  nodes: [Airpot!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type AirpotCountAggregate {
+  city: Int
+  iata_code: Int
+  icao_code: Int
+  name: Int
+  status: Int
+}
+
+input AirpotDeleteFilter {
+  and: [AirpotDeleteFilter!]
+  city: StringFieldComparison
+  iata_code: StringFieldComparison
+  icao_code: StringFieldComparison
+  name: StringFieldComparison
+  or: [AirpotDeleteFilter!]
+  status: BooleanFieldComparison
+}
+
+type AirpotDeleteResponse {
+  city: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  iata_code: String
+  icao_code: String
+  id: ID
+  latitude: Int
+  longitude: Int
+  name: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input AirpotFilter {
+  and: [AirpotFilter!]
+  city: StringFieldComparison
+  iata_code: StringFieldComparison
+  icao_code: StringFieldComparison
+  name: StringFieldComparison
+  or: [AirpotFilter!]
+  status: BooleanFieldComparison
+}
+
+type AirpotMaxAggregate {
+  city: String
+  iata_code: String
+  icao_code: String
+  name: String
+}
+
+type AirpotMinAggregate {
+  city: String
+  iata_code: String
+  icao_code: String
+  name: String
+}
+
+input AirpotSort {
+  direction: SortDirection!
+  field: AirpotSortFields!
+  nulls: SortNulls
+}
+
+enum AirpotSortFields {
+  city
+  iata_code
+  icao_code
+  name
+  status
+}
+
+input AirpotUpdateFilter {
+  and: [AirpotUpdateFilter!]
+  city: StringFieldComparison
+  iata_code: StringFieldComparison
+  icao_code: StringFieldComparison
+  name: StringFieldComparison
+  or: [AirpotUpdateFilter!]
+  status: BooleanFieldComparison
+}
+
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
 }
 
-"""Cursor for paging through collections"""
-scalar ConnectionCursor
+input CreateAircraft {
+  category: String
 
-input CreateManyMenuItemsInput {
-  """Array of records to create"""
-  menuItems: [CreateMenuItem!]!
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
-input CreateManyOrdersInput {
+input CreateAircraftCategory {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  description: String
+  id: ID
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateAirpot {
+  city: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  iata_code: String
+  icao_code: String
+  id: ID
+  latitude: Int
+  longitude: Int
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateManyAircraftCategoriesInput {
   """Array of records to create"""
-  orders: [CreateOrder!]!
+  aircraftCategories: [CreateAircraftCategory!]!
+}
+
+input CreateManyAircraftInput {
+  """Array of records to create"""
+  aircraft: [CreateAircraft!]!
+}
+
+input CreateManyAirpotsInput {
+  """Array of records to create"""
+  airpots: [CreateAirpot!]!
 }
 
 input CreateManyRolePermissionsInput {
@@ -43,48 +505,19 @@ input CreateManyUsersInput {
   users: [CreateUser!]!
 }
 
-input CreateMenuItem {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-  cuisineType: CuisineType
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  description: String
-  dietaryPreference: DietaryPreference
-  id: ID
-  isVeg: Boolean
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int = 0
-  specialty: Specialty
-  status: Boolean = true
-  tag: PopularityTags
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
+input CreateOneAircraftCategoryInput {
+  """The record to create"""
+  aircraftCategory: CreateAircraftCategory!
 }
 
-input CreateOneMenuItemInput {
+input CreateOneAircraftInput {
   """The record to create"""
-  menuItem: CreateMenuItem!
+  aircraft: CreateAircraft!
 }
 
-input CreateOneOrderInput {
+input CreateOneAirpotInput {
   """The record to create"""
-  order: CreateOrder!
+  airpot: CreateAirpot!
 }
 
 input CreateOneRoleInput {
@@ -100,37 +533,6 @@ input CreateOneRolePermissionInput {
 input CreateOneUserInput {
   """The record to create"""
   user: CreateUser!
-}
-
-input CreateOrder {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  deliveryAddress: String
-  id: ID
-  instructions: String
-  menuItems: [JSONObject!]
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  status: Boolean = true
-  totalAmount: Float
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-  userId: String
 }
 
 input CreateRole {
@@ -212,77 +614,24 @@ input CreateUser {
   updatedBy: String
 }
 
-enum CuisineType {
-  CHINESE
-  INDIAN
-  ITALIAN
-  MEXICAN
-}
-
-input CuisineTypeFilterComparison {
-  eq: CuisineType
-  gt: CuisineType
-  gte: CuisineType
-  iLike: CuisineType
-  in: [CuisineType!]
-  is: Boolean
-  isNot: Boolean
-  like: CuisineType
-  lt: CuisineType
-  lte: CuisineType
-  neq: CuisineType
-  notILike: CuisineType
-  notIn: [CuisineType!]
-  notLike: CuisineType
-}
-
-input CursorPaging {
-  """Paginate after opaque cursor"""
-  after: ConnectionCursor
-
-  """Paginate before opaque cursor"""
-  before: ConnectionCursor
-
-  """Paginate first"""
-  first: Int
-
-  """Paginate last"""
-  last: Int
-}
-
-input DateFieldComparison {
-  between: DateFieldComparisonBetween
-  eq: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  is: Boolean
-  isNot: Boolean
-  lt: DateTime
-  lte: DateTime
-  neq: DateTime
-  notBetween: DateFieldComparisonBetween
-  notIn: [DateTime!]
-}
-
-input DateFieldComparisonBetween {
-  lower: DateTime!
-  upper: DateTime!
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
-input DeleteManyMenuItemsInput {
+input DeleteManyAircraftCategoriesInput {
   """Filter to find records to delete"""
-  filter: MenuItemDeleteFilter!
+  filter: AircraftCategoryDeleteFilter!
 }
 
-input DeleteManyOrdersInput {
+input DeleteManyAircraftInput {
   """Filter to find records to delete"""
-  filter: orderDeleteFilter!
+  filter: AircraftDeleteFilter!
+}
+
+input DeleteManyAirpotsInput {
+  """Filter to find records to delete"""
+  filter: AirpotDeleteFilter!
 }
 
 type DeleteManyResponse {
@@ -305,12 +654,17 @@ input DeleteManyUsersInput {
   filter: UserDeleteFilter!
 }
 
-input DeleteOneMenuItemInput {
+input DeleteOneAircraftCategoryInput {
   """The id of the record to delete."""
   id: ID!
 }
 
-input DeleteOneOrderInput {
+input DeleteOneAircraftInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneAirpotInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -330,51 +684,6 @@ input DeleteOneUserInput {
   id: ID!
 }
 
-enum DietaryPreference {
-  GLUTEN_FREE
-  KETO
-  LOW_CARB
-  VEGAN
-  VEGETARIAN
-}
-
-input DietaryPreferenceFilterComparison {
-  eq: DietaryPreference
-  gt: DietaryPreference
-  gte: DietaryPreference
-  iLike: DietaryPreference
-  in: [DietaryPreference!]
-  is: Boolean
-  isNot: Boolean
-  like: DietaryPreference
-  lt: DietaryPreference
-  lte: DietaryPreference
-  neq: DietaryPreference
-  notILike: DietaryPreference
-  notIn: [DietaryPreference!]
-  notLike: DietaryPreference
-}
-
-input FloatFieldComparison {
-  between: FloatFieldComparisonBetween
-  eq: Float
-  gt: Float
-  gte: Float
-  in: [Float!]
-  is: Boolean
-  isNot: Boolean
-  lt: Float
-  lte: Float
-  neq: Float
-  notBetween: FloatFieldComparisonBetween
-  notIn: [Float!]
-}
-
-input FloatFieldComparisonBetween {
-  lower: Float!
-  upper: Float!
-}
-
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -387,307 +696,48 @@ input LoginInputs {
   username: String!
 }
 
-enum MealType {
-  BREAKFAST
-  DESSERTS
-  DINNER
-  LUNCH
-  SNACKS
-}
-
-input MealTypeFilterComparison {
-  eq: MealType
-  gt: MealType
-  gte: MealType
-  iLike: MealType
-  in: [MealType!]
-  is: Boolean
-  isNot: Boolean
-  like: MealType
-  lt: MealType
-  lte: MealType
-  neq: MealType
-  notILike: MealType
-  notIn: [MealType!]
-  notLike: MealType
-}
-
-"""Menu Items"""
-type MenuItem {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-  cuisineType: CuisineType
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  description: String!
-  dietaryPreference: DietaryPreference
-  id: ID!
-  isVeg: Boolean!
-  mealType: MealType!
-  name: String!
-  partner: User!
-  price: Int!
-  rating: Int!
-  ratingCount: Int
-  specialty: Specialty
-  status: Boolean!
-  tag: PopularityTags!
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-}
-
-type MenuItemAggregateGroupBy {
-  cuisineType: CuisineType
-  dietaryPreference: DietaryPreference
-  isVeg: Boolean
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int
-  specialty: Specialty
-  status: Boolean
-  tag: PopularityTags
-}
-
-type MenuItemAvgAggregate {
-  price: Float
-  rating: Float
-  ratingCount: Float
-}
-
-type MenuItemConnection {
-  """Array of nodes."""
-  nodes: [MenuItem!]!
-
-  """Paging information"""
-  pageInfo: OffsetPageInfo!
-
-  """Fetch total count of records"""
-  totalCount: Int!
-}
-
-type MenuItemCountAggregate {
-  cuisineType: Int
-  dietaryPreference: Int
-  isVeg: Int
-  mealType: Int
-  name: Int
-  partner: Int
-  price: Int
-  rating: Int
-  ratingCount: Int
-  specialty: Int
-  status: Int
-  tag: Int
-}
-
-input MenuItemDeleteFilter {
-  and: [MenuItemDeleteFilter!]
-  cuisineType: CuisineTypeFilterComparison
-  dietaryPreference: DietaryPreferenceFilterComparison
-  isVeg: BooleanFieldComparison
-  mealType: MealTypeFilterComparison
-  name: StringFieldComparison
-  or: [MenuItemDeleteFilter!]
-  partner: StringFieldComparison
-  price: NumberFieldComparison
-  rating: NumberFieldComparison
-  ratingCount: NumberFieldComparison
-  specialty: SpecialtyFilterComparison
-  status: BooleanFieldComparison
-  tag: PopularityTagsFilterComparison
-}
-
-type MenuItemDeleteResponse {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-  cuisineType: CuisineType
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  description: String
-  dietaryPreference: DietaryPreference
-  id: ID
-  isVeg: Boolean
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int
-  specialty: Specialty
-  status: Boolean
-  tag: PopularityTags
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-}
-
-input MenuItemFilter {
-  and: [MenuItemFilter!]
-  cuisineType: CuisineTypeFilterComparison
-  dietaryPreference: DietaryPreferenceFilterComparison
-  isVeg: BooleanFieldComparison
-  mealType: MealTypeFilterComparison
-  name: StringFieldComparison
-  or: [MenuItemFilter!]
-  partner: StringFieldComparison
-  price: NumberFieldComparison
-  rating: NumberFieldComparison
-  ratingCount: NumberFieldComparison
-  specialty: SpecialtyFilterComparison
-  status: BooleanFieldComparison
-  tag: PopularityTagsFilterComparison
-}
-
-type MenuItemMaxAggregate {
-  cuisineType: CuisineType
-  dietaryPreference: DietaryPreference
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int
-  specialty: Specialty
-  tag: PopularityTags
-}
-
-type MenuItemMinAggregate {
-  cuisineType: CuisineType
-  dietaryPreference: DietaryPreference
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int
-  specialty: Specialty
-  tag: PopularityTags
-}
-
-input MenuItemSort {
-  direction: SortDirection!
-  field: MenuItemSortFields!
-  nulls: SortNulls
-}
-
-enum MenuItemSortFields {
-  cuisineType
-  dietaryPreference
-  isVeg
-  mealType
-  name
-  partner
-  price
-  rating
-  ratingCount
-  specialty
-  status
-  tag
-}
-
-type MenuItemSumAggregate {
-  price: Float
-  rating: Float
-  ratingCount: Float
-}
-
-input MenuItemUpdateFilter {
-  and: [MenuItemUpdateFilter!]
-  cuisineType: CuisineTypeFilterComparison
-  dietaryPreference: DietaryPreferenceFilterComparison
-  isVeg: BooleanFieldComparison
-  mealType: MealTypeFilterComparison
-  name: StringFieldComparison
-  or: [MenuItemUpdateFilter!]
-  partner: StringFieldComparison
-  price: NumberFieldComparison
-  rating: NumberFieldComparison
-  ratingCount: NumberFieldComparison
-  specialty: SpecialtyFilterComparison
-  status: BooleanFieldComparison
-  tag: PopularityTagsFilterComparison
-}
-
 type Mutation {
   addRolePermissionsToRole(input: AddRolePermissionsToRoleInput!): role!
-  createManyMenuItems(input: CreateManyMenuItemsInput!): [MenuItem!]!
-  createManyOrders(input: CreateManyOrdersInput!): [order!]!
+  createManyAircraft(input: CreateManyAircraftInput!): [Aircraft!]!
+  createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
+  createManyAirpots(input: CreateManyAirpotsInput!): [Airpot!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
-  createOneMenuItem(input: CreateOneMenuItemInput!): MenuItem!
-  createOneOrder(input: CreateOneOrderInput!): order!
+  createOneAircraft(input: CreateOneAircraftInput!): Aircraft!
+  createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
+  createOneAirpot(input: CreateOneAirpotInput!): Airpot!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
-  deleteManyMenuItems(input: DeleteManyMenuItemsInput!): DeleteManyResponse!
-  deleteManyOrders(input: DeleteManyOrdersInput!): DeleteManyResponse!
+  deleteManyAircraft(input: DeleteManyAircraftInput!): DeleteManyResponse!
+  deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
+  deleteManyAirpots(input: DeleteManyAirpotsInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
-  deleteOneMenuItem(input: DeleteOneMenuItemInput!): MenuItemDeleteResponse!
-  deleteOneOrder(input: DeleteOneOrderInput!): OrderDeleteResponse!
+  deleteOneAircraft(input: DeleteOneAircraftInput!): AircraftDeleteResponse!
+  deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
+  deleteOneAirpot(input: DeleteOneAirpotInput!): AirpotDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
-  setPartnerOnMenuItem(input: SetPartnerOnMenuItemInput!): MenuItem!
+  setCategoryOnAircraft(input: SetCategoryOnAircraftInput!): Aircraft!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
   setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
-  updateManyMenuItems(input: UpdateManyMenuItemsInput!): UpdateManyResponse!
-  updateManyOrders(input: UpdateManyOrdersInput!): UpdateManyResponse!
+  updateManyAircraft(input: UpdateManyAircraftInput!): UpdateManyResponse!
+  updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
+  updateManyAirpots(input: UpdateManyAirpotsInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
-  updateOneMenuItem(input: UpdateOneMenuItemInput!): MenuItem!
-  updateOneOrder(input: UpdateOneOrderInput!): order!
+  updateOneAircraft(input: UpdateOneAircraftInput!): Aircraft!
+  updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
+  updateOneAirpot(input: UpdateOneAirpotInput!): Airpot!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
-}
-
-input NumberFieldComparison {
-  between: NumberFieldComparisonBetween
-  eq: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  is: Boolean
-  isNot: Boolean
-  lt: Int
-  lte: Int
-  neq: Int
-  notBetween: NumberFieldComparisonBetween
-  notIn: [Int!]
-}
-
-input NumberFieldComparisonBetween {
-  lower: Int!
-  upper: Int!
 }
 
 type OffsetPageInfo {
@@ -706,114 +756,47 @@ input OffsetPaging {
   offset: Int
 }
 
-type OrderConnection {
-  """Array of edges."""
-  edges: [orderEdge!]!
-
-  """Paging information"""
-  pageInfo: PageInfo!
-}
-
-type OrderDeleteResponse {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  deliveryAddress: String
-  id: ID
-  instructions: String
-  menuItems: [JSONObject!]
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  status: Boolean
-  totalAmount: Float
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-  userId: String
-}
-
-type PageInfo {
-  """The cursor of the last returned record."""
-  endCursor: ConnectionCursor
-
-  """true if paging forward and there are more records."""
-  hasNextPage: Boolean
-
-  """true if paging backwards and there are more records."""
-  hasPreviousPage: Boolean
-
-  """The cursor of the first returned record."""
-  startCursor: ConnectionCursor
-}
-
-enum PopularityTags {
-  BEST_SELLER
-  CHEFS_RECOMMENDATION
-  FEATURED
-  NEW
-}
-
-input PopularityTagsFilterComparison {
-  eq: PopularityTags
-  gt: PopularityTags
-  gte: PopularityTags
-  iLike: PopularityTags
-  in: [PopularityTags!]
-  is: Boolean
-  isNot: Boolean
-  like: PopularityTags
-  lt: PopularityTags
-  lte: PopularityTags
-  neq: PopularityTags
-  notILike: PopularityTags
-  notIn: [PopularityTags!]
-  notLike: PopularityTags
-}
-
 type Query {
-  getUser(id: String!): String!
-  login(input: LoginInputs!): loginResponseDTO!
-  menuItem(
-    """The id of the record to find."""
-    id: ID!
-  ): MenuItem
-  menuItems(
+  aircraft(
     """Specify to filter the records returned."""
-    filter: MenuItemFilter! = {}
+    filter: AircraftFilter! = {}
 
     """Limit or page results."""
     paging: OffsetPaging! = {limit: 10}
 
     """Specify to sort results."""
-    sorting: [MenuItemSort!]! = []
-  ): MenuItemConnection!
-  order(
-    """The id of the record to find."""
-    id: ID!
-  ): order
-  orders(
+    sorting: [AircraftSort!]! = []
+  ): AircraftConnection!
+  aircraftCategories(
     """Specify to filter the records returned."""
-    filter: orderFilter! = {}
+    filter: AircraftCategoryFilter! = {}
 
     """Limit or page results."""
-    paging: CursorPaging! = {first: 10}
+    paging: OffsetPaging! = {limit: 10}
 
     """Specify to sort results."""
-    sorting: [orderSort!]! = []
-  ): OrderConnection!
+    sorting: [AircraftCategorySort!]! = []
+  ): AircraftCategoryConnection!
+  aircraftCategory(
+    """The id of the record to find."""
+    id: ID!
+  ): AircraftCategory
+  airpot(
+    """The id of the record to find."""
+    id: ID!
+  ): Airpot
+  airpots(
+    """Specify to filter the records returned."""
+    filter: AirpotFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [AirpotSort!]! = []
+  ): AirpotConnection!
+  getUser(id: String!): String!
+  login(input: LoginInputs!): loginResponseDTO!
   role(
     """The id of the record to find."""
     id: ID!
@@ -1027,7 +1010,7 @@ input RoleTypeFilterComparison {
   notLike: RoleType
 }
 
-input SetPartnerOnMenuItemInput {
+input SetCategoryOnAircraftInput {
   """The id of the record."""
   id: ID!
 
@@ -1071,30 +1054,6 @@ enum SortNulls {
   NULLS_LAST
 }
 
-enum Specialty {
-  CHEFS_SPECIALS
-  COMBO_DEALS
-  FAMILY_MEALS
-  SEASONAL_DISHES
-}
-
-input SpecialtyFilterComparison {
-  eq: Specialty
-  gt: Specialty
-  gte: Specialty
-  iLike: Specialty
-  in: [Specialty!]
-  is: Boolean
-  isNot: Boolean
-  like: Specialty
-  lt: Specialty
-  lte: Specialty
-  neq: Specialty
-  notILike: Specialty
-  notIn: [Specialty!]
-  notLike: Specialty
-}
-
 input StringFieldComparison {
   eq: String
   gt: String
@@ -1112,20 +1071,106 @@ input StringFieldComparison {
   notLike: String
 }
 
-input UpdateManyMenuItemsInput {
-  """Filter used to find fields to update"""
-  filter: MenuItemUpdateFilter!
+input UpdateAircraft {
+  category: String
 
-  """The update to apply to all records found using the filter"""
-  update: UpdateMenuItem!
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
-input UpdateManyOrdersInput {
+input UpdateAircraftCategory {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  description: String
+  id: ID
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateAirpot {
+  city: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  iata_code: String
+  icao_code: String
+  id: ID
+  latitude: Int
+  longitude: Int
+  name: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateManyAircraftCategoriesInput {
   """Filter used to find fields to update"""
-  filter: orderUpdateFilter!
+  filter: AircraftCategoryUpdateFilter!
 
   """The update to apply to all records found using the filter"""
-  update: UpdateOrder!
+  update: UpdateAircraftCategory!
+}
+
+input UpdateManyAircraftInput {
+  """Filter used to find fields to update"""
+  filter: AircraftUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateAircraft!
+}
+
+input UpdateManyAirpotsInput {
+  """Filter used to find fields to update"""
+  filter: AirpotUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateAirpot!
 }
 
 type UpdateManyResponse {
@@ -1157,54 +1202,28 @@ input UpdateManyUsersInput {
   update: UpdateUser!
 }
 
-input UpdateMenuItem {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-  cuisineType: CuisineType
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  description: String
-  dietaryPreference: DietaryPreference
-  id: ID
-  isVeg: Boolean
-  mealType: MealType
-  name: String
-  partner: String
-  price: Int
-  rating: Int
-  ratingCount: Int = 0
-  specialty: Specialty
-  status: Boolean = true
-  tag: PopularityTags
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-}
-
-input UpdateOneMenuItemInput {
+input UpdateOneAircraftCategoryInput {
   """The id of the record to update"""
   id: ID!
 
   """The update to apply."""
-  update: UpdateMenuItem!
+  update: UpdateAircraftCategory!
 }
 
-input UpdateOneOrderInput {
+input UpdateOneAircraftInput {
   """The id of the record to update"""
   id: ID!
 
   """The update to apply."""
-  update: UpdateOrder!
+  update: UpdateAircraft!
+}
+
+input UpdateOneAirpotInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateAirpot!
 }
 
 input UpdateOneRoleInput {
@@ -1229,37 +1248,6 @@ input UpdateOneUserInput {
 
   """The update to apply."""
   update: UpdateUser!
-}
-
-input UpdateOrder {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  deliveryAddress: String
-  id: ID
-  instructions: String
-  menuItems: [JSONObject!]
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  status: Boolean = true
-  totalAmount: Float
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-  userId: String
 }
 
 input UpdateRole {
@@ -1497,144 +1485,6 @@ input UserUpdateFilter {
 
 type loginResponseDTO {
   access_token: String!
-}
-
-"""Orders"""
-type order {
-  """The date when the record was created"""
-  createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
-
-  """The date when the record was deleted"""
-  deletedAt: DateTime
-
-  """The email of the user who deleted the record"""
-  deletedBy: String
-  deliveryAddress: String
-  id: ID!
-  instructions: String
-  menuItems: [JSONObject!]!
-  orderDate: DateTime!
-  orderId: String!
-  orderStatus: String!
-  partnerId: String!
-  status: Boolean!
-  totalAmount: Float!
-
-  """The date when the record was last updated"""
-  updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
-  userId: String!
-}
-
-type orderAggregateGroupBy {
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  status: Boolean
-  totalAmount: Float
-  userId: String
-}
-
-type orderAvgAggregate {
-  totalAmount: Float
-}
-
-type orderCountAggregate {
-  orderDate: Int
-  orderId: Int
-  orderStatus: Int
-  partnerId: Int
-  status: Int
-  totalAmount: Int
-  userId: Int
-}
-
-input orderDeleteFilter {
-  and: [orderDeleteFilter!]
-  or: [orderDeleteFilter!]
-  orderDate: DateFieldComparison
-  orderId: StringFieldComparison
-  orderStatus: StringFieldComparison
-  partnerId: StringFieldComparison
-  status: BooleanFieldComparison
-  totalAmount: FloatFieldComparison
-  userId: StringFieldComparison
-}
-
-type orderEdge {
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
-
-  """The node containing the order"""
-  node: order!
-}
-
-input orderFilter {
-  and: [orderFilter!]
-  or: [orderFilter!]
-  orderDate: DateFieldComparison
-  orderId: StringFieldComparison
-  orderStatus: StringFieldComparison
-  partnerId: StringFieldComparison
-  status: BooleanFieldComparison
-  totalAmount: FloatFieldComparison
-  userId: StringFieldComparison
-}
-
-type orderMaxAggregate {
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  totalAmount: Float
-  userId: String
-}
-
-type orderMinAggregate {
-  orderDate: DateTime
-  orderId: String
-  orderStatus: String
-  partnerId: String
-  totalAmount: Float
-  userId: String
-}
-
-input orderSort {
-  direction: SortDirection!
-  field: orderSortFields!
-  nulls: SortNulls
-}
-
-enum orderSortFields {
-  orderDate
-  orderId
-  orderStatus
-  partnerId
-  status
-  totalAmount
-  userId
-}
-
-type orderSumAggregate {
-  totalAmount: Float
-}
-
-input orderUpdateFilter {
-  and: [orderUpdateFilter!]
-  or: [orderUpdateFilter!]
-  orderDate: DateFieldComparison
-  orderId: StringFieldComparison
-  orderStatus: StringFieldComparison
-  partnerId: StringFieldComparison
-  status: BooleanFieldComparison
-  totalAmount: FloatFieldComparison
-  userId: StringFieldComparison
 }
 
 """User Roles"""
