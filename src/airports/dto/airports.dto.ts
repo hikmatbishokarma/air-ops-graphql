@@ -7,12 +7,12 @@ import {
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
-@ObjectType('Airpot', { description: 'Airpot' })
+@ObjectType('Airport', { description: 'Airport' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-export class AirpotsDto extends BaseDTO {
+export class AirportsDto extends BaseDTO {
   @FilterableField()
   name: string;
   @FilterableField()

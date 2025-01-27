@@ -13,7 +13,7 @@ import { RolesModule } from './roles/roles.module';
 import { RolePermissionModule } from './role-permission/role-permission.module';
 import { AircraftCategoriesModule } from './aircraft-categories/aircraft-categories.module';
 import { AircraftsModule } from './aircrafts/aircrafts.module';
-import { AirpotsModule } from './airpots/airpots.module';
+import { AirportsModule } from './airports/airports.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { AirpotsModule } from './airpots/airpots.module';
     RolePermissionModule,
     AircraftCategoriesModule,
     AircraftsModule,
-    AirpotsModule,
+    AirportsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

@@ -248,8 +248,8 @@ input AircraftUpdateFilter {
   status: BooleanFieldComparison
 }
 
-"""Airpot"""
-type Airpot {
+"""Airport"""
+type Airport {
   city: String!
 
   """The date when the record was created"""
@@ -278,7 +278,7 @@ type Airpot {
   updatedBy: String
 }
 
-type AirpotAggregateGroupBy {
+type AirportAggregateGroupBy {
   city: String
   iata_code: String
   icao_code: String
@@ -286,9 +286,9 @@ type AirpotAggregateGroupBy {
   status: Boolean
 }
 
-type AirpotConnection {
+type AirportConnection {
   """Array of nodes."""
-  nodes: [Airpot!]!
+  nodes: [Airport!]!
 
   """Paging information"""
   pageInfo: OffsetPageInfo!
@@ -297,7 +297,7 @@ type AirpotConnection {
   totalCount: Int!
 }
 
-type AirpotCountAggregate {
+type AirportCountAggregate {
   city: Int
   iata_code: Int
   icao_code: Int
@@ -305,17 +305,17 @@ type AirpotCountAggregate {
   status: Int
 }
 
-input AirpotDeleteFilter {
-  and: [AirpotDeleteFilter!]
+input AirportDeleteFilter {
+  and: [AirportDeleteFilter!]
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   name: StringFieldComparison
-  or: [AirpotDeleteFilter!]
+  or: [AirportDeleteFilter!]
   status: BooleanFieldComparison
 }
 
-type AirpotDeleteResponse {
+type AirportDeleteResponse {
   city: String
 
   """The date when the record was created"""
@@ -344,37 +344,37 @@ type AirpotDeleteResponse {
   updatedBy: String
 }
 
-input AirpotFilter {
-  and: [AirpotFilter!]
+input AirportFilter {
+  and: [AirportFilter!]
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   name: StringFieldComparison
-  or: [AirpotFilter!]
+  or: [AirportFilter!]
   status: BooleanFieldComparison
 }
 
-type AirpotMaxAggregate {
+type AirportMaxAggregate {
   city: String
   iata_code: String
   icao_code: String
   name: String
 }
 
-type AirpotMinAggregate {
+type AirportMinAggregate {
   city: String
   iata_code: String
   icao_code: String
   name: String
 }
 
-input AirpotSort {
+input AirportSort {
   direction: SortDirection!
-  field: AirpotSortFields!
+  field: AirportSortFields!
   nulls: SortNulls
 }
 
-enum AirpotSortFields {
+enum AirportSortFields {
   city
   iata_code
   icao_code
@@ -382,13 +382,13 @@ enum AirpotSortFields {
   status
 }
 
-input AirpotUpdateFilter {
-  and: [AirpotUpdateFilter!]
+input AirportUpdateFilter {
+  and: [AirportUpdateFilter!]
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   name: StringFieldComparison
-  or: [AirpotUpdateFilter!]
+  or: [AirportUpdateFilter!]
   status: BooleanFieldComparison
 }
 
@@ -446,7 +446,7 @@ input CreateAircraftCategory {
   updatedBy: String
 }
 
-input CreateAirpot {
+input CreateAirport {
   city: String
 
   """The date when the record was created"""
@@ -485,9 +485,9 @@ input CreateManyAircraftInput {
   aircraft: [CreateAircraft!]!
 }
 
-input CreateManyAirpotsInput {
+input CreateManyAirportsInput {
   """Array of records to create"""
-  airpots: [CreateAirpot!]!
+  airports: [CreateAirport!]!
 }
 
 input CreateManyRolePermissionsInput {
@@ -515,9 +515,9 @@ input CreateOneAircraftInput {
   aircraft: CreateAircraft!
 }
 
-input CreateOneAirpotInput {
+input CreateOneAirportInput {
   """The record to create"""
-  airpot: CreateAirpot!
+  airport: CreateAirport!
 }
 
 input CreateOneRoleInput {
@@ -629,9 +629,9 @@ input DeleteManyAircraftInput {
   filter: AircraftDeleteFilter!
 }
 
-input DeleteManyAirpotsInput {
+input DeleteManyAirportsInput {
   """Filter to find records to delete"""
-  filter: AirpotDeleteFilter!
+  filter: AirportDeleteFilter!
 }
 
 type DeleteManyResponse {
@@ -664,7 +664,7 @@ input DeleteOneAircraftInput {
   id: ID!
 }
 
-input DeleteOneAirpotInput {
+input DeleteOneAirportInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -700,25 +700,25 @@ type Mutation {
   addRolePermissionsToRole(input: AddRolePermissionsToRoleInput!): role!
   createManyAircraft(input: CreateManyAircraftInput!): [Aircraft!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
-  createManyAirpots(input: CreateManyAirpotsInput!): [Airpot!]!
+  createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAircraft(input: CreateOneAircraftInput!): Aircraft!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
-  createOneAirpot(input: CreateOneAirpotInput!): Airpot!
+  createOneAirport(input: CreateOneAirportInput!): Airport!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyAircraft(input: DeleteManyAircraftInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
-  deleteManyAirpots(input: DeleteManyAirpotsInput!): DeleteManyResponse!
+  deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAircraft(input: DeleteOneAircraftInput!): AircraftDeleteResponse!
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
-  deleteOneAirpot(input: DeleteOneAirpotInput!): AirpotDeleteResponse!
+  deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
@@ -728,13 +728,13 @@ type Mutation {
   setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
   updateManyAircraft(input: UpdateManyAircraftInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
-  updateManyAirpots(input: UpdateManyAirpotsInput!): UpdateManyResponse!
+  updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAircraft(input: UpdateOneAircraftInput!): Aircraft!
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
-  updateOneAirpot(input: UpdateOneAirpotInput!): Airpot!
+  updateOneAirport(input: UpdateOneAirportInput!): Airport!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
@@ -781,20 +781,20 @@ type Query {
     """The id of the record to find."""
     id: ID!
   ): AircraftCategory
-  airpot(
+  airport(
     """The id of the record to find."""
     id: ID!
-  ): Airpot
-  airpots(
+  ): Airport
+  airports(
     """Specify to filter the records returned."""
-    filter: AirpotFilter! = {}
+    filter: AirportFilter! = {}
 
     """Limit or page results."""
     paging: OffsetPaging! = {limit: 10}
 
     """Specify to sort results."""
-    sorting: [AirpotSort!]! = []
-  ): AirpotConnection!
+    sorting: [AirportSort!]! = []
+  ): AirportConnection!
   getUser(id: String!): String!
   login(input: LoginInputs!): loginResponseDTO!
   role(
@@ -1120,7 +1120,7 @@ input UpdateAircraftCategory {
   updatedBy: String
 }
 
-input UpdateAirpot {
+input UpdateAirport {
   city: String
 
   """The date when the record was created"""
@@ -1165,12 +1165,12 @@ input UpdateManyAircraftInput {
   update: UpdateAircraft!
 }
 
-input UpdateManyAirpotsInput {
+input UpdateManyAirportsInput {
   """Filter used to find fields to update"""
-  filter: AirpotUpdateFilter!
+  filter: AirportUpdateFilter!
 
   """The update to apply to all records found using the filter"""
-  update: UpdateAirpot!
+  update: UpdateAirport!
 }
 
 type UpdateManyResponse {
@@ -1218,12 +1218,12 @@ input UpdateOneAircraftInput {
   update: UpdateAircraft!
 }
 
-input UpdateOneAirpotInput {
+input UpdateOneAirportInput {
   """The id of the record to update"""
   id: ID!
 
   """The update to apply."""
-  update: UpdateAirpot!
+  update: UpdateAirport!
 }
 
 input UpdateOneRoleInput {

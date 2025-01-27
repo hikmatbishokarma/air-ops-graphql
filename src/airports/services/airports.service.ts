@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AirpotsEntity } from '../entities/airpots.entity';
+import { AirportsEntity } from '../entities/airports.entity';
 
 @Injectable()
-export class AirpotsService extends MongooseQueryService<AirpotsEntity> {
+export class AirportsService extends MongooseQueryService<AirportsEntity> {
   constructor(
-    @InjectModel(AirpotsEntity.name)
-    model: Model<AirpotsEntity>,
+    @InjectModel(AirportsEntity.name)
+    model: Model<AirportsEntity>,
   ) {
     super(model);
   }

@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
-@Schema({ collection: 'airpots', timestamps: true })
-export class AirpotsEntity extends BaseEntity {
+@Schema({ collection: 'airports', timestamps: true })
+export class AirportsEntity extends BaseEntity {
   @Prop()
   name: string;
   @Prop()
@@ -17,4 +17,4 @@ export class AirpotsEntity extends BaseEntity {
   city: string;
 }
 
-export const AirpotsSchema = SchemaFactory.createForClass(AirpotsEntity);
+export const AirportsSchema = SchemaFactory.createForClass(AirportsEntity);
