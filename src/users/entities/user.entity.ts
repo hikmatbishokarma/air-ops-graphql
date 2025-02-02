@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { RoleType } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { Addresses } from 'src/users/interfaces/address.interface';
 import { RoleEntity } from 'src/roles/entities/roles.entity';
 
 @Schema({ collection: 'users' })
@@ -18,9 +17,6 @@ export class UserEntity extends BaseEntity {
 
   @Prop()
   password: string;
-
-  @Prop({ type: [Object] })
-  addresses: Addresses[]; // Using the Address interface here
 
   @Prop({ type: String, required: true, enum: RoleType })
   roleType: RoleType;

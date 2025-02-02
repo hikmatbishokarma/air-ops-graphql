@@ -14,6 +14,8 @@ import { RolePermissionModule } from './role-permission/role-permission.module';
 import { AircraftCategoriesModule } from './aircraft-categories/aircraft-categories.module';
 import { AircraftsModule } from './aircrafts/aircrafts.module';
 import { AirportsModule } from './airports/airports.module';
+import { ClientsModule } from './clients/clients.module';
+import { QuotesModule } from './quotes/quotes.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { AirportsModule } from './airports/airports.module';
     AircraftCategoriesModule,
     AircraftsModule,
     AirportsModule,
+    ClientsModule,
+    QuotesModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

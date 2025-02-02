@@ -25,17 +25,22 @@ const SegmentSchema = SchemaFactory.createForClass(Segment);
 export class QuotesEntity extends BaseEntity {
   @Prop({ ref: 'RequesterEntity', type: SchemaTypes.ObjectId, required: true })
   requestedBy: Types.ObjectId;
+  @Prop()
+  representative: string;
+
   @Prop({
-    ref: 'RepresentativeEntity',
+    ref: 'AircraftCategoriesEntity',
     type: SchemaTypes.ObjectId,
     required: true,
   })
-  representative: Types.ObjectId;
+  category: Types.ObjectId;
   @Prop()
-  category: string;
+  providerType: string;
 
-  @Prop({ type: [SegmentSchema], required: true }) // Embedding the segments array
-  segments: Segment[];
+  // @Prop({ type: [SegmentSchema], required: true }) // Embedding the segments array
+  // segments: Segment[];
+  @Prop({ type: [Object], required: true })
+  itinerary: Object[];
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

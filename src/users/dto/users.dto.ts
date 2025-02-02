@@ -8,7 +8,7 @@ import {
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsMobilePhone } from 'class-validator';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { AddressTag, RoleType } from 'src/app-constants/enums';
+import { RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { RoleDTO } from 'src/roles/dto/roles.dto';
 import { CreateUserHook } from '../hooks/create-user.hook';
@@ -28,8 +28,6 @@ export class AddressesDTO {
   house: string;
   @Field({ nullable: true })
   landMark: string;
-  @Field(() => AddressTag, { defaultValue: AddressTag.OTHER })
-  tag: AddressTag;
 }
 
 @ObjectType('User', { description: 'user dto' })

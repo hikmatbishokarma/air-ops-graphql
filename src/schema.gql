@@ -397,6 +397,46 @@ input BooleanFieldComparison {
   isNot: Boolean
 }
 
+type ClientConnection {
+  """Array of nodes."""
+  nodes: [client!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type ClientDeleteResponse {
+  address: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isCompany: Boolean
+  isPerson: Boolean
+  name: String
+  phone: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateAircraft {
   category: String
 
@@ -475,6 +515,35 @@ input CreateAirport {
   updatedBy: String
 }
 
+input CreateClient {
+  address: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isCompany: Boolean
+  isPerson: Boolean
+  name: String
+  phone: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateManyAircraftCategoriesInput {
   """Array of records to create"""
   aircraftCategories: [CreateAircraftCategory!]!
@@ -488,6 +557,16 @@ input CreateManyAircraftInput {
 input CreateManyAirportsInput {
   """Array of records to create"""
   airports: [CreateAirport!]!
+}
+
+input CreateManyClientsInput {
+  """Array of records to create"""
+  clients: [CreateClient!]!
+}
+
+input CreateManyQuotesInput {
+  """Array of records to create"""
+  quotes: [CreateQuote!]!
 }
 
 input CreateManyRolePermissionsInput {
@@ -520,6 +599,16 @@ input CreateOneAirportInput {
   airport: CreateAirport!
 }
 
+input CreateOneClientInput {
+  """The record to create"""
+  client: CreateClient!
+}
+
+input CreateOneQuoteInput {
+  """The record to create"""
+  quote: CreateQuote!
+}
+
 input CreateOneRoleInput {
   """The record to create"""
   role: CreateRole!
@@ -533,6 +622,34 @@ input CreateOneRolePermissionInput {
 input CreateOneUserInput {
   """The record to create"""
   user: CreateUser!
+}
+
+input CreateQuote {
+  category: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  itinerary: [JSONObject!]
+  providerType: String
+  representative: String
+  requestedBy: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreateRole {
@@ -634,6 +751,16 @@ input DeleteManyAirportsInput {
   filter: AirportDeleteFilter!
 }
 
+input DeleteManyClientsInput {
+  """Filter to find records to delete"""
+  filter: clientDeleteFilter!
+}
+
+input DeleteManyQuotesInput {
+  """Filter to find records to delete"""
+  filter: QuoteDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
@@ -665,6 +792,16 @@ input DeleteOneAircraftInput {
 }
 
 input DeleteOneAirportInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneClientInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneQuoteInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -701,40 +838,54 @@ type Mutation {
   createManyAircraft(input: CreateManyAircraftInput!): [Aircraft!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
+  createManyClients(input: CreateManyClientsInput!): [client!]!
+  createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAircraft(input: CreateOneAircraftInput!): Aircraft!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAirport(input: CreateOneAirportInput!): Airport!
+  createOneClient(input: CreateOneClientInput!): client!
+  createOneQuote(input: CreateOneQuoteInput!): Quote!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyAircraft(input: DeleteManyAircraftInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
+  deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
+  deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAircraft(input: DeleteOneAircraftInput!): AircraftDeleteResponse!
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
+  deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
+  deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   setCategoryOnAircraft(input: SetCategoryOnAircraftInput!): Aircraft!
+  setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
+  setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
   setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
   updateManyAircraft(input: UpdateManyAircraftInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
+  updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
+  updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAircraft(input: UpdateOneAircraftInput!): Aircraft!
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
+  updateOneClient(input: UpdateOneClientInput!): client!
+  updateOneQuote(input: UpdateOneQuoteInput!): Quote!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
@@ -795,8 +946,36 @@ type Query {
     """Specify to sort results."""
     sorting: [AirportSort!]! = []
   ): AirportConnection!
+  client(
+    """The id of the record to find."""
+    id: ID!
+  ): client
+  clients(
+    """Specify to filter the records returned."""
+    filter: clientFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [clientSort!]! = []
+  ): ClientConnection!
   getUser(id: String!): String!
   login(input: LoginInputs!): loginResponseDTO!
+  quote(
+    """The id of the record to find."""
+    id: ID!
+  ): Quote
+  quotes(
+    """Specify to filter the records returned."""
+    filter: QuoteFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [QuoteSort!]! = []
+  ): QuoteConnection!
   role(
     """The id of the record to find."""
     id: ID!
@@ -839,6 +1018,148 @@ type Query {
     """Specify to sort results."""
     sorting: [UserSort!]! = []
   ): UserConnection!
+}
+
+"""Quotes"""
+type Quote {
+  category: AircraftCategory!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  itinerary: [JSONObject!]!
+  providerType: String!
+  representative: String!
+  requestedBy: client!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type QuoteAggregateGroupBy {
+  category: String
+  providerType: String
+  representative: String
+  requestedBy: String
+  status: Boolean
+}
+
+type QuoteConnection {
+  """Array of nodes."""
+  nodes: [Quote!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type QuoteCountAggregate {
+  category: Int
+  providerType: Int
+  representative: Int
+  requestedBy: Int
+  status: Int
+}
+
+input QuoteDeleteFilter {
+  and: [QuoteDeleteFilter!]
+  category: StringFieldComparison
+  or: [QuoteDeleteFilter!]
+  providerType: StringFieldComparison
+  representative: StringFieldComparison
+  requestedBy: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+type QuoteDeleteResponse {
+  category: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  itinerary: [JSONObject!]
+  providerType: String
+  representative: String
+  requestedBy: String
+  status: Boolean
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input QuoteFilter {
+  and: [QuoteFilter!]
+  category: StringFieldComparison
+  or: [QuoteFilter!]
+  providerType: StringFieldComparison
+  representative: StringFieldComparison
+  requestedBy: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+type QuoteMaxAggregate {
+  category: String
+  providerType: String
+  representative: String
+  requestedBy: String
+}
+
+type QuoteMinAggregate {
+  category: String
+  providerType: String
+  representative: String
+  requestedBy: String
+}
+
+input QuoteSort {
+  direction: SortDirection!
+  field: QuoteSortFields!
+  nulls: SortNulls
+}
+
+enum QuoteSortFields {
+  category
+  providerType
+  representative
+  requestedBy
+  status
+}
+
+input QuoteUpdateFilter {
+  and: [QuoteUpdateFilter!]
+  category: StringFieldComparison
+  or: [QuoteUpdateFilter!]
+  providerType: StringFieldComparison
+  representative: StringFieldComparison
+  requestedBy: StringFieldComparison
+  status: BooleanFieldComparison
 }
 
 type RoleConnection {
@@ -1018,6 +1339,22 @@ input SetCategoryOnAircraftInput {
   relationId: ID!
 }
 
+input SetCategoryOnQuoteInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetRequestedByOnQuoteInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetRoleOnRolePermissionInput {
   """The id of the record."""
   id: ID!
@@ -1149,6 +1486,35 @@ input UpdateAirport {
   updatedBy: String
 }
 
+input UpdateClient {
+  address: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isCompany: Boolean
+  isPerson: Boolean
+  name: String
+  phone: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateManyAircraftCategoriesInput {
   """Filter used to find fields to update"""
   filter: AircraftCategoryUpdateFilter!
@@ -1171,6 +1537,22 @@ input UpdateManyAirportsInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateAirport!
+}
+
+input UpdateManyClientsInput {
+  """Filter used to find fields to update"""
+  filter: clientUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateClient!
+}
+
+input UpdateManyQuotesInput {
+  """Filter used to find fields to update"""
+  filter: QuoteUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateQuote!
 }
 
 type UpdateManyResponse {
@@ -1226,6 +1608,22 @@ input UpdateOneAirportInput {
   update: UpdateAirport!
 }
 
+input UpdateOneClientInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateClient!
+}
+
+input UpdateOneQuoteInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateQuote!
+}
+
 input UpdateOneRoleInput {
   """The id of the record to update"""
   id: ID!
@@ -1248,6 +1646,34 @@ input UpdateOneUserInput {
 
   """The update to apply."""
   update: UpdateUser!
+}
+
+input UpdateQuote {
+  category: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  itinerary: [JSONObject!]
+  providerType: String
+  representative: String
+  requestedBy: String
+  status: Boolean = true
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateRole {
@@ -1480,6 +1906,122 @@ input UserUpdateFilter {
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
+  status: BooleanFieldComparison
+}
+
+"""Client"""
+type client {
+  address: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String!
+  id: ID!
+  isCompany: Boolean!
+  isPerson: Boolean!
+  name: String!
+  phone: String!
+  status: Boolean!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type clientAggregateGroupBy {
+  address: String
+  email: String
+  isCompany: Boolean
+  isPerson: Boolean
+  name: String
+  phone: String
+  status: Boolean
+}
+
+type clientCountAggregate {
+  address: Int
+  email: Int
+  isCompany: Int
+  isPerson: Int
+  name: Int
+  phone: Int
+  status: Int
+}
+
+input clientDeleteFilter {
+  address: StringFieldComparison
+  and: [clientDeleteFilter!]
+  email: StringFieldComparison
+  isCompany: BooleanFieldComparison
+  isPerson: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [clientDeleteFilter!]
+  phone: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+input clientFilter {
+  address: StringFieldComparison
+  and: [clientFilter!]
+  email: StringFieldComparison
+  isCompany: BooleanFieldComparison
+  isPerson: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [clientFilter!]
+  phone: StringFieldComparison
+  status: BooleanFieldComparison
+}
+
+type clientMaxAggregate {
+  address: String
+  email: String
+  name: String
+  phone: String
+}
+
+type clientMinAggregate {
+  address: String
+  email: String
+  name: String
+  phone: String
+}
+
+input clientSort {
+  direction: SortDirection!
+  field: clientSortFields!
+  nulls: SortNulls
+}
+
+enum clientSortFields {
+  address
+  email
+  isCompany
+  isPerson
+  name
+  phone
+  status
+}
+
+input clientUpdateFilter {
+  address: StringFieldComparison
+  and: [clientUpdateFilter!]
+  email: StringFieldComparison
+  isCompany: BooleanFieldComparison
+  isPerson: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [clientUpdateFilter!]
+  phone: StringFieldComparison
   status: BooleanFieldComparison
 }
 
