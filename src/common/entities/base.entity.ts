@@ -4,7 +4,7 @@ import { Document, SchemaTypes } from 'mongoose';
 @Schema()
 export abstract class BaseEntity extends Document {
   @Prop({ default: false })
-  status: boolean;
+  isActive?: boolean;
   @Prop({ default: () => new Date(), type: SchemaTypes.Date })
   createdAt?: string;
 

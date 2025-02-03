@@ -4,9 +4,18 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+
+@ObjectType()
+export class specificationsDTO {
+  @Field()
+  icon: string;
+  @Field()
+  name: string;
+}
 
 @ObjectType('Aircraft', { description: 'Aircraft' })
 @QueryOptions({
@@ -19,4 +28,12 @@ export class AircraftsDto extends BaseDTO {
   name: string;
   @FilterableField()
   category: string;
+  @Field()
+  description: string;
+  @Field()
+  image: string;
+  @Field(() => [GraphQLJSONObject])
+  specifications: specificationsDTO[];
+  @Field({ description: 'Flights/Helicoptor Terms and Conditions' })
+  termsAndConditions: string;
 }

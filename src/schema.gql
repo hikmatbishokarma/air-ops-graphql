@@ -25,9 +25,15 @@ type Aircraft {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  description: String!
   id: ID!
+  image: String!
+  isActive: Boolean!
   name: String!
-  status: Boolean!
+  specifications: [JSONObject!]!
+
+  """Flights/Helicoptor Terms and Conditions"""
+  termsAndConditions: String!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -38,8 +44,8 @@ type Aircraft {
 
 type AircraftAggregateGroupBy {
   category: String
+  isActive: Boolean
   name: String
-  status: Boolean
 }
 
 """AircraftCategory"""
@@ -57,8 +63,8 @@ type AircraftCategory {
   deletedBy: String
   description: String!
   id: ID!
+  isActive: Boolean!
   name: String!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -69,8 +75,8 @@ type AircraftCategory {
 
 type AircraftCategoryAggregateGroupBy {
   description: String
+  isActive: Boolean
   name: String
-  status: Boolean
 }
 
 type AircraftCategoryConnection {
@@ -86,16 +92,16 @@ type AircraftCategoryConnection {
 
 type AircraftCategoryCountAggregate {
   description: Int
+  isActive: Int
   name: Int
-  status: Int
 }
 
 input AircraftCategoryDeleteFilter {
   and: [AircraftCategoryDeleteFilter!]
   description: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftCategoryDeleteFilter!]
-  status: BooleanFieldComparison
 }
 
 type AircraftCategoryDeleteResponse {
@@ -112,8 +118,8 @@ type AircraftCategoryDeleteResponse {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean
   name: String
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -125,9 +131,9 @@ type AircraftCategoryDeleteResponse {
 input AircraftCategoryFilter {
   and: [AircraftCategoryFilter!]
   description: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftCategoryFilter!]
-  status: BooleanFieldComparison
 }
 
 type AircraftCategoryMaxAggregate {
@@ -148,16 +154,16 @@ input AircraftCategorySort {
 
 enum AircraftCategorySortFields {
   description
+  isActive
   name
-  status
 }
 
 input AircraftCategoryUpdateFilter {
   and: [AircraftCategoryUpdateFilter!]
   description: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftCategoryUpdateFilter!]
-  status: BooleanFieldComparison
 }
 
 type AircraftConnection {
@@ -173,16 +179,16 @@ type AircraftConnection {
 
 type AircraftCountAggregate {
   category: Int
+  isActive: Int
   name: Int
-  status: Int
 }
 
 input AircraftDeleteFilter {
   and: [AircraftDeleteFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftDeleteFilter!]
-  status: BooleanFieldComparison
 }
 
 type AircraftDeleteResponse {
@@ -199,9 +205,15 @@ type AircraftDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  description: String
   id: ID
+  image: String
+  isActive: Boolean
   name: String
-  status: Boolean
+  specifications: [JSONObject!]
+
+  """Flights/Helicoptor Terms and Conditions"""
+  termsAndConditions: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -213,9 +225,9 @@ type AircraftDeleteResponse {
 input AircraftFilter {
   and: [AircraftFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftFilter!]
-  status: BooleanFieldComparison
 }
 
 type AircraftMaxAggregate {
@@ -236,16 +248,16 @@ input AircraftSort {
 
 enum AircraftSortFields {
   category
+  isActive
   name
-  status
 }
 
 input AircraftUpdateFilter {
   and: [AircraftUpdateFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftUpdateFilter!]
-  status: BooleanFieldComparison
 }
 
 """Airport"""
@@ -266,10 +278,10 @@ type Airport {
   iata_code: String!
   icao_code: String!
   id: ID!
+  isActive: Boolean!
   latitude: Int!
   longitude: Int!
   name: String!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -282,8 +294,8 @@ type AirportAggregateGroupBy {
   city: String
   iata_code: String
   icao_code: String
+  isActive: Boolean
   name: String
-  status: Boolean
 }
 
 type AirportConnection {
@@ -301,8 +313,8 @@ type AirportCountAggregate {
   city: Int
   iata_code: Int
   icao_code: Int
+  isActive: Int
   name: Int
-  status: Int
 }
 
 input AirportDeleteFilter {
@@ -310,9 +322,9 @@ input AirportDeleteFilter {
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AirportDeleteFilter!]
-  status: BooleanFieldComparison
 }
 
 type AirportDeleteResponse {
@@ -332,10 +344,10 @@ type AirportDeleteResponse {
   iata_code: String
   icao_code: String
   id: ID
+  isActive: Boolean
   latitude: Int
   longitude: Int
   name: String
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -349,9 +361,9 @@ input AirportFilter {
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AirportFilter!]
-  status: BooleanFieldComparison
 }
 
 type AirportMaxAggregate {
@@ -378,8 +390,8 @@ enum AirportSortFields {
   city
   iata_code
   icao_code
+  isActive
   name
-  status
 }
 
 input AirportUpdateFilter {
@@ -387,9 +399,9 @@ input AirportUpdateFilter {
   city: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AirportUpdateFilter!]
-  status: BooleanFieldComparison
 }
 
 input BooleanFieldComparison {
@@ -424,11 +436,11 @@ type ClientDeleteResponse {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean
   isCompany: Boolean
   isPerson: Boolean
   name: String
   phone: String
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -451,9 +463,15 @@ input CreateAircraft {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  description: String
   id: ID
+  image: String
+  isActive: Boolean = true
   name: String
-  status: Boolean = true
+  specifications: [JSONObject!]
+
+  """Flights/Helicoptor Terms and Conditions"""
+  termsAndConditions: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -476,8 +494,8 @@ input CreateAircraftCategory {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean = true
   name: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -503,10 +521,10 @@ input CreateAirport {
   iata_code: String
   icao_code: String
   id: ID
+  isActive: Boolean = true
   latitude: Int
   longitude: Int
   name: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -531,11 +549,11 @@ input CreateClient {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean = true
   isCompany: Boolean
   isPerson: Boolean
   name: String
   phone: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -639,11 +657,12 @@ input CreateQuote {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean = true
   itinerary: [JSONObject!]
   providerType: String
   representative: String
   requestedBy: String
-  status: Boolean = true
+  status: QuoteStatus = NEW_REQUEST
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -666,9 +685,9 @@ input CreateRole {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean = true
   name: String
   roleType: RoleType
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -690,9 +709,9 @@ input CreateRolePermission {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean = true
   permissions: [JSONObject!]
   role: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -717,12 +736,12 @@ input CreateUser {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean = true
   name: String
   password: String
   phone: String
   role: String
   roleType: RoleType
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1036,11 +1055,12 @@ type Quote {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID!
+  isActive: Boolean!
   itinerary: [JSONObject!]!
   providerType: String!
   representative: String!
   requestedBy: client!
-  status: Boolean!
+  status: QuoteStatus!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1051,10 +1071,11 @@ type Quote {
 
 type QuoteAggregateGroupBy {
   category: String
+  isActive: Boolean
   providerType: String
   representative: String
   requestedBy: String
-  status: Boolean
+  status: QuoteStatus
 }
 
 type QuoteConnection {
@@ -1070,6 +1091,7 @@ type QuoteConnection {
 
 type QuoteCountAggregate {
   category: Int
+  isActive: Int
   providerType: Int
   representative: Int
   requestedBy: Int
@@ -1079,11 +1101,12 @@ type QuoteCountAggregate {
 input QuoteDeleteFilter {
   and: [QuoteDeleteFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
   providerType: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  status: BooleanFieldComparison
+  status: QuoteStatusFilterComparison
 }
 
 type QuoteDeleteResponse {
@@ -1101,11 +1124,12 @@ type QuoteDeleteResponse {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean
   itinerary: [JSONObject!]
   providerType: String
   representative: String
   requestedBy: String
-  status: Boolean
+  status: QuoteStatus
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1117,11 +1141,12 @@ type QuoteDeleteResponse {
 input QuoteFilter {
   and: [QuoteFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   or: [QuoteFilter!]
   providerType: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  status: BooleanFieldComparison
+  status: QuoteStatusFilterComparison
 }
 
 type QuoteMaxAggregate {
@@ -1129,6 +1154,7 @@ type QuoteMaxAggregate {
   providerType: String
   representative: String
   requestedBy: String
+  status: QuoteStatus
 }
 
 type QuoteMinAggregate {
@@ -1136,6 +1162,7 @@ type QuoteMinAggregate {
   providerType: String
   representative: String
   requestedBy: String
+  status: QuoteStatus
 }
 
 input QuoteSort {
@@ -1146,20 +1173,52 @@ input QuoteSort {
 
 enum QuoteSortFields {
   category
+  isActive
   providerType
   representative
   requestedBy
   status
 }
 
+enum QuoteStatus {
+  APPROVAL
+  BOOKED
+  BRIEFING_SENT
+  CONTRACT_SENT
+  DONE
+  INVOICE_SENT
+  NEW_REQUEST
+  OPPORTUNITY
+  OPTION
+  QUOTED
+}
+
+input QuoteStatusFilterComparison {
+  eq: QuoteStatus
+  gt: QuoteStatus
+  gte: QuoteStatus
+  iLike: QuoteStatus
+  in: [QuoteStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: QuoteStatus
+  lt: QuoteStatus
+  lte: QuoteStatus
+  neq: QuoteStatus
+  notILike: QuoteStatus
+  notIn: [QuoteStatus!]
+  notLike: QuoteStatus
+}
+
 input QuoteUpdateFilter {
   and: [QuoteUpdateFilter!]
   category: StringFieldComparison
+  isActive: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
   providerType: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  status: BooleanFieldComparison
+  status: QuoteStatusFilterComparison
 }
 
 type RoleConnection {
@@ -1187,9 +1246,9 @@ type RoleDeleteResponse {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean
   name: String
   roleType: RoleType
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1212,9 +1271,9 @@ type RolePermission {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID!
+  isActive: Boolean!
   permissions: [JSONObject!]!
   role: role!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1224,8 +1283,8 @@ type RolePermission {
 }
 
 type RolePermissionAggregateGroupBy {
+  isActive: Boolean
   role: String
-  status: Boolean
 }
 
 type RolePermissionConnection {
@@ -1240,15 +1299,15 @@ type RolePermissionConnection {
 }
 
 type RolePermissionCountAggregate {
+  isActive: Int
   role: Int
-  status: Int
 }
 
 input RolePermissionDeleteFilter {
   and: [RolePermissionDeleteFilter!]
+  isActive: BooleanFieldComparison
   or: [RolePermissionDeleteFilter!]
   role: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 type RolePermissionDeleteResponse {
@@ -1264,9 +1323,9 @@ type RolePermissionDeleteResponse {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean
   permissions: [JSONObject!]
   role: String
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1277,9 +1336,9 @@ type RolePermissionDeleteResponse {
 
 input RolePermissionFilter {
   and: [RolePermissionFilter!]
+  isActive: BooleanFieldComparison
   or: [RolePermissionFilter!]
   role: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 type RolePermissionMaxAggregate {
@@ -1297,15 +1356,15 @@ input RolePermissionSort {
 }
 
 enum RolePermissionSortFields {
+  isActive
   role
-  status
 }
 
 input RolePermissionUpdateFilter {
   and: [RolePermissionUpdateFilter!]
+  isActive: BooleanFieldComparison
   or: [RolePermissionUpdateFilter!]
   role: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 enum RoleType {
@@ -1422,9 +1481,15 @@ input UpdateAircraft {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  description: String
   id: ID
+  image: String
+  isActive: Boolean = true
   name: String
-  status: Boolean = true
+  specifications: [JSONObject!]
+
+  """Flights/Helicoptor Terms and Conditions"""
+  termsAndConditions: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1447,8 +1512,8 @@ input UpdateAircraftCategory {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean = true
   name: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1474,10 +1539,10 @@ input UpdateAirport {
   iata_code: String
   icao_code: String
   id: ID
+  isActive: Boolean = true
   latitude: Int
   longitude: Int
   name: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1502,11 +1567,11 @@ input UpdateClient {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean = true
   isCompany: Boolean
   isPerson: Boolean
   name: String
   phone: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1663,11 +1728,12 @@ input UpdateQuote {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean = true
   itinerary: [JSONObject!]
   providerType: String
   representative: String
   requestedBy: String
-  status: Boolean = true
+  status: QuoteStatus = NEW_REQUEST
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1690,9 +1756,9 @@ input UpdateRole {
   deletedBy: String
   description: String
   id: ID
+  isActive: Boolean = true
   name: String
   roleType: RoleType
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1714,9 +1780,9 @@ input UpdateRolePermission {
   """The email of the user who deleted the record"""
   deletedBy: String
   id: ID
+  isActive: Boolean = true
   permissions: [JSONObject!]
   role: String
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1741,12 +1807,12 @@ input UpdateUser {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean = true
   name: String
   password: String
   phone: String
   role: String
   roleType: RoleType
-  status: Boolean = true
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1772,12 +1838,12 @@ type User {
   deletedBy: String
   email: String!
   id: ID!
+  isActive: Boolean!
   name: String!
   password: String!
   phone: String!
   role: role!
   roleType: RoleType!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1788,11 +1854,11 @@ type User {
 
 type UserAggregateGroupBy {
   email: String
+  isActive: Boolean
   name: String
   phone: String
   role: String
   roleType: RoleType
-  status: Boolean
 }
 
 type UserConnection {
@@ -1808,22 +1874,22 @@ type UserConnection {
 
 type UserCountAggregate {
   email: Int
+  isActive: Int
   name: Int
   phone: Int
   role: Int
   roleType: Int
-  status: Int
 }
 
 input UserDeleteFilter {
   and: [UserDeleteFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [UserDeleteFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }
 
 type UserDeleteResponse {
@@ -1842,12 +1908,12 @@ type UserDeleteResponse {
   deletedBy: String
   email: String
   id: ID
+  isActive: Boolean
   name: String
   password: String
   phone: String
   role: String
   roleType: RoleType
-  status: Boolean
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1859,12 +1925,12 @@ type UserDeleteResponse {
 input UserFilter {
   and: [UserFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [UserFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }
 
 type UserMaxAggregate {
@@ -1891,22 +1957,22 @@ input UserSort {
 
 enum UserSortFields {
   email
+  isActive
   name
   phone
   role
   roleType
-  status
 }
 
 input UserUpdateFilter {
   and: [UserUpdateFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [UserUpdateFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }
 
 """Client"""
@@ -1926,11 +1992,11 @@ type client {
   deletedBy: String
   email: String!
   id: ID!
+  isActive: Boolean!
   isCompany: Boolean!
   isPerson: Boolean!
   name: String!
   phone: String!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1942,45 +2008,45 @@ type client {
 type clientAggregateGroupBy {
   address: String
   email: String
+  isActive: Boolean
   isCompany: Boolean
   isPerson: Boolean
   name: String
   phone: String
-  status: Boolean
 }
 
 type clientCountAggregate {
   address: Int
   email: Int
+  isActive: Int
   isCompany: Int
   isPerson: Int
   name: Int
   phone: Int
-  status: Int
 }
 
 input clientDeleteFilter {
   address: StringFieldComparison
   and: [clientDeleteFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
   name: StringFieldComparison
   or: [clientDeleteFilter!]
   phone: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 input clientFilter {
   address: StringFieldComparison
   and: [clientFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
   name: StringFieldComparison
   or: [clientFilter!]
   phone: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 type clientMaxAggregate {
@@ -2006,23 +2072,23 @@ input clientSort {
 enum clientSortFields {
   address
   email
+  isActive
   isCompany
   isPerson
   name
   phone
-  status
 }
 
 input clientUpdateFilter {
   address: StringFieldComparison
   and: [clientUpdateFilter!]
   email: StringFieldComparison
+  isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
   name: StringFieldComparison
   or: [clientUpdateFilter!]
   phone: StringFieldComparison
-  status: BooleanFieldComparison
 }
 
 type loginResponseDTO {
@@ -2044,6 +2110,7 @@ type role {
   deletedBy: String
   description: String!
   id: ID!
+  isActive: Boolean!
   name: String!
   rolePermissions(
     """Specify to filter the records returned."""
@@ -2053,7 +2120,6 @@ type role {
     sorting: [RolePermissionSort!]! = []
   ): [RolePermission!]
   roleType: RoleType!
-  status: Boolean!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2063,31 +2129,31 @@ type role {
 }
 
 type roleAggregateGroupBy {
+  isActive: Boolean
   name: String
   roleType: RoleType
-  status: Boolean
 }
 
 type roleCountAggregate {
+  isActive: Int
   name: Int
   roleType: Int
-  status: Int
 }
 
 input roleDeleteFilter {
   and: [roleDeleteFilter!]
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleDeleteFilter!]
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }
 
 input roleFilter {
   and: [roleFilter!]
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleFilter!]
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }
 
 type roleMaxAggregate {
@@ -2107,15 +2173,15 @@ input roleSort {
 }
 
 enum roleSortFields {
+  isActive
   name
   roleType
-  status
 }
 
 input roleUpdateFilter {
   and: [roleUpdateFilter!]
+  isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleUpdateFilter!]
   roleType: RoleTypeFilterComparison
-  status: BooleanFieldComparison
 }

@@ -4,9 +4,10 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
+import { QuoteStatus } from 'src/app-constants/enums';
 import { ClientsDto } from 'src/clients/dto/clients.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
@@ -18,6 +19,8 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
 export class QuotesDto extends BaseDTO {
+  @Field(() => ID)
+  id!: string;
   @FilterableField()
   requestedBy: string;
   @FilterableField()
@@ -31,4 +34,6 @@ export class QuotesDto extends BaseDTO {
 
   @Field(() => [GraphQLJSONObject])
   itinerary: Object[];
+  @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.NEW_REQUEST })
+  status: QuoteStatus;
 }

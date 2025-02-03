@@ -48,5 +48,5 @@ export abstract class BaseDTO {
   // })
   // roles?: string[];
   @FilterableField(() => Boolean, { defaultValue: true })
-  status: boolean;
+  isActive: boolean;
 }

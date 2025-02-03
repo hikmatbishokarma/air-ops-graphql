@@ -12,6 +12,14 @@ export class AircraftsEntity extends BaseEntity {
     required: true,
   })
   category: Types.ObjectId;
+  @Prop()
+  description: string;
+  @Prop()
+  image: string;
+  @Prop({ type: [Object] })
+  specifications: Object[];
+  @Prop()
+  termsAndConditions: string;
 }
 
 export const AircraftsSchema = SchemaFactory.createForClass(AircraftsEntity);

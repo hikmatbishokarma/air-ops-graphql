@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTypes, Types } from 'mongoose';
+import { SchemaTypes, Types, Document } from 'mongoose';
+import { QuoteStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 export class Segment {
@@ -23,7 +24,7 @@ const SegmentSchema = SchemaFactory.createForClass(Segment);
 
 @Schema({ collection: 'quotes', timestamps: true })
 export class QuotesEntity extends BaseEntity {
-  @Prop({ ref: 'RequesterEntity', type: SchemaTypes.ObjectId, required: true })
+  @Prop({ ref: 'ClientsEntity', type: SchemaTypes.ObjectId, required: true })
   requestedBy: Types.ObjectId;
   @Prop()
   representative: string;
@@ -37,10 +38,11 @@ export class QuotesEntity extends BaseEntity {
   @Prop()
   providerType: string;
 
-  // @Prop({ type: [SegmentSchema], required: true }) // Embedding the segments array
-  // segments: Segment[];
   @Prop({ type: [Object], required: true })
   itinerary: Object[];
+
+  @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.NEW_REQUEST })
+  status: QuoteStatus;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);
