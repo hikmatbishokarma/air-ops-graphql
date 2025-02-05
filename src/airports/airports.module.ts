@@ -26,5 +26,6 @@ import { AirportsService } from './services/airports.service';
     }),
   ],
   providers: [AirportsService],
+  exports: [AirportsService],
 })
 export class AirportsModule {}

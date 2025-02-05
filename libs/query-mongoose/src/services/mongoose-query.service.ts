@@ -79,7 +79,8 @@ export class MongooseQueryService<Entity extends Document>
    */
   async query(query: Query<Entity>): Promise<Entity[]> {
     const { filterQuery, options } = this.filterQueryBuilder.buildQuery(query);
-    return this.Model.find(filterQuery, {}, options).exec();
+    const projection = query.projection || {};
+    return this.Model.find(filterQuery, projection, options).exec();
   }
 
   async aggregate(

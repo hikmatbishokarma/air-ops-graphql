@@ -4,9 +4,14 @@ import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { QuotesEntity, QuotesSchema } from './entities/quotes.entity';
 import { QuotesDto } from './dto/quotes.dto';
 import { QuotesService } from './services/quotes.service';
+import { AirportsModule } from 'src/airports/airports.module';
+import { QuotesResolver } from './resolvers/quotes.resolver';
+import { AircraftsModule } from 'src/aircrafts/aircrafts.module';
 
 @Module({
   imports: [
+    AirportsModule,
+    AircraftsModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([
@@ -25,6 +30,6 @@ import { QuotesService } from './services/quotes.service';
       ],
     }),
   ],
-  providers: [QuotesService],
+  providers: [QuotesService, QuotesResolver],
 })
 export class QuotesModule {}

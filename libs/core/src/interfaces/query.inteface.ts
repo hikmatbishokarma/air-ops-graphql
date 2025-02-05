@@ -35,4 +35,6 @@ export interface Query<T> extends Filterable<T> {
    * Option to sort the collection.
    */
   sorting?: SortField<T>[];
+
+  projection?: Partial<Record<keyof T, 1 | 0>>;
 }

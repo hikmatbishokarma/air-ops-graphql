@@ -15,9 +15,6 @@ export class Segment {
 
   @Prop({ type: Number, required: true, min: 1 })
   pax: number;
-
-  @Prop()
-  aircraft: string;
 }
 
 const SegmentSchema = SchemaFactory.createForClass(Segment);
@@ -35,8 +32,18 @@ export class QuotesEntity extends BaseEntity {
     required: true,
   })
   category: Types.ObjectId;
+
+  @Prop({
+    ref: 'AircraftsEntity',
+    type: SchemaTypes.ObjectId,
+    required: true,
+  })
+  aircraft: Types.ObjectId;
+
   @Prop()
   providerType: string;
+  @Prop({ required: true, unique: true })
+  referenceNumber: string;
 
   @Prop({ type: [Object], required: true })
   itinerary: Object[];

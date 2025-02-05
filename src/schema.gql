@@ -681,6 +681,7 @@ input CreatePrice {
 }
 
 input CreateQuote {
+  aircraft: String
   category: String
 
   """The date when the record was created"""
@@ -698,6 +699,7 @@ input CreateQuote {
   isActive: Boolean = true
   itinerary: [JSONObject!]
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus = NEW_REQUEST
@@ -953,6 +955,7 @@ type Mutation {
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
+  setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setCategoryOnAircraft(input: SetCategoryOnAircraftInput!): Aircraft!
   setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
@@ -1053,6 +1056,7 @@ type PriceInputDto {
 }
 
 type Query {
+  RequestedQuoteList: [Quote!]!
   aircraft(
     """Specify to filter the records returned."""
     filter: AircraftFilter! = {}
@@ -1181,6 +1185,7 @@ type Query {
 
 """Quotes"""
 type Quote {
+  aircraft: Aircraft!
   category: AircraftCategory!
 
   """The date when the record was created"""
@@ -1198,6 +1203,7 @@ type Quote {
   isActive: Boolean!
   itinerary: [JSONObject!]!
   providerType: String!
+  referenceNumber: String!
   representative: String!
   requestedBy: client!
   status: QuoteStatus!
@@ -1210,9 +1216,11 @@ type Quote {
 }
 
 type QuoteAggregateGroupBy {
+  aircraft: String
   category: String
   isActive: Boolean
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus
@@ -1230,26 +1238,31 @@ type QuoteConnection {
 }
 
 type QuoteCountAggregate {
+  aircraft: Int
   category: Int
   isActive: Int
   providerType: Int
+  referenceNumber: Int
   representative: Int
   requestedBy: Int
   status: Int
 }
 
 input QuoteDeleteFilter {
+  aircraft: StringFieldComparison
   and: [QuoteDeleteFilter!]
   category: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
   providerType: StringFieldComparison
+  referenceNumber: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
 type QuoteDeleteResponse {
+  aircraft: String
   category: String
 
   """The date when the record was created"""
@@ -1267,6 +1280,7 @@ type QuoteDeleteResponse {
   isActive: Boolean
   itinerary: [JSONObject!]
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus
@@ -1279,27 +1293,33 @@ type QuoteDeleteResponse {
 }
 
 input QuoteFilter {
+  aircraft: StringFieldComparison
   and: [QuoteFilter!]
   category: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteFilter!]
   providerType: StringFieldComparison
+  referenceNumber: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
 type QuoteMaxAggregate {
+  aircraft: String
   category: String
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus
 }
 
 type QuoteMinAggregate {
+  aircraft: String
   category: String
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus
@@ -1312,9 +1332,11 @@ input QuoteSort {
 }
 
 enum QuoteSortFields {
+  aircraft
   category
   isActive
   providerType
+  referenceNumber
   representative
   requestedBy
   status
@@ -1351,11 +1373,13 @@ input QuoteStatusFilterComparison {
 }
 
 input QuoteUpdateFilter {
+  aircraft: StringFieldComparison
   and: [QuoteUpdateFilter!]
   category: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
   providerType: StringFieldComparison
+  referenceNumber: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
@@ -1531,6 +1555,14 @@ input RoleTypeFilterComparison {
 }
 
 input SetAircraftOnPriceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetAircraftOnQuoteInput {
   """The id of the record."""
   id: ID!
 
@@ -1903,6 +1935,7 @@ input UpdatePrice {
 }
 
 input UpdateQuote {
+  aircraft: String
   category: String
 
   """The date when the record was created"""
@@ -1920,6 +1953,7 @@ input UpdateQuote {
   isActive: Boolean = true
   itinerary: [JSONObject!]
   providerType: String
+  referenceNumber: String
   representative: String
   requestedBy: String
   status: QuoteStatus = NEW_REQUEST

@@ -30,5 +30,6 @@ import { AircraftsService } from 'src/aircrafts/services/aircrafts.service';
     }),
   ],
   providers: [AircraftsService],
+  exports: [AircraftsService],
 })
 export class AircraftsModule {}
