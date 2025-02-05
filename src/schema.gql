@@ -449,6 +449,9 @@ type ClientDeleteResponse {
   updatedBy: String
 }
 
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
 input CreateAircraft {
   category: String
 
@@ -582,6 +585,11 @@ input CreateManyClientsInput {
   clients: [CreateClient!]!
 }
 
+input CreateManyPricesInput {
+  """Array of records to create"""
+  prices: [CreatePrice!]!
+}
+
 input CreateManyQuotesInput {
   """Array of records to create"""
   quotes: [CreateQuote!]!
@@ -622,6 +630,11 @@ input CreateOneClientInput {
   client: CreateClient!
 }
 
+input CreateOnePriceInput {
+  """The record to create"""
+  price: CreatePrice!
+}
+
 input CreateOneQuoteInput {
   """The record to create"""
   quote: CreateQuote!
@@ -640,6 +653,31 @@ input CreateOneRolePermissionInput {
 input CreateOneUserInput {
   """The record to create"""
   user: CreateUser!
+}
+
+input CreatePrice {
+  aircraft: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  prices: [priceInput!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreateQuote {
@@ -750,6 +788,20 @@ input CreateUser {
   updatedBy: String
 }
 
+input CursorPaging {
+  """Paginate after opaque cursor"""
+  after: ConnectionCursor
+
+  """Paginate before opaque cursor"""
+  before: ConnectionCursor
+
+  """Paginate first"""
+  first: Int
+
+  """Paginate last"""
+  last: Int
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -773,6 +825,11 @@ input DeleteManyAirportsInput {
 input DeleteManyClientsInput {
   """Filter to find records to delete"""
   filter: clientDeleteFilter!
+}
+
+input DeleteManyPricesInput {
+  """Filter to find records to delete"""
+  filter: priceDeleteFilter!
 }
 
 input DeleteManyQuotesInput {
@@ -820,6 +877,11 @@ input DeleteOneClientInput {
   id: ID!
 }
 
+input DeleteOnePriceInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneQuoteInput {
   """The id of the record to delete."""
   id: ID!
@@ -858,6 +920,7 @@ type Mutation {
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
   createManyClients(input: CreateManyClientsInput!): [client!]!
+  createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
@@ -866,6 +929,7 @@ type Mutation {
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAirport(input: CreateOneAirportInput!): Airport!
   createOneClient(input: CreateOneClientInput!): client!
+  createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
@@ -874,6 +938,7 @@ type Mutation {
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
+  deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
@@ -882,10 +947,12 @@ type Mutation {
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
+  deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setCategoryOnAircraft(input: SetCategoryOnAircraftInput!): Aircraft!
   setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
@@ -896,6 +963,7 @@ type Mutation {
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
+  updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
@@ -904,6 +972,7 @@ type Mutation {
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
   updateOneClient(input: UpdateOneClientInput!): client!
+  updateOnePrice(input: UpdateOnePriceInput!): price!
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
@@ -924,6 +993,63 @@ input OffsetPaging {
 
   """Offset to start returning records from"""
   offset: Int
+}
+
+type PageInfo {
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+}
+
+type PriceConnection {
+  """Array of edges."""
+  edges: [priceEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
+type PriceDeleteResponse {
+  aircraft: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  prices: [PriceInputDto!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type PriceInputDto {
+  currency: String!
+  grandTotal: Float!
+  label: String!
+  margin: Float!
+  price: Float!
+  total: Float!
+  unit: Float!
 }
 
 type Query {
@@ -981,6 +1107,20 @@ type Query {
   ): ClientConnection!
   getUser(id: String!): String!
   login(input: LoginInputs!): loginResponseDTO!
+  price(
+    """The id of the record to find."""
+    id: ID!
+  ): price
+  prices(
+    """Specify to filter the records returned."""
+    filter: priceFilter! = {}
+
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [priceSort!]! = []
+  ): PriceConnection!
   quote(
     """The id of the record to find."""
     id: ID!
@@ -1390,6 +1530,14 @@ input RoleTypeFilterComparison {
   notLike: RoleType
 }
 
+input SetAircraftOnPriceInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetCategoryOnAircraftInput {
   """The id of the record."""
   id: ID!
@@ -1612,6 +1760,14 @@ input UpdateManyClientsInput {
   update: UpdateClient!
 }
 
+input UpdateManyPricesInput {
+  """Filter used to find fields to update"""
+  filter: priceUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdatePrice!
+}
+
 input UpdateManyQuotesInput {
   """Filter used to find fields to update"""
   filter: QuoteUpdateFilter!
@@ -1681,6 +1837,14 @@ input UpdateOneClientInput {
   update: UpdateClient!
 }
 
+input UpdateOnePriceInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePrice!
+}
+
 input UpdateOneQuoteInput {
   """The id of the record to update"""
   id: ID!
@@ -1711,6 +1875,31 @@ input UpdateOneUserInput {
 
   """The update to apply."""
   update: UpdateUser!
+}
+
+input UpdatePrice {
+  aircraft: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  prices: [priceInput!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateQuote {
@@ -2093,6 +2282,100 @@ input clientUpdateFilter {
 
 type loginResponseDTO {
   access_token: String!
+}
+
+"""price"""
+type price {
+  aircraft: Aircraft!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  prices: [PriceInputDto!]!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type priceAggregateGroupBy {
+  aircraft: String
+  isActive: Boolean
+}
+
+type priceCountAggregate {
+  aircraft: Int
+  isActive: Int
+}
+
+input priceDeleteFilter {
+  aircraft: StringFieldComparison
+  and: [priceDeleteFilter!]
+  isActive: BooleanFieldComparison
+  or: [priceDeleteFilter!]
+}
+
+type priceEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the price"""
+  node: price!
+}
+
+input priceFilter {
+  aircraft: StringFieldComparison
+  and: [priceFilter!]
+  isActive: BooleanFieldComparison
+  or: [priceFilter!]
+}
+
+input priceInput {
+  currency: String! = "INR"
+  grandTotal: Float! = 0
+  label: String! = "Block Hour Fee"
+  margin: Float! = 0
+  price: Float! = 0
+  total: Float! = 0
+  unit: Float! = 0
+}
+
+type priceMaxAggregate {
+  aircraft: String
+}
+
+type priceMinAggregate {
+  aircraft: String
+}
+
+input priceSort {
+  direction: SortDirection!
+  field: priceSortFields!
+  nulls: SortNulls
+}
+
+enum priceSortFields {
+  aircraft
+  isActive
+}
+
+input priceUpdateFilter {
+  aircraft: StringFieldComparison
+  and: [priceUpdateFilter!]
+  isActive: BooleanFieldComparison
+  or: [priceUpdateFilter!]
 }
 
 """User Roles"""
