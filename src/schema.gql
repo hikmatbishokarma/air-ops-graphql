@@ -595,6 +595,11 @@ input CreateManyQuotesInput {
   quotes: [CreateQuote!]!
 }
 
+input CreateManyRepresentativesInput {
+  """Array of records to create"""
+  representatives: [CreateRepresentative!]!
+}
+
 input CreateManyRolePermissionsInput {
   """Array of records to create"""
   rolePermissions: [CreateRolePermission!]!
@@ -638,6 +643,11 @@ input CreateOnePriceInput {
 input CreateOneQuoteInput {
   """The record to create"""
   quote: CreateQuote!
+}
+
+input CreateOneRepresentativeInput {
+  """The record to create"""
+  representative: CreateRepresentative!
 }
 
 input CreateOneRoleInput {
@@ -703,6 +713,34 @@ input CreateQuote {
   representative: String
   requestedBy: String
   status: QuoteStatus = NEW_REQUEST
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateRepresentative {
+  address: String
+  client: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  phone: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -839,6 +877,11 @@ input DeleteManyQuotesInput {
   filter: QuoteDeleteFilter!
 }
 
+input DeleteManyRepresentativesInput {
+  """Filter to find records to delete"""
+  filter: representativeDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
@@ -889,6 +932,11 @@ input DeleteOneQuoteInput {
   id: ID!
 }
 
+input DeleteOneRepresentativeInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneRoleInput {
   """The id of the record to delete."""
   id: ID!
@@ -924,6 +972,7 @@ type Mutation {
   createManyClients(input: CreateManyClientsInput!): [client!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
+  createManyRepresentatives(input: CreateManyRepresentativesInput!): [representative!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
@@ -933,6 +982,7 @@ type Mutation {
   createOneClient(input: CreateOneClientInput!): client!
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
+  createOneRepresentative(input: CreateOneRepresentativeInput!): representative!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
@@ -942,6 +992,7 @@ type Mutation {
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
+  deleteManyRepresentatives(input: DeleteManyRepresentativesInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
@@ -951,6 +1002,7 @@ type Mutation {
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
+  deleteOneRepresentative(input: DeleteOneRepresentativeInput!): RepresentativeDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
@@ -958,6 +1010,7 @@ type Mutation {
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setCategoryOnAircraft(input: SetCategoryOnAircraftInput!): Aircraft!
   setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
+  setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
@@ -968,6 +1021,7 @@ type Mutation {
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
+  updateManyRepresentatives(input: UpdateManyRepresentativesInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
@@ -977,6 +1031,7 @@ type Mutation {
   updateOneClient(input: UpdateOneClientInput!): client!
   updateOnePrice(input: UpdateOnePriceInput!): price!
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
+  updateOneRepresentative(input: UpdateOneRepresentativeInput!): representative!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
@@ -1139,6 +1194,20 @@ type Query {
     """Specify to sort results."""
     sorting: [QuoteSort!]! = []
   ): QuoteConnection!
+  representative(
+    """The id of the record to find."""
+    id: ID!
+  ): representative
+  representatives(
+    """Specify to filter the records returned."""
+    filter: representativeFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [representativeSort!]! = []
+  ): RepresentativeConnection!
   role(
     """The id of the record to find."""
     id: ID!
@@ -1385,6 +1454,45 @@ input QuoteUpdateFilter {
   status: QuoteStatusFilterComparison
 }
 
+type RepresentativeConnection {
+  """Array of nodes."""
+  nodes: [representative!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type RepresentativeDeleteResponse {
+  address: String
+  client: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isActive: Boolean
+  name: String
+  phone: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 type RoleConnection {
   """Array of nodes."""
   nodes: [role!]!
@@ -1579,6 +1687,14 @@ input SetCategoryOnAircraftInput {
 }
 
 input SetCategoryOnQuoteInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetClientOnRepresentativeInput {
   """The id of the record."""
   id: ID!
 
@@ -1808,6 +1924,14 @@ input UpdateManyQuotesInput {
   update: UpdateQuote!
 }
 
+input UpdateManyRepresentativesInput {
+  """Filter used to find fields to update"""
+  filter: representativeUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateRepresentative!
+}
+
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
@@ -1885,6 +2009,14 @@ input UpdateOneQuoteInput {
   update: UpdateQuote!
 }
 
+input UpdateOneRepresentativeInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateRepresentative!
+}
+
 input UpdateOneRoleInput {
   """The id of the record to update"""
   id: ID!
@@ -1957,6 +2089,34 @@ input UpdateQuote {
   representative: String
   requestedBy: String
   status: QuoteStatus = NEW_REQUEST
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateRepresentative {
+  address: String
+  client: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  phone: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2410,6 +2570,117 @@ input priceUpdateFilter {
   and: [priceUpdateFilter!]
   isActive: BooleanFieldComparison
   or: [priceUpdateFilter!]
+}
+
+"""Representative"""
+type representative {
+  address: String!
+  client: client!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  email: String!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  phone: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type representativeAggregateGroupBy {
+  address: String
+  client: String
+  email: String
+  isActive: Boolean
+  name: String
+  phone: String
+}
+
+type representativeCountAggregate {
+  address: Int
+  client: Int
+  email: Int
+  isActive: Int
+  name: Int
+  phone: Int
+}
+
+input representativeDeleteFilter {
+  address: StringFieldComparison
+  and: [representativeDeleteFilter!]
+  client: StringFieldComparison
+  email: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [representativeDeleteFilter!]
+  phone: StringFieldComparison
+}
+
+input representativeFilter {
+  address: StringFieldComparison
+  and: [representativeFilter!]
+  client: StringFieldComparison
+  email: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [representativeFilter!]
+  phone: StringFieldComparison
+}
+
+type representativeMaxAggregate {
+  address: String
+  client: String
+  email: String
+  name: String
+  phone: String
+}
+
+type representativeMinAggregate {
+  address: String
+  client: String
+  email: String
+  name: String
+  phone: String
+}
+
+input representativeSort {
+  direction: SortDirection!
+  field: representativeSortFields!
+  nulls: SortNulls
+}
+
+enum representativeSortFields {
+  address
+  client
+  email
+  isActive
+  name
+  phone
+}
+
+input representativeUpdateFilter {
+  address: StringFieldComparison
+  and: [representativeUpdateFilter!]
+  client: StringFieldComparison
+  email: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [representativeUpdateFilter!]
+  phone: StringFieldComparison
 }
 
 """User Roles"""

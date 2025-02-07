@@ -17,6 +17,7 @@ import { AirportsModule } from './airports/airports.module';
 import { ClientsModule } from './clients/clients.module';
 import { QuotesModule } from './quotes/quotes.module';
 import { PriceModule } from './price/price.module';
+import { RepresentativeModule } from './representative/representative.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PriceModule } from './price/price.module';
     ClientsModule,
     QuotesModule,
     PriceModule,
+    RepresentativeModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,
