@@ -16,8 +16,6 @@ export class PricesDto {
   total: number;
   @Prop()
   margin: number;
-  @Prop()
-  grandTotal: number;
 }
 
 @Schema({ collection: 'prices', timestamps: true })
@@ -26,6 +24,8 @@ export class PriceEntity extends BaseEntity {
   aircraft: Types.ObjectId;
   @Prop({ type: [PricesDto] })
   prices: PricesDto[];
+  @Prop()
+  grandTotal: number;
 }
 
 export const PriceSchema = SchemaFactory.createForClass(PriceEntity);

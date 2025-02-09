@@ -449,9 +449,6 @@ type ClientDeleteResponse {
   updatedBy: String
 }
 
-"""Cursor for paging through collections"""
-scalar ConnectionCursor
-
 input CreateAircraft {
   category: String
 
@@ -679,6 +676,7 @@ input CreatePrice {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
   prices: [priceInput!]
@@ -826,20 +824,6 @@ input CreateUser {
 
   """The email of the user who last updated the record"""
   updatedBy: String
-}
-
-input CursorPaging {
-  """Paginate after opaque cursor"""
-  after: ConnectionCursor
-
-  """Paginate before opaque cursor"""
-  before: ConnectionCursor
-
-  """Paginate first"""
-  first: Int
-
-  """Paginate last"""
-  last: Int
 }
 
 """
@@ -1053,26 +1037,15 @@ input OffsetPaging {
   offset: Int
 }
 
-type PageInfo {
-  """The cursor of the last returned record."""
-  endCursor: ConnectionCursor
-
-  """true if paging forward and there are more records."""
-  hasNextPage: Boolean
-
-  """true if paging backwards and there are more records."""
-  hasPreviousPage: Boolean
-
-  """The cursor of the first returned record."""
-  startCursor: ConnectionCursor
-}
-
 type PriceConnection {
-  """Array of edges."""
-  edges: [priceEdge!]!
+  """Array of nodes."""
+  nodes: [price!]!
 
   """Paging information"""
-  pageInfo: PageInfo!
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
 }
 
 type PriceDeleteResponse {
@@ -1089,6 +1062,7 @@ type PriceDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float
   id: ID
   isActive: Boolean
   prices: [PriceInputDto!]
@@ -1102,12 +1076,13 @@ type PriceDeleteResponse {
 
 type PriceInputDto {
   currency: String!
-  grandTotal: Float!
   label: String!
   margin: Float!
   price: Float!
   total: Float!
-  unit: Float!
+
+  """duration"""
+  unit: String!
 }
 
 type Query {
@@ -1175,7 +1150,7 @@ type Query {
     filter: priceFilter! = {}
 
     """Limit or page results."""
-    paging: CursorPaging! = {first: 10}
+    paging: OffsetPaging! = {limit: 10}
 
     """Specify to sort results."""
     sorting: [priceSort!]! = []
@@ -2055,6 +2030,7 @@ input UpdatePrice {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
   prices: [priceInput!]
@@ -2493,6 +2469,7 @@ type price {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float!
   id: ID!
   isActive: Boolean!
   prices: [PriceInputDto!]!
@@ -2521,14 +2498,6 @@ input priceDeleteFilter {
   or: [priceDeleteFilter!]
 }
 
-type priceEdge {
-  """Cursor for this node."""
-  cursor: ConnectionCursor!
-
-  """The node containing the price"""
-  node: price!
-}
-
 input priceFilter {
   aircraft: StringFieldComparison
   and: [priceFilter!]
@@ -2538,12 +2507,13 @@ input priceFilter {
 
 input priceInput {
   currency: String! = "INR"
-  grandTotal: Float! = 0
   label: String! = "Block Hour Fee"
   margin: Float! = 0
   price: Float! = 0
   total: Float! = 0
-  unit: Float! = 0
+
+  """duration"""
+  unit: String! = "01:10"
 }
 
 type priceMaxAggregate {
