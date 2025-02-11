@@ -797,7 +797,7 @@ input CreateRolePermission {
 }
 
 input CreateUser {
-  addresses: [JSONObject!]
+  addresses: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -941,11 +941,11 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar JSONObject
 
-input LoginInputs {
+input LoginInput {
   password: String!
 
   """userName will be email or phone"""
-  username: String!
+  userName: String!
 }
 
 type Mutation {
@@ -999,6 +999,7 @@ type Mutation {
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
   setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
+  signUp(input: SignUpInput!): User!
   updateManyAircraft(input: UpdateManyAircraftInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
@@ -1140,7 +1141,7 @@ type Query {
     sorting: [clientSort!]! = []
   ): ClientConnection!
   getUser(id: String!): String!
-  login(input: LoginInputs!): loginResponseDTO!
+  login(input: LoginInput!): loginResponseDto!
   price(
     """The id of the record to find."""
     id: ID!
@@ -1211,6 +1212,7 @@ type Query {
     """Specify to sort results."""
     sorting: [roleSort!]! = []
   ): RoleConnection!
+  signIn(input: SignInInput!): loginResponseDto!
   user(
     """The id of the record to find."""
     id: ID!
@@ -1616,8 +1618,8 @@ input RolePermissionUpdateFilter {
 
 enum RoleType {
   ADMIN
-  CUSTOMER
   PARTNER
+  USER
 }
 
 input RoleTypeFilterComparison {
@@ -1707,6 +1709,17 @@ input SetRolePermissionsOnRoleInput {
 
   """The ids of the relations."""
   relationIds: [ID!]!
+}
+
+input SignInInput {
+  password: String!
+  userName: String!
+}
+
+input SignUpInput {
+  email: String!
+  name: String!
+  password: String!
 }
 
 """Sort Directions"""
@@ -2151,7 +2164,7 @@ input UpdateRolePermission {
 }
 
 input UpdateUser {
-  addresses: [JSONObject!]
+  addresses: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2182,7 +2195,7 @@ input UpdateUser {
 
 """user dto"""
 type User {
-  addresses: [JSONObject!]!
+  addresses: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2200,7 +2213,7 @@ type User {
   isActive: Boolean!
   name: String!
   password: String!
-  phone: String!
+  phone: String
   role: role!
   roleType: RoleType!
 
@@ -2252,7 +2265,7 @@ input UserDeleteFilter {
 }
 
 type UserDeleteResponse {
-  addresses: [JSONObject!]
+  addresses: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2290,6 +2303,12 @@ input UserFilter {
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
+}
+
+type UserInput {
+  email: String!
+  name: String!
+  roleType: String!
 }
 
 type UserMaxAggregate {
@@ -2450,8 +2469,9 @@ input clientUpdateFilter {
   phone: StringFieldComparison
 }
 
-type loginResponseDTO {
+type loginResponseDto {
   access_token: String!
+  user: UserInput!
 }
 
 """price"""
@@ -2742,4 +2762,10 @@ input roleUpdateFilter {
   name: StringFieldComparison
   or: [roleUpdateFilter!]
   roleType: RoleTypeFilterComparison
+}
+
+input userInput {
+  email: String!
+  name: String!
+  roleType: String!
 }

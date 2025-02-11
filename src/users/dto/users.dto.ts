@@ -20,16 +20,6 @@ export class UserDTO1 {
   password: string;
 }
 
-@ObjectType()
-export class AddressesDTO {
-  @Field()
-  address: string;
-  @Field({ description: 'House/Falt No', nullable: true })
-  house: string;
-  @Field({ nullable: true })
-  landMark: string;
-}
-
 @ObjectType('User', { description: 'user dto' })
 @QueryOptions({
   enableTotalCount: true,
@@ -50,11 +40,11 @@ export class UserDTO extends BaseDTO {
   email: string;
 
   @IsMobilePhone()
-  @FilterableField()
+  @FilterableField({ nullable: true })
   phone: string;
 
-  @Field(() => [GraphQLJSONObject])
-  addresses: AddressesDTO[];
+  @Field({ nullable: true })
+  addresses: string;
 
   @FilterableField(() => RoleType)
   roleType: RoleType;

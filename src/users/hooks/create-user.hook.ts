@@ -22,7 +22,7 @@ export class CreateUserHook<T extends UserDTO>
       throw new Error('password is required');
 
     // For PARTNER and CUSTOMER role: Fetch and assign the customer role ID automatically
-    if ([RoleType.CUSTOMER, RoleType.PARTNER].includes(roleType)) {
+    if ([RoleType.USER, RoleType.PARTNER].includes(roleType)) {
       const [role] = await this.roleService.query({
         filter: { roleType: { eq: roleType } },
       });

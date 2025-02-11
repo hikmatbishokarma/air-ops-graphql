@@ -5,10 +5,14 @@ import { UserEntity } from '../entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
+import { RolesService } from 'src/roles/services/roles.service';
 
 @Injectable()
 export class UsersService extends MongooseQueryService<UserEntity> {
-  constructor(@InjectModel(UserEntity.name) model: Model<UserEntity>) {
+  constructor(
+    @InjectModel(UserEntity.name) model: Model<UserEntity>,
+    private readonly roleService: RolesService,
+  ) {
     super(model);
   }
 
@@ -28,4 +32,30 @@ export class UsersService extends MongooseQueryService<UserEntity> {
   // async findOne(username: string): Promise<UserDTO | undefined> {
   //   return this.users.find((user) => user.name === username);
   // }
+
+  async getRoleByType(roleType) {
+    const [role] = await this.roleService.query({
+      filter: { roleType: { eq: roleType } },
+    });
+    return role;
+  }
+
+  async getUserByUserName(userName) {
+    const [user] = await this.query({
+      filter: {
+        or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
+      },
+    });
+
+    const role = await this.roleService.findById(user.role.toString());
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      roleType: user.roleType,
+      role: { roleType: role.roleType, name: role.name },
+    };
+  }
 }

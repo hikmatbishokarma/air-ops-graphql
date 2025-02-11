@@ -12,11 +12,14 @@ export class UserEntity extends BaseEntity {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: false, unique: true })
   phone: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
+
+  @Prop()
+  addresses: string;
 
   @Prop({ type: String, required: true, enum: RoleType })
   roleType: RoleType;
