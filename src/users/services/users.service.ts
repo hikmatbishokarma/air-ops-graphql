@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
 import { RolesService } from 'src/roles/services/roles.service';
+import { RoleType } from 'src/app-constants/enums';
 
 @Injectable()
 export class UsersService extends MongooseQueryService<UserEntity> {
@@ -55,7 +56,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       email: user.email,
       password: user.password,
       roleType: user.roleType,
-      role: { roleType: role.roleType, name: role.name },
+      role: { roleType: role?.roleType || RoleType.USER, name: role.name },
     };
   }
 }

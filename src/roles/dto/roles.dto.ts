@@ -2,23 +2,34 @@ import {
   FilterableField,
   PagingStrategies,
   QueryOptions,
+  Relation,
   UnPagedRelation,
 } from '@app/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
-import { RoleType } from 'src/app-constants/enums';
+import { Permissions, ResourceAction, RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { ResourceDto } from 'src/resource/dto/resource.dto';
 import { RolePermissionDTO } from 'src/role-permission/dto/role-permission.dto';
+
+@ObjectType()
+@InputType('accessPermissionInput')
+export class AccessPermissionInput {
+  @Field()
+  resource: string;
+  @Field(() => [ResourceAction])
+  action: ResourceAction[];
+}
 
 @ObjectType('role', { description: 'User Roles' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@UnPagedRelation('rolePermissions', () => RolePermissionDTO, {
-  disableRemove: true,
-  nullable: true,
-})
+// @UnPagedRelation('resources', () => ResourceDto, {
+//   disableRemove: true,
+//   nullable: true,
+// })
 export class RoleDTO extends BaseDTO {
   @FilterableField(() => RoleType)
   roleType: RoleType;
@@ -26,6 +37,12 @@ export class RoleDTO extends BaseDTO {
   @FilterableField()
   name: string;
   @IsString()
-  @Field()
+  @Field({ nullable: true })
   description: string;
+  // @Field(() => [Permissions])
+  // permissions: Permissions[];
+  // @Field(() => [String])
+  // resources: string[];
+  @Field(() => [AccessPermissionInput])
+  accessPermission: AccessPermissionInput[];
 }

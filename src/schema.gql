@@ -2,12 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddRolePermissionsToRoleInput {
-  """The id of the record."""
-  id: ID!
-
-  """The ids of the relations."""
-  relationIds: [ID!]!
+type AccessPermissionInput {
+  action: [ResourceAction!]!
+  resource: String!
 }
 
 """Aircraft"""
@@ -597,6 +594,11 @@ input CreateManyRepresentativesInput {
   representatives: [CreateRepresentative!]!
 }
 
+input CreateManyResourcesInput {
+  """Array of records to create"""
+  resources: [CreateResource!]!
+}
+
 input CreateManyRolePermissionsInput {
   """Array of records to create"""
   rolePermissions: [CreateRolePermission!]!
@@ -645,6 +647,11 @@ input CreateOneQuoteInput {
 input CreateOneRepresentativeInput {
   """The record to create"""
   representative: CreateRepresentative!
+}
+
+input CreateOneResourceInput {
+  """The record to create"""
+  resource: CreateResource!
 }
 
 input CreateOneRoleInput {
@@ -747,7 +754,35 @@ input CreateRepresentative {
   updatedBy: String
 }
 
+input CreateResource {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  icon: String
+  id: ID
+  isActive: Boolean = true
+  menu: String
+  segment: String
+  title: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateRole {
+  accessPermission: [accessPermissionInput!]
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -866,6 +901,11 @@ input DeleteManyRepresentativesInput {
   filter: representativeDeleteFilter!
 }
 
+input DeleteManyResourcesInput {
+  """Filter to find records to delete"""
+  filter: resourceDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
@@ -921,6 +961,11 @@ input DeleteOneRepresentativeInput {
   id: ID!
 }
 
+input DeleteOneResourceInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneRoleInput {
   """The id of the record to delete."""
   id: ID!
@@ -949,7 +994,6 @@ input LoginInput {
 }
 
 type Mutation {
-  addRolePermissionsToRole(input: AddRolePermissionsToRoleInput!): role!
   createManyAircraft(input: CreateManyAircraftInput!): [Aircraft!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
@@ -957,6 +1001,7 @@ type Mutation {
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
   createManyRepresentatives(input: CreateManyRepresentativesInput!): [representative!]!
+  createManyResources(input: CreateManyResourcesInput!): [resource!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
@@ -967,6 +1012,7 @@ type Mutation {
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
   createOneRepresentative(input: CreateOneRepresentativeInput!): representative!
+  createOneResource(input: CreateOneResourceInput!): resource!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneUser(input: CreateOneUserInput!): User!
@@ -977,6 +1023,7 @@ type Mutation {
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
   deleteManyRepresentatives(input: DeleteManyRepresentativesInput!): DeleteManyResponse!
+  deleteManyResources(input: DeleteManyResourcesInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
@@ -987,6 +1034,7 @@ type Mutation {
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
   deleteOneRepresentative(input: DeleteOneRepresentativeInput!): RepresentativeDeleteResponse!
+  deleteOneResource(input: DeleteOneResourceInput!): ResourceDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
@@ -998,7 +1046,6 @@ type Mutation {
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
-  setRolePermissionsOnRole(input: SetRolePermissionsOnRoleInput!): role!
   signUp(input: SignUpInput!): User!
   updateManyAircraft(input: UpdateManyAircraftInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
@@ -1007,6 +1054,7 @@ type Mutation {
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
   updateManyRepresentatives(input: UpdateManyRepresentativesInput!): UpdateManyResponse!
+  updateManyResources(input: UpdateManyResourcesInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
@@ -1017,6 +1065,7 @@ type Mutation {
   updateOnePrice(input: UpdateOnePriceInput!): price!
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
   updateOneRepresentative(input: UpdateOneRepresentativeInput!): representative!
+  updateOneResource(input: UpdateOneResourceInput!): resource!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
@@ -1184,6 +1233,20 @@ type Query {
     """Specify to sort results."""
     sorting: [representativeSort!]! = []
   ): RepresentativeConnection!
+  resource(
+    """The id of the record to find."""
+    id: ID!
+  ): resource
+  resources(
+    """Specify to filter the records returned."""
+    filter: resourceFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [resourceSort!]! = []
+  ): ResourceConnection!
   role(
     """The id of the record to find."""
     id: ID!
@@ -1470,6 +1533,50 @@ type RepresentativeDeleteResponse {
   updatedBy: String
 }
 
+enum ResourceAction {
+  CREATE
+  DELETE
+  READ
+  UPDATE
+}
+
+type ResourceConnection {
+  """Array of nodes."""
+  nodes: [resource!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type ResourceDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  icon: String
+  id: ID
+  isActive: Boolean
+  menu: String
+  segment: String
+  title: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 type RoleConnection {
   """Array of nodes."""
   nodes: [role!]!
@@ -1482,6 +1589,8 @@ type RoleConnection {
 }
 
 type RoleDeleteResponse {
+  accessPermission: [AccessPermissionInput!]
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -1618,7 +1727,10 @@ input RolePermissionUpdateFilter {
 
 enum RoleType {
   ADMIN
+  OPERATOR
   PARTNER
+  SALES
+  SITE_ADMIN
   USER
 }
 
@@ -1701,14 +1813,6 @@ input SetRoleOnUserInput {
 
   """The id of relation."""
   relationId: ID!
-}
-
-input SetRolePermissionsOnRoleInput {
-  """The id of the record."""
-  id: ID!
-
-  """The ids of the relations."""
-  relationIds: [ID!]!
 }
 
 input SignInInput {
@@ -1920,6 +2024,14 @@ input UpdateManyRepresentativesInput {
   update: UpdateRepresentative!
 }
 
+input UpdateManyResourcesInput {
+  """Filter used to find fields to update"""
+  filter: resourceUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateResource!
+}
+
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
@@ -2003,6 +2115,14 @@ input UpdateOneRepresentativeInput {
 
   """The update to apply."""
   update: UpdateRepresentative!
+}
+
+input UpdateOneResourceInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateResource!
 }
 
 input UpdateOneRoleInput {
@@ -2114,7 +2234,35 @@ input UpdateRepresentative {
   updatedBy: String
 }
 
+input UpdateResource {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  icon: String
+  id: ID
+  isActive: Boolean = true
+  menu: String
+  segment: String
+  title: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateRole {
+  accessPermission: [accessPermissionInput!]
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -2351,6 +2499,11 @@ input UserUpdateFilter {
   phone: StringFieldComparison
   role: StringFieldComparison
   roleType: RoleTypeFilterComparison
+}
+
+input accessPermissionInput {
+  action: [ResourceAction!]!
+  resource: String!
 }
 
 """Client"""
@@ -2673,8 +2826,8 @@ input representativeUpdateFilter {
   phone: StringFieldComparison
 }
 
-"""User Roles"""
-type role {
+"""resource"""
+type resource {
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -2686,17 +2839,89 @@ type role {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  description: String!
+  icon: String!
+  id: ID!
+  isActive: Boolean!
+  menu: String!
+  segment: String!
+  title: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type resourceAggregateGroupBy {
+  isActive: Boolean
+  menu: String
+}
+
+type resourceCountAggregate {
+  isActive: Int
+  menu: Int
+}
+
+input resourceDeleteFilter {
+  and: [resourceDeleteFilter!]
+  isActive: BooleanFieldComparison
+  menu: StringFieldComparison
+  or: [resourceDeleteFilter!]
+}
+
+input resourceFilter {
+  and: [resourceFilter!]
+  isActive: BooleanFieldComparison
+  menu: StringFieldComparison
+  or: [resourceFilter!]
+}
+
+type resourceMaxAggregate {
+  menu: String
+}
+
+type resourceMinAggregate {
+  menu: String
+}
+
+input resourceSort {
+  direction: SortDirection!
+  field: resourceSortFields!
+  nulls: SortNulls
+}
+
+enum resourceSortFields {
+  isActive
+  menu
+}
+
+input resourceUpdateFilter {
+  and: [resourceUpdateFilter!]
+  isActive: BooleanFieldComparison
+  menu: StringFieldComparison
+  or: [resourceUpdateFilter!]
+}
+
+"""User Roles"""
+type role {
+  accessPermission: [AccessPermissionInput!]!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  description: String
   id: ID!
   isActive: Boolean!
   name: String!
-  rolePermissions(
-    """Specify to filter the records returned."""
-    filter: RolePermissionFilter! = {}
-
-    """Specify to sort results."""
-    sorting: [RolePermissionSort!]! = []
-  ): [RolePermission!]
   roleType: RoleType!
 
   """The date when the record was last updated"""

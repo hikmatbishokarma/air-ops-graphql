@@ -1,6 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { RoleType } from 'src/app-constants/enums';
+import { SchemaTypes, Types } from 'mongoose';
+import { Permissions, ResourceAction, RoleType } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
+
+@Schema({ _id: false, timestamps: false })
+export class AccessPermission {
+  @Prop()
+  resource: string;
+  @Prop({ type: [String], enum: ResourceAction })
+  action: ResourceAction[];
+}
 
 @Schema({ collection: 'roles' })
 export class RoleEntity extends BaseEntity {
@@ -10,13 +19,16 @@ export class RoleEntity extends BaseEntity {
   name!: string;
   @Prop()
   description: string;
+  // @Prop({ type: [String], enum: Permissions })
+  // permissions: Permissions[];
+
+  // @Prop({
+  //   type: [{ type: SchemaTypes.ObjectId, ref: 'ResourceEntity' }],
+  //   required: false,
+  // })
+  // resources: [Types.ObjectId];
+  @Prop({ type: [AccessPermission] })
+  accessPermission: AccessPermission[];
 }
 
 export const RoleSchema = SchemaFactory.createForClass(RoleEntity);
-RoleSchema.index({ roleType: 1, roleName: 1 }, { unique: true });
-
-RoleSchema.virtual('rolePermissions', {
-  ref: 'RolePermissionEntity',
-  localField: '_id',
-  foreignField: 'role',
-});

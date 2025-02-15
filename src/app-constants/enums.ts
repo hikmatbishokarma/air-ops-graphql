@@ -5,6 +5,9 @@ import { registerEnumType } from '@nestjs/graphql';
 export enum RoleType {
   ADMIN = 'ADMIN',
   PARTNER = 'PARTNER',
+  SALES = 'SALES',
+  OPERATOR = 'OPERATOR',
+  SITE_ADMIN = 'SITE ADMIN',
   USER = 'USER',
 }
 
@@ -51,4 +54,15 @@ export enum QuoteStatus {
 
 registerEnumType(QuoteStatus, {
   name: 'QuoteStatus',
+});
+
+export enum Permissions {
+  READ = 'READ',
+  WRITE = 'WRITE',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+}
+
+registerEnumType(Permissions, {
+  name: 'Permissions',
 });
