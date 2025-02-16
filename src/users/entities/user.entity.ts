@@ -12,7 +12,7 @@ export class UserEntity extends BaseEntity {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: false, unique: true })
+  @Prop({ required: false })
   phone: string;
 
   @Prop({ required: true })
