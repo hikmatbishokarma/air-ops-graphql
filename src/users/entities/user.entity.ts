@@ -24,8 +24,8 @@ export class UserEntity extends BaseEntity {
   @Prop()
   image: string;
 
-  @Prop({ type: String, required: true, enum: RoleType })
-  roleType: RoleType;
+  // @Prop({ type: String, required: true, enum: RoleType })
+  // roleType: RoleType;
 
   @Prop({ type: Types.ObjectId, ref: 'RoleEntity', required: true })
   role: Types.ObjectId;

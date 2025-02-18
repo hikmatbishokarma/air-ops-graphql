@@ -781,7 +781,7 @@ input CreateResource {
 }
 
 input CreateRole {
-  accessPermission: [accessPermissionInput!]
+  accessPermissions: [accessPermissionInput!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -798,7 +798,7 @@ input CreateRole {
   id: ID
   isActive: Boolean = true
   name: String
-  roleType: RoleType
+  type: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -853,7 +853,6 @@ input CreateUser {
   password: String
   phone: String
   role: String
-  roleType: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1582,7 +1581,7 @@ type RoleConnection {
 }
 
 type RoleDeleteResponse {
-  accessPermission: [AccessPermissionInput!]
+  accessPermissions: [AccessPermissionInput!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1599,13 +1598,19 @@ type RoleDeleteResponse {
   id: ID
   isActive: Boolean
   name: String
-  roleType: RoleType
+  type: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+}
+
+type RoleInput {
+  accessPermissions: [JSONObject!]!
+  name: String!
+  type: String!
 }
 
 """Role Permission"""
@@ -2254,7 +2259,7 @@ input UpdateResource {
 }
 
 input UpdateRole {
-  accessPermission: [accessPermissionInput!]
+  accessPermissions: [accessPermissionInput!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2271,7 +2276,7 @@ input UpdateRole {
   id: ID
   isActive: Boolean = true
   name: String
-  roleType: RoleType
+  type: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2326,7 +2331,6 @@ input UpdateUser {
   password: String
   phone: String
   role: String
-  roleType: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2358,7 +2362,6 @@ type User {
   password: String!
   phone: String
   role: role!
-  roleType: RoleType!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2373,7 +2376,6 @@ type UserAggregateGroupBy {
   name: String
   phone: String
   role: String
-  roleType: RoleType
 }
 
 type UserConnection {
@@ -2393,7 +2395,6 @@ type UserCountAggregate {
   name: Int
   phone: Int
   role: Int
-  roleType: Int
 }
 
 input UserDeleteFilter {
@@ -2404,7 +2405,6 @@ input UserDeleteFilter {
   or: [UserDeleteFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
-  roleType: RoleTypeFilterComparison
 }
 
 type UserDeleteResponse {
@@ -2429,7 +2429,6 @@ type UserDeleteResponse {
   password: String
   phone: String
   role: String
-  roleType: RoleType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2446,13 +2445,12 @@ input UserFilter {
   or: [UserFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
-  roleType: RoleTypeFilterComparison
 }
 
 type UserInput {
   email: String!
   name: String!
-  roleType: String!
+  role: RoleInput!
 }
 
 type UserMaxAggregate {
@@ -2460,7 +2458,6 @@ type UserMaxAggregate {
   name: String
   phone: String
   role: String
-  roleType: RoleType
 }
 
 type UserMinAggregate {
@@ -2468,7 +2465,6 @@ type UserMinAggregate {
   name: String
   phone: String
   role: String
-  roleType: RoleType
 }
 
 input UserSort {
@@ -2483,7 +2479,6 @@ enum UserSortFields {
   name
   phone
   role
-  roleType
 }
 
 input UserUpdateFilter {
@@ -2494,7 +2489,6 @@ input UserUpdateFilter {
   or: [UserUpdateFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
-  roleType: RoleTypeFilterComparison
 }
 
 input accessPermissionInput {
@@ -2901,7 +2895,7 @@ input resourceUpdateFilter {
 
 """User Roles"""
 type role {
-  accessPermission: [AccessPermissionInput!]!
+  accessPermissions: [AccessPermissionInput!]!
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2918,7 +2912,7 @@ type role {
   id: ID!
   isActive: Boolean!
   name: String!
-  roleType: RoleType!
+  type: RoleType!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2930,13 +2924,13 @@ type role {
 type roleAggregateGroupBy {
   isActive: Boolean
   name: String
-  roleType: RoleType
+  type: RoleType
 }
 
 type roleCountAggregate {
   isActive: Int
   name: Int
-  roleType: Int
+  type: Int
 }
 
 input roleDeleteFilter {
@@ -2944,7 +2938,7 @@ input roleDeleteFilter {
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleDeleteFilter!]
-  roleType: RoleTypeFilterComparison
+  type: RoleTypeFilterComparison
 }
 
 input roleFilter {
@@ -2952,17 +2946,23 @@ input roleFilter {
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleFilter!]
-  roleType: RoleTypeFilterComparison
+  type: RoleTypeFilterComparison
+}
+
+input roleInput {
+  accessPermissions: [JSONObject!]!
+  name: String!
+  type: String!
 }
 
 type roleMaxAggregate {
   name: String
-  roleType: RoleType
+  type: RoleType
 }
 
 type roleMinAggregate {
   name: String
-  roleType: RoleType
+  type: RoleType
 }
 
 input roleSort {
@@ -2974,7 +2974,7 @@ input roleSort {
 enum roleSortFields {
   isActive
   name
-  roleType
+  type
 }
 
 input roleUpdateFilter {
@@ -2982,11 +2982,11 @@ input roleUpdateFilter {
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleUpdateFilter!]
-  roleType: RoleTypeFilterComparison
+  type: RoleTypeFilterComparison
 }
 
 input userInput {
   email: String!
   name: String!
-  roleType: String!
+  role: roleInput!
 }

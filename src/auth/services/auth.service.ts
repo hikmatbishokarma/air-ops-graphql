@@ -47,11 +47,10 @@ export class AuthService {
     const payload = {
       sub: user.id,
       userName,
-      roleType: user.roleType,
       role: {
-        roleType: user?.role?.roleType,
+        type: user?.role?.type,
         name: user?.role.name,
-        accessPermission: user.role.accessPermission,
+        accessPermissions: user.role.accessPermissions,
       },
     };
     return {
@@ -59,7 +58,7 @@ export class AuthService {
       user: {
         name: user.name,
         email: user.email,
-        roleType: user.roleType,
+        type: user?.role?.type,
         role: payload.role,
       },
     };
@@ -76,7 +75,6 @@ export class AuthService {
       name,
       email,
       password,
-      roleType: RoleType.USER,
       role: role?.id,
     };
 

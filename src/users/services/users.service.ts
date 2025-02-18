@@ -36,7 +36,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
 
   async getRoleByType(roleType) {
     const [role] = await this.roleService.query({
-      filter: { roleType: { eq: roleType } },
+      filter: { type: { eq: roleType } },
     });
     return role;
   }
@@ -55,11 +55,10 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       name: user.name,
       email: user.email,
       password: user.password,
-      roleType: user.roleType,
       role: {
-        roleType: role?.roleType || RoleType.USER,
+        type: role?.type || RoleType.USER,
         name: role.name,
-        accessPermission: role.accessPermission,
+        accessPermissions: role.accessPermissions,
       },
     };
   }

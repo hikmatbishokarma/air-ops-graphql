@@ -32,7 +32,7 @@ export class AccessPermissionInput {
 // })
 export class RoleDTO extends BaseDTO {
   @FilterableField(() => RoleType)
-  roleType: RoleType;
+  type: RoleType;
   @IsString()
   @FilterableField()
   name: string;
@@ -44,5 +44,5 @@ export class RoleDTO extends BaseDTO {
   // @Field(() => [String])
   // resources: string[];
   @Field(() => [AccessPermissionInput])
-  accessPermission: AccessPermissionInput[];
+  accessPermissions: AccessPermissionInput[];
 }

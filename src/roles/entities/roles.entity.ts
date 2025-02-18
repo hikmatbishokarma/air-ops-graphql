@@ -14,7 +14,7 @@ export class AccessPermission {
 @Schema({ collection: 'roles' })
 export class RoleEntity extends BaseEntity {
   @Prop({ type: String, enum: RoleType })
-  roleType: RoleType;
+  type: RoleType;
   @Prop()
   name!: string;
   @Prop()
@@ -28,7 +28,7 @@ export class RoleEntity extends BaseEntity {
   // })
   // resources: [Types.ObjectId];
   @Prop({ type: [AccessPermission] })
-  accessPermission: AccessPermission[];
+  accessPermissions: AccessPermission[];
 }
 
 export const RoleSchema = SchemaFactory.createForClass(RoleEntity);
