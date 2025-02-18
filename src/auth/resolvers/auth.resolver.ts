@@ -10,11 +10,11 @@ import { UserDTO } from 'src/users/dto/users.dto';
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @Query(() => loginResponseDto)
-  async login(@Args('input') input: LoginInput) {
-    console.log('input', input);
-    return await this.authService.login(input);
-  }
+  // @Query(() => loginResponseDto)
+  // async login(@Args('input') input: LoginInput) {
+  //   console.log('input', input);
+  //   return await this.authService.login(input);
+  // }
 
   @Query(() => loginResponseDto)
   async signIn(@Args('input') input: SignInInput) {

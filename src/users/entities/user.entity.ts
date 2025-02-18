@@ -21,6 +21,9 @@ export class UserEntity extends BaseEntity {
   @Prop()
   addresses: string;
 
+  @Prop()
+  image: string;
+
   @Prop({ type: String, required: true, enum: RoleType })
   roleType: RoleType;
 

@@ -46,6 +46,9 @@ export class UserDTO extends BaseDTO {
   @Field({ nullable: true })
   addresses: string;
 
+  @Field({ nullable: true })
+  image: string;
+
   @FilterableField(() => RoleType)
   roleType: RoleType;
 

@@ -847,6 +847,7 @@ input CreateUser {
   deletedBy: String
   email: String
   id: ID
+  image: String
   isActive: Boolean = true
   name: String
   password: String
@@ -985,13 +986,6 @@ input DeleteOneUserInput {
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSONObject
-
-input LoginInput {
-  password: String!
-
-  """userName will be email or phone"""
-  userName: String!
-}
 
 type Mutation {
   createManyAircraft(input: CreateManyAircraftInput!): [Aircraft!]!
@@ -1190,7 +1184,6 @@ type Query {
     sorting: [clientSort!]! = []
   ): ClientConnection!
   getUser(id: String!): String!
-  login(input: LoginInput!): loginResponseDto!
   price(
     """The id of the record to find."""
     id: ID!
@@ -2327,6 +2320,7 @@ input UpdateUser {
   deletedBy: String
   email: String
   id: ID
+  image: String
   isActive: Boolean = true
   name: String
   password: String
@@ -2358,6 +2352,7 @@ type User {
   deletedBy: String
   email: String!
   id: ID!
+  image: String
   isActive: Boolean!
   name: String!
   password: String!
@@ -2428,6 +2423,7 @@ type UserDeleteResponse {
   deletedBy: String
   email: String
   id: ID
+  image: String
   isActive: Boolean
   name: String
   password: String

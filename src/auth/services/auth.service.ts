@@ -16,25 +16,25 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login({ userName, password }: LoginInput): Promise<loginResponseDto> {
-    console.log(userName, password);
-    const user = await this.usersService.getUserByUserName(userName);
+  // async login({ userName, password }: LoginInput): Promise<loginResponseDto> {
+  //   console.log(userName, password);
+  //   const user = await this.usersService.getUserByUserName(userName);
 
-    if (!user) throw new Error('User not found');
+  //   if (!user) throw new Error('User not found');
 
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch) throw new UnauthorizedException();
-    const payload = {
-      sub: user.id,
-      userName,
-      roleType: user.roleType,
-      role: { roleType: user?.role?.roleType, name: user?.role.name },
-    };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-      user: { name: user.name, email: user.email, roleType: user.roleType },
-    };
-  }
+  //   const isMatch = await comparePassword(password, user.password);
+  //   if (!isMatch) throw new UnauthorizedException();
+  //   const payload = {
+  //     sub: user.id,
+  //     userName,
+  //     roleType: user.roleType,
+  //     role: { roleType: user?.role?.roleType, name: user?.role.name },
+  //   };
+  //   return {
+  //     access_token: await this.jwtService.signAsync(payload),
+  //     user: { name: user.name, email: user.email, roleType: user.roleType,accessPermission:[] },
+  //   };
+  // }
 
   async signIn({ userName, password }: SignInInput): Promise<any> {
     console.log(userName, password);
@@ -48,11 +48,20 @@ export class AuthService {
       sub: user.id,
       userName,
       roleType: user.roleType,
-      role: { roleType: user?.role?.roleType, name: user?.role.name },
+      role: {
+        roleType: user?.role?.roleType,
+        name: user?.role.name,
+        accessPermission: user.role.accessPermission,
+      },
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
-      user: { name: user.name, email: user.email, roleType: user.roleType },
+      user: {
+        name: user.name,
+        email: user.email,
+        roleType: user.roleType,
+        role: payload.role,
+      },
     };
   }
 
