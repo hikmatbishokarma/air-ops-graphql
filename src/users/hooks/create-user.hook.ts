@@ -3,7 +3,7 @@ import { UserDTO } from '../dto/users.dto';
 import { GqlContextType } from '@nestjs/graphql';
 import { Injectable } from '@nestjs/common';
 import { RoleType } from 'src/app-constants/enums';
-import { hashPassword } from 'src/common/helper';
+import { generatePassword, hashPassword } from 'src/common/helper';
 import { RolesService } from 'src/roles/services/roles.service';
 
 @Injectable()
@@ -34,6 +34,10 @@ export class CreateUserHook<T extends UserDTO>
     //   const hashedPassword = await hashPassword(password);
     //   input.password = hashedPassword;
     // }
+
+    const _password = !password ? generatePassword(8) : password;
+    const hashedPassword = await hashPassword(_password);
+    input.password = hashedPassword;
 
     return instance;
   }
