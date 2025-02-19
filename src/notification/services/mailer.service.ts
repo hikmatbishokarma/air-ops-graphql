@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
@@ -20,6 +21,8 @@ export class MailerService {
       pass: 'bdwv lmcm gyud zkyb', //bdwv lmcm gyud zkyb
     },
   });
+
+  constructor(private readonly config: ConfigService) {}
 
   async sendEmail(to: string, subject: string, text: string, html?: string) {
     try {

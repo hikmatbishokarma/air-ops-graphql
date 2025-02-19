@@ -8,10 +8,12 @@ import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { UserDTO } from './dto/users.dto';
 import { RolesModule } from 'src/roles/roles.module';
 import { RolesService } from 'src/roles/services/roles.service';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
     RolesModule,
+    NotificationModule,
     // MongooseModule.forFeature([{ name: UserEntity.name, schema: UserSchema }]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
@@ -28,6 +30,7 @@ import { RolesService } from 'src/roles/services/roles.service';
         {
           DTOClass: UserDTO,
           EntityClass: UserEntity,
+          create: { one: { disabled: true } },
         },
       ],
     }),

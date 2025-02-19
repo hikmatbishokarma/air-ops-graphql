@@ -16,5 +16,13 @@ const config: any = {
   server: {
     port: Number(process.env.PORT),
   },
+  url: process.env.URL,
+  email: {
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    user: process.env.EMAIL_USER,
+    password: process.env.EMAIL_PASS,
+    secure: process.env.EMAIL_SECURE,
+  },
 };
 export default (): Config => config;

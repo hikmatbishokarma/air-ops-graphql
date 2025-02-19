@@ -66,3 +66,13 @@ export enum Permissions {
 registerEnumType(Permissions, {
   name: 'Permissions',
 });
+
+export enum Gender {
+  Mr = 'Mr',
+  Mrs = 'Mrs',
+  Miss = 'Miss',
+}
+
+registerEnumType(Gender, {
+  name: 'Gender',
+});

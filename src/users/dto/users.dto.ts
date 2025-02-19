@@ -8,17 +8,11 @@ import {
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsMobilePhone } from 'class-validator';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { RoleType } from 'src/app-constants/enums';
+import { Gender, RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { RoleDTO } from 'src/roles/dto/roles.dto';
 import { CreateUserHook } from '../hooks/create-user.hook';
 import { Exclude } from 'class-transformer';
-
-export class UserDTO1 {
-  id: number;
-  name: string;
-  password: string;
-}
 
 @ObjectType('User', { description: 'user dto' })
 @QueryOptions({
@@ -44,13 +38,22 @@ export class UserDTO extends BaseDTO {
   phone: string;
 
   @Field({ nullable: true })
-  addresses: string;
+  address: string;
+
+  @Field({ nullable: true })
+  city: string;
+
+  @Field({ nullable: true })
+  pinCode: string;
 
   @Field({ nullable: true })
   image: string;
 
-  // @FilterableField(() => RoleType)
-  // roleType: RoleType;
+  @Field({ nullable: true })
+  dob: string;
+
+  @Field(() => Gender, { nullable: true })
+  gender: Gender;
 
   @FilterableField()
   role: string;

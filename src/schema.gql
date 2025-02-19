@@ -664,11 +664,6 @@ input CreateOneRolePermissionInput {
   rolePermission: CreateRolePermission!
 }
 
-input CreateOneUserInput {
-  """The record to create"""
-  user: CreateUser!
-}
-
 input CreatePrice {
   aircraft: String
 
@@ -832,7 +827,8 @@ input CreateRolePermission {
 }
 
 input CreateUser {
-  addresses: String
+  address: String
+  city: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -845,13 +841,16 @@ input CreateUser {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  dob: String
   email: String
+  gender: Gender
   id: ID
   image: String
   isActive: Boolean = true
   name: String
   password: String
   phone: String
+  pinCode: String
   role: String
 
   """The date when the record was last updated"""
@@ -859,6 +858,10 @@ input CreateUser {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+}
+
+input CreateUserInput {
+  user: UserInputDto!
 }
 
 """
@@ -981,6 +984,12 @@ input DeleteOneUserInput {
   id: ID!
 }
 
+enum Gender {
+  Miss
+  Mr
+  Mrs
+}
+
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -1020,7 +1029,7 @@ type Mutation {
   createOneResource(input: CreateOneResourceInput!): resource!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
-  createOneUser(input: CreateOneUserInput!): User!
+  createOneUser(input: CreateUserInput!): User!
   deleteManyAircraft(input: DeleteManyAircraftInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
@@ -2323,7 +2332,8 @@ input UpdateRolePermission {
 }
 
 input UpdateUser {
-  addresses: String
+  address: String
+  city: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2336,13 +2346,16 @@ input UpdateUser {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  dob: String
   email: String
+  gender: Gender
   id: ID
   image: String
   isActive: Boolean = true
   name: String
   password: String
   phone: String
+  pinCode: String
   role: String
 
   """The date when the record was last updated"""
@@ -2354,7 +2367,8 @@ input UpdateUser {
 
 """user dto"""
 type User {
-  addresses: String
+  address: String
+  city: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2367,13 +2381,16 @@ type User {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  dob: String
   email: String!
+  gender: Gender
   id: ID!
   image: String
   isActive: Boolean!
   name: String!
   password: String!
   phone: String
+  pinCode: String
   role: role!
 
   """The date when the record was last updated"""
@@ -2421,7 +2438,8 @@ input UserDeleteFilter {
 }
 
 type UserDeleteResponse {
-  addresses: String
+  address: String
+  city: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2434,13 +2452,16 @@ type UserDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  dob: String
   email: String
+  gender: Gender
   id: ID
   image: String
   isActive: Boolean
   name: String
   password: String
   phone: String
+  pinCode: String
   role: String
 
   """The date when the record was last updated"""
@@ -2464,6 +2485,14 @@ type UserInput {
   email: String!
   name: String!
   role: RoleInput!
+}
+
+input UserInputDto {
+  email: String!
+  name: String!
+  password: String
+  phone: String
+  role: String!
 }
 
 type UserMaxAggregate {
