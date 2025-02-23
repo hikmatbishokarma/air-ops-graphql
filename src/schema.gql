@@ -984,10 +984,15 @@ input DeleteOneUserInput {
   id: ID!
 }
 
+type ForgotPasswordDto {
+  message: String!
+  status: Boolean!
+}
+
 enum Gender {
-  Miss
-  Mr
-  Mrs
+  FEMALE
+  MALE
+  OTHER
 }
 
 """
@@ -1052,6 +1057,8 @@ type Mutation {
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  forgotPassword(email: String!): ForgotPasswordDto!
+  resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
   sendEmail(input: MailerInput!): MailerResponseDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
@@ -1545,6 +1552,18 @@ type RepresentativeDeleteResponse {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+}
+
+type ResetPasswordDto {
+  message: String!
+  status: Boolean!
+}
+
+input ResetPasswordInput {
+  confirmPwd: String!
+  currentPwd: String!
+  newPwd: String!
+  userId: String!
 }
 
 enum ResourceAction {
@@ -2483,6 +2502,7 @@ input UserFilter {
 
 type UserInput {
   email: String!
+  id: String!
   name: String!
   role: RoleInput!
 }
@@ -3029,6 +3049,7 @@ input roleUpdateFilter {
 
 input userInput {
   email: String!
+  id: String!
   name: String!
   role: roleInput!
 }

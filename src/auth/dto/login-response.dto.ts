@@ -16,6 +16,8 @@ export class RoleInput {
 @InputType('userInput')
 export class UserInput {
   @Field()
+  id: string;
+  @Field()
   name: string;
   @Field()
   email: string;

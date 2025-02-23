@@ -68,9 +68,9 @@ registerEnumType(Permissions, {
 });
 
 export enum Gender {
-  Mr = 'Mr',
-  Mrs = 'Mrs',
-  Miss = 'Miss',
+  MALE = 'Male',
+  FEMALE = 'Female',
+  OTHER = 'Other',
 }
 
 registerEnumType(Gender, {

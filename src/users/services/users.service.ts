@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserDTO } from '../dto/users.dto';
 
 import { UserEntity } from '../entities/user.entity';
@@ -7,7 +12,11 @@ import { Model } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
 import { RolesService } from 'src/roles/services/roles.service';
 import { RoleType } from 'src/app-constants/enums';
-import { generatePassword, hashPassword } from 'src/common/helper';
+import {
+  comparePassword,
+  generatePassword,
+  hashPassword,
+} from 'src/common/helper';
 import { MailerService } from 'src/notification/services/mailer.service';
 import { ConfigService } from '@nestjs/config';
 
@@ -91,5 +100,71 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     } else {
       throw new Error('Failed to create user');
     }
+  }
+
+  async forgotPassword(email: string) {
+    const [user] = await this.query({ filter: { email: { eq: email } } });
+    if (user) {
+      const tempPassword = generatePassword(8);
+
+      const hashedPassword = await hashPassword(tempPassword);
+
+      const updatePwd = await this.updateOne(user.id, {
+        password: hashedPassword,
+      });
+      if (updatePwd) {
+        /**
+         * notify user with random password
+         */
+        const subject = 'Your Temporary Password for Login';
+        const text = `Dear ${user.name},\n\nWe received a request to reset your password. Here are your temporary login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease use the link below to log in and reset your password immediately:\n\nReset Password: ${this.url}reset-password\n\nIf you didn’t request this, please ignore this email or contact our support team.\n\nBest regards,\nAirops Support Team`;
+
+        this.mailerService.sendEmail(user.email, subject, text);
+        return {
+          message: `Temporary password send to your register email:${user.email}`,
+          status: true,
+        };
+      } else return { message: `Failed to reset password`, status: false };
+    } else
+      return {
+        message: `Provided email: ${email} doesn't exist`,
+        status: false,
+      };
+  }
+
+  async resetPassword(
+    userId,
+    currentPwd: string,
+    newPwd: string,
+    confirmPwd: string,
+  ) {
+    const [user] = await this.query({ filter: { id: { eq: userId } } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isMatch = await comparePassword(currentPwd, user.password);
+    if (!isMatch)
+      throw new UnauthorizedException('Current password is incorrect');
+    if (newPwd !== confirmPwd) {
+      throw new BadRequestException(
+        'New password does not match confirmation password',
+      );
+    }
+
+    const hashedPassword = await hashPassword(newPwd);
+
+    const updatePwd = await this.updateOne(user.id, {
+      password: hashedPassword,
+    });
+
+    if (!updatePwd) {
+      throw new BadRequestException('Failed to reset password');
+    }
+    return {
+      status: true,
+      message: 'Password reset successfully',
+    };
   }
 }

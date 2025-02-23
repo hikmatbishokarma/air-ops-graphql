@@ -2,7 +2,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/services/users.service';
 
-import { comparePassword, hashPassword } from 'src/common/helper';
+import {
+  comparePassword,
+  generatePassword,
+  hashPassword,
+} from 'src/common/helper';
 import { loginResponseDto } from '../dto/login-response.dto';
 import { LoginInput } from '../inputs/login.input';
 import { SignInInput } from '../inputs/sign-in.input';
@@ -56,6 +60,7 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
         type: user?.role?.type,
@@ -81,5 +86,19 @@ export class AuthService {
     const createUser = await this.usersService.createOne(payload);
     if (!createUser) throw new Error('Failed To Signup User');
     return createUser;
+  }
+
+  async forgotPassword(email: string) {
+    return await this.usersService.forgotPassword(email);
+  }
+
+  async resetPassword(args) {
+    const { userId, currentPwd, newPwd, confirmPwd } = args;
+    return await this.usersService.resetPassword(
+      userId,
+      currentPwd,
+      newPwd,
+      confirmPwd,
+    );
   }
 }
