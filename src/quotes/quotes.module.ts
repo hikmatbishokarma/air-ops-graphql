@@ -31,5 +31,6 @@ import { AircraftsModule } from 'src/aircrafts/aircrafts.module';
     }),
   ],
   providers: [QuotesService, QuotesResolver],
+  exports: [QuotesService],
 })
 export class QuotesModule {}

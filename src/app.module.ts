@@ -20,6 +20,7 @@ import { PriceModule } from './price/price.module';
 import { RepresentativeModule } from './representative/representative.module';
 import { ResourceModule } from './resource/resource.module';
 import { NotificationModule } from './notification/notification.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { NotificationModule } from './notification/notification.module';
     RepresentativeModule,
     ResourceModule,
     NotificationModule,
+    DashboardModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

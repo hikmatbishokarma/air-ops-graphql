@@ -76,3 +76,14 @@ export enum Gender {
 registerEnumType(Gender, {
   name: 'Gender',
 });
+
+export enum DateRange {
+  today = 'today',
+  yesterday = 'yesterday',
+  lastWeek = '7d',
+  lastMonth = '30d',
+  custom = 'custom',
+}
+registerEnumType(DateRange, {
+  name: 'DateRange',
+});

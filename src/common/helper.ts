@@ -38,3 +38,44 @@ export function generatePassword(length) {
   }
   return password;
 }
+
+export function getDateRangeFilter(
+  range: string,
+  startDate?: string,
+  endDate?: string,
+) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let filter = {};
+
+  switch (range) {
+    case 'today':
+      filter = { createdAt: { $gte: today } };
+      break;
+    case 'yesterday':
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      filter = { createdAt: { $gte: yesterday, $lt: today } };
+      break;
+    case '7d':
+      const lastWeek = new Date();
+      lastWeek.setDate(today.getDate() - 7);
+      filter = { createdAt: { $gte: lastWeek } };
+      break;
+    case '30d':
+      const lastMonth = new Date();
+      lastMonth.setDate(today.getDate() - 30);
+      filter = { createdAt: { $gte: lastMonth } };
+      break;
+    case 'custom':
+      if (startDate && endDate) {
+        filter = {
+          createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        };
+      }
+      break;
+  }
+
+  return filter;
+}
