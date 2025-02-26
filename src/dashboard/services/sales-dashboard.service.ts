@@ -21,9 +21,9 @@ export class SalesDashboardService {
       revenueTrend,
       latestQuotations,
     ] = await Promise.all([
-      this.getSummary(filter),
+      this.getSalesSummary(filter),
       this.getSalesTrend(filter),
-      //   this.getQuotationStatus(filter),
+      this.getQuotationStatus(filter),
       this.getRevenueTrend(filter),
       this.getLatestQuotations(),
     ]);
@@ -31,7 +31,7 @@ export class SalesDashboardService {
     return {
       summary,
       salesTrend,
-      //   quotationStatusDistribution: statusDistribution,
+      quotationStatusDistribution: statusDistribution,
       revenueTrend,
       latestQuotations,
     };
@@ -43,17 +43,101 @@ export class SalesDashboardService {
       {
         $group: {
           _id: '$status',
-          count: { $sum: 1 },
+          value: { $sum: 1 },
         },
       },
       {
         $project: {
           _id: 0, // Remove original _id
-          status: '$_id', //
-          count: 1,
+          label: '$_id', //
+          value: 1,
         },
       },
     ]);
+  }
+
+  private async getSalesSummary(filter) {
+    const salesSummary = await this.quoteService.Model.aggregate([
+      {
+        $match: filter,
+      },
+      {
+        $group: {
+          _id: null, // No grouping by month, we need a single summary
+          totalQuotations: { $sum: 1 },
+          newQuotations: {
+            $sum: { $cond: [{ $eq: ['$status', 'new request'] }, 1, 0] },
+          },
+          confirmedQuotations: {
+            $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
+          },
+          sales: {
+            $sum: { $cond: [{ $eq: ['$status', 'Sold'] }, 1, 0] },
+          },
+          cancellations: {
+            $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Remove _id
+          newQuotations: 1,
+          totalQuotations: 1,
+          confirmedQuotations: 1,
+          sales: 1,
+          cancellations: 1,
+          confirmRatio: {
+            $cond: [
+              { $eq: ['$totalQuotations', 0] },
+              0,
+              {
+                $multiply: [
+                  { $divide: ['$confirmedQuotations', '$totalQuotations'] },
+                  100,
+                ],
+              },
+            ],
+          },
+          confirmToSalesRatio: {
+            $cond: [
+              { $eq: ['$confirmedQuotations', 0] },
+              0,
+              {
+                $multiply: [
+                  { $divide: ['$sales', '$confirmedQuotations'] },
+                  100,
+                ],
+              },
+            ],
+          },
+          confirmToCancelRatio: {
+            $cond: [
+              { $eq: ['$confirmedQuotations', 0] },
+              0,
+              {
+                $multiply: [
+                  { $divide: ['$cancellations', '$confirmedQuotations'] },
+                  100,
+                ],
+              },
+            ],
+          },
+        },
+      },
+    ]);
+
+    return (
+      salesSummary[0] || {
+        totalQuotations: 0,
+        confirmedQuotations: 0,
+        sales: 0,
+        cancellations: 0,
+        confirmRatio: 0,
+        confirmToSalesRatio: 0,
+        confirmToCancelRatio: 0,
+      }
+    );
   }
 
   private async getSalesTrend(filter) {
@@ -85,7 +169,14 @@ export class SalesDashboardService {
       {
         $group: {
           _id: '$status',
-          count: { $sum: 1 },
+          value: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Remove original _id
+          label: '$_id', //
+          value: 1,
         },
       },
     ]);
