@@ -5,7 +5,7 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
 import { AircraftsDto } from 'src/aircrafts/dto/aircrafts.dto';
@@ -13,6 +13,7 @@ import { QuoteStatus } from 'src/app-constants/enums';
 import { ClientsDto } from 'src/clients/dto/clients.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { CreateQuoteHook } from '../hooks/create-quote.hook';
+import { PriceInputDto } from 'src/price/dto/price.dto';
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
@@ -45,4 +46,8 @@ export class QuotesDto extends BaseDTO {
   itinerary: Object[];
   @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.NEW_REQUEST })
   status: QuoteStatus;
+  @Field(() => [PriceInputDto])
+  prices: PriceInputDto[];
+  @Field(() => Float, { defaultValue: 0 })
+  grandTotal: number;
 }

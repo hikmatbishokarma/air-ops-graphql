@@ -705,9 +705,11 @@ input CreateQuote {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
   itinerary: [JSONObject!]
+  prices: [priceInput!]
   providerType: String
   referenceNumber: String
   representative: String
@@ -1338,9 +1340,11 @@ type Quote {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float!
   id: ID!
   isActive: Boolean!
   itinerary: [JSONObject!]!
+  prices: [PriceInputDto!]!
   providerType: String!
   referenceNumber: String!
   representative: String!
@@ -1415,9 +1419,11 @@ type QuoteDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float
   id: ID
   isActive: Boolean
   itinerary: [JSONObject!]
+  prices: [PriceInputDto!]
   providerType: String
   referenceNumber: String
   representative: String
@@ -2238,9 +2244,11 @@ input UpdateQuote {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
   itinerary: [JSONObject!]
+  prices: [priceInput!]
   providerType: String
   referenceNumber: String
   representative: String

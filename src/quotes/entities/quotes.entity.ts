@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types, Document } from 'mongoose';
 import { QuoteStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { PricesDto } from 'src/price/entities/price.entity';
 
 export class Segment {
   @Prop({ ref: 'LocationEntity', type: SchemaTypes.ObjectId, required: true })
@@ -50,6 +51,11 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.NEW_REQUEST })
   status: QuoteStatus;
+
+  @Prop({ type: [PricesDto] })
+  prices: PricesDto[];
+  @Prop()
+  grandTotal: number;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);
