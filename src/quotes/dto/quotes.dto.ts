@@ -8,12 +8,12 @@ import {
 import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
-import { AircraftsDto } from 'src/aircrafts/dto/aircrafts.dto';
 import { QuoteStatus } from 'src/app-constants/enums';
 import { ClientsDto } from 'src/clients/dto/clients.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { CreateQuoteHook } from '../hooks/create-quote.hook';
 import { PriceInputDto } from 'src/price/dto/price.dto';
+import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
@@ -21,7 +21,7 @@ import { PriceInputDto } from 'src/price/dto/price.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
-@Relation('aircraft', () => AircraftsDto, { disableRemove: true })
+@Relation('aircraft', () => AircraftDetailDto, { disableRemove: true })
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {

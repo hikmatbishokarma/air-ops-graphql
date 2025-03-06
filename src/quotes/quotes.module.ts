@@ -6,12 +6,12 @@ import { QuotesDto } from './dto/quotes.dto';
 import { QuotesService } from './services/quotes.service';
 import { AirportsModule } from 'src/airports/airports.module';
 import { QuotesResolver } from './resolvers/quotes.resolver';
-import { AircraftsModule } from 'src/aircrafts/aircrafts.module';
+import { AircraftDetailModule } from 'src/aircraft-detail/aircraft-detail.module';
 
 @Module({
   imports: [
     AirportsModule,
-    AircraftsModule,
+    AircraftDetailModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([

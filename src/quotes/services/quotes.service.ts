@@ -4,14 +4,14 @@ import { Model, ObjectId } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
 import { QuotesEntity } from '../entities/quotes.entity';
 import { AirportsService } from 'src/airports/services/airports.service';
-import { AircraftsService } from 'src/aircrafts/services/aircrafts.service';
+import { AircraftDetailService } from 'src/aircraft-detail/services/aircraft-detail.service';
 
 @Injectable()
 export class QuotesService extends MongooseQueryService<QuotesEntity> {
   constructor(
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
-    private readonly aircraftService: AircraftsService,
+    private readonly aircraftService: AircraftDetailService,
   ) {
     super(model);
   }

@@ -6,7 +6,8 @@ import {
 } from '@app/query-graphql';
 import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { AircraftsDto } from 'src/aircrafts/dto/aircrafts.dto';
+import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
+
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
 @ObjectType()
@@ -27,7 +28,7 @@ export class PriceInputDto {
 }
 
 @ObjectType('price', { description: 'price' })
-@Relation('aircraft', () => AircraftsDto, { disableRemove: true })
+@Relation('aircraft', () => AircraftDetailDto, { disableRemove: true })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,

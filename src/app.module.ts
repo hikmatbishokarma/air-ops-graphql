@@ -12,7 +12,6 @@ import { GqlConfigService } from './configs/gql-config.service';
 import { RolesModule } from './roles/roles.module';
 import { RolePermissionModule } from './role-permission/role-permission.module';
 import { AircraftCategoriesModule } from './aircraft-categories/aircraft-categories.module';
-import { AircraftsModule } from './aircrafts/aircrafts.module';
 import { AirportsModule } from './airports/airports.module';
 import { ClientsModule } from './clients/clients.module';
 import { QuotesModule } from './quotes/quotes.module';
@@ -21,6 +20,7 @@ import { RepresentativeModule } from './representative/representative.module';
 import { ResourceModule } from './resource/resource.module';
 import { NotificationModule } from './notification/notification.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     RolesModule,
     RolePermissionModule,
     AircraftCategoriesModule,
-    AircraftsModule,
+    AircraftDetailModule,
     AirportsModule,
     ClientsModule,
     QuotesModule,

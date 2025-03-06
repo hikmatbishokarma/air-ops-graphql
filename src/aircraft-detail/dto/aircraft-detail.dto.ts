@@ -17,15 +17,17 @@ export class specificationsDTO {
   name: string;
 }
 
-@ObjectType('Aircraft', { description: 'Aircraft' })
+@ObjectType('AircraftDetail', { description: 'Aircraft Detail' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
-export class AircraftsDto extends BaseDTO {
+export class AircraftDetailDto extends BaseDTO {
   @FilterableField()
   name: string;
+  @FilterableField()
+  code: string;
   @FilterableField()
   category: string;
   @Field()
