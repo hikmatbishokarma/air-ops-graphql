@@ -50,6 +50,7 @@ export enum QuoteStatus {
   INVOICE_SENT = 'invoice sent',
   BRIEFING_SENT = 'briefing sent',
   DONE = 'done',
+  UPGRADED = 'upgraded',
 }
 
 registerEnumType(QuoteStatus, {

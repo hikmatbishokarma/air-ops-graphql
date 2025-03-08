@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import * as puppeteer from 'puppeteer';
 
 @Injectable()
 export class MailerService {
@@ -24,7 +25,13 @@ export class MailerService {
 
   constructor(private readonly config: ConfigService) {}
 
-  async sendEmail(to: string, subject: string, text: string, html?: string) {
+  async sendEmail(
+    to: string,
+    subject: string,
+    text: string,
+    html?: string,
+    attachments?: any,
+  ) {
     try {
       await this.transporter.sendMail({
         from: `"Your App Name" <${process.env.EMAIL_USER}>`, // Custom sender name
@@ -32,11 +39,39 @@ export class MailerService {
         subject,
         text,
         html,
+        attachments,
       });
       return { success: true, message: 'Email sent successfully' };
     } catch (error) {
       console.error('Email sending error:', error);
       return { success: false, message: error.message };
     }
+  }
+
+  async createPDF(filePath: string, htmlContent: string): Promise<string> {
+    const isLocal = true;
+
+    const browser = await puppeteer.launch({
+      headless: true, // Use `true` instead of `"new"`
+      args: isLocal
+        ? []
+        : [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--single-process',
+          ],
+    });
+
+    const page = await browser.newPage();
+    await page.setContent(htmlContent);
+    // ✅ Alternative to waitForTimeout
+    // await page.waitForFunction(() => document.readyState === 'complete');
+
+    await page.pdf({ path: filePath, format: 'A4' });
+
+    await browser.close();
+    return filePath;
   }
 }

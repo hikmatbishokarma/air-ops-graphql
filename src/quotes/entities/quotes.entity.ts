@@ -56,6 +56,11 @@ export class QuotesEntity extends BaseEntity {
   prices: PricesDto[];
   @Prop()
   grandTotal: number;
+
+  @Prop({ default: 1 })
+  version: number;
+  @Prop({ default: false })
+  isLatest: boolean;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

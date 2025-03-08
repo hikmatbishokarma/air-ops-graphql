@@ -719,6 +719,7 @@ input CreateQuote {
   grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
+  isLatest: Boolean = false
   itinerary: [JSONObject!]
   prices: [priceInput!]
   providerType: String
@@ -732,6 +733,7 @@ input CreateQuote {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  version: Int = 1
 }
 
 input CreateRepresentative {
@@ -1236,6 +1238,7 @@ type Query {
     """Specify to sort results."""
     sorting: [clientSort!]! = []
   ): ClientConnection!
+  generateAndSendPdf: MailerResponseDto!
   getSalesDashboardData(endDate: String, range: DateRange! = today, startDate: String): JSONObject!
   getUser(id: String!): String!
   price(
@@ -1358,6 +1361,7 @@ type Quote {
   grandTotal: Float!
   id: ID!
   isActive: Boolean!
+  isLatest: Boolean!
   itinerary: [JSONObject!]!
   prices: [PriceInputDto!]!
   providerType: String!
@@ -1371,6 +1375,7 @@ type Quote {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  version: Int!
 }
 
 type QuoteAggregateGroupBy {
@@ -1437,6 +1442,7 @@ type QuoteDeleteResponse {
   grandTotal: Float
   id: ID
   isActive: Boolean
+  isLatest: Boolean
   itinerary: [JSONObject!]
   prices: [PriceInputDto!]
   providerType: String
@@ -1450,6 +1456,7 @@ type QuoteDeleteResponse {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  version: Int
 }
 
 input QuoteFilter {
@@ -1513,6 +1520,7 @@ enum QuoteStatus {
   OPPORTUNITY
   OPTION
   QUOTED
+  UPGRADED
 }
 
 input QuoteStatusFilterComparison {
@@ -2263,6 +2271,7 @@ input UpdateQuote {
   grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
+  isLatest: Boolean = false
   itinerary: [JSONObject!]
   prices: [priceInput!]
   providerType: String
@@ -2276,6 +2285,7 @@ input UpdateQuote {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  version: Int = 1
 }
 
 input UpdateRepresentative {

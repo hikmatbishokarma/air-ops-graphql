@@ -5,7 +5,7 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
 import { QuoteStatus } from 'src/app-constants/enums';
@@ -53,4 +53,9 @@ export class QuotesDto extends BaseDTO {
   prices: PriceInputDto[];
   @Field(() => Float, { defaultValue: 0 })
   grandTotal: number;
+
+  @Field(() => Int, { defaultValue: 1 })
+  version: number;
+  @Field({ defaultValue: false })
+  isLatest: boolean;
 }
