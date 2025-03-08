@@ -21,7 +21,10 @@ import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
-@Relation('aircraft', () => AircraftDetailDto, { disableRemove: true })
+@Relation('aircraft', () => AircraftDetailDto, {
+  disableRemove: true,
+  nullable: true,
+})
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {

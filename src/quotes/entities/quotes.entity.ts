@@ -35,9 +35,9 @@ export class QuotesEntity extends BaseEntity {
   category: Types.ObjectId;
 
   @Prop({
-    ref: 'AircraftsEntity',
+    ref: 'AircraftDetailEntity',
     type: SchemaTypes.ObjectId,
-    required: true,
+    required: false,
   })
   aircraft: Types.ObjectId;
 

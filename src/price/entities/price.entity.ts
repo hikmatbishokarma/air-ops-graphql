@@ -20,7 +20,11 @@ export class PricesDto {
 
 @Schema({ collection: 'prices', timestamps: true })
 export class PriceEntity extends BaseEntity {
-  @Prop({ ref: 'AircraftsEntity', type: SchemaTypes.ObjectId, required: true })
+  @Prop({
+    ref: 'AircraftDetailEntity',
+    type: SchemaTypes.ObjectId,
+    required: true,
+  })
   aircraft: Types.ObjectId;
   @Prop({ type: [PricesDto] })
   prices: PricesDto[];

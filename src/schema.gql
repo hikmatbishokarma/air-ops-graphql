@@ -1341,7 +1341,7 @@ type Query {
 
 """Quotes"""
 type Quote {
-  aircraft: AircraftDetail!
+  aircraft: AircraftDetail
   category: AircraftCategory!
 
   """The date when the record was created"""
