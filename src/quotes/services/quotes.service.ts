@@ -7,6 +7,8 @@ import { AirportsService } from 'src/airports/services/airports.service';
 import { AircraftDetailService } from 'src/aircraft-detail/services/aircraft-detail.service';
 import { QuoteStatus } from 'src/app-constants/enums';
 import { DeepPartial } from '@app/core';
+import { MailerService } from 'src/notification/services/mailer.service';
+import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 
 const {
   NEW_REQUEST,
@@ -31,6 +33,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
     private readonly aircraftService: AircraftDetailService,
+    private readonly mailerService: MailerService,
   ) {
     super(model);
   }
@@ -73,7 +76,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     return result;
   }
 
-  async updateQuotationState(id: string, state: QuoteStatus) {
+  async updateQuotationStatus(id: string, state: QuoteStatus) {
     const quotation = await this.findById(id);
     if (!quotation) {
       throw new BadRequestException('Quotation not found');
@@ -129,10 +132,63 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
     return created;
   }
+
   private isValidTransition(
     currentState: QuoteStatus,
     newState: QuoteStatus,
   ): boolean {
     return quotationWorkflowTransition[currentState].includes(newState);
+  }
+
+  async getQuoteById(id) {
+    const [quote] = await this.query({ filter: { id: { eq: id } } });
+
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const airportcodes = Array.from(
+      new Set(
+        quote.itinerary.flatMap((segment: any) => [
+          segment.source,
+          segment.destination,
+        ]),
+      ),
+    );
+
+    const quoteSegments = await this.airportService.query({
+      filter: { iata_code: { in: airportcodes } },
+      projection: { _id: 0, createdAt: 0, updatedAt: 0, isActive: 0 },
+    });
+
+    quote.itinerary.forEach((segment: any) => {
+      const source = quoteSegments.find(
+        (s: any) => s.iata_code === segment.source,
+      );
+      const destination = quoteSegments.find(
+        (s: any) => s.iata_code === segment.destination,
+      );
+      segment.source = source;
+      segment.destination = destination;
+    });
+    return quote;
+  }
+
+  async generateQuotePdf(args) {
+    const { id, email } = args;
+    const quote = await this.getQuoteById(id);
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const filePath = 'quote.pdf';
+    const htmlContent = QuotePdfTemplate();
+    const to = email || 'bkhikmat5024@gmail.com';
+    const subject = `Your Flight Quote - Reference No. ${quote?.referenceNumber ?? '123'} `;
+    const text = `We are Pleased to offer to you the Hawker Beechcraft 750 Aircraf`;
+
+    const pdfPath = await this.mailerService.createPDF(filePath, htmlContent);
+
+    const attachments = [{ filename: 'document.pdf', path: pdfPath }];
+
+    await this.mailerService.sendEmail(to, subject, text, null, attachments);
+
+    return 'PDF sent successfully!';
   }
 }

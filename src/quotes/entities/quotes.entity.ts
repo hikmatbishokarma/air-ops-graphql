@@ -61,6 +61,8 @@ export class QuotesEntity extends BaseEntity {
   version: number;
   @Prop({ default: false })
   isLatest: boolean;
+  @Prop()
+  code: string;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

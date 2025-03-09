@@ -7,11 +7,13 @@ import { QuotesService } from './services/quotes.service';
 import { AirportsModule } from 'src/airports/airports.module';
 import { QuotesResolver } from './resolvers/quotes.resolver';
 import { AircraftDetailModule } from 'src/aircraft-detail/aircraft-detail.module';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
     AirportsModule,
     AircraftDetailModule,
+    NotificationModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([

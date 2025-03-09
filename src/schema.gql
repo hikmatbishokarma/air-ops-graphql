@@ -704,6 +704,7 @@ input CreatePrice {
 input CreateQuote {
   aircraft: String
   category: String
+  code: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1018,6 +1019,11 @@ enum Gender {
   OTHER
 }
 
+input GenerateQuotePdfInput {
+  email: String!
+  id: String!
+}
+
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -1081,6 +1087,7 @@ type Mutation {
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
+  generateQuotePdf(input: GenerateQuotePdfInput!): String!
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
   sendEmail(input: MailerInput!): MailerResponseDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
@@ -1114,6 +1121,8 @@ type Mutation {
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneUser(input: UpdateOneUserInput!): User!
+  updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
+  upgradeQuote(code: String!): Quote!
 }
 
 type OffsetPageInfo {
@@ -1238,7 +1247,6 @@ type Query {
     """Specify to sort results."""
     sorting: [clientSort!]! = []
   ): ClientConnection!
-  generateAndSendPdf: MailerResponseDto!
   getSalesDashboardData(endDate: String, range: DateRange! = today, startDate: String): JSONObject!
   getUser(id: String!): String!
   price(
@@ -1346,6 +1354,7 @@ type Query {
 type Quote {
   aircraft: AircraftDetail
   category: AircraftCategory!
+  code: String!
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1381,6 +1390,7 @@ type Quote {
 type QuoteAggregateGroupBy {
   aircraft: String
   category: String
+  code: String
   isActive: Boolean
   providerType: String
   referenceNumber: String
@@ -1403,6 +1413,7 @@ type QuoteConnection {
 type QuoteCountAggregate {
   aircraft: Int
   category: Int
+  code: Int
   isActive: Int
   providerType: Int
   referenceNumber: Int
@@ -1415,6 +1426,7 @@ input QuoteDeleteFilter {
   aircraft: StringFieldComparison
   and: [QuoteDeleteFilter!]
   category: StringFieldComparison
+  code: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
   providerType: StringFieldComparison
@@ -1427,6 +1439,7 @@ input QuoteDeleteFilter {
 type QuoteDeleteResponse {
   aircraft: String
   category: String
+  code: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1463,6 +1476,7 @@ input QuoteFilter {
   aircraft: StringFieldComparison
   and: [QuoteFilter!]
   category: StringFieldComparison
+  code: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteFilter!]
   providerType: StringFieldComparison
@@ -1475,6 +1489,7 @@ input QuoteFilter {
 type QuoteMaxAggregate {
   aircraft: String
   category: String
+  code: String
   providerType: String
   referenceNumber: String
   representative: String
@@ -1485,6 +1500,7 @@ type QuoteMaxAggregate {
 type QuoteMinAggregate {
   aircraft: String
   category: String
+  code: String
   providerType: String
   referenceNumber: String
   representative: String
@@ -1501,6 +1517,7 @@ input QuoteSort {
 enum QuoteSortFields {
   aircraft
   category
+  code
   isActive
   providerType
   referenceNumber
@@ -1544,6 +1561,7 @@ input QuoteUpdateFilter {
   aircraft: StringFieldComparison
   and: [QuoteUpdateFilter!]
   category: StringFieldComparison
+  code: StringFieldComparison
   isActive: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
   providerType: StringFieldComparison
@@ -2256,6 +2274,7 @@ input UpdatePrice {
 input UpdateQuote {
   aircraft: String
   category: String
+  code: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2286,6 +2305,11 @@ input UpdateQuote {
   """The email of the user who last updated the record"""
   updatedBy: String
   version: Int = 1
+}
+
+input UpdateQuoteStatusInput {
+  id: String!
+  status: QuoteStatus! = NEW_REQUEST
 }
 
 input UpdateRepresentative {
