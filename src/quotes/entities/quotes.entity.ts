@@ -24,8 +24,8 @@ const SegmentSchema = SchemaFactory.createForClass(Segment);
 export class QuotesEntity extends BaseEntity {
   @Prop({ ref: 'ClientsEntity', type: SchemaTypes.ObjectId, required: true })
   requestedBy: Types.ObjectId;
-  @Prop()
-  representative: string;
+  @Prop({ ref: 'RepresentativeEntity', type: SchemaTypes.ObjectId })
+  representative: Types.ObjectId;
 
   @Prop({
     ref: 'AircraftCategoriesEntity',
@@ -63,6 +63,9 @@ export class QuotesEntity extends BaseEntity {
   isLatest: boolean;
   @Prop()
   code: string;
+
+  @Prop({ default: 0 })
+  revision: number;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

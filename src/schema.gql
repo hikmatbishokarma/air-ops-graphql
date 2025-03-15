@@ -727,6 +727,7 @@ input CreateQuote {
   referenceNumber: String
   representative: String
   requestedBy: String
+  revision: Int = 0
   status: QuoteStatus = NEW_REQUEST
 
   """The date when the record was last updated"""
@@ -1095,6 +1096,7 @@ type Mutation {
   setCategoryOnAircraftDetail(input: SetCategoryOnAircraftDetailInput!): AircraftDetail!
   setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
+  setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRoleOnUser(input: SetRoleOnUserInput!): User!
@@ -1333,6 +1335,7 @@ type Query {
     """Specify to sort results."""
     sorting: [roleSort!]! = []
   ): RoleConnection!
+  showPreview(id: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   user(
     """The id of the record to find."""
@@ -1375,8 +1378,9 @@ type Quote {
   prices: [PriceInputDto!]!
   providerType: String!
   referenceNumber: String!
-  representative: String!
+  representative: representative!
   requestedBy: client!
+  revision: Int!
   status: QuoteStatus!
 
   """The date when the record was last updated"""
@@ -1462,6 +1466,7 @@ type QuoteDeleteResponse {
   referenceNumber: String
   representative: String
   requestedBy: String
+  revision: Int
   status: QuoteStatus
 
   """The date when the record was last updated"""
@@ -1886,6 +1891,14 @@ input SetClientOnRepresentativeInput {
   relationId: ID!
 }
 
+input SetRepresentativeOnQuoteInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetRequestedByOnQuoteInput {
   """The id of the record."""
   id: ID!
@@ -2297,6 +2310,7 @@ input UpdateQuote {
   referenceNumber: String
   representative: String
   requestedBy: String
+  revision: Int = 0
   status: QuoteStatus = NEW_REQUEST
 
   """The date when the record was last updated"""

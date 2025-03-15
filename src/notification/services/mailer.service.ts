@@ -34,7 +34,7 @@ export class MailerService {
   ) {
     try {
       await this.transporter.sendMail({
-        from: `"Your App Name" <${process.env.EMAIL_USER}>`, // Custom sender name
+        from: `"Airops" <${process.env.EMAIL_USER}>`, // Custom sender name
         to,
         subject,
         text,

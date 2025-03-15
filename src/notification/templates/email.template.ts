@@ -1,4 +1,17 @@
-export const QuotePdfTemplate = () => {
+import moment from 'moment';
+
+export const QuotePdfTemplate = (quote) => {
+  const {
+    itinerary,
+    price,
+    grandTotal,
+    aircraftDetail,
+    client,
+    referenceNumber,
+    createdAt,
+    totalPrice,
+    gstAmount,
+  } = quote;
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +30,9 @@ export const QuotePdfTemplate = () => {
         .table th { background-color: #f2f2f2; }
         .total-table { margin-top: 20px; width: 100%; border-collapse: collapse; }
         .total-table th, .total-table td { padding: 10px; border: 1px solid #ddd; }
-        .total-table th { background-color: #f2f2f2; text-align: left; }
+        .total-table th { background-color: #f2f2f2; text-align: right; }
+        .total-table th:first-child { text-align: left;}
+        .total-table th:last-child {text-align: right;}
         .total-table td:last-child { text-align: right; }
         .total-table tr:last-child td { font-weight: bold; }
         .terms { margin-top: 20px; font-size: 12px; }
@@ -30,13 +45,13 @@ export const QuotePdfTemplate = () => {
         <div class="header">
             <div class="details">
                 <strong>Passenger Details:</strong><br>
-                Name: John Doe<br>
-                Contact: +91-9876543210<br>
-                Email: johndoe@example.com
+                Name: ${client.name}<br>
+                Contact:  ${client.phone}<br>
+                Email:  ${client.email}
             </div>
             <div class="details">
-                <strong>Quote Number:</strong> FQ-123456<br>
-                <strong>Date:</strong> 08-Mar-2025
+                <strong>Quote Number:</strong>${referenceNumber}<br>
+                <strong>Date:</strong> ${moment(createdAt).format('DD-MMM-YYYY')}
             </div>
         </div>
 
@@ -44,28 +59,25 @@ export const QuotePdfTemplate = () => {
         <table class="table">
             <thead>
                 <tr>
-                    <th>Departure Date</th>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Time</th>
-                    <th>Pax</th>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Apx.Fly.Time</th>
+                    <th>Remarks</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>10-Mar-2025</td>
-                    <td>Hyderabad</td>
-                    <td>Manali</td>
-                    <td>10:30 AM</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>15-Mar-2025</td>
-                    <td>Manali</td>
-                    <td>Hyderabad</td>
-                    <td>4:00 PM</td>
-                    <td>2</td>
-                </tr>
+            ${itinerary.map(
+              (item) => ` <tr>
+                    <td>${moment(item.depatureDate).format('DD-MMM-YYYY')}</td>
+                    <td>${item?.source?.city}</td>
+                    <td>${item?.destination?.city}</td>
+                    <td>${item.depatureTime}</td>
+                    <td>${item.paxNumber} pax</td>
+                </tr>`,
+            )}
+               
+                
             </tbody>
         </table>
 
@@ -73,22 +85,22 @@ export const QuotePdfTemplate = () => {
         <table class="total-table">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Amount</th>
+                    <th>Estimated Charter Cost</th>
+                    <th>INR (₹)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Subtotal</td>
-                    <td>₹ 50,000</td>
+                    <td>${grandTotal}</td>
                 </tr>
                 <tr>
                     <td>GST (18%)</td>
-                    <td>₹ 9,000</td>
+                    <td>${gstAmount}</td>
                 </tr>
                 <tr>
                     <td><strong>Total</strong></td>
-                    <td><strong>₹ 59,000</strong></td>
+                    <td><strong>${totalPrice}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -96,9 +108,7 @@ export const QuotePdfTemplate = () => {
         <!-- Terms and Conditions -->
         <div class="terms">
             <strong>Terms and Conditions:</strong>
-            <p>1. This quote is valid for 7 days from the date of issue.</p>
-            <p>2. Prices are subject to change based on availability.</p>
-            <p>3. Cancellation and refund policies apply as per company guidelines.</p>
+             ${aircraftDetail.termsAndConditions}
         </div>
     </div>
 

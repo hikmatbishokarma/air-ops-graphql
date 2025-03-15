@@ -14,6 +14,7 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 import { CreateQuoteHook } from '../hooks/create-quote.hook';
 import { PriceInputDto } from 'src/price/dto/price.dto';
 import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
+import { RepresentativeDto } from 'src/representative/dto/representative.dto';
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
@@ -26,6 +27,7 @@ import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
   nullable: true,
 })
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
+@Relation('representative', () => RepresentativeDto, { disableRemove: true })
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {
   @Field(() => ID)
@@ -60,4 +62,6 @@ export class QuotesDto extends BaseDTO {
   isLatest: boolean;
   @FilterableField()
   code: string;
+  @Field(() => Int, { defaultValue: 0 })
+  revision: number;
 }

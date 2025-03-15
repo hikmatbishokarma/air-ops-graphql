@@ -28,4 +28,9 @@ export class QuotesResolver {
   async generateQuotePdf(@Args('input') input: GenerateQuotePdfInput) {
     return await this.quotesService.generateQuotePdf(input);
   }
+
+  @Query(() => String)
+  async showPreview(@Args('id') id: string) {
+    return await this.quotesService.preview(id);
+  }
 }

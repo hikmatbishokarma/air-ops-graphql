@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import mongoose, { Model, ObjectId } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
 import { QuotesEntity } from '../entities/quotes.entity';
 import { AirportsService } from 'src/airports/services/airports.service';
@@ -9,6 +9,7 @@ import { QuoteStatus } from 'src/app-constants/enums';
 import { DeepPartial } from '@app/core';
 import { MailerService } from 'src/notification/services/mailer.service';
 import { QuotePdfTemplate } from 'src/notification/templates/email.template';
+import { Counter } from '../entities/counter.entity';
 
 const {
   NEW_REQUEST,
@@ -34,6 +35,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     private readonly airportService: AirportsService,
     private readonly aircraftService: AircraftDetailService,
     private readonly mailerService: MailerService,
+    @InjectModel(Counter.name) private counterModel: Model<Counter>,
   ) {
     super(model);
   }
@@ -122,6 +124,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     };
 
     clonedQuotation.version += 1;
+    clonedQuotation.revision += 1;
     clonedQuotation.status = QuoteStatus.NEW_REQUEST;
     delete clonedQuotation._id;
 
@@ -141,11 +144,71 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async getQuoteById(id) {
-    const [quote] = await this.query({ filter: { id: { eq: id } } });
+    //const [quote] = await this.query({ filter: { id: { eq: id } } });
+
+    const [quote] = await this.Model.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
+      {
+        $lookup: {
+          from: 'aircraft-details',
+          localField: 'aircraft',
+          foreignField: '_id',
+          as: 'aircraftDetail',
+        },
+      },
+      {
+        $unwind: { path: '$aircraftDetail', preserveNullAndEmptyArrays: true },
+      },
+      {
+        $lookup: {
+          from: 'aircraft-categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'aircraftCategory',
+        },
+      },
+      {
+        $unwind: {
+          path: '$aircraftCategory',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'clients',
+          localField: 'requestedBy',
+          foreignField: '_id',
+          as: 'client',
+        },
+      },
+      { $unwind: { path: '$client', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          itinerary: 1,
+          referenceNumber: 1,
+          'aircraftDetail.name': 1,
+          'aircraftDetail.code': 1,
+          'aircraftDetail.description': 1,
+          'aircraftDetail.image': 1,
+          'aircraftDetail.specifications': 1,
+          'aircraftDetail.termsAndConditions': 1,
+          'aircraftCategory.name': 1,
+          'client.name': 1,
+          'client.phone': 1,
+          'client.email': 1,
+          'client.address': 1,
+          status: 1,
+          prices: 1,
+          grandTotal: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
 
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    const airportcodes = Array.from(
+    const airportcodes: any = Array.from(
       new Set(
         quote.itinerary.flatMap((segment: any) => [
           segment.source,
@@ -169,6 +232,14 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       segment.source = source;
       segment.destination = destination;
     });
+
+    /** calculate price  */
+    quote['gstAmount'] = Number((quote.grandTotal * 0.18).toFixed(2)); //18%GST
+
+    quote['totalPrice'] = Number(
+      (quote.grandTotal + quote.gstAmount).toFixed(2),
+    );
+
     return quote;
   }
 
@@ -178,10 +249,10 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const filePath = 'quote.pdf';
-    const htmlContent = QuotePdfTemplate();
+    const htmlContent = QuotePdfTemplate(quote);
     const to = email || 'bkhikmat5024@gmail.com';
-    const subject = `Your Flight Quote - Reference No. ${quote?.referenceNumber ?? '123'} `;
-    const text = `We are Pleased to offer to you the Hawker Beechcraft 750 Aircraf`;
+    const subject = `Your Flight Quote - Reference No. ${quote?.referenceNumber ?? ''} `;
+    const text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
 
     const pdfPath = await this.mailerService.createPDF(filePath, htmlContent);
 
@@ -190,5 +261,26 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     await this.mailerService.sendEmail(to, subject, text, null, attachments);
 
     return 'PDF sent successfully!';
+  }
+
+  async preview(id) {
+    const quote = await this.getQuoteById(id);
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const htmlContent = QuotePdfTemplate(quote);
+    return htmlContent;
+  }
+
+  async generateQuotationNumber(): Promise<string> {
+    const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
+
+    const counter = await this.counterModel.findOneAndUpdate(
+      { year: currentYear },
+      { $inc: { serial: 1 } },
+      { new: true, upsert: true },
+    );
+
+    const serialNumber = counter.serial.toString().padStart(4, '0'); // Format serial to 4 digits
+    return `AOQT/${currentYear}/${serialNumber}`;
   }
 }
