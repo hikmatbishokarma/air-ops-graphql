@@ -270,6 +270,7 @@ input AircraftDetailUpdateFilter {
 """Airport"""
 type Airport {
   city: String!
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -286,8 +287,8 @@ type Airport {
   icao_code: String!
   id: ID!
   isActive: Boolean!
-  latitude: Int!
-  longitude: Int!
+  latitude: Float!
+  longitude: Float!
   name: String!
 
   """The date when the record was last updated"""
@@ -299,6 +300,7 @@ type Airport {
 
 type AirportAggregateGroupBy {
   city: String
+  country: String
   iata_code: String
   icao_code: String
   isActive: Boolean
@@ -318,6 +320,7 @@ type AirportConnection {
 
 type AirportCountAggregate {
   city: Int
+  country: Int
   iata_code: Int
   icao_code: Int
   isActive: Int
@@ -327,6 +330,7 @@ type AirportCountAggregate {
 input AirportDeleteFilter {
   and: [AirportDeleteFilter!]
   city: StringFieldComparison
+  country: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -336,6 +340,7 @@ input AirportDeleteFilter {
 
 type AirportDeleteResponse {
   city: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -352,8 +357,8 @@ type AirportDeleteResponse {
   icao_code: String
   id: ID
   isActive: Boolean
-  latitude: Int
-  longitude: Int
+  latitude: Float
+  longitude: Float
   name: String
 
   """The date when the record was last updated"""
@@ -366,6 +371,7 @@ type AirportDeleteResponse {
 input AirportFilter {
   and: [AirportFilter!]
   city: StringFieldComparison
+  country: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -375,6 +381,7 @@ input AirportFilter {
 
 type AirportMaxAggregate {
   city: String
+  country: String
   iata_code: String
   icao_code: String
   name: String
@@ -382,6 +389,7 @@ type AirportMaxAggregate {
 
 type AirportMinAggregate {
   city: String
+  country: String
   iata_code: String
   icao_code: String
   name: String
@@ -395,6 +403,7 @@ input AirportSort {
 
 enum AirportSortFields {
   city
+  country
   iata_code
   icao_code
   isActive
@@ -404,6 +413,7 @@ enum AirportSortFields {
 input AirportUpdateFilter {
   and: [AirportUpdateFilter!]
   city: StringFieldComparison
+  country: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -414,6 +424,124 @@ input AirportUpdateFilter {
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
+}
+
+"""City"""
+type City {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  state: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type CityAggregateGroupBy {
+  isActive: Boolean
+  name: String
+  state: String
+}
+
+type CityConnection {
+  """Array of nodes."""
+  nodes: [City!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type CityCountAggregate {
+  isActive: Int
+  name: Int
+  state: Int
+}
+
+input CityDeleteFilter {
+  and: [CityDeleteFilter!]
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [CityDeleteFilter!]
+  state: StringFieldComparison
+}
+
+type CityDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  name: String
+  state: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CityFilter {
+  and: [CityFilter!]
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [CityFilter!]
+  state: StringFieldComparison
+}
+
+type CityMaxAggregate {
+  name: String
+  state: String
+}
+
+type CityMinAggregate {
+  name: String
+  state: String
+}
+
+input CitySort {
+  direction: SortDirection!
+  field: CitySortFields!
+  nulls: SortNulls
+}
+
+enum CitySortFields {
+  isActive
+  name
+  state
+}
+
+input CityUpdateFilter {
+  and: [CityUpdateFilter!]
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  or: [CityUpdateFilter!]
+  state: StringFieldComparison
 }
 
 type ClientConnection {
@@ -514,6 +642,7 @@ input CreateAircraftDetail {
 
 input CreateAirport {
   city: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -530,9 +659,33 @@ input CreateAirport {
   icao_code: String
   id: ID
   isActive: Boolean = true
-  latitude: Int
-  longitude: Int
+  latitude: Float
+  longitude: Float
   name: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateCity {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  state: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -583,6 +736,11 @@ input CreateManyAircraftDetailsInput {
 input CreateManyAirportsInput {
   """Array of records to create"""
   airports: [CreateAirport!]!
+}
+
+input CreateManyCitiesInput {
+  """Array of records to create"""
+  cities: [CreateCity!]!
 }
 
 input CreateManyClientsInput {
@@ -638,6 +796,11 @@ input CreateOneAircraftDetailInput {
 input CreateOneAirportInput {
   """The record to create"""
   airport: CreateAirport!
+}
+
+input CreateOneCityInput {
+  """The record to create"""
+  city: CreateCity!
 }
 
 input CreateOneClientInput {
@@ -909,6 +1072,11 @@ input DeleteManyAirportsInput {
   filter: AirportDeleteFilter!
 }
 
+input DeleteManyCitiesInput {
+  """Filter to find records to delete"""
+  filter: CityDeleteFilter!
+}
+
 input DeleteManyClientsInput {
   """Filter to find records to delete"""
   filter: clientDeleteFilter!
@@ -965,6 +1133,11 @@ input DeleteOneAircraftDetailInput {
 }
 
 input DeleteOneAirportInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneCityInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -1046,6 +1219,7 @@ type Mutation {
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAircraftDetails(input: CreateManyAircraftDetailsInput!): [AircraftDetail!]!
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
+  createManyCities(input: CreateManyCitiesInput!): [City!]!
   createManyClients(input: CreateManyClientsInput!): [client!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
@@ -1057,6 +1231,7 @@ type Mutation {
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAircraftDetail(input: CreateOneAircraftDetailInput!): AircraftDetail!
   createOneAirport(input: CreateOneAirportInput!): Airport!
+  createOneCity(input: CreateOneCityInput!): City!
   createOneClient(input: CreateOneClientInput!): client!
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
@@ -1068,6 +1243,7 @@ type Mutation {
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAircraftDetails(input: DeleteManyAircraftDetailsInput!): DeleteManyResponse!
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
+  deleteManyCities(input: DeleteManyCitiesInput!): DeleteManyResponse!
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
@@ -1079,6 +1255,7 @@ type Mutation {
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
   deleteOneAircraftDetail(input: DeleteOneAircraftDetailInput!): AircraftDetailDeleteResponse!
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
+  deleteOneCity(input: DeleteOneCityInput!): CityDeleteResponse!
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
@@ -1104,6 +1281,7 @@ type Mutation {
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAircraftDetails(input: UpdateManyAircraftDetailsInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
+  updateManyCities(input: UpdateManyCitiesInput!): UpdateManyResponse!
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
@@ -1115,6 +1293,7 @@ type Mutation {
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
   updateOneAircraftDetail(input: UpdateOneAircraftDetailInput!): AircraftDetail!
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
+  updateOneCity(input: UpdateOneCityInput!): City!
   updateOneClient(input: UpdateOneClientInput!): client!
   updateOnePrice(input: UpdateOnePriceInput!): price!
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
@@ -1235,6 +1414,20 @@ type Query {
     """Specify to sort results."""
     sorting: [AirportSort!]! = []
   ): AirportConnection!
+  cities(
+    """Specify to filter the records returned."""
+    filter: CityFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [CitySort!]! = []
+  ): CityConnection!
+  city(
+    """The id of the record to find."""
+    id: ID!
+  ): City
   client(
     """The id of the record to find."""
     id: ID!
@@ -2021,6 +2214,7 @@ input UpdateAircraftDetail {
 
 input UpdateAirport {
   city: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2037,9 +2231,33 @@ input UpdateAirport {
   icao_code: String
   id: ID
   isActive: Boolean = true
-  latitude: Int
-  longitude: Int
+  latitude: Float
+  longitude: Float
   name: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateCity {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  state: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2099,6 +2317,14 @@ input UpdateManyAirportsInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateAirport!
+}
+
+input UpdateManyCitiesInput {
+  """Filter used to find fields to update"""
+  filter: CityUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateCity!
 }
 
 input UpdateManyClientsInput {
@@ -2192,6 +2418,14 @@ input UpdateOneAirportInput {
 
   """The update to apply."""
   update: UpdateAirport!
+}
+
+input UpdateOneCityInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateCity!
 }
 
 input UpdateOneClientInput {

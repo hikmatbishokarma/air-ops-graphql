@@ -15,6 +15,8 @@ export class AirportsEntity extends BaseEntity {
   longitude: number;
   @Prop()
   city: string;
+  @Prop()
+  country: string;
 }
 
 export const AirportsSchema = SchemaFactory.createForClass(AirportsEntity);

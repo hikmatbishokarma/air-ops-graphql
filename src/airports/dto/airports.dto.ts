@@ -4,7 +4,7 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
 @ObjectType('Airport', { description: 'Airport' })
@@ -19,10 +19,12 @@ export class AirportsDto extends BaseDTO {
   iata_code: string;
   @FilterableField()
   icao_code: string;
-  @Field()
+  @Field(() => Float)
   latitude: number;
-  @Field()
+  @Field(() => Float)
   longitude: number;
   @FilterableField()
   city: string;
+  @FilterableField({ nullable: true })
+  country: string;
 }
