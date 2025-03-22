@@ -24,6 +24,7 @@ export const QuotePdfTemplate = (quote) => {
         .container { width: 100%; max-width: 800px; margin: auto; border: 1px solid #ddd; padding: 20px; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .details { font-size: 14px; }
+        .greeting { margin-bottom: 20px; font-size: 14px; }
         .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .table, .table th, .table td { border: 1px solid #ddd; }
         .table th, .table td { padding: 10px; text-align: center; }
@@ -53,6 +54,12 @@ export const QuotePdfTemplate = (quote) => {
                 <strong>Quote Number:</strong>${referenceNumber}<br>
                 <strong>Date:</strong> ${moment(createdAt).format('DD-MMM-YYYY')}
             </div>
+        </div>
+
+         <!-- Greeting Message -->
+        <div class="greeting">
+            <p>Dear Sir/Madam,</p>
+            <p>We are pleased to offer to you ${aircraftDetail?.name}. The commercials for the same will be as follows:</p>
         </div>
 
         <!-- Itinerary Table -->
