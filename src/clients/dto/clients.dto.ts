@@ -20,7 +20,7 @@ export class ClientsDto extends BaseDTO {
   phone: string;
   @FilterableField()
   email: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   address: string;
   //   @FilterableField(() => ClientType)
   //   type: ClientType;

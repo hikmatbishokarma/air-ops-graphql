@@ -69,13 +69,13 @@ export class SalesDashboardService {
             $sum: { $cond: [{ $eq: ['$status', 'new request'] }, 1, 0] },
           },
           confirmedQuotations: {
-            $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
+            $sum: { $cond: [{ $eq: ['$status', 'confirmed'] }, 1, 0] },
           },
           sales: {
-            $sum: { $cond: [{ $eq: ['$status', 'Sold'] }, 1, 0] },
+            $sum: { $cond: [{ $eq: ['$status', 'booked'] }, 1, 0] },
           },
           cancellations: {
-            $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] },
+            $sum: { $cond: [{ $eq: ['$status', 'cancelled'] }, 1, 0] },
           },
         },
       },

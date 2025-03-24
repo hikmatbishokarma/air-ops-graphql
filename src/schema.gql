@@ -1728,6 +1728,8 @@ enum QuoteStatus {
   APPROVAL
   BOOKED
   BRIEFING_SENT
+  CANCELLED
+  CONFIRMED
   CONTRACT_SENT
   DONE
   INVOICE_SENT
@@ -2875,7 +2877,7 @@ input accessPermissionInput {
 
 """Client"""
 type client {
-  address: String!
+  address: String
 
   """The date when the record was created"""
   createdAt: DateTime

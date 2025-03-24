@@ -43,7 +43,7 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop()
   providerType: string;
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   referenceNumber: string;
 
   @Prop({ type: [Object], required: true })

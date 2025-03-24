@@ -11,7 +11,9 @@ const config: any = {
     sortSchema: true,
   },
   mongo: {
-    uri: process.env.MONGODB_URI,
+    uri:
+      process.env.MONGODB_URI ||
+      'mongodb+srv://hikmat:HikmatKitchen12%23@cloud-kitchen.pvjig.mongodb.net/air-ops',
   },
   server: {
     port: Number(process.env.PORT),

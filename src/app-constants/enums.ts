@@ -51,6 +51,8 @@ export enum QuoteStatus {
   BRIEFING_SENT = 'briefing sent',
   DONE = 'done',
   UPGRADED = 'upgraded',
+  CANCELLED = 'cancelled',
+  CONFIRMED = 'confirmed',
 }
 
 registerEnumType(QuoteStatus, {

@@ -21,11 +21,15 @@ const {
   CONTRACT_SENT,
   INVOICE_SENT,
   OPTION,
+  CONFIRMED,
+  CANCELLED,
 } = QuoteStatus;
 const quotationWorkflowTransition = {
   'new request': [QUOTED],
-  quoted: [BOOKED, OPPORTUNITY],
-  BOOKED: [DONE],
+  quoted: [CONFIRMED, CANCELLED],
+  confirmed: [BOOKED],
+  booked: [INVOICE_SENT],
+  cancelled: [NEW_REQUEST],
 };
 
 @Injectable()
@@ -90,8 +94,9 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       );
     }
 
-    if (state === QuoteStatus.DONE) {
-      //TODO: notifiy customer
+    if (state === QuoteStatus.BOOKED) {
+      //notifiy client
+      this.generateQuotePdf({ id });
     }
     const updatedQuotation = await this.updateOne(id, { status: state });
     return updatedQuotation;
@@ -111,7 +116,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     const [quotation] = await this.query({
       filter: {
-        referenceNumber: { eq: code },
+        code: { eq: code },
         status: { eq: QuoteStatus.QUOTED },
       },
     });
@@ -250,7 +255,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     const filePath = 'quote.pdf';
     const htmlContent = QuotePdfTemplate(quote);
-    const to = email || 'bkhikmat5024@gmail.com';
+    const to = email || quote?.client?.email;
     const subject = `Your Flight Quote - Reference No. ${quote?.referenceNumber ?? ''} `;
     const text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
 
