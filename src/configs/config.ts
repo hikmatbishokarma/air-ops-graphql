@@ -26,5 +26,8 @@ const config: any = {
     password: process.env.EMAIL_PASS,
     secure: process.env.EMAIL_SECURE,
   },
+  multer_dest: {
+    dest: process.env.MULTER_DEST,
+  },
 };
 export default (): Config => config;

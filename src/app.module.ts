@@ -22,6 +22,7 @@ import { NotificationModule } from './notification/notification.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 import { CityModule } from './city/city.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CityModule } from './city/city.module';
     NotificationModule,
     DashboardModule,
     CityModule,
+    MediaModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,
