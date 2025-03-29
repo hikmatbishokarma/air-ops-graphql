@@ -16,24 +16,24 @@ export class SalesDashboardService {
     // Fetch all required data in parallel
     const [
       summary,
-      salesTrend,
-      statusDistribution,
-      revenueTrend,
-      latestQuotations,
+      // salesTrend,
+      // statusDistribution,
+      // revenueTrend,
+      // latestQuotations,
     ] = await Promise.all([
       this.getSalesSummary(filter),
-      this.getSalesTrend(filter),
-      this.getQuotationStatus(filter),
-      this.getRevenueTrend(filter),
-      this.getLatestQuotations(),
+      // this.getSalesTrend(filter),
+      // this.getQuotationStatus(filter),
+      // this.getRevenueTrend(filter),
+      // this.getLatestQuotations(),
     ]);
 
     return {
       summary,
-      salesTrend,
-      quotationStatusDistribution: statusDistribution,
-      revenueTrend,
-      latestQuotations,
+      // salesTrend,
+      // quotationStatusDistribution: statusDistribution,
+      // revenueTrend,
+      // latestQuotations,
     };
   }
 
@@ -56,6 +56,89 @@ export class SalesDashboardService {
     ]);
   }
 
+  // private async getSalesSummary(filter) {
+  //   const salesSummary = await this.quoteService.Model.aggregate([
+  //     {
+  //       $match: filter,
+  //     },
+  //     {
+  //       $group: {
+  //         _id: null, // No grouping by month, we need a single summary
+  //         totalQuotations: { $sum: 1 },
+  //         Quote: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Quote'] }, 1, 0] },
+  //         },
+  //         Cancelled: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] },
+  //         },
+  //         'Tax Invoice': {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Tax Invoice'] }, 1, 0] },
+  //         },
+  //         'Proforma Invoice': {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Proforma Invoice'] }, 1, 0] },
+  //         },
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         _id: 0, // Remove _id
+  //         Quote: 1,
+  //         Cancelled: 1,
+  //         'Tax Invoice': 1,
+  //         'Proforma Invoice': 1,
+  //         Invoices: { $add: ['$Tax Invoice', '$Proforma Invoice'] }, // Sum of invoices
+  //         // confirmRatio: {
+  //         //   $cond: [
+  //         //     { $eq: ['$totalQuotations', 0] },
+  //         //     0,
+  //         //     {
+  //         //       $multiply: [
+  //         //         { $divide: ['$confirmedQuotations', '$totalQuotations'] },
+  //         //         100,
+  //         //       ],
+  //         //     },
+  //         //   ],
+  //         // },
+  //         // confirmToSalesRatio: {
+  //         //   $cond: [
+  //         //     { $eq: ['$confirmedQuotations', 0] },
+  //         //     0,
+  //         //     {
+  //         //       $multiply: [
+  //         //         { $divide: ['$sales', '$confirmedQuotations'] },
+  //         //         100,
+  //         //       ],
+  //         //     },
+  //         //   ],
+  //         // },
+  //         // confirmToCancelRatio: {
+  //         //   $cond: [
+  //         //     { $eq: ['$confirmedQuotations', 0] },
+  //         //     0,
+  //         //     {
+  //         //       $multiply: [
+  //         //         { $divide: ['$cancellations', '$confirmedQuotations'] },
+  //         //         100,
+  //         //       ],
+  //         //     },
+  //         //   ],
+  //         // },
+  //       },
+  //     },
+  //   ]);
+
+  //   return (
+  //     salesSummary[0] ||{
+  //       totalQuotations: 0,
+  //       Quote: 0,
+  //       Cancelled: 0,
+  //       'Tax Invoice': 0,
+  //       'Proforma Invoice': 0,
+  //       invoices: 0,
+  //     }
+  //   );
+  // }
+
   private async getSalesSummary(filter) {
     const salesSummary = await this.quoteService.Model.aggregate([
       {
@@ -65,64 +148,57 @@ export class SalesDashboardService {
         $group: {
           _id: null, // No grouping by month, we need a single summary
           totalQuotations: { $sum: 1 },
-          newQuotations: {
-            $sum: { $cond: [{ $eq: ['$status', 'new request'] }, 1, 0] },
-          },
-          confirmedQuotations: {
-            $sum: { $cond: [{ $eq: ['$status', 'confirmed'] }, 1, 0] },
-          },
-          sales: {
-            $sum: { $cond: [{ $eq: ['$status', 'booked'] }, 1, 0] },
+          quotes: {
+            $sum: { $cond: [{ $eq: ['$status', 'Quote'] }, 1, 0] },
           },
           cancellations: {
-            $sum: { $cond: [{ $eq: ['$status', 'cancelled'] }, 1, 0] },
+            $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] },
+          },
+          taxInvoice: {
+            $sum: { $cond: [{ $eq: ['$status', 'Tax Invoice'] }, 1, 0] },
+          },
+          proformaInvoice: {
+            $sum: { $cond: [{ $eq: ['$status', 'Proforma Invoice'] }, 1, 0] },
+          },
+          invoices: {
+            $sum: {
+              $cond: [
+                {
+                  $or: [
+                    { $eq: ['$status', 'Tax Invoice'] },
+                    { $eq: ['$status', 'Proforma Invoice'] },
+                  ],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          revenue: {
+            $sum: {
+              $cond: [
+                {
+                  $or: [
+                    { $eq: ['$status', 'Tax Invoice'] },
+                    { $eq: ['$status', 'Proforma Invoice'] },
+                  ],
+                },
+                '$grandTotal',
+                0,
+              ],
+            },
           },
         },
       },
       {
         $project: {
           _id: 0, // Remove _id
-          newQuotations: 1,
-          totalQuotations: 1,
-          confirmedQuotations: 1,
-          sales: 1,
-          cancellations: 1,
-          confirmRatio: {
-            $cond: [
-              { $eq: ['$totalQuotations', 0] },
-              0,
-              {
-                $multiply: [
-                  { $divide: ['$confirmedQuotations', '$totalQuotations'] },
-                  100,
-                ],
-              },
-            ],
-          },
-          confirmToSalesRatio: {
-            $cond: [
-              { $eq: ['$confirmedQuotations', 0] },
-              0,
-              {
-                $multiply: [
-                  { $divide: ['$sales', '$confirmedQuotations'] },
-                  100,
-                ],
-              },
-            ],
-          },
-          confirmToCancelRatio: {
-            $cond: [
-              { $eq: ['$confirmedQuotations', 0] },
-              0,
-              {
-                $multiply: [
-                  { $divide: ['$cancellations', '$confirmedQuotations'] },
-                  100,
-                ],
-              },
-            ],
-          },
+          quotes: 1, // Count of quotes (plural)
+          cancellations: 1, // Count of cancelled orders (plural)
+          taxInvoice: 1,
+          proformaInvoice: 1,
+          invoices: 1,
+          revenue: 1, // Total revenue
         },
       },
     ]);
@@ -130,12 +206,12 @@ export class SalesDashboardService {
     return (
       salesSummary[0] || {
         totalQuotations: 0,
-        confirmedQuotations: 0,
-        sales: 0,
+        quotes: 0,
         cancellations: 0,
-        confirmRatio: 0,
-        confirmToSalesRatio: 0,
-        confirmToCancelRatio: 0,
+        taxInvoice: 0,
+        proformaInvoice: 0,
+        invoices: 0,
+        revenue: 0,
       }
     );
   }

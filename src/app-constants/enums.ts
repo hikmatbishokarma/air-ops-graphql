@@ -39,20 +39,28 @@ registerEnumType(ClientType, {
   name: 'ClientType',
 });
 
+// export enum QuoteStatus {
+//   NEW_REQUEST = 'new request',
+//   QUOTED = 'quoted',
+//   OPPORTUNITY = 'opportunity',
+//   APPROVAL = 'approval',
+//   OPTION = 'option',
+//   BOOKED = 'booked',
+//   CONTRACT_SENT = 'contract sent',
+//   INVOICE_SENT = 'invoice sent',
+//   BRIEFING_SENT = 'briefing sent',
+//   DONE = 'done',
+//   UPGRADED = 'upgraded',
+//   CANCELLED = 'cancelled',
+//   CONFIRMED = 'confirmed',
+// }
+
 export enum QuoteStatus {
-  NEW_REQUEST = 'new request',
-  QUOTED = 'quoted',
-  OPPORTUNITY = 'opportunity',
-  APPROVAL = 'approval',
-  OPTION = 'option',
-  BOOKED = 'booked',
-  CONTRACT_SENT = 'contract sent',
-  INVOICE_SENT = 'invoice sent',
-  BRIEFING_SENT = 'briefing sent',
-  DONE = 'done',
-  UPGRADED = 'upgraded',
-  CANCELLED = 'cancelled',
-  CONFIRMED = 'confirmed',
+  QUOTE = 'Quote',
+  PROFOMA_INVOICE = 'Proforma Invoice',
+  TAX_INVOICE = 'Tax Invoice',
+  CANCELLED = 'Cancelled',
+  'DEPRECATED' = 'Deprecated',
 }
 
 registerEnumType(QuoteStatus, {

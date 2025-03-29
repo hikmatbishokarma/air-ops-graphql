@@ -6,6 +6,6 @@ import { QuoteStatus } from 'src/app-constants/enums';
 export class UpdateQuoteStatusInput {
   @Field()
   id: string;
-  @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.NEW_REQUEST })
+  @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.QUOTE })
   status: QuoteStatus;
 }

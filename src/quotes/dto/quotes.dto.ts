@@ -43,13 +43,12 @@ export class QuotesDto extends BaseDTO {
   @FilterableField()
   providerType: string;
   @FilterableField()
-  referenceNumber: string;
-  // @Field(() => [GraphQLJSONObject])
-  // segments: Object[];
-
+  quotationNo: string;
+  @FilterableField({ nullable: true })
+  revisedQuotationNo: string;
   @Field(() => [GraphQLJSONObject])
   itinerary: Object[];
-  @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.NEW_REQUEST })
+  @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.QUOTE })
   status: QuoteStatus;
   @Field(() => [PriceInputDto])
   prices: PriceInputDto[];
@@ -58,7 +57,7 @@ export class QuotesDto extends BaseDTO {
 
   @Field(() => Int, { defaultValue: 1 })
   version: number;
-  @Field({ defaultValue: false })
+  @FilterableField({ defaultValue: false })
   isLatest: boolean;
   @FilterableField()
   code: string;

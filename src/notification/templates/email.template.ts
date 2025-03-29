@@ -7,7 +7,8 @@ export const QuotePdfTemplate = (quote) => {
     grandTotal,
     aircraftDetail,
     client,
-    referenceNumber,
+    quotationNo,
+    revisedQuotationNo,
     createdAt,
     totalPrice,
     gstAmount,
@@ -51,7 +52,7 @@ export const QuotePdfTemplate = (quote) => {
                 Email:  ${client.email}
             </div>
             <div class="details">
-                <strong>Quote Number:</strong>${referenceNumber}<br>
+                <strong>Quote Number:</strong>${revisedQuotationNo || quotationNo}<br>
                 <strong>Date:</strong> ${moment(createdAt).format('DD-MMM-YYYY')}
             </div>
         </div>

@@ -887,11 +887,12 @@ input CreateQuote {
   itinerary: [JSONObject!]
   prices: [priceInput!]
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   revision: Int = 0
-  status: QuoteStatus = NEW_REQUEST
+  status: QuoteStatus = QUOTE
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1570,9 +1571,10 @@ type Quote {
   itinerary: [JSONObject!]!
   prices: [PriceInputDto!]!
   providerType: String!
-  referenceNumber: String!
+  quotationNo: String!
   representative: representative!
   requestedBy: client!
+  revisedQuotationNo: String
   revision: Int!
   status: QuoteStatus!
 
@@ -1589,10 +1591,12 @@ type QuoteAggregateGroupBy {
   category: String
   code: String
   isActive: Boolean
+  isLatest: Boolean
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1612,10 +1616,12 @@ type QuoteCountAggregate {
   category: Int
   code: Int
   isActive: Int
+  isLatest: Int
   providerType: Int
-  referenceNumber: Int
+  quotationNo: Int
   representative: Int
   requestedBy: Int
+  revisedQuotationNo: Int
   status: Int
 }
 
@@ -1625,11 +1631,13 @@ input QuoteDeleteFilter {
   category: StringFieldComparison
   code: StringFieldComparison
   isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
   providerType: StringFieldComparison
-  referenceNumber: StringFieldComparison
+  quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
+  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -1656,9 +1664,10 @@ type QuoteDeleteResponse {
   itinerary: [JSONObject!]
   prices: [PriceInputDto!]
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   revision: Int
   status: QuoteStatus
 
@@ -1676,11 +1685,13 @@ input QuoteFilter {
   category: StringFieldComparison
   code: StringFieldComparison
   isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
   or: [QuoteFilter!]
   providerType: StringFieldComparison
-  referenceNumber: StringFieldComparison
+  quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
+  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -1689,9 +1700,10 @@ type QuoteMaxAggregate {
   category: String
   code: String
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1700,9 +1712,10 @@ type QuoteMinAggregate {
   category: String
   code: String
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1717,27 +1730,21 @@ enum QuoteSortFields {
   category
   code
   isActive
+  isLatest
   providerType
-  referenceNumber
+  quotationNo
   representative
   requestedBy
+  revisedQuotationNo
   status
 }
 
 enum QuoteStatus {
-  APPROVAL
-  BOOKED
-  BRIEFING_SENT
   CANCELLED
-  CONFIRMED
-  CONTRACT_SENT
-  DONE
-  INVOICE_SENT
-  NEW_REQUEST
-  OPPORTUNITY
-  OPTION
-  QUOTED
-  UPGRADED
+  DEPRECATED
+  PROFOMA_INVOICE
+  QUOTE
+  TAX_INVOICE
 }
 
 input QuoteStatusFilterComparison {
@@ -1763,11 +1770,13 @@ input QuoteUpdateFilter {
   category: StringFieldComparison
   code: StringFieldComparison
   isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
   providerType: StringFieldComparison
-  referenceNumber: StringFieldComparison
+  quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
+  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -2543,11 +2552,12 @@ input UpdateQuote {
   itinerary: [JSONObject!]
   prices: [priceInput!]
   providerType: String
-  referenceNumber: String
+  quotationNo: String
   representative: String
   requestedBy: String
+  revisedQuotationNo: String
   revision: Int = 0
-  status: QuoteStatus = NEW_REQUEST
+  status: QuoteStatus = QUOTE
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2559,7 +2569,7 @@ input UpdateQuote {
 
 input UpdateQuoteStatusInput {
   id: String!
-  status: QuoteStatus! = NEW_REQUEST
+  status: QuoteStatus! = QUOTE
 }
 
 input UpdateRepresentative {

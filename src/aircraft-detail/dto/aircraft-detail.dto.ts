@@ -12,9 +12,9 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 @ObjectType()
 export class specificationsDTO {
   @Field()
-  icon: string;
+  title: string;
   @Field()
-  name: string;
+  value: string;
 }
 
 @ObjectType('AircraftDetail', { description: 'Aircraft Detail' })

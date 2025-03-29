@@ -43,13 +43,17 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop()
   providerType: string;
+
   @Prop({ required: true })
-  referenceNumber: string;
+  quotationNo: string;
+
+  @Prop()
+  revisedQuotationNo: string;
 
   @Prop({ type: [Object], required: true })
   itinerary: Object[];
 
-  @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.NEW_REQUEST })
+  @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.QUOTE })
   status: QuoteStatus;
 
   @Prop({ type: [PricesDto] })
@@ -59,7 +63,7 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop({ default: 1 })
   version: number;
-  @Prop({ default: false })
+  @Prop({ default: true })
   isLatest: boolean;
   @Prop()
   code: string;

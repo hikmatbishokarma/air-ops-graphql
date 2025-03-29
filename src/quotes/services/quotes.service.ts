@@ -11,25 +11,9 @@ import { MailerService } from 'src/notification/services/mailer.service';
 import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 import { Counter } from '../entities/counter.entity';
 
-const {
-  NEW_REQUEST,
-  QUOTED,
-  OPPORTUNITY,
-  APPROVAL,
-  BOOKED,
-  DONE,
-  CONTRACT_SENT,
-  INVOICE_SENT,
-  OPTION,
-  CONFIRMED,
-  CANCELLED,
-} = QuoteStatus;
+const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
-  'new request': [QUOTED],
-  quoted: [CONFIRMED, CANCELLED],
-  confirmed: [BOOKED],
-  booked: [INVOICE_SENT],
-  cancelled: [NEW_REQUEST],
+  Quote: [CANCELLED, TAX_INVOICE, PROFOMA_INVOICE],
 };
 
 @Injectable()
@@ -94,34 +78,19 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       );
     }
 
-    if (state === QuoteStatus.BOOKED) {
-      //notifiy client
-      this.generateQuotePdf({ id });
-    }
     const updatedQuotation = await this.updateOne(id, { status: state });
     return updatedQuotation;
   }
 
   async upgrade(code: string) {
-    const [draftQuotate] = await this.query({
-      filter: {
-        referenceNumber: { eq: code },
-        status: { eq: QuoteStatus.NEW_REQUEST },
-      },
-    });
-
-    if (draftQuotate) {
-      throw new BadRequestException('A draft version already exists');
-    }
-
     const [quotation] = await this.query({
       filter: {
         code: { eq: code },
-        status: { eq: QuoteStatus.QUOTED },
+        status: { eq: QuoteStatus.QUOTE },
       },
     });
     if (!quotation) {
-      throw new BadRequestException('No Quotated version exists');
+      throw new BadRequestException('No Quot version exists');
     }
 
     const clonedQuotation: DeepPartial<QuotesEntity> = {
@@ -130,13 +99,17 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     clonedQuotation.version += 1;
     clonedQuotation.revision += 1;
-    clonedQuotation.status = QuoteStatus.NEW_REQUEST;
+    clonedQuotation.status = QuoteStatus.QUOTE;
+    clonedQuotation.revisedQuotationNo = `${clonedQuotation.quotationNo}/R${clonedQuotation.revision}`;
     delete clonedQuotation._id;
 
     const created = await this.createOne(clonedQuotation);
+
+    // update status to deprecated for previous quote
+
     await this.updateOne(quotation._id.toString(), {
       isLatest: false,
-      status: QuoteStatus.UPGRADED,
+      status: QuoteStatus.DEPRECATED,
     });
     return created;
   }
@@ -191,7 +164,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
         $project: {
           _id: 1,
           itinerary: 1,
-          referenceNumber: 1,
+          quotationNo: 1,
           'aircraftDetail.name': 1,
           'aircraftDetail.code': 1,
           'aircraftDetail.description': 1,
@@ -256,7 +229,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const filePath = 'quote.pdf';
     const htmlContent = QuotePdfTemplate(quote);
     const to = email || quote?.client?.email;
-    const subject = `Your Flight Quote - Reference No. ${quote?.referenceNumber ?? ''} `;
+    const subject = `Your Flight Quote - Reference No. ${quote?.revisedQuotationNo || quote?.quotationNo} `;
     const text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
 
     const pdfPath = await this.mailerService.createPDF(filePath, htmlContent);
