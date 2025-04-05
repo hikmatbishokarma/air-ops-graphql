@@ -142,10 +142,13 @@ type AircraftDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   description: String!
+  flightImages: String
   id: ID!
-  image: String!
   isActive: Boolean!
   name: String!
+  noteText: String
+  rangeMapImage: String
+  seatLayoutImage: String
   specifications: [JSONObject!]!
 
   """Flights/Helicoptor Terms and Conditions"""
@@ -156,6 +159,8 @@ type AircraftDetail {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  warningImage: String
+  warningText: String
 }
 
 type AircraftDetailAggregateGroupBy {
@@ -208,10 +213,13 @@ type AircraftDetailDeleteResponse {
   """The email of the user who deleted the record"""
   deletedBy: String
   description: String
+  flightImages: String
   id: ID
-  image: String
   isActive: Boolean
   name: String
+  noteText: String
+  rangeMapImage: String
+  seatLayoutImage: String
   specifications: [JSONObject!]
 
   """Flights/Helicoptor Terms and Conditions"""
@@ -222,6 +230,8 @@ type AircraftDetailDeleteResponse {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  warningImage: String
+  warningText: String
 }
 
 input AircraftDetailFilter {
@@ -624,10 +634,13 @@ input CreateAircraftDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   description: String
+  flightImages: String
   id: ID
-  image: String
   isActive: Boolean = true
   name: String
+  noteText: String
+  rangeMapImage: String
+  seatLayoutImage: String
   specifications: [JSONObject!]
 
   """Flights/Helicoptor Terms and Conditions"""
@@ -638,6 +651,8 @@ input CreateAircraftDetail {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  warningImage: String
+  warningText: String
 }
 
 input CreateAirport {
@@ -2207,10 +2222,13 @@ input UpdateAircraftDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   description: String
+  flightImages: String
   id: ID
-  image: String
   isActive: Boolean = true
   name: String
+  noteText: String
+  rangeMapImage: String
+  seatLayoutImage: String
   specifications: [JSONObject!]
 
   """Flights/Helicoptor Terms and Conditions"""
@@ -2221,6 +2239,8 @@ input UpdateAircraftDetail {
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  warningImage: String
+  warningText: String
 }
 
 input UpdateAirport {

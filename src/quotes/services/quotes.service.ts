@@ -5,11 +5,12 @@ import { MongooseQueryService } from '@app/query-mongoose';
 import { QuotesEntity } from '../entities/quotes.entity';
 import { AirportsService } from 'src/airports/services/airports.service';
 import { AircraftDetailService } from 'src/aircraft-detail/services/aircraft-detail.service';
-import { QuoteStatus } from 'src/app-constants/enums';
+import { QuoteStatus, TemplateType } from 'src/app-constants/enums';
 import { DeepPartial } from '@app/core';
 import { MailerService } from 'src/notification/services/mailer.service';
 import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 import { Counter } from '../entities/counter.entity';
+import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -24,6 +25,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     private readonly aircraftService: AircraftDetailService,
     private readonly mailerService: MailerService,
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
+    @InjectModel(QuotationTemplateEntity.name)
+    private quotationTemplate: Model<QuotationTemplateEntity>,
   ) {
     super(model);
   }
@@ -223,11 +226,23 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
   async generateQuotePdf(args) {
     const { id, email } = args;
+
     const quote = await this.getQuoteById(id);
     if (!quote) throw new BadRequestException('No Quote Found');
 
+    const [quotationTemp] = await this.quotationTemplate
+      .find({ quotationId: id, type: TemplateType.quotation })
+      .sort({ createdAt: -1 })
+      .limit(1);
+
+    let htmlContent = quotationTemp?.template;
+
+    if (!htmlContent) {
+      htmlContent = QuotePdfTemplate(quote);
+    }
+
     const filePath = 'quote.pdf';
-    const htmlContent = QuotePdfTemplate(quote);
+
     const to = email || quote?.client?.email;
     const subject = `Your Flight Quote - Reference No. ${quote?.revisedQuotationNo || quote?.quotationNo} `;
     const text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
@@ -242,11 +257,20 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async preview(id) {
-    const quote = await this.getQuoteById(id);
-    if (!quote) throw new BadRequestException('No Quote Found');
+    const [quotationTemp] = await this.quotationTemplate
+      .find({ quotationId: id, type: TemplateType.quotation })
+      .sort({ createdAt: -1 })
+      .limit(1);
 
-    const htmlContent = QuotePdfTemplate(quote);
-    return htmlContent;
+    if (quotationTemp) {
+      return quotationTemp.template;
+    } else {
+      const quote = await this.getQuoteById(id);
+      if (!quote) throw new BadRequestException('No Quote Found');
+
+      const htmlContent = QuotePdfTemplate(quote);
+      return htmlContent;
+    }
   }
 
   async generateQuotationNumber(): Promise<string> {

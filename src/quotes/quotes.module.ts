@@ -10,6 +10,10 @@ import { AircraftDetailModule } from 'src/aircraft-detail/aircraft-detail.module
 import { NotificationModule } from 'src/notification/notification.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Counter, CounterSchema } from './entities/counter.entity';
+import {
+  QuotationTemplateEntity,
+  QuotationTemplateSchema,
+} from './entities/quote-template.entity';
 
 @Module({
   imports: [
@@ -17,6 +21,9 @@ import { Counter, CounterSchema } from './entities/counter.entity';
     AircraftDetailModule,
     NotificationModule,
     MongooseModule.forFeature([{ name: Counter.name, schema: CounterSchema }]),
+    MongooseModule.forFeature([
+      { name: QuotationTemplateEntity.name, schema: QuotationTemplateSchema },
+    ]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         QuotesModule,

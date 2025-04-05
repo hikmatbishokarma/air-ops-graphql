@@ -16,12 +16,23 @@ export class AircraftDetailEntity extends BaseEntity {
   category: Types.ObjectId;
   @Prop()
   description: string;
-  @Prop()
-  image: string;
+
   @Prop({ type: [Object] })
   specifications: Object[];
   @Prop()
   termsAndConditions: string;
+  @Prop()
+  noteText: string;
+  @Prop()
+  warningText: string;
+  @Prop()
+  warningImage: string;
+  @Prop()
+  flightImages: string;
+  @Prop()
+  seatLayoutImage: string;
+  @Prop()
+  rangeMapImage: string;
 }
 
 export const AircraftDetailSchema =

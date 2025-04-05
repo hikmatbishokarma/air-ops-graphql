@@ -98,3 +98,8 @@ export enum DateRange {
 registerEnumType(DateRange, {
   name: 'DateRange',
 });
+
+export enum TemplateType {
+  quotation = 'quotation',
+  invoice = 'invoice',
+}

@@ -32,10 +32,20 @@ export class AircraftDetailDto extends BaseDTO {
   category: string;
   @Field()
   description: string;
-  @Field()
-  image: string;
   @Field(() => [GraphQLJSONObject])
   specifications: specificationsDTO[];
   @Field({ description: 'Flights/Helicoptor Terms and Conditions' })
   termsAndConditions: string;
+  @Field({ nullable: true })
+  noteText: string;
+  @Field({ nullable: true })
+  warningText: string;
+  @Field({ nullable: true })
+  warningImage: string;
+  @Field({ nullable: true })
+  flightImages: string;
+  @Field({ nullable: true })
+  seatLayoutImage: string;
+  @Field({ nullable: true })
+  rangeMapImage: string;
 }
