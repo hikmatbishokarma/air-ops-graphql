@@ -257,10 +257,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async preview(id) {
-    const [quotationTemp] = await this.quotationTemplate
-      .find({ quotationId: id, type: TemplateType.quotation })
-      .sort({ createdAt: -1 })
-      .limit(1);
+    // const [quotationTemp] = await this.quotationTemplate
+    //   .find({ quotationId: id, type: TemplateType.quotation })
+    //   .sort({ createdAt: -1 })
+    //   .limit(1);
+    let quotationTemp
 
     if (quotationTemp) {
       return quotationTemp.template;
