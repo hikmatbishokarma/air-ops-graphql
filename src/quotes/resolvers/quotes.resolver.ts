@@ -2,7 +2,8 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { QuotesService } from '../services/quotes.service';
 import { QuotesDto } from '../dto/quotes.dto';
 import { UpdateQuoteStatusInput } from '../inputs/updatee-quote-status.input';
-import { GenerateQuotePdfInput } from '../inputs/generate-quote-pdf.input';
+import { acknowledgementInput,  } from '../../notification/inputs/acknowledgement.input';
+import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
 
 @Resolver()
 export class QuotesResolver {
@@ -24,13 +25,11 @@ export class QuotesResolver {
     return this.quotesService.upgrade(code);
   }
 
-  @Mutation(() => String)
-  async generateQuotePdf(@Args('input') input: GenerateQuotePdfInput) {
-    return await this.quotesService.generateQuotePdf(input);
-  }
+
 
   @Query(() => String)
-  async showPreview(@Args('id') id: string) {
-    return await this.quotesService.preview(id);
+  async showPreview(@Args('quotationNo') quotationNo: string) {
+    return await this.quotesService.preview(quotationNo);
   }
+  
 }

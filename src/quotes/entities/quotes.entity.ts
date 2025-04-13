@@ -47,8 +47,8 @@ export class QuotesEntity extends BaseEntity {
   @Prop({ required: true })
   quotationNo: string;
 
-  @Prop()
-  revisedQuotationNo: string;
+  // @Prop()
+  // revisedQuotationNo: string;
 
   @Prop({ type: [Object], required: true })
   itinerary: Object[];
@@ -70,6 +70,10 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop({ default: 0 })
   revision: number;
+  @Prop({ required: true })
+  proformaInvoiceNo:string
+  @Prop({ default: 0 })
+  proformaInvoiceRevision:number
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

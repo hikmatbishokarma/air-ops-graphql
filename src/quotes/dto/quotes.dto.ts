@@ -44,8 +44,8 @@ export class QuotesDto extends BaseDTO {
   providerType: string;
   @FilterableField()
   quotationNo: string;
-  @FilterableField({ nullable: true })
-  revisedQuotationNo: string;
+  // @FilterableField({ nullable: true })
+  // revisedQuotationNo: string;
   @Field(() => [GraphQLJSONObject])
   itinerary: Object[];
   @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.QUOTE })
@@ -63,4 +63,9 @@ export class QuotesDto extends BaseDTO {
   code: string;
   @Field(() => Int, { defaultValue: 0 })
   revision: number;
+  @FilterableField()
+  proformaInvoiceNo: string;
+
+  @Field(() => Int, { defaultValue: 0 })
+  proformaInvoiceRevision: number;
 }

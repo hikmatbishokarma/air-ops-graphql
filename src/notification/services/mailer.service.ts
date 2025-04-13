@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import * as puppeteer from 'puppeteer';
+import { SalesDocumentType } from 'src/app-constants/enums';
+import { QuotePdfTemplate } from '../templates/email.template';
+import { QuotesService } from 'src/quotes/services/quotes.service';
 
 @Injectable()
 export class MailerService {
@@ -23,7 +26,7 @@ export class MailerService {
     },
   });
 
-  constructor(private readonly config: ConfigService) {}
+  constructor(private readonly config: ConfigService, private readonly quoteService:QuotesService) {}
 
   async sendEmail(
     to: string,
@@ -74,4 +77,40 @@ export class MailerService {
     await browser.close();
     return filePath;
   }
+
+    async sendAcknowledgement(args) {
+      const { quotationNo, email,documentType } = args;
+      if(!documentType)throw new BadRequestException('documentType is required');
+  
+      const quote = await this.quoteService.getQuoteById(quotationNo);
+      if (!quote) throw new BadRequestException('No Quote Found');
+  
+      let htmlContent = QuotePdfTemplate(quote);
+  
+   
+      let filePath='salesDoc.pdf', subject='',text='';
+  
+      const to = email || quote?.client?.email;
+      
+      if(documentType== SalesDocumentType.QUOTATION){
+       filePath ='quote.pdf';
+  
+       subject = `Your Flight Quote - Reference No. ${quote?.revisedQuotationNo || quote?.quotationNo} `;
+       text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
+  
+      }
+  
+      if(documentType== SalesDocumentType.INVOICE){
+        filePath ='invoice.pdf';
+      }
+     
+      const pdfPath = await this.createPDF(filePath, htmlContent);
+  
+      const attachments = [{ filename: 'document.pdf', path: pdfPath }];
+  
+      await this.sendEmail(to, subject, text, null, attachments);
+  
+      return 'PDF sent successfully!';
+    }
+  
 }

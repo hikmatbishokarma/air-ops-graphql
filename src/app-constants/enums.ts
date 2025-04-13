@@ -100,6 +100,32 @@ registerEnumType(DateRange, {
 });
 
 export enum TemplateType {
-  quotation = 'quotation',
-  invoice = 'invoice',
+  QUOTATION = 'quotation',
+  INVOICE='invoice'
 }
+
+export enum CounterType {
+  quotation = 'quotation',
+  proformaInvoice = 'progormaInvoice',
+  taxInvoice='taxIncoice'
+}
+
+export enum SalesDocumentType {
+   QUOTATION = 'quotation',
+  INVOICE='invoice'
+}
+
+registerEnumType(SalesDocumentType, {
+  name: 'SalesDocumentType',
+});
+
+export enum InvoiceType{
+
+   PROFORMA_INVOICE = 'progormaInvoice',
+  TAX_INVOICE='taxIncoice'
+}
+
+
+registerEnumType(InvoiceType, {
+  name: 'InvoiceType',
+});

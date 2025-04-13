@@ -7,19 +7,22 @@ import { QuotesService } from './services/quotes.service';
 import { AirportsModule } from 'src/airports/airports.module';
 import { QuotesResolver } from './resolvers/quotes.resolver';
 import { AircraftDetailModule } from 'src/aircraft-detail/aircraft-detail.module';
-import { NotificationModule } from 'src/notification/notification.module';
+
 import { MongooseModule } from '@nestjs/mongoose';
 import { Counter, CounterSchema } from './entities/counter.entity';
 import {
   QuotationTemplateEntity,
   QuotationTemplateSchema,
 } from './entities/quote-template.entity';
+import { InvoiceService } from './services/invoice.service';
+import { InvoiceResolver } from './resolvers/invoice.resolver';
+import { InvoiceEntity, InvoiceSchema } from './entities/invoice.entity';
+import { InvoiceDto } from './dto/invoice.dto';
 
 @Module({
   imports: [
     AirportsModule,
     AircraftDetailModule,
-    NotificationModule,
     MongooseModule.forFeature([{ name: Counter.name, schema: CounterSchema }]),
     MongooseModule.forFeature([
       { name: QuotationTemplateEntity.name, schema: QuotationTemplateSchema },
@@ -33,6 +36,12 @@ import {
             name: QuotesEntity.name,
             schema: QuotesSchema,
           },
+
+          {
+            document: InvoiceEntity,
+            name: InvoiceEntity.name,
+            schema: InvoiceSchema,
+          },
         ]),
       ],
       resolvers: [
@@ -40,10 +49,14 @@ import {
           DTOClass: QuotesDto,
           EntityClass: QuotesEntity,
         },
+        {
+          DTOClass: InvoiceDto,
+          EntityClass: InvoiceEntity,
+        },
       ],
     }),
   ],
-  providers: [QuotesService, QuotesResolver],
-  exports: [QuotesService],
+  providers: [QuotesService, QuotesResolver,InvoiceService,InvoiceResolver],
+  exports: [QuotesService,InvoiceService],
 })
 export class QuotesModule {}

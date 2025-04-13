@@ -738,6 +738,35 @@ input CreateClient {
   updatedBy: String
 }
 
+input CreateInvoice {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  invoiceNo: String
+  isActive: Boolean = true
+  isLatest: Boolean = false
+  quotation: String
+  quotationNo: String
+  revision: Int = 0
+  template: String
+  type: InvoiceType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateManyAircraftCategoriesInput {
   """Array of records to create"""
   aircraftCategories: [CreateAircraftCategory!]!
@@ -761,6 +790,11 @@ input CreateManyCitiesInput {
 input CreateManyClientsInput {
   """Array of records to create"""
   clients: [CreateClient!]!
+}
+
+input CreateManyInvoicesInput {
+  """Array of records to create"""
+  invoices: [CreateInvoice!]!
 }
 
 input CreateManyPricesInput {
@@ -821,6 +855,11 @@ input CreateOneCityInput {
 input CreateOneClientInput {
   """The record to create"""
   client: CreateClient!
+}
+
+input CreateOneInvoiceInput {
+  """The record to create"""
+  invoice: CreateInvoice!
 }
 
 input CreateOnePriceInput {
@@ -901,11 +940,12 @@ input CreateQuote {
   isLatest: Boolean = false
   itinerary: [JSONObject!]
   prices: [priceInput!]
+  proformaInvoiceNo: String
+  proformaInvoiceRevision: Int = 0
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   revision: Int = 0
   status: QuoteStatus = QUOTE
 
@@ -1098,6 +1138,11 @@ input DeleteManyClientsInput {
   filter: clientDeleteFilter!
 }
 
+input DeleteManyInvoicesInput {
+  """Filter to find records to delete"""
+  filter: InvoiceDeleteFilter!
+}
+
 input DeleteManyPricesInput {
   """Filter to find records to delete"""
   filter: priceDeleteFilter!
@@ -1163,6 +1208,11 @@ input DeleteOneClientInput {
   id: ID!
 }
 
+input DeleteOneInvoiceInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOnePriceInput {
   """The id of the record to delete."""
   id: ID!
@@ -1209,9 +1259,182 @@ enum Gender {
   OTHER
 }
 
-input GenerateQuotePdfInput {
-  email: String!
+input GenerateInvoiceInput {
   id: String!
+  isRevised: Boolean! = false
+  quotationNo: String!
+}
+
+"""Invoice"""
+type Invoice {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  invoiceNo: String!
+  isActive: Boolean!
+  isLatest: Boolean!
+  quotation: Quote!
+  quotationNo: String!
+  revision: Int!
+  template: String!
+  type: InvoiceType!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type InvoiceAggregateGroupBy {
+  invoiceNo: String
+  isActive: Boolean
+  isLatest: Boolean
+  quotation: String
+  quotationNo: String
+  type: InvoiceType
+}
+
+type InvoiceConnection {
+  """Array of nodes."""
+  nodes: [Invoice!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type InvoiceCountAggregate {
+  invoiceNo: Int
+  isActive: Int
+  isLatest: Int
+  quotation: Int
+  quotationNo: Int
+  type: Int
+}
+
+input InvoiceDeleteFilter {
+  and: [InvoiceDeleteFilter!]
+  invoiceNo: StringFieldComparison
+  isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
+  or: [InvoiceDeleteFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  type: InvoiceTypeFilterComparison
+}
+
+type InvoiceDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  invoiceNo: String
+  isActive: Boolean
+  isLatest: Boolean
+  quotation: String
+  quotationNo: String
+  revision: Int
+  template: String
+  type: InvoiceType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input InvoiceFilter {
+  and: [InvoiceFilter!]
+  invoiceNo: StringFieldComparison
+  isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
+  or: [InvoiceFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  type: InvoiceTypeFilterComparison
+}
+
+type InvoiceMaxAggregate {
+  invoiceNo: String
+  quotation: String
+  quotationNo: String
+  type: InvoiceType
+}
+
+type InvoiceMinAggregate {
+  invoiceNo: String
+  quotation: String
+  quotationNo: String
+  type: InvoiceType
+}
+
+input InvoiceSort {
+  direction: SortDirection!
+  field: InvoiceSortFields!
+  nulls: SortNulls
+}
+
+enum InvoiceSortFields {
+  invoiceNo
+  isActive
+  isLatest
+  quotation
+  quotationNo
+  type
+}
+
+enum InvoiceType {
+  PROFORMA_INVOICE
+  TAX_INVOICE
+}
+
+input InvoiceTypeFilterComparison {
+  eq: InvoiceType
+  gt: InvoiceType
+  gte: InvoiceType
+  iLike: InvoiceType
+  in: [InvoiceType!]
+  is: Boolean
+  isNot: Boolean
+  like: InvoiceType
+  lt: InvoiceType
+  lte: InvoiceType
+  neq: InvoiceType
+  notILike: InvoiceType
+  notIn: [InvoiceType!]
+  notLike: InvoiceType
+}
+
+input InvoiceUpdateFilter {
+  and: [InvoiceUpdateFilter!]
+  invoiceNo: StringFieldComparison
+  isActive: BooleanFieldComparison
+  isLatest: BooleanFieldComparison
+  or: [InvoiceUpdateFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  type: InvoiceTypeFilterComparison
 }
 
 """
@@ -1237,6 +1460,7 @@ type Mutation {
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
   createManyCities(input: CreateManyCitiesInput!): [City!]!
   createManyClients(input: CreateManyClientsInput!): [client!]!
+  createManyInvoices(input: CreateManyInvoicesInput!): [Invoice!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
   createManyRepresentatives(input: CreateManyRepresentativesInput!): [representative!]!
@@ -1249,6 +1473,7 @@ type Mutation {
   createOneAirport(input: CreateOneAirportInput!): Airport!
   createOneCity(input: CreateOneCityInput!): City!
   createOneClient(input: CreateOneClientInput!): client!
+  createOneInvoice(input: CreateOneInvoiceInput!): Invoice!
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
   createOneRepresentative(input: CreateOneRepresentativeInput!): representative!
@@ -1261,6 +1486,7 @@ type Mutation {
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
   deleteManyCities(input: DeleteManyCitiesInput!): DeleteManyResponse!
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
+  deleteManyInvoices(input: DeleteManyInvoicesInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
   deleteManyRepresentatives(input: DeleteManyRepresentativesInput!): DeleteManyResponse!
@@ -1273,6 +1499,7 @@ type Mutation {
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
   deleteOneCity(input: DeleteOneCityInput!): CityDeleteResponse!
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
+  deleteOneInvoice(input: DeleteOneInvoiceInput!): InvoiceDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
   deleteOneRepresentative(input: DeleteOneRepresentativeInput!): RepresentativeDeleteResponse!
@@ -1281,14 +1508,15 @@ type Mutation {
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
-  generateQuotePdf(input: GenerateQuotePdfInput!): String!
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
+  sendAcknowledgement(input: acknowledgementInput!): String!
   sendEmail(input: MailerInput!): MailerResponseDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setCategoryOnAircraftDetail(input: SetCategoryOnAircraftDetailInput!): AircraftDetail!
   setCategoryOnQuote(input: SetCategoryOnQuoteInput!): Quote!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
+  setQuotationOnInvoice(input: SetQuotationOnInvoiceInput!): Invoice!
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
@@ -1299,6 +1527,7 @@ type Mutation {
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
   updateManyCities(input: UpdateManyCitiesInput!): UpdateManyResponse!
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
+  updateManyInvoices(input: UpdateManyInvoicesInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
   updateManyRepresentatives(input: UpdateManyRepresentativesInput!): UpdateManyResponse!
@@ -1311,6 +1540,7 @@ type Mutation {
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
   updateOneCity(input: UpdateOneCityInput!): City!
   updateOneClient(input: UpdateOneClientInput!): client!
+  updateOneInvoice(input: UpdateOneInvoiceInput!): Invoice!
   updateOnePrice(input: UpdateOnePriceInput!): price!
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
   updateOneRepresentative(input: UpdateOneRepresentativeInput!): representative!
@@ -1458,8 +1688,23 @@ type Query {
     """Specify to sort results."""
     sorting: [clientSort!]! = []
   ): ClientConnection!
+  generateInvoice(args: GenerateInvoiceInput!): String!
   getSalesDashboardData(endDate: String, range: DateRange! = today, startDate: String): JSONObject!
   getUser(id: String!): String!
+  invoice(
+    """The id of the record to find."""
+    id: ID!
+  ): Invoice
+  invoices(
+    """Specify to filter the records returned."""
+    filter: InvoiceFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [InvoiceSort!]! = []
+  ): InvoiceConnection!
   price(
     """The id of the record to find."""
     id: ID!
@@ -1544,7 +1789,7 @@ type Query {
     """Specify to sort results."""
     sorting: [roleSort!]! = []
   ): RoleConnection!
-  showPreview(id: String!): String!
+  showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   user(
     """The id of the record to find."""
@@ -1585,11 +1830,12 @@ type Quote {
   isLatest: Boolean!
   itinerary: [JSONObject!]!
   prices: [PriceInputDto!]!
+  proformaInvoiceNo: String!
+  proformaInvoiceRevision: Int!
   providerType: String!
   quotationNo: String!
   representative: representative!
   requestedBy: client!
-  revisedQuotationNo: String
   revision: Int!
   status: QuoteStatus!
 
@@ -1607,11 +1853,11 @@ type QuoteAggregateGroupBy {
   code: String
   isActive: Boolean
   isLatest: Boolean
+  proformaInvoiceNo: String
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1632,11 +1878,11 @@ type QuoteCountAggregate {
   code: Int
   isActive: Int
   isLatest: Int
+  proformaInvoiceNo: Int
   providerType: Int
   quotationNo: Int
   representative: Int
   requestedBy: Int
-  revisedQuotationNo: Int
   status: Int
 }
 
@@ -1648,11 +1894,11 @@ input QuoteDeleteFilter {
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
+  proformaInvoiceNo: StringFieldComparison
   providerType: StringFieldComparison
   quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -1678,11 +1924,12 @@ type QuoteDeleteResponse {
   isLatest: Boolean
   itinerary: [JSONObject!]
   prices: [PriceInputDto!]
+  proformaInvoiceNo: String
+  proformaInvoiceRevision: Int
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   revision: Int
   status: QuoteStatus
 
@@ -1702,11 +1949,11 @@ input QuoteFilter {
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteFilter!]
+  proformaInvoiceNo: StringFieldComparison
   providerType: StringFieldComparison
   quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -1714,11 +1961,11 @@ type QuoteMaxAggregate {
   aircraft: String
   category: String
   code: String
+  proformaInvoiceNo: String
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1726,11 +1973,11 @@ type QuoteMinAggregate {
   aircraft: String
   category: String
   code: String
+  proformaInvoiceNo: String
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   status: QuoteStatus
 }
 
@@ -1746,11 +1993,11 @@ enum QuoteSortFields {
   code
   isActive
   isLatest
+  proformaInvoiceNo
   providerType
   quotationNo
   representative
   requestedBy
-  revisedQuotationNo
   status
 }
 
@@ -1787,11 +2034,11 @@ input QuoteUpdateFilter {
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
+  proformaInvoiceNo: StringFieldComparison
   providerType: StringFieldComparison
   quotationNo: StringFieldComparison
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
-  revisedQuotationNo: StringFieldComparison
   status: QuoteStatusFilterComparison
 }
 
@@ -2070,6 +2317,11 @@ input RoleTypeFilterComparison {
   notLike: RoleType
 }
 
+enum SalesDocumentType {
+  INVOICE
+  QUOTATION
+}
+
 input SetAircraftOnPriceInput {
   """The id of the record."""
   id: ID!
@@ -2103,6 +2355,14 @@ input SetCategoryOnQuoteInput {
 }
 
 input SetClientOnRepresentativeInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetQuotationOnInvoiceInput {
   """The id of the record."""
   id: ID!
 
@@ -2326,6 +2586,35 @@ input UpdateClient {
   updatedBy: String
 }
 
+input UpdateInvoice {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  invoiceNo: String
+  isActive: Boolean = true
+  isLatest: Boolean = false
+  quotation: String
+  quotationNo: String
+  revision: Int = 0
+  template: String
+  type: InvoiceType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateManyAircraftCategoriesInput {
   """Filter used to find fields to update"""
   filter: AircraftCategoryUpdateFilter!
@@ -2364,6 +2653,14 @@ input UpdateManyClientsInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateClient!
+}
+
+input UpdateManyInvoicesInput {
+  """Filter used to find fields to update"""
+  filter: InvoiceUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateInvoice!
 }
 
 input UpdateManyPricesInput {
@@ -2465,6 +2762,14 @@ input UpdateOneClientInput {
 
   """The update to apply."""
   update: UpdateClient!
+}
+
+input UpdateOneInvoiceInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateInvoice!
 }
 
 input UpdateOnePriceInput {
@@ -2571,11 +2876,12 @@ input UpdateQuote {
   isLatest: Boolean = false
   itinerary: [JSONObject!]
   prices: [priceInput!]
+  proformaInvoiceNo: String
+  proformaInvoiceRevision: Int = 0
   providerType: String
   quotationNo: String
   representative: String
   requestedBy: String
-  revisedQuotationNo: String
   revision: Int = 0
   status: QuoteStatus = QUOTE
 
@@ -2903,6 +3209,12 @@ input UserUpdateFilter {
 input accessPermissionInput {
   action: [ResourceAction!]!
   resource: String!
+}
+
+input acknowledgementInput {
+  documentType: SalesDocumentType!
+  email: String!
+  quotationNo: String!
 }
 
 """Client"""
