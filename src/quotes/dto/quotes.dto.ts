@@ -63,9 +63,9 @@ export class QuotesDto extends BaseDTO {
   code: string;
   @Field(() => Int, { defaultValue: 0 })
   revision: number;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   proformaInvoiceNo: string;
 
-  @Field(() => Int, { defaultValue: 0 })
+  @Field(() => Int, { defaultValue: 0, nullable: true })
   proformaInvoiceRevision: number;
 }

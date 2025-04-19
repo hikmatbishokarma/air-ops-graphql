@@ -70,10 +70,10 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop({ default: 0 })
   revision: number;
-  @Prop({ required: true })
-  proformaInvoiceNo:string
+  @Prop()
+  proformaInvoiceNo: string;
   @Prop({ default: 0 })
-  proformaInvoiceRevision:number
+  proformaInvoiceRevision: number;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

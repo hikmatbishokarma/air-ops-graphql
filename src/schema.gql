@@ -1830,8 +1830,8 @@ type Quote {
   isLatest: Boolean!
   itinerary: [JSONObject!]!
   prices: [PriceInputDto!]!
-  proformaInvoiceNo: String!
-  proformaInvoiceRevision: Int!
+  proformaInvoiceNo: String
+  proformaInvoiceRevision: Int
   providerType: String!
   quotationNo: String!
   representative: representative!
