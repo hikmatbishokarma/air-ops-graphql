@@ -22,6 +22,7 @@ export class CreateQuoteHook<T extends QuotesDto>
     const refNo = await this.quotesService.generateQuotationNumber();
 
     input.quotationNo = refNo;
+    input.isLatest = true;
     input.code = new ObjectId().toString(); //generate random code to maintain same throught the every version
 
     return instance;

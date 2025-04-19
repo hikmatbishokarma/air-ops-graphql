@@ -57,7 +57,7 @@ export class QuotesDto extends BaseDTO {
 
   @Field(() => Int, { defaultValue: 1 })
   version: number;
-  @FilterableField({ defaultValue: false })
+  @FilterableField({ defaultValue: true })
   isLatest: boolean;
   @FilterableField()
   code: string;
