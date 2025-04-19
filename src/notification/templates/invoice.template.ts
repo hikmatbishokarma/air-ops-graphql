@@ -1,22 +1,20 @@
+import moment from 'moment';
 
+export const InvoiceTemplate = (quote) => {
+  const {
+    itinerary,
+    price,
+    grandTotal,
+    aircraftDetail,
+    client,
+    quotationNo,
+    proformaInvoiceNo,
+    createdAt,
+    totalPrice,
+    gstAmount,
+  } = quote;
 
-export const InvoiceTemplate=(quote)=>{
-
-
-    const {
-        itinerary,
-        price,
-        grandTotal,
-        aircraftDetail,
-        client,
-        quotationNo,
-        revisedQuotationNo,
-        createdAt,
-        totalPrice,
-        gstAmount,
-      } = quote;
-
-    return `
+  return `
 
     <!DOCTYPE html>
 <html>
@@ -40,11 +38,11 @@ export const InvoiceTemplate=(quote)=>{
   <table>
     <tr>
       <td><strong>From:</strong><br/>RENARD JET AVIATION PRIVATE LIMITED<br/>New Delhi</td>
-      <td><strong>Invoice No:</strong> 24-25/RJAI/PI/0011<br/><strong>Dated:</strong> 27-Feb-25</td>
+      <td><strong>Invoice No:</strong> ${proformaInvoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
     </tr>
     <tr>
-      <td><strong>To:</strong><br/>Telugu Desam Party<br/>Hyderabad, Telangana</td>
-      <td><strong>Reference No:</strong> 24-25/RJAI/PI/0011</td>
+      <td><strong>To:</strong><br/>${client.name}<br/>${client.address}</td>
+      <td><strong>Reference No:</strong>${quotationNo}</td>
     </tr>
   </table>
 
@@ -101,5 +99,5 @@ export const InvoiceTemplate=(quote)=>{
 </body>
 </html>
 
-    `
-}
+    `;
+};

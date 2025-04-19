@@ -13,6 +13,8 @@ export const QuotePdfTemplate = (quote) => {
     totalPrice,
     gstAmount,
   } = quote;
+
+  console.log('aircraftDetail::', aircraftDetail);
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -178,13 +180,7 @@ export const QuotePdfTemplate = (quote) => {
 
 <!---note--para--->
 <div class="note-para-view">
-<p>Please Note :</p>
-<p>1. All quotations/options provided above are subject to all necessary permission and 
-aircraft availability at the time of charter confirmation & as per the</p>
-<p>2. Any miscellaneous charges including watch hour extensions (if required) will be charged on actuals </p>
-<p>3. Timings to be confirmed on the basis of NOTAM and watch hours at respective Airports.</p>
-<p>4. If at Day/Night Halt Parking Is Unavailable Due to any reason, The Aircraft/Helicopter Shall Be Positioned And Parked To 
-Nearest Airport and all associated charges will be charged Extra</p>
+<p>${aircraftDetail.noteText}</p>
 </div>
 
         <!----banner-one---start--->
@@ -229,71 +225,16 @@ you will able to cash in Hawkers reliability and perfomance permise. while trave
   <div class="column-img">
   <h3 class="range-text">Specifications</h3>
  <table id="customers">
-
-  <tr>
-    <td>Aircraft Type</td>
-    <td>HAWKER-750</td>
-    
-  </tr>
-  <tr>
-    <td>Baggage Capacity</td>
-    <td>79 cuft</td>
-    
-  </tr>
-  <tr>
-    <td>Cruise Speed</td>
-    <td>380 Knots</td>
-  
-  </tr>
-  <tr>
-    <td>Passenger</td>
-    <td>8</td>
-   
-  </tr>
-  <tr>
-    <td>Year of Manufacture</td>
-    <td>2008</td>
-   
-  </tr>
-  <tr>
-    <td>Königlich Essen</td>
-    <td>Philip Cramer</td>
-    
-  </tr>
-  <tr>
-    <td>Home Base</td>
-    <td>Delhi</td>
-   
-  </tr>
-  <tr>
-    <td>Pilots</td>
-    <td>2</td>
-    
-  </tr>
-  
-   <tr>
-    <td>Cabin Crew</td>
-    <td>1</td>
-  </tr>
-  
-     <tr>
-    <td>Max.range/Flying Range</td>
-    <td>2923 nm</td>
-    
-  </tr>
-  
-   <tr>
-    <td>Stand up cabin</td>
-    <td>Yes</td>
-    
-  </tr>
-  
-     <tr>
-    <td>Cabin Height</td>
-    <td>5.9</td>
-    
-  </tr>
-
+   ${aircraftDetail?.specifications
+     ?.map(
+       (item) => `
+          <tr>
+            <td>${item.title}</td>
+            <td>${item.value}</td>
+          </tr>
+        `,
+     )
+     .join('')}
 </table>
 
 </div>
@@ -301,22 +242,16 @@ you will able to cash in Hawkers reliability and perfomance permise. while trave
 
   <!-- Terms and Conditions -->
         <div class="terms">
-            <strong>Terms and Conditions:</strong>
              ${aircraftDetail.termsAndConditions}
         </div>
-
- <p><b>The client hereby agrees to the terms and conditions of the charter as deﬁned above.</b></p>
- <p><b>For JetSetGo Aviation Services Pvt ltd</b></p>
-               </div>
+        <!-- Footer Section --> 
+        
 
                <!----six--card--start-->
 
                    <div class="guest-detsils-v1">
-                   <p>Dear Guest,</p>
-                   <p>Greetings from Jet set Go Aviation Services Pvt Ltd!!!</p>
-                   <p>Your Requested to kindly avoid carring the following items 
-                   equiments along with you wwhile boarding the aircraft/helicopter</p>
-
+                   <p>${aircraftDetail?.warningText ?? ''}</p>
+                
                      <div class="terms-bay">
                <img src="https://book.spicejet.com/images/spicejet/dgr-info.png">
                </div>

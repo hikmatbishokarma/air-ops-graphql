@@ -1260,7 +1260,7 @@ enum Gender {
 }
 
 input GenerateInvoiceInput {
-  id: String!
+  id: String
   isRevised: Boolean! = false
   quotationNo: String!
 }

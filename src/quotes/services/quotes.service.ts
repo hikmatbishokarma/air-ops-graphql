@@ -5,7 +5,12 @@ import { MongooseQueryService } from '@app/query-mongoose';
 import { QuotesEntity } from '../entities/quotes.entity';
 import { AirportsService } from 'src/airports/services/airports.service';
 import { AircraftDetailService } from 'src/aircraft-detail/services/aircraft-detail.service';
-import { CounterType, QuoteStatus, SalesDocumentType, TemplateType } from 'src/app-constants/enums';
+import {
+  CounterType,
+  QuoteStatus,
+  SalesDocumentType,
+  TemplateType,
+} from 'src/app-constants/enums';
 import { DeepPartial } from '@app/core';
 import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 import { Counter } from '../entities/counter.entity';
@@ -99,7 +104,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       ...quotation.toObject(),
     };
 
-    const originalQuotation= clonedQuotation.quotationNo.split('/R')[0]
+    const originalQuotation = clonedQuotation.quotationNo.split('/R')[0];
     clonedQuotation.version += 1;
     clonedQuotation.revision += 1;
     clonedQuotation.status = QuoteStatus.QUOTE;
@@ -124,11 +129,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     return quotationWorkflowTransition[currentState].includes(newState);
   }
 
-  async getQuoteById(quotationNo=null) {
+  async getQuoteById(quotationNo = null) {
     //const [quote] = await this.query({ filter: { id: { eq: id } } });
 
     const [quote] = await this.Model.aggregate([
-      { $match: { quotationNo:quotationNo } },
+      { $match: { quotationNo: quotationNo } },
       {
         $lookup: {
           from: 'aircraft-details',
@@ -168,6 +173,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           _id: 1,
           itinerary: 1,
           quotationNo: 1,
+          proformaInvoiceNo: 1,
           aircraftDetail: 1,
           'aircraftCategory.name': 1,
           'client.name': 1,
@@ -219,7 +225,6 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     return quote;
   }
 
-
   async preview(quotationNo) {
     const [quotationTemp] = await this.quotationTemplate
       .find({ quotationNo, type: TemplateType.QUOTATION })
@@ -241,7 +246,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
 
     const counter = await this.counterModel.findOneAndUpdate(
-      { year: currentYear,type:CounterType.quotation },
+      { year: currentYear, type: CounterType.quotation },
       { $inc: { serial: 1 } },
       { new: true, upsert: true },
     );
@@ -251,30 +256,28 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async generateInvoice(args) {
-    const { id ,quotationNo,isRevised} = args;
+    const { id, quotationNo, isRevised } = args;
 
     const quote = await this.getQuoteById(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    let htmlContent  = InvoiceTemplate(quote);
-    if(!htmlContent)  throw new BadRequestException('No Content Found');
+    let htmlContent = InvoiceTemplate(quote);
+    if (!htmlContent) throw new BadRequestException('No Content Found');
 
-    let proformaInvoiceNo=quote.proformaInvoiceNo??''
-    let proformaInvoiceRevision = quotationNo?.proformaInvoiceRevision??0
-    if(!isRevised){
-       proformaInvoiceNo= await this.generateProformaInvoiceNumber()
-    }
-    else {
-      proformaInvoiceRevision +=1
-      proformaInvoiceNo =`${proformaInvoiceNo}/R${proformaInvoiceRevision}`
+    let proformaInvoiceNo = quote.proformaInvoiceNo ?? '';
+    let proformaInvoiceRevision = quotationNo?.proformaInvoiceRevision ?? 0;
+    if (!isRevised) {
+      proformaInvoiceNo = await this.generateProformaInvoiceNumber();
+    } else {
+      proformaInvoiceRevision += 1;
+      proformaInvoiceNo = `${proformaInvoiceNo}/R${proformaInvoiceRevision}`;
     }
 
-    
     await this.updateOne(quote._id.toString(), {
       proformaInvoiceNo,
-      proformaInvoiceRevision
+      proformaInvoiceRevision,
     });
-  
+
     return htmlContent;
   }
 
@@ -282,7 +285,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
 
     const counter = await this.counterModel.findOneAndUpdate(
-      { year: currentYear,type:CounterType.proformaInvoice },
+      { year: currentYear, type: CounterType.proformaInvoice },
       { $inc: { serial: 1 } },
       { new: true, upsert: true },
     );
