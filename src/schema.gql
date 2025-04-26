@@ -937,7 +937,7 @@ input CreateQuote {
   grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
-  isLatest: Boolean = false
+  isLatest: Boolean = true
   itinerary: [JSONObject!]
   prices: [priceInput!]
   proformaInvoiceNo: String
@@ -1542,6 +1542,8 @@ type Mutation {
   updateOneClient(input: UpdateOneClientInput!): client!
   updateOneInvoice(input: UpdateOneInvoiceInput!): Invoice!
   updateOnePrice(input: UpdateOnePriceInput!): price!
+
+  """Update one Quote """
   updateOneQuote(input: UpdateOneQuoteInput!): Quote!
   updateOneRepresentative(input: UpdateOneRepresentativeInput!): representative!
   updateOneResource(input: UpdateOneResourceInput!): resource!
@@ -2785,7 +2787,7 @@ input UpdateOneQuoteInput {
   id: ID!
 
   """The update to apply."""
-  update: UpdateQuote!
+  update: UpdateQuoteDTO!
 }
 
 input UpdateOneRepresentativeInput {
@@ -2873,7 +2875,7 @@ input UpdateQuote {
   grandTotal: Float = 0
   id: ID
   isActive: Boolean = true
-  isLatest: Boolean = false
+  isLatest: Boolean = true
   itinerary: [JSONObject!]
   prices: [priceInput!]
   proformaInvoiceNo: String
@@ -2891,6 +2893,17 @@ input UpdateQuote {
   """The email of the user who last updated the record"""
   updatedBy: String
   version: Int = 1
+}
+
+input UpdateQuoteDTO {
+  aircraft: String!
+  category: String!
+  grandTotal: Float! = 0
+  itinerary: [JSONObject!]!
+  prices: [priceInput!]!
+  providerType: String!
+  representative: String!
+  requestedBy: String
 }
 
 input UpdateQuoteStatusInput {
@@ -3219,7 +3232,7 @@ input acknowledgementInput {
 
 """Client"""
 type client {
-  address: String
+  address: String!
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -3253,7 +3266,6 @@ type clientAggregateGroupBy {
   isActive: Boolean
   isCompany: Boolean
   isPerson: Boolean
-  name: String
   phone: String
 }
 
@@ -3263,7 +3275,6 @@ type clientCountAggregate {
   isActive: Int
   isCompany: Int
   isPerson: Int
-  name: Int
   phone: Int
 }
 
@@ -3274,7 +3285,6 @@ input clientDeleteFilter {
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
-  name: StringFieldComparison
   or: [clientDeleteFilter!]
   phone: StringFieldComparison
 }
@@ -3286,7 +3296,6 @@ input clientFilter {
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
-  name: StringFieldComparison
   or: [clientFilter!]
   phone: StringFieldComparison
 }
@@ -3294,14 +3303,12 @@ input clientFilter {
 type clientMaxAggregate {
   address: String
   email: String
-  name: String
   phone: String
 }
 
 type clientMinAggregate {
   address: String
   email: String
-  name: String
   phone: String
 }
 
@@ -3317,7 +3324,6 @@ enum clientSortFields {
   isActive
   isCompany
   isPerson
-  name
   phone
 }
 
@@ -3328,7 +3334,6 @@ input clientUpdateFilter {
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
   isPerson: BooleanFieldComparison
-  name: StringFieldComparison
   or: [clientUpdateFilter!]
   phone: StringFieldComparison
 }

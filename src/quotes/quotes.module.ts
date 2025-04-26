@@ -48,6 +48,7 @@ import { InvoiceDto } from './dto/invoice.dto';
         {
           DTOClass: QuotesDto,
           EntityClass: QuotesEntity,
+          update: { one: { disabled: true } },
         },
         {
           DTOClass: InvoiceDto,
@@ -56,7 +57,7 @@ import { InvoiceDto } from './dto/invoice.dto';
       ],
     }),
   ],
-  providers: [QuotesService, QuotesResolver,InvoiceService,InvoiceResolver],
-  exports: [QuotesService,InvoiceService],
+  providers: [QuotesService, QuotesResolver, InvoiceService, InvoiceResolver],
+  exports: [QuotesService, InvoiceService],
 })
 export class QuotesModule {}

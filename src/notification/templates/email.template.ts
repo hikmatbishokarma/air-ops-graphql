@@ -145,7 +145,7 @@ export const QuotePdfTemplate = (quote) => {
                     <td>${moment(item.depatureDate).format('DD-MMM-YYYY')}</td>
                     <td>${item?.source?.city}</td>
                     <td>${item?.destination?.city}</td>
-                    <td>${item.depatureTime}</td>
+                    <td>${item?.apxFlyTime}</td>
                     <td>${item.paxNumber} pax</td>
                 </tr>`,
             )}

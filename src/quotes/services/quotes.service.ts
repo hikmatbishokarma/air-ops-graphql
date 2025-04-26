@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, ObjectId } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
@@ -16,6 +20,7 @@ import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 import { Counter } from '../entities/counter.entity';
 import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
+import { calculateDuration } from 'src/common/helper';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -213,6 +218,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       );
       segment.source = source;
       segment.destination = destination;
+      const duration = calculateDuration(
+        segment.depatureTime,
+        segment.arrivalTime,
+      );
+      segment.apxFlyTime = duration;
     });
 
     /** calculate price  */
@@ -292,5 +302,37 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     const serialNumber = counter.serial.toString().padStart(4, '0'); // Format serial to 4 digits
     return `AOPI/${currentYear}/${serialNumber}`;
+  }
+
+  async updateOneQuote(input) {
+    console.log('input:::', input);
+    const { id, update } = input;
+
+    const [quotation] = await this.query({
+      filter: {
+        id: { eq: id },
+      },
+    });
+    if (!quotation) {
+      throw new BadRequestException('No Quote Found');
+    }
+
+    const originalQuotation = quotation.quotationNo.split('/R')[0];
+    update.version = quotation.version + 1;
+    update.revision = quotation.version + 1;
+    update.status = QuoteStatus.QUOTE;
+    update.quotationNo = `${originalQuotation}/R${update.revision}`;
+    update.code = quotation.code;
+
+    const updated = await this.createOne(update);
+    if (!updated)
+      throw new InternalServerErrorException('Error in updating quote');
+
+    await this.updateOne(id, {
+      isLatest: false,
+      // status: QuoteStatus.DEPRECATED,
+    });
+
+    return updated;
   }
 }

@@ -4,11 +4,11 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'clients' })
 export class ClientsEntity extends BaseEntity {
-  @Prop()
+  @Prop({ required: true })
   name: string;
-  @Prop()
+  @Prop({ required: true, unique: true })
   phone: string;
-  @Prop()
+  @Prop({ required: true, unique: true })
   email: string;
   @Prop()
   address: string;

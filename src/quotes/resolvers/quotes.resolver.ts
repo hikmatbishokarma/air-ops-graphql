@@ -2,8 +2,10 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { QuotesService } from '../services/quotes.service';
 import { QuotesDto } from '../dto/quotes.dto';
 import { UpdateQuoteStatusInput } from '../inputs/updatee-quote-status.input';
-import { acknowledgementInput,  } from '../../notification/inputs/acknowledgement.input';
+import { acknowledgementInput } from '../../notification/inputs/acknowledgement.input';
 import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
+import { UpdateOneInputType } from '@app/query-graphql';
+import { UpdateOneQuoteInput } from '../inputs/update-quote.input';
 
 @Resolver()
 export class QuotesResolver {
@@ -25,11 +27,16 @@ export class QuotesResolver {
     return this.quotesService.upgrade(code);
   }
 
-
-
   @Query(() => String)
   async showPreview(@Args('quotationNo') quotationNo: string) {
     return await this.quotesService.preview(quotationNo);
   }
-  
+
+  @Mutation(() => QuotesDto, {
+    name: 'updateOneQuote',
+    description: 'Update one Quote ',
+  })
+  async updateOneQuote(@Args('input') input: UpdateOneQuoteInput) {
+    return await this.quotesService.updateOneQuote(input);
+  }
 }

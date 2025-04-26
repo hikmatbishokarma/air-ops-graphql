@@ -116,3 +116,28 @@ export const imageFileFilter = async (req, file, callback) => {
   }
   callback(null, true);
 };
+
+// Function to calculate duration
+export const calculateDuration = (depatureTime, arrivalTime) => {
+  const [depHour, depMinute] = depatureTime.split(':').map(Number);
+  const [arrHour, arrMinute] = arrivalTime.split(':').map(Number);
+
+  const depTotalMinutes = depHour * 60 + depMinute;
+  const arrTotalMinutes = arrHour * 60 + arrMinute;
+
+  let diffMinutes = arrTotalMinutes - depTotalMinutes;
+  if (diffMinutes < 0) {
+    diffMinutes += 24 * 60; // handle next day arrival
+  }
+
+  const hours = Math.floor(diffMinutes / 60);
+  const minutes = diffMinutes % 60;
+
+  if (hours === 0) {
+    return `${minutes}min`;
+  } else if (minutes === 0) {
+    return `${hours}hr`;
+  } else {
+    return `${hours}hr ${minutes}min`;
+  }
+};

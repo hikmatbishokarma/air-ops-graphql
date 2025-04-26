@@ -14,16 +14,15 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 export class ClientsDto extends BaseDTO {
-  @FilterableField()
+  @Field()
   name: string;
-  @FilterableField()
+  @FilterableField({ nullable: false })
   phone: string;
-  @FilterableField()
+  @FilterableField({ nullable: false })
   email: string;
-  @FilterableField({ nullable: true })
+  @FilterableField({ nullable: false })
   address: string;
-  //   @FilterableField(() => ClientType)
-  //   type: ClientType;
+
   @FilterableField()
   isCompany: boolean;
   @FilterableField()
