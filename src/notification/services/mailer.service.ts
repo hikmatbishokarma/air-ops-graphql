@@ -55,11 +55,38 @@ export class MailerService {
     }
   }
 
+  // async createPDF(filePath: string, htmlContent: string): Promise<string> {
+  //   const isLocal = true;
+
+  //   const browser = await puppeteer.launch({
+  //     headless: true, // Use `true` instead of `"new"`
+  //     args: isLocal
+  //       ? []
+  //       : [
+  //           '--no-sandbox',
+  //           '--disable-setuid-sandbox',
+  //           '--disable-dev-shm-usage',
+  //           '--disable-gpu',
+  //           '--single-process',
+  //         ],
+  //   });
+
+  //   const page = await browser.newPage();
+  //   await page.setContent(htmlContent);
+  //   // ✅ Alternative to waitForTimeout
+  //   // await page.waitForFunction(() => document.readyState === 'complete');
+
+  //   await page.pdf({ path: filePath, format: 'A4' });
+
+  //   await browser.close();
+  //   return filePath;
+  // }
+
   async createPDF(filePath: string, htmlContent: string): Promise<string> {
-    const isLocal = true;
+    const isLocal = process.env.NODE_ENV !== 'production'; // <--- Auto detect!
 
     const browser = await puppeteer.launch({
-      headless: true, // Use `true` instead of `"new"`
+      headless: true,
       args: isLocal
         ? []
         : [
@@ -72,10 +99,7 @@ export class MailerService {
     });
 
     const page = await browser.newPage();
-    await page.setContent(htmlContent);
-    // ✅ Alternative to waitForTimeout
-    // await page.waitForFunction(() => document.readyState === 'complete');
-
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); // better
     await page.pdf({ path: filePath, format: 'A4' });
 
     await browser.close();
