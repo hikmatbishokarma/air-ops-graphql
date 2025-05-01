@@ -40,7 +40,7 @@ export class MailerService {
     attachments?: any,
   ) {
     try {
-      await this.transporter.sendMail({
+      const result = await this.transporter.sendMail({
         from: `"Airops" <${process.env.EMAIL_USER}>`, // Custom sender name
         to,
         subject,
@@ -48,6 +48,7 @@ export class MailerService {
         html,
         attachments,
       });
+      console.log('email---', result);
       return { success: true, message: 'Email sent successfully' };
     } catch (error) {
       console.error('Email sending error:', error);
