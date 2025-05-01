@@ -14,7 +14,7 @@ import { diskStorage } from 'multer';
 import { generateFileName, imageFileFilter } from 'src/common/helper';
 import * as path from 'path';
 
-@Controller('media')
+@Controller('api/media')
 export class MediaController {
   @Post('upload')
   @UseInterceptors(
