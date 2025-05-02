@@ -3169,9 +3169,9 @@ input UserFilter {
 type UserInput {
   email: String!
   id: String!
-  image: String!
+  image: String
   name: String!
-  role: RoleInput!
+  role: RoleInput
 }
 
 input UserInputDto {
@@ -3715,7 +3715,7 @@ input roleUpdateFilter {
 input userInput {
   email: String!
   id: String!
-  image: String!
+  image: String
   name: String!
-  role: roleInput!
+  role: roleInput
 }

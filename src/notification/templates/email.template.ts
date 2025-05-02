@@ -14,7 +14,6 @@ export const QuotePdfTemplate = (quote) => {
     gstAmount,
   } = quote;
 
-  console.log('aircraftDetail::', aircraftDetail);
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -185,7 +184,10 @@ export const QuotePdfTemplate = (quote) => {
 
         <!----banner-one---start--->
                <div class="terms-bay">
-               <img src="https://flyusa.com/wp-content/uploads/2024/09/HAWKER-800-Charter-Rates-and-Flights.jpg">
+               ${aircraftDetail.flightImages.map(
+                 (item) => `<img src="https://airops.in/${item}">`,
+               )}
+              
                </div>
 
 <!----banner-two---start--->
@@ -206,7 +208,7 @@ export const QuotePdfTemplate = (quote) => {
 <div class="row-side-images">
   <div class="column-img">
   <h3 class="range-text">Range Map</h3>
-    <img src="https://jetsplore.com/wp-content/uploads/2023/03/HAWKER-800XP-R4550A-1024x550.jpg" alt="Snow" style="width:100%">
+    <img src="https://airops.in/${aircraftDetail.rangeMapImage}" alt="Snow" style="width:100%">
   </div>
   <div class="column-img">
 <p>The Hawker Beechcraft 750 is a light-to-midisze jet. the Hawker 750 is powered by two honeywell engines. 
@@ -220,7 +222,7 @@ you will able to cash in Hawkers reliability and perfomance permise. while trave
 <div class="row-side-images">
   <div class="column-img">
  
-    <img src="https://premierprivatejets.com/wp-content/uploads/2024/08/800xp_interiorLayout-b806b066-1024x314.jpeg" alt="Snow" style="width:100%">
+    <img src="https://airops.in/${aircraftDetail.seatLayoutImage}" alt="Snow" style="width:100%">
   </div>
   <div class="column-img">
   <h3 class="range-text">Specifications</h3>
@@ -253,7 +255,7 @@ you will able to cash in Hawkers reliability and perfomance permise. while trave
                    <p>${aircraftDetail?.warningText ?? ''}</p>
                 
                      <div class="terms-bay">
-               <img src="https://book.spicejet.com/images/spicejet/dgr-info.png">
+               <img src="https://airops.in/${aircraftDetail.warningImage}">
                </div>
 
                <div class="substances-t1">
