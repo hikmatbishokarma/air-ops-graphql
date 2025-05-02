@@ -71,6 +71,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       name: user.name,
       email: user.email,
       password: user.password,
+      image: user.image,
       role: {
         type: role?.type || RoleType.USER,
         name: role.name,

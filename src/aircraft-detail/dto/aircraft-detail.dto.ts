@@ -42,8 +42,8 @@ export class AircraftDetailDto extends BaseDTO {
   warningText: string;
   @Field({ nullable: true })
   warningImage: string;
-  @Field({ nullable: true })
-  flightImages: string;
+  @Field(() => [String], { nullable: true })
+  flightImages: string[];
   @Field({ nullable: true })
   seatLayoutImage: string;
   @Field({ nullable: true })

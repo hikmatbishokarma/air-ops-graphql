@@ -21,6 +21,8 @@ export class UserInput {
   name: string;
   @Field()
   email: string;
+  @Field()
+  image: string;
   @Field(() => RoleInput)
   role: RoleInput;
 }
