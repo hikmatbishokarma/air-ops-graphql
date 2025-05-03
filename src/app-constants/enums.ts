@@ -4,7 +4,7 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum RoleType {
   ADMIN = 'ADMIN',
-  PARTNER = 'PARTNER',
+  SUPER_ADMIN = 'SUPER_ADMIN',
   SALES = 'SALES',
   OPERATOR = 'OPERATOR',
   SITE_ADMIN = 'SITE ADMIN',
@@ -101,31 +101,49 @@ registerEnumType(DateRange, {
 
 export enum TemplateType {
   QUOTATION = 'quotation',
-  INVOICE='invoice'
+  INVOICE = 'invoice',
 }
 
 export enum CounterType {
   quotation = 'quotation',
   proformaInvoice = 'progormaInvoice',
-  taxInvoice='taxIncoice'
+  taxInvoice = 'taxIncoice',
 }
 
 export enum SalesDocumentType {
-   QUOTATION = 'quotation',
-  INVOICE='invoice'
+  QUOTATION = 'quotation',
+  INVOICE = 'invoice',
 }
 
 registerEnumType(SalesDocumentType, {
   name: 'SalesDocumentType',
 });
 
-export enum InvoiceType{
-
-   PROFORMA_INVOICE = 'progormaInvoice',
-  TAX_INVOICE='taxIncoice'
+export enum InvoiceType {
+  PROFORMA_INVOICE = 'progormaInvoice',
+  TAX_INVOICE = 'taxIncoice',
 }
-
 
 registerEnumType(InvoiceType, {
   name: 'InvoiceType',
+});
+
+export enum SubscriptionPlan {
+  FREE = 'free',
+  STANDARD = 'standard',
+  ENTERPRISE = 'enterprise',
+}
+
+registerEnumType(SubscriptionPlan, {
+  name: 'SubscriptionPlan',
+});
+
+export enum BillingCycle {
+  MONTHLY = 'monthly',
+  QUARTERLY = 'quarterly',
+  YEARLY = 'yearly',
+}
+
+registerEnumType(BillingCycle, {
+  name: 'BillingCycle',
 });

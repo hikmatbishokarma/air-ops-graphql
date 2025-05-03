@@ -168,4 +168,37 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       message: 'Password reset successfully',
     };
   }
+
+  async createAgentAsAdmin(args) {
+    const { name, email, phone, agentId } = args;
+    const role = await this.getRoleByType(RoleType.ADMIN);
+    if (!role) throw new Error('Admin Role Not Found');
+
+    const tempPassword = generatePassword(8);
+
+    console.log('tempPassword', tempPassword);
+
+    const hashedPassword = await hashPassword(tempPassword);
+
+    const payload = {
+      name,
+      email,
+      password: hashedPassword,
+      role: role?.id,
+      phone,
+      agentId,
+    };
+    const user = await this.createOne(payload);
+    if (!user) throw new Error('Failed To Signup User');
+
+    /**
+     * notify user with random password
+     */
+    const subject = 'Your Temporary Password for Login';
+    const text = `Dear ${user.name},\n\n Here are your temporary login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease use the link below to log in and reset your password immediately:\n\nReset Password: ${this.url}reset-password\n\nIf you didn’t request this, please ignore this email or contact our support team.\n\nBest regards,\nAirops Support Team`;
+
+    this.mailerService.sendEmail(user.email, subject, text);
+
+    return user;
+  }
 }

@@ -38,5 +38,8 @@ export class UserEntity extends BaseEntity {
 
   @Prop({ type: Types.ObjectId, ref: 'RoleEntity', required: true })
   role: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'AgentEntity', required: true })
+  agentId: Types.ObjectId;
 }
 export const UserSchema = SchemaFactory.createForClass(UserEntity);
