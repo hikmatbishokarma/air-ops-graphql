@@ -15,20 +15,29 @@ export class AgentService extends MongooseQueryService<AgentEntity> {
     super(model);
   }
 
-  async createAgent(input) {
-    const agent = await this.createOne(input);
+  async createAgent(input, currentUser) {
+    const createdBy = currentUser.id || currentUser.sub;
+    const agent = await this.createOne({
+      ...input,
+      createdBy,
+    });
 
     if (!agent) throw new Error('Failed to create agent');
 
-    const user = await this.userService.createAgentAsAdmin({
-      name: agent.basic.name,
-      email: agent.basic.email,
-      phone: agent.basic.phone,
+    const createUser = await this.userService.createAgentAsAdmin({
+      name: agent.name,
+      email: agent.email,
+      phone: agent.phone,
       agentId: agent.id,
+      createdBy,
     });
 
-    if (!user) throw new Error('Failed to create user');
+    if (!createUser) throw new Error('Failed to create user');
 
     return agent;
+  }
+
+  async getUserById(id: string) {
+    return await this.userService.findById(id);
   }
 }

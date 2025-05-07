@@ -5,7 +5,7 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsMobilePhone } from 'class-validator';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Gender, RoleType } from 'src/app-constants/enums';
@@ -23,6 +23,7 @@ import { AgentDto } from 'src/agent/dto/agent.dto';
 @Relation('role', () => RoleDTO, { disableRemove: true })
 @Relation('agent', () => AgentDto, { disableRemove: true })
 @BeforeCreateOne(CreateUserHook)
+@InputType()
 export class UserDTO extends BaseDTO {
   @FilterableField()
   name: string;
@@ -59,6 +60,12 @@ export class UserDTO extends BaseDTO {
 
   @FilterableField()
   role: string;
+
+  @FilterableField(() => [String], {
+    allowedComparisons: ['eq', 'neq', 'in', 'notIn'],
+    nullable: true,
+  })
+  roles: string[];
 
   @FilterableField({ nullable: true })
   agentId: string;

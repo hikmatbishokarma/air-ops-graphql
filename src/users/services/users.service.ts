@@ -19,6 +19,8 @@ import {
 } from 'src/common/helper';
 import { MailerService } from 'src/notification/services/mailer.service';
 import { ConfigService } from '@nestjs/config';
+import { CreateUserInput } from '../inputs/user.input';
+import { getTempPasswordEmailText } from 'src/notification/templates/temp-pwd-email.template';
 
 @Injectable()
 export class UsersService extends MongooseQueryService<UserEntity> {
@@ -57,7 +59,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     return role;
   }
 
-  async getUserByUserName(userName) {
+  async getUserByUserNameV1(userName) {
     const [user] = await this.query({
       filter: {
         or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
@@ -77,6 +79,63 @@ export class UsersService extends MongooseQueryService<UserEntity> {
         name: role.name,
         accessPermissions: role.accessPermissions,
       },
+    };
+  }
+
+  async getUserByUserName(userName) {
+    let [user] = await this.query({
+      filter: {
+        or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
+      },
+    });
+
+    if (!user) throw new Error('User not found');
+    user = user.toObject();
+
+    const roles = await this.roleService.query({
+      filter: { id: { in: user.roles } },
+    });
+
+    if (roles.length === 0) throw new Error('Role not found');
+
+    const rolesSet = new Set<string>();
+    const permissionsMap = new Map<string, Set<string>>();
+
+    roles.forEach((role) => {
+      rolesSet.add(role.type);
+
+      role.accessPermissions.forEach((perm) => {
+        const existing = permissionsMap.get(perm.resource) || new Set<string>();
+        perm.action.forEach((act) => existing.add(act));
+        permissionsMap.set(perm.resource, existing);
+      });
+    });
+
+    // Convert Sets to final unique arrays
+    const uniqueRoles = Array.from(rolesSet);
+
+    const permissions = Array.from(permissionsMap.entries()).map(
+      ([resource, actionsSet]) => ({
+        resource,
+        action: Array.from(actionsSet),
+      }),
+    );
+
+    return {
+      // id: user.id,
+      // name: user.name,
+      // email: user.email,
+      // password: user.password,
+      // image: user.image,
+      // // role: {
+      // //   type: role?.type || RoleType.USER,
+      // //   name: role.name,
+      // //   accessPermissions: role.accessPermissions,
+      // // },
+      ...user,
+      id: user._id,
+      roles: uniqueRoles,
+      permissions,
     };
   }
 
@@ -118,9 +177,15 @@ export class UsersService extends MongooseQueryService<UserEntity> {
          * notify user with random password
          */
         const subject = 'Your Temporary Password for Login';
-        const text = `Dear ${user.name},\n\nWe received a request to reset your password. Here are your temporary login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease use the link below to log in and reset your password immediately:\n\nReset Password: ${this.url}reset-password\n\nIf you didn’t request this, please ignore this email or contact our support team.\n\nBest regards,\nAirops Support Team`;
 
-        this.mailerService.sendEmail(user.email, subject, text);
+        const resetUrl = `${this.url}reset-password`;
+        const emailText = getTempPasswordEmailText(
+          user,
+          tempPassword,
+          resetUrl,
+        );
+        this.mailerService.sendEmail(user.email, subject, emailText);
+
         return {
           message: `Temporary password send to your register email:${user.email}`,
           status: true,
@@ -170,34 +235,29 @@ export class UsersService extends MongooseQueryService<UserEntity> {
   }
 
   async createAgentAsAdmin(args) {
-    const { name, email, phone, agentId } = args;
     const role = await this.getRoleByType(RoleType.ADMIN);
     if (!role) throw new Error('Admin Role Not Found');
 
     const tempPassword = generatePassword(8);
-
     console.log('tempPassword', tempPassword);
-
     const hashedPassword = await hashPassword(tempPassword);
 
+    // Auto-merge role, password and any future props in `args`
     const payload = {
-      name,
-      email,
+      ...args,
       password: hashedPassword,
-      role: role?.id,
-      phone,
-      agentId,
+      role: role.id,
+      roles: [role.id],
     };
+
     const user = await this.createOne(payload);
     if (!user) throw new Error('Failed To Signup User');
 
-    /**
-     * notify user with random password
-     */
     const subject = 'Your Temporary Password for Login';
-    const text = `Dear ${user.name},\n\n Here are your temporary login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease use the link below to log in and reset your password immediately:\n\nReset Password: ${this.url}reset-password\n\nIf you didn’t request this, please ignore this email or contact our support team.\n\nBest regards,\nAirops Support Team`;
+    const resetUrl = `${this.url}reset-password`;
+    const emailText = getTempPasswordEmailText(user, tempPassword, resetUrl);
 
-    this.mailerService.sendEmail(user.email, subject, text);
+    this.mailerService.sendEmail(user.email, subject, emailText);
 
     return user;
   }

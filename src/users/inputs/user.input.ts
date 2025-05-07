@@ -16,6 +16,9 @@ export class UserInputDto {
 
   @Field()
   role: string;
+
+  @Field()
+  createdBy: string;
 }
 
 @InputType()

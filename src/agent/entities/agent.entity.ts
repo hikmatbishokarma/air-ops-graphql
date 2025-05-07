@@ -1,12 +1,68 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
-export class BasicEntity {
+// export class BasicEntity {
+//   @Prop()
+//   name: string;
+//   @Prop({ unique: true })
+//   email: string;
+//   @Prop({ unique: true })
+//   phone: string;
+//   @Prop()
+//   address: string;
+//   @Prop()
+//   city: string;
+//   @Prop()
+//   state: string;
+//   @Prop()
+//   country: string;
+//   @Prop()
+//   zipCode: string;
+// }
+
+// const BasicSchema = SchemaFactory.createForClass(BasicEntity);
+
+// export class CompanyDetailsEntity {
+//   @Prop()
+//   name: string;
+//   @Prop()
+//   address: string;
+//   @Prop({ unique: true })
+//   email: string;
+//   @Prop({ unique: true })
+//   phone: string;
+//   @Prop()
+//   branch: string;
+// }
+
+// const CompanyDetailsSchema = SchemaFactory.createForClass(CompanyDetailsEntity);
+
+// export class BrandingEntity {
+//   @Prop()
+//   logoUrl: string;
+//   @Prop()
+//   supportEmail: string;
+//   @Prop()
+//   ticketFooterNote: string;
+//   @Prop()
+//   websiteUrl: string;
+//   @Prop()
+//   themeColor?: string;
+// }
+
+// const BrandingSchema = SchemaFactory.createForClass(BrandingEntity);
+
+@Schema({ collection: 'agents', timestamps: true })
+export class AgentEntity extends BaseEntity {
+  //basic details
+  // @Prop({ type: BasicEntity, required: true })
+  // basic: BasicEntity;
+
   @Prop()
   name: string;
-  @Prop({ unique: true })
+  @Prop({ required: true, unique: true })
   email: string;
-  @Prop({ unique: true })
+  @Prop({ required: true, unique: true })
   phone: string;
   @Prop()
   address: string;
@@ -18,27 +74,25 @@ export class BasicEntity {
   country: string;
   @Prop()
   zipCode: string;
-}
 
-const BasicSchema = SchemaFactory.createForClass(BasicEntity);
+  // @Prop({ type: CompanyDetailsEntity, required: true })
+  // companyDetails: CompanyDetailsEntity;
 
-export class CompanyDetailsEntity {
   @Prop()
-  name: string;
+  companyName: string;
   @Prop()
-  address: string;
-  @Prop({ unique: true })
-  email: string;
-  @Prop({ unique: true })
-  phone: string;
+  companyAddress: string;
+  @Prop({ required: true, unique: true })
+  companyEmail: string;
+  @Prop({ required: true, unique: true })
+  companyPhone: string;
   @Prop()
   branch: string;
-}
 
-const CompanyDetailsSchema = SchemaFactory.createForClass(CompanyDetailsEntity);
+  // @Prop({ type: BrandingEntity, required: true })
+  // branding: BrandingEntity;
 
-export class BrandingEntity {
-  @Prop()
+  @Prop({ required: true })
   logoUrl: string;
   @Prop()
   supportEmail: string;
@@ -48,18 +102,7 @@ export class BrandingEntity {
   websiteUrl: string;
   @Prop()
   themeColor?: string;
-}
 
-const BrandingSchema = SchemaFactory.createForClass(BrandingEntity);
-
-@Schema({ collection: 'agents', timestamps: true })
-export class AgentEntity extends BaseEntity {
-  @Prop({ type: BasicEntity, required: true })
-  basic: BasicEntity;
-  @Prop({ type: CompanyDetailsEntity, required: true })
-  companyDetails: CompanyDetailsEntity;
-  @Prop({ type: BrandingEntity, required: true })
-  branding: BrandingEntity;
   @Prop()
   subscriptionPlan?: string;
   @Prop()
@@ -67,3 +110,7 @@ export class AgentEntity extends BaseEntity {
 }
 
 export const AgentSchema = SchemaFactory.createForClass(AgentEntity);
+
+// AgentSchema.virtual('createdByUser').get(function () {
+//   return this?.createdBy;
+// });

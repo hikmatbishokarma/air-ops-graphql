@@ -16,7 +16,7 @@ export class CreateUserHook<T extends UserDTO>
     context: GqlContextType,
   ): Promise<CreateOneInputType<T>> {
     const { input } = instance;
-    console.log('input::', input);
+
     const { password } = input;
     // // Validate password requirement for CUSTOMER and ADMIN roles
     // if (!password && [RoleType.PARTNER, RoleType.ADMIN].includes(roleType))

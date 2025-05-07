@@ -19,39 +19,71 @@ type AgentConnection {
 }
 
 type AgentDeleteResponse {
-  basic: BasicInputDto
+  address: String
   billingCycle: BillingCycle
-  branding: BrandingInputdto
-  companyDetails: CompanyDetailsInputDto
+  branch: String
+  city: String
+  companyAddress: String
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
   id: ID
   isActive: Boolean
+  logoUrl: String
+  name: String
+  phone: String
+  state: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
+  themeColor: String
+  ticketFooterNote: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  websiteUrl: String
+  zipCode: String
 }
 
 input AgentDto {
-  basic: basicInfoInput!
+  address: String!
   billingCycle: BillingCycle
-  branding: brandingInput!
-  companyDetails: companyDetailsInput!
+  branch: String
+  city: String!
+  companyAddress: String!
+  companyEmail: String!
+  companyName: String!
+  companyPhone: String!
+  country: String!
+  createdByUser: UserDTO
+  email: String!
+  logoUrl: String!
+  name: String!
+  phone: String!
+  state: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String!
+  themeColor: String
+  ticketFooterNote: String
+  websiteUrl: String
+  zipCode: String
 }
 
 """AircraftCategory"""
@@ -478,17 +510,6 @@ input AirportUpdateFilter {
   or: [AirportUpdateFilter!]
 }
 
-type BasicInputDto {
-  address: String!
-  city: String!
-  country: String!
-  email: String!
-  name: String!
-  phone: String!
-  state: String
-  zipCode: String
-}
-
 enum BillingCycle {
   MONTHLY
   QUARTERLY
@@ -515,14 +536,6 @@ input BillingCycleFilterComparison {
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
-}
-
-type BrandingInputdto {
-  logoUrl: String!
-  supportEmail: String!
-  themeColor: String
-  ticketFooterNote: String
-  websiteUrl: String
 }
 
 """City"""
@@ -683,40 +696,48 @@ type ClientDeleteResponse {
   updatedBy: String
 }
 
-type CompanyDetailsInputDto {
-  address: String!
-  branch: String
-  email: String!
-  name: String!
-  phone: String!
-}
-
 input CreateAgent {
-  basic: basicInfoInput
+  address: String
   billingCycle: BillingCycle
-  branding: brandingInput
-  companyDetails: companyDetailsInput
+  branch: String
+  city: String
+  companyAddress: String
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
   id: ID
   isActive: Boolean = true
+  logoUrl: String
+  name: String
+  phone: String
+  state: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
+  themeColor: String
+  ticketFooterNote: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  websiteUrl: String
+  zipCode: String
 }
 
 input CreateAircraftCategory {
@@ -1224,6 +1245,7 @@ input CreateUser {
   phone: String
   pinCode: String
   role: String
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2644,31 +2666,47 @@ input SubscriptionPlanFilterComparison {
 }
 
 input UpdateAgent {
-  basic: basicInfoInput
+  address: String
   billingCycle: BillingCycle
-  branding: brandingInput
-  companyDetails: companyDetailsInput
+  branch: String
+  city: String
+  companyAddress: String
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
   id: ID
   isActive: Boolean = true
+  logoUrl: String
+  name: String
+  phone: String
+  state: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
+  themeColor: String
+  ticketFooterNote: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  websiteUrl: String
+  zipCode: String
 }
 
 input UpdateAircraftCategory {
@@ -3286,6 +3324,7 @@ input UpdateUser {
   phone: String
   pinCode: String
   role: String
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3323,6 +3362,7 @@ type User {
   phone: String
   pinCode: String
   role: role!
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3338,6 +3378,7 @@ type UserAggregateGroupBy {
   name: String
   phone: String
   role: String
+  roles: [String!]
 }
 
 type UserConnection {
@@ -3358,6 +3399,23 @@ type UserCountAggregate {
   name: Int
   phone: Int
   role: Int
+  roles: Int
+}
+
+input UserDTO {
+  address: String
+  agentId: String
+  city: String
+  dob: String
+  email: String!
+  gender: Gender
+  image: String
+  name: String!
+  password: String!
+  phone: String
+  pinCode: String
+  role: String!
+  roles: [String!]
 }
 
 input UserDeleteFilter {
@@ -3369,6 +3427,7 @@ input UserDeleteFilter {
   or: [UserDeleteFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
+  roles: UserRolesFilterComparison
 }
 
 type UserDeleteResponse {
@@ -3398,6 +3457,7 @@ type UserDeleteResponse {
   phone: String
   pinCode: String
   role: String
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3415,6 +3475,7 @@ input UserFilter {
   or: [UserFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
+  roles: UserRolesFilterComparison
 }
 
 type UserInput {
@@ -3426,6 +3487,7 @@ type UserInput {
 }
 
 input UserInputDto {
+  createdBy: String!
   email: String!
   name: String!
   password: String
@@ -3439,6 +3501,7 @@ type UserMaxAggregate {
   name: String
   phone: String
   role: String
+  roles: [String!]
 }
 
 type UserMinAggregate {
@@ -3447,6 +3510,14 @@ type UserMinAggregate {
   name: String
   phone: String
   role: String
+  roles: [String!]
+}
+
+input UserRolesFilterComparison {
+  eq: [String!]
+  in: [[String!]!]
+  neq: [String!]
+  notIn: [[String!]!]
 }
 
 input UserSort {
@@ -3462,6 +3533,7 @@ enum UserSortFields {
   name
   phone
   role
+  roles
 }
 
 input UserUpdateFilter {
@@ -3473,6 +3545,7 @@ input UserUpdateFilter {
   or: [UserUpdateFilter!]
   phone: StringFieldComparison
   role: StringFieldComparison
+  roles: UserRolesFilterComparison
 }
 
 input accessPermissionInput {
@@ -3488,69 +3561,127 @@ input acknowledgementInput {
 
 """Agent"""
 type agent {
-  basic: BasicInputDto!
+  address: String!
   billingCycle: BillingCycle
-  branding: BrandingInputdto!
-  companyDetails: CompanyDetailsInputDto!
+  branch: String
+  city: String!
+  companyAddress: String!
+  companyEmail: String!
+  companyName: String!
+  companyPhone: String!
+  country: String!
 
   """The date when the record was created"""
   createdAt: DateTime
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String!
   id: ID!
   isActive: Boolean!
+  logoUrl: String!
+  name: String!
+  phone: String!
+  state: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String!
+  themeColor: String
+  ticketFooterNote: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+  websiteUrl: String
+  zipCode: String
 }
 
 type agentAggregateGroupBy {
   billingCycle: BillingCycle
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  email: String
   isActive: Boolean
+  name: String
+  phone: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
 }
 
 type agentCountAggregate {
   billingCycle: Int
+  companyEmail: Int
+  companyName: Int
+  companyPhone: Int
+  email: Int
   isActive: Int
+  name: Int
+  phone: Int
   subscriptionPlan: Int
+  supportEmail: Int
 }
 
 input agentDeleteFilter {
   and: [agentDeleteFilter!]
   billingCycle: BillingCycleFilterComparison
+  companyEmail: StringFieldComparison
+  companyName: StringFieldComparison
+  companyPhone: StringFieldComparison
+  email: StringFieldComparison
   isActive: BooleanFieldComparison
+  name: StringFieldComparison
   or: [agentDeleteFilter!]
+  phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+  supportEmail: StringFieldComparison
 }
 
 input agentFilter {
   and: [agentFilter!]
   billingCycle: BillingCycleFilterComparison
+  companyEmail: StringFieldComparison
+  companyName: StringFieldComparison
+  companyPhone: StringFieldComparison
+  email: StringFieldComparison
   isActive: BooleanFieldComparison
+  name: StringFieldComparison
   or: [agentFilter!]
+  phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+  supportEmail: StringFieldComparison
 }
 
 type agentMaxAggregate {
   billingCycle: BillingCycle
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  email: String
+  name: String
+  phone: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
 }
 
 type agentMinAggregate {
   billingCycle: BillingCycle
+  companyEmail: String
+  companyName: String
+  companyPhone: String
+  email: String
+  name: String
+  phone: String
   subscriptionPlan: SubscriptionPlan
+  supportEmail: String
 }
 
 input agentSort {
@@ -3561,35 +3692,30 @@ input agentSort {
 
 enum agentSortFields {
   billingCycle
+  companyEmail
+  companyName
+  companyPhone
+  email
   isActive
+  name
+  phone
   subscriptionPlan
+  supportEmail
 }
 
 input agentUpdateFilter {
   and: [agentUpdateFilter!]
   billingCycle: BillingCycleFilterComparison
+  companyEmail: StringFieldComparison
+  companyName: StringFieldComparison
+  companyPhone: StringFieldComparison
+  email: StringFieldComparison
   isActive: BooleanFieldComparison
+  name: StringFieldComparison
   or: [agentUpdateFilter!]
+  phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
-}
-
-input basicInfoInput {
-  address: String!
-  city: String!
-  country: String!
-  email: String!
-  name: String!
-  phone: String!
-  state: String
-  zipCode: String
-}
-
-input brandingInput {
-  logoUrl: String!
-  supportEmail: String!
-  themeColor: String
-  ticketFooterNote: String
-  websiteUrl: String
+  supportEmail: StringFieldComparison
 }
 
 """Client"""
@@ -3698,14 +3824,6 @@ input clientUpdateFilter {
   isPerson: BooleanFieldComparison
   or: [clientUpdateFilter!]
   phone: StringFieldComparison
-}
-
-input companyDetailsInput {
-  address: String!
-  branch: String
-  email: String!
-  name: String!
-  phone: String!
 }
 
 type loginResponseDto {

@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 
 @Schema()
 export abstract class BaseEntity extends Document {
@@ -8,14 +8,22 @@ export abstract class BaseEntity extends Document {
   @Prop({ default: () => new Date(), type: SchemaTypes.Date })
   createdAt?: string;
 
-  @Prop()
-  createdBy?: string;
+  @Prop({
+    ref: 'UserEntity',
+    type: SchemaTypes.ObjectId,
+    required: false,
+  })
+  createdBy?: Types.ObjectId;
 
   @Prop({ default: () => new Date(), type: SchemaTypes.Date })
   updatedAt?: Date;
 
-  @Prop()
-  updatedBy?: string;
+  @Prop({
+    ref: 'UserEntity',
+    type: SchemaTypes.ObjectId,
+    required: false,
+  })
+  updatedBy?: Types.ObjectId;
 
   @Prop({ type: SchemaTypes.Date })
   deletedAt?: Date;
