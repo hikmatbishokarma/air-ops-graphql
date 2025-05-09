@@ -21,13 +21,9 @@ type AgentConnection {
 type AgentDeleteResponse {
   address: String
   billingCycle: BillingCycle
-  branch: String
   city: String
-  companyAddress: String
-  companyEmail: String
+  companyLogo: String
   companyName: String
-  companyPhone: String
-  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -44,7 +40,6 @@ type AgentDeleteResponse {
   email: String
   id: ID
   isActive: Boolean
-  logoUrl: String
   name: String
   phone: String
   state: String
@@ -65,16 +60,11 @@ type AgentDeleteResponse {
 input AgentDto {
   address: String!
   billingCycle: BillingCycle
-  branch: String
   city: String!
-  companyAddress: String!
-  companyEmail: String!
+  companyLogo: String!
   companyName: String!
-  companyPhone: String!
-  country: String!
   createdByUser: UserDTO
   email: String!
-  logoUrl: String!
   name: String!
   phone: String!
   state: String
@@ -699,13 +689,9 @@ type ClientDeleteResponse {
 input CreateAgent {
   address: String
   billingCycle: BillingCycle
-  branch: String
   city: String
-  companyAddress: String
-  companyEmail: String
+  companyLogo: String
   companyName: String
-  companyPhone: String
-  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -722,7 +708,6 @@ input CreateAgent {
   email: String
   id: ID
   isActive: Boolean = true
-  logoUrl: String
   name: String
   phone: String
   state: String
@@ -2367,12 +2352,6 @@ type RoleDeleteResponse {
   updatedBy: String
 }
 
-type RoleInput {
-  accessPermissions: [JSONObject!]!
-  name: String!
-  type: String!
-}
-
 """Role Permission"""
 type RolePermission {
   """The date when the record was created"""
@@ -2668,13 +2647,9 @@ input SubscriptionPlanFilterComparison {
 input UpdateAgent {
   address: String
   billingCycle: BillingCycle
-  branch: String
   city: String
-  companyAddress: String
-  companyEmail: String
+  companyLogo: String
   companyName: String
-  companyPhone: String
-  country: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2691,7 +2666,6 @@ input UpdateAgent {
   email: String
   id: ID
   isActive: Boolean = true
-  logoUrl: String
   name: String
   phone: String
   state: String
@@ -3483,7 +3457,8 @@ type UserInput {
   id: String!
   image: String
   name: String!
-  role: RoleInput
+  permissions: [JSONObject!]!
+  roles: [String!]!
 }
 
 input UserInputDto {
@@ -3563,13 +3538,9 @@ input acknowledgementInput {
 type agent {
   address: String!
   billingCycle: BillingCycle
-  branch: String
   city: String!
-  companyAddress: String!
-  companyEmail: String!
+  companyLogo: String!
   companyName: String!
-  companyPhone: String!
-  country: String!
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -3586,7 +3557,6 @@ type agent {
   email: String!
   id: ID!
   isActive: Boolean!
-  logoUrl: String!
   name: String!
   phone: String!
   state: String
@@ -3606,9 +3576,7 @@ type agent {
 
 type agentAggregateGroupBy {
   billingCycle: BillingCycle
-  companyEmail: String
   companyName: String
-  companyPhone: String
   email: String
   isActive: Boolean
   name: String
@@ -3619,9 +3587,7 @@ type agentAggregateGroupBy {
 
 type agentCountAggregate {
   billingCycle: Int
-  companyEmail: Int
   companyName: Int
-  companyPhone: Int
   email: Int
   isActive: Int
   name: Int
@@ -3633,9 +3599,7 @@ type agentCountAggregate {
 input agentDeleteFilter {
   and: [agentDeleteFilter!]
   billingCycle: BillingCycleFilterComparison
-  companyEmail: StringFieldComparison
   companyName: StringFieldComparison
-  companyPhone: StringFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3648,9 +3612,7 @@ input agentDeleteFilter {
 input agentFilter {
   and: [agentFilter!]
   billingCycle: BillingCycleFilterComparison
-  companyEmail: StringFieldComparison
   companyName: StringFieldComparison
-  companyPhone: StringFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3662,9 +3624,7 @@ input agentFilter {
 
 type agentMaxAggregate {
   billingCycle: BillingCycle
-  companyEmail: String
   companyName: String
-  companyPhone: String
   email: String
   name: String
   phone: String
@@ -3674,9 +3634,7 @@ type agentMaxAggregate {
 
 type agentMinAggregate {
   billingCycle: BillingCycle
-  companyEmail: String
   companyName: String
-  companyPhone: String
   email: String
   name: String
   phone: String
@@ -3692,9 +3650,7 @@ input agentSort {
 
 enum agentSortFields {
   billingCycle
-  companyEmail
   companyName
-  companyPhone
   email
   isActive
   name
@@ -3706,9 +3662,7 @@ enum agentSortFields {
 input agentUpdateFilter {
   and: [agentUpdateFilter!]
   billingCycle: BillingCycleFilterComparison
-  companyEmail: StringFieldComparison
   companyName: StringFieldComparison
-  companyPhone: StringFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -4163,12 +4117,6 @@ input roleFilter {
   type: RoleTypeFilterComparison
 }
 
-input roleInput {
-  accessPermissions: [JSONObject!]!
-  name: String!
-  type: String!
-}
-
 type roleMaxAggregate {
   name: String
   type: RoleType
@@ -4204,5 +4152,6 @@ input userInput {
   id: String!
   image: String
   name: String!
-  role: roleInput
+  permissions: [JSONObject!]!
+  roles: [String!]!
 }

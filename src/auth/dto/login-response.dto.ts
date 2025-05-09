@@ -23,8 +23,12 @@ export class UserInput {
   email: string;
   @Field({ nullable: true })
   image: string;
-  @Field(() => RoleInput, { nullable: true })
-  role: RoleInput;
+  // @Field(() => RoleInput, { nullable: true })
+  // role: RoleInput;
+  @Field(() => [String])
+  roles: string[];
+  @Field(() => [GraphQLJSONObject])
+  permissions: Object[];
 }
 
 @ObjectType()

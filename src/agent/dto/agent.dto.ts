@@ -96,8 +96,8 @@ export class AgentDto extends BaseDTO {
   city: string;
   @Field({ nullable: true })
   state: string;
-  @Field()
-  country: string;
+  // @Field()
+  // country: string;
   @Field({ nullable: true })
   zipCode: string;
   //company details
@@ -105,25 +105,25 @@ export class AgentDto extends BaseDTO {
   // companyDetails: BasicInputDto;
   @FilterableField()
   companyName: string;
-  @Field()
-  companyAddress: string;
-  @FilterableField()
-  @IsEmail({}, { message: 'Email must be a valid email address' })
-  @IsNotEmpty({ message: 'Email is required' })
-  companyEmail: string;
-  @FilterableField()
-  @IsPhoneNumber(null, { message: 'Phone must be a valid phone number' })
-  @IsNotEmpty({ message: 'Phone is required' })
-  companyPhone: string;
-  @Field({ nullable: true })
-  branch: string;
+  // @Field()
+  // companyAddress: string;
+  // @FilterableField()
+  // @IsEmail({}, { message: 'Email must be a valid email address' })
+  // @IsNotEmpty({ message: 'Email is required' })
+  // companyEmail: string;
+  // @FilterableField()
+  // @IsPhoneNumber(null, { message: 'Phone must be a valid phone number' })
+  // @IsNotEmpty({ message: 'Phone is required' })
+  // companyPhone: string;
+  // @Field({ nullable: false })
+  // branch: string;
 
   //branding
   // @Field(() => BrandingInputdto)
   // branding: BrandingInputdto;
 
   @Field()
-  logoUrl: string;
+  companyLogo: string;
   @FilterableField()
   supportEmail: string;
   @Field({ nullable: true })

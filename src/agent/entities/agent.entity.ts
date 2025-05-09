@@ -70,8 +70,8 @@ export class AgentEntity extends BaseEntity {
   city: string;
   @Prop()
   state: string;
-  @Prop()
-  country: string;
+  // @Prop()
+  // country: string;
   @Prop()
   zipCode: string;
 
@@ -80,20 +80,20 @@ export class AgentEntity extends BaseEntity {
 
   @Prop()
   companyName: string;
-  @Prop()
-  companyAddress: string;
-  @Prop({ required: true, unique: true })
-  companyEmail: string;
-  @Prop({ required: true, unique: true })
-  companyPhone: string;
-  @Prop()
-  branch: string;
+  // @Prop()
+  // companyAddress: string;
+  // @Prop({ required: true, unique: true })
+  // companyEmail: string;
+  // @Prop({ required: true, unique: true })
+  // companyPhone: string;
+  // @Prop()
+  // branch: string;
 
   // @Prop({ type: BrandingEntity, required: true })
   // branding: BrandingEntity;
 
   @Prop({ required: true })
-  logoUrl: string;
+  companyLogo: string;
   @Prop()
   supportEmail: string;
   @Prop()
