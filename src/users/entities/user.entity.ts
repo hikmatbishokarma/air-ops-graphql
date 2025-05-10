@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types } from 'mongoose';
-import { Gender, RoleType } from 'src/app-constants/enums';
+import { Gender, RoleType, UserType } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { RoleEntity } from 'src/roles/entities/roles.entity';
 
@@ -36,13 +36,16 @@ export class UserEntity extends BaseEntity {
   @Prop({ type: String, enum: Gender })
   gender: Gender;
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true })
-  role: Types.ObjectId;
+  // @Prop({ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true })
+  // role: Types.ObjectId;
 
   @Prop([{ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true }])
   roles: Types.ObjectId[];
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', required: true })
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
   agentId: Types.ObjectId;
+
+  @Prop({ type: String, enum: UserType, default: UserType.PLATFORM_USER })
+  type: UserType;
 }
 export const UserSchema = SchemaFactory.createForClass(UserEntity);

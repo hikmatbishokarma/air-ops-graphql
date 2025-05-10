@@ -1,6 +1,6 @@
 import { NestjsQueryGraphQLModule } from '@app/query-graphql';
 import { NestjsQueryMongooseModule } from '@app/query-mongoose';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 
 import { AgentEntity, AgentSchema } from './entities/agent.entity';
 import { AgentDto } from './dto/agent.dto';
@@ -11,7 +11,7 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
-    UsersModule,
+    forwardRef(() => UsersModule),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([

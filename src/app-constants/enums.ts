@@ -3,12 +3,13 @@ import { registerEnumType } from '@nestjs/graphql';
 //#region  ROLES ENUMS
 
 export enum RoleType {
-  ADMIN = 'ADMIN',
   SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN = 'ADMIN',
   SALES = 'SALES',
   OPERATOR = 'OPERATOR',
-  SITE_ADMIN = 'SITE ADMIN',
-  USER = 'USER',
+  ENGINEERING = 'ENGINEERING',
+  AUDIT = 'AUDIT',
+  ACCOUNTING = 'ACCOUNTING',
 }
 
 registerEnumType(RoleType, {
@@ -146,4 +147,15 @@ export enum BillingCycle {
 
 registerEnumType(BillingCycle, {
   name: 'BillingCycle',
+});
+
+export enum UserType {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  PLATFORM_USER = 'PLATFORM_USER',
+  AGENT_ADMIN = 'AGENT_ADMIN',
+  AGENT_USER = 'AGENT_USER',
+}
+
+registerEnumType(UserType, {
+  name: 'type',
 });

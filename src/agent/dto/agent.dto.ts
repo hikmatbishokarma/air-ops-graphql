@@ -99,7 +99,7 @@ export class AgentDto extends BaseDTO {
   // @Field()
   // country: string;
   @Field({ nullable: true })
-  zipCode: string;
+  pinCode: string;
   //company details
   // @Field(() => CompanyDetailsInputDto)
   // companyDetails: BasicInputDto;

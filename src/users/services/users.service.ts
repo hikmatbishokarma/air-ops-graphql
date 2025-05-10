@@ -11,7 +11,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MongooseQueryService } from '@app/query-mongoose';
 import { RolesService } from 'src/roles/services/roles.service';
-import { RoleType } from 'src/app-constants/enums';
+import { RoleType, UserType } from 'src/app-constants/enums';
 import {
   comparePassword,
   generatePassword,
@@ -21,6 +21,7 @@ import { MailerService } from 'src/notification/services/mailer.service';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserInput } from '../inputs/user.input';
 import { getTempPasswordEmailText } from 'src/notification/templates/temp-pwd-email.template';
+import { AgentService } from 'src/agent/services/agent.service';
 
 @Injectable()
 export class UsersService extends MongooseQueryService<UserEntity> {
@@ -30,6 +31,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     private readonly roleService: RolesService,
     private readonly mailerService: MailerService,
     private readonly config: ConfigService,
+    private readonly agentService: AgentService,
   ) {
     super(model);
     this.url = config.get<string>('url');
@@ -59,28 +61,28 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     return role;
   }
 
-  async getUserByUserNameV1(userName) {
-    const [user] = await this.query({
-      filter: {
-        or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
-      },
-    });
+  // async getUserByUserNameV1(userName) {
+  //   const [user] = await this.query({
+  //     filter: {
+  //       or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
+  //     },
+  //   });
 
-    const role = await this.roleService.findById(user.role.toString());
+  //   const role = await this.roleService.findById(user.role.toString());
 
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      image: user.image,
-      role: {
-        type: role?.type || RoleType.USER,
-        name: role.name,
-        accessPermissions: role.accessPermissions,
-      },
-    };
-  }
+  //   return {
+  //     id: user.id,
+  //     name: user.name,
+  //     email: user.email,
+  //     password: user.password,
+  //     image: user.image,
+  //     role: {
+  //       type: role?.type,
+  //       name: role.name,
+  //       accessPermissions: role.accessPermissions,
+  //     },
+  //   };
+  // }
 
   async getUserByUserName(userName) {
     let [user] = await this.query({
@@ -91,6 +93,11 @@ export class UsersService extends MongooseQueryService<UserEntity> {
 
     if (!user) throw new Error('User not found');
     user = user.toObject();
+
+    let agent;
+    if (user.agentId) {
+      agent = await this.agentService.findById(user.agentId.toString());
+    }
 
     const roles = await this.roleService.query({
       filter: { id: { in: user.roles } },
@@ -136,16 +143,20 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       id: user._id,
       roles: uniqueRoles,
       permissions,
+      agent,
     };
   }
 
-  async createOneUser(user) {
-    const { password } = user;
+  async createOneUser(user, currentUser) {
+    const createdBy = currentUser?.id || currentUser?.sub;
+    user.createdBy = createdBy;
+    const { password, agentId } = user;
 
     const tempPassword = !password ? generatePassword(8) : password;
 
     const hashedPassword = await hashPassword(tempPassword);
     user['password'] = hashedPassword;
+    user.type = agentId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
 
     const result = await this.createOne(user);
     if (result) {
@@ -239,15 +250,23 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     if (!role) throw new Error('Admin Role Not Found');
 
     const tempPassword = generatePassword(8);
-    console.log('tempPassword', tempPassword);
+    console.log('tempPassword', tempPassword, 'args::', args);
     const hashedPassword = await hashPassword(tempPassword);
 
     // Auto-merge role, password and any future props in `args`
     const payload = {
-      ...args,
+      name: args.name,
+      email: args.email,
+      phone: args.phone,
+      agentId: args.agentId,
+      address: args.address,
+      city: args.city,
+      state: args.state,
+      pinCode: args.pinCode,
       password: hashedPassword,
       role: role.id,
       roles: [role.id],
+      type: UserType.AGENT_ADMIN,
     };
 
     const user = await this.createOne(payload);

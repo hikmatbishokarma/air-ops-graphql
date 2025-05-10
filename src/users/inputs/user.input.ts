@@ -14,11 +14,17 @@ export class UserInputDto {
   @Field({ nullable: true })
   phone: string;
 
-  @Field()
-  role: string;
+  // @Field()
+  // role: string;
 
-  @Field()
-  createdBy: string;
+  @Field(() => [String])
+  roles: string[];
+
+  @Field({ nullable: true })
+  address: string;
+
+  @Field({ nullable: true, defaultValue: undefined })
+  agentId?: string;
 }
 
 @InputType()

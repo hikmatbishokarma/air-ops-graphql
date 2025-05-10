@@ -73,7 +73,7 @@ export class AgentEntity extends BaseEntity {
   // @Prop()
   // country: string;
   @Prop()
-  zipCode: string;
+  pinCode: string;
 
   // @Prop({ type: CompanyDetailsEntity, required: true })
   // companyDetails: CompanyDetailsEntity;

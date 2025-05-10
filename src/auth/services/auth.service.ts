@@ -42,14 +42,11 @@ export class AuthService {
 
   async signIn({ userName, password }: SignInInput): Promise<any> {
     const {
-      name,
       email,
-      phone,
       password: pwd,
       roles,
-      permissions,
       id,
-      image,
+      ...rest
     } = await this.usersService.getUserByUserName(userName);
 
     const isMatch = await comparePassword(password, pwd);
@@ -63,12 +60,9 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
       user: {
         id,
-        name,
         email,
-        phone,
-        image,
         roles,
-        permissions,
+        ...rest,
       },
     };
   }
@@ -79,7 +73,7 @@ export class AuthService {
     if (!password) throw new Error('password is required');
     password = await hashPassword(password);
 
-    const role = await this.usersService.getRoleByType(RoleType.USER);
+    const role = await this.usersService.getRoleByType(RoleType.ADMIN);
     const payload = {
       name,
       email,

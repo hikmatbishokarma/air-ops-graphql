@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersService } from './services/users.service';
 import { UsersResolver } from './resolvers/users.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -9,11 +9,13 @@ import { UserDTO } from './dto/users.dto';
 import { RolesModule } from 'src/roles/roles.module';
 import { RolesService } from 'src/roles/services/roles.service';
 import { NotificationModule } from 'src/notification/notification.module';
+import { AgentModule } from 'src/agent/agent.module';
 
 @Module({
   imports: [
     RolesModule,
     NotificationModule,
+    forwardRef(() => AgentModule),
     // MongooseModule.forFeature([{ name: UserEntity.name, schema: UserSchema }]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [

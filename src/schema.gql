@@ -7,6 +7,14 @@ type AccessPermissionInput {
   resource: String!
 }
 
+input AddRolesToUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 type AgentConnection {
   """Array of nodes."""
   nodes: [agent!]!
@@ -42,6 +50,7 @@ type AgentDeleteResponse {
   isActive: Boolean
   name: String
   phone: String
+  pinCode: String
   state: String
   subscriptionPlan: SubscriptionPlan
   supportEmail: String
@@ -54,7 +63,6 @@ type AgentDeleteResponse {
   """The email of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
-  zipCode: String
 }
 
 input AgentDto {
@@ -67,13 +75,13 @@ input AgentDto {
   email: String!
   name: String!
   phone: String!
+  pinCode: String
   state: String
   subscriptionPlan: SubscriptionPlan
   supportEmail: String!
   themeColor: String
   ticketFooterNote: String
   websiteUrl: String
-  zipCode: String
 }
 
 """AircraftCategory"""
@@ -710,6 +718,7 @@ input CreateAgent {
   isActive: Boolean = true
   name: String
   phone: String
+  pinCode: String
   state: String
   subscriptionPlan: SubscriptionPlan
   supportEmail: String
@@ -722,7 +731,6 @@ input CreateAgent {
   """The email of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
-  zipCode: String
 }
 
 input CreateAircraftCategory {
@@ -1213,6 +1221,7 @@ input CreateUser {
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
@@ -1229,8 +1238,8 @@ input CreateUser {
   password: String
   phone: String
   pinCode: String
-  role: String
   roles: [String!]
+  type: type = PLATFORM_USER
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1608,6 +1617,7 @@ type MailerResponseDto {
 }
 
 type Mutation {
+  addRolesToUser(input: AddRolesToUserInput!): User!
   createAgent(agent: AgentDto!): agent!
   createManyAgents(input: CreateManyAgentsInput!): [agent!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
@@ -1679,7 +1689,7 @@ type Mutation {
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
-  setRoleOnUser(input: SetRoleOnUserInput!): User!
+  setRolesOnUser(input: SetRolesOnUserInput!): User!
   signUp(input: SignUpInput!): User!
   updateManyAgents(input: UpdateManyAgentsInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
@@ -2463,12 +2473,13 @@ input RolePermissionUpdateFilter {
 }
 
 enum RoleType {
+  ACCOUNTING
   ADMIN
+  AUDIT
+  ENGINEERING
   OPERATOR
   SALES
-  SITE_ADMIN
   SUPER_ADMIN
-  USER
 }
 
 input RoleTypeFilterComparison {
@@ -2573,12 +2584,12 @@ input SetRoleOnRolePermissionInput {
   relationId: ID!
 }
 
-input SetRoleOnUserInput {
+input SetRolesOnUserInput {
   """The id of the record."""
   id: ID!
 
-  """The id of relation."""
-  relationId: ID!
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input SignInInput {
@@ -2644,6 +2655,23 @@ input SubscriptionPlanFilterComparison {
   notLike: SubscriptionPlan
 }
 
+input TypeFilterComparison {
+  eq: type
+  gt: type
+  gte: type
+  iLike: type
+  in: [type!]
+  is: Boolean
+  isNot: Boolean
+  like: type
+  lt: type
+  lte: type
+  neq: type
+  notILike: type
+  notIn: [type!]
+  notLike: type
+}
+
 input UpdateAgent {
   address: String
   billingCycle: BillingCycle
@@ -2668,6 +2696,7 @@ input UpdateAgent {
   isActive: Boolean = true
   name: String
   phone: String
+  pinCode: String
   state: String
   subscriptionPlan: SubscriptionPlan
   supportEmail: String
@@ -2680,7 +2709,6 @@ input UpdateAgent {
   """The email of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
-  zipCode: String
 }
 
 input UpdateAircraftCategory {
@@ -3281,6 +3309,7 @@ input UpdateUser {
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
@@ -3297,8 +3326,8 @@ input UpdateUser {
   password: String
   phone: String
   pinCode: String
-  role: String
   roles: [String!]
+  type: type = PLATFORM_USER
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3319,6 +3348,7 @@ type User {
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
@@ -3335,8 +3365,14 @@ type User {
   password: String!
   phone: String
   pinCode: String
-  role: role!
-  roles: [String!]
+  roles(
+    """Specify to filter the records returned."""
+    filter: roleFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [roleSort!]! = []
+  ): [role!]!
+  type: type!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3351,8 +3387,8 @@ type UserAggregateGroupBy {
   isActive: Boolean
   name: String
   phone: String
-  role: String
   roles: [String!]
+  type: type
 }
 
 type UserConnection {
@@ -3372,14 +3408,15 @@ type UserCountAggregate {
   isActive: Int
   name: Int
   phone: Int
-  role: Int
   roles: Int
+  type: Int
 }
 
 input UserDTO {
   address: String
   agentId: String
   city: String
+  createdByUser: UserDTO
   dob: String
   email: String!
   gender: Gender
@@ -3388,8 +3425,8 @@ input UserDTO {
   password: String!
   phone: String
   pinCode: String
-  role: String!
   roles: [String!]
+  type: type! = PLATFORM_USER
 }
 
 input UserDeleteFilter {
@@ -3400,8 +3437,8 @@ input UserDeleteFilter {
   name: StringFieldComparison
   or: [UserDeleteFilter!]
   phone: StringFieldComparison
-  role: StringFieldComparison
   roles: UserRolesFilterComparison
+  type: TypeFilterComparison
 }
 
 type UserDeleteResponse {
@@ -3414,6 +3451,7 @@ type UserDeleteResponse {
 
   """The email of the user who created the record"""
   createdBy: String
+  createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
@@ -3430,8 +3468,8 @@ type UserDeleteResponse {
   password: String
   phone: String
   pinCode: String
-  role: String
   roles: [String!]
+  type: type
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3448,26 +3486,57 @@ input UserFilter {
   name: StringFieldComparison
   or: [UserFilter!]
   phone: StringFieldComparison
-  role: StringFieldComparison
   roles: UserRolesFilterComparison
+  type: TypeFilterComparison
 }
 
 type UserInput {
+  address: String
+  agent: agent
+  agentId: String
+  city: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+  createdByUser: User
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  dob: String
   email: String!
+  gender: Gender
   id: String!
   image: String
+  isActive: Boolean!
   name: String!
+  password: String!
   permissions: [JSONObject!]!
+  phone: String
+  pinCode: String
   roles: [String!]!
+  type: type!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UserInputDto {
-  createdBy: String!
+  address: String
+  agentId: String
   email: String!
   name: String!
   password: String
   phone: String
-  role: String!
+  roles: [String!]!
 }
 
 type UserMaxAggregate {
@@ -3475,8 +3544,8 @@ type UserMaxAggregate {
   email: String
   name: String
   phone: String
-  role: String
   roles: [String!]
+  type: type
 }
 
 type UserMinAggregate {
@@ -3484,8 +3553,8 @@ type UserMinAggregate {
   email: String
   name: String
   phone: String
-  role: String
   roles: [String!]
+  type: type
 }
 
 input UserRolesFilterComparison {
@@ -3507,8 +3576,8 @@ enum UserSortFields {
   isActive
   name
   phone
-  role
   roles
+  type
 }
 
 input UserUpdateFilter {
@@ -3519,8 +3588,8 @@ input UserUpdateFilter {
   name: StringFieldComparison
   or: [UserUpdateFilter!]
   phone: StringFieldComparison
-  role: StringFieldComparison
   roles: UserRolesFilterComparison
+  type: TypeFilterComparison
 }
 
 input accessPermissionInput {
@@ -3559,6 +3628,7 @@ type agent {
   isActive: Boolean!
   name: String!
   phone: String!
+  pinCode: String
   state: String
   subscriptionPlan: SubscriptionPlan
   supportEmail: String!
@@ -3571,7 +3641,6 @@ type agent {
   """The email of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
-  zipCode: String
 }
 
 type agentAggregateGroupBy {
@@ -4147,11 +4216,29 @@ input roleUpdateFilter {
   type: RoleTypeFilterComparison
 }
 
+enum type {
+  AGENT_ADMIN
+  AGENT_USER
+  PLATFORM_USER
+  SUPER_ADMIN
+}
+
 input userInput {
+  address: String
+  agent: AgentDto
+  agentId: String
+  city: String
+  createdByUser: UserDTO
+  dob: String
   email: String!
+  gender: Gender
   id: String!
   image: String
   name: String!
+  password: String!
   permissions: [JSONObject!]!
+  phone: String
+  pinCode: String
   roles: [String!]!
+  type: type! = PLATFORM_USER
 }
