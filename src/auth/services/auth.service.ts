@@ -41,31 +41,28 @@ export class AuthService {
   // }
 
   async signIn({ userName, password }: SignInInput): Promise<any> {
-    console.log(userName, password);
-    const user = await this.usersService.getUserByUserName(userName);
+    const {
+      email,
+      password: pwd,
+      roles,
+      id,
+      ...rest
+    } = await this.usersService.getUserByUserName(userName);
 
-    if (!user) throw new Error('User not found');
-
-    const isMatch = await comparePassword(password, user.password);
+    const isMatch = await comparePassword(password, pwd);
     if (!isMatch) throw new UnauthorizedException();
     const payload = {
-      sub: user.id,
-      userName,
-      role: {
-        type: user?.role?.type,
-        name: user?.role.name,
-        accessPermissions: user.role.accessPermissions,
-      },
+      sub: id,
+      email,
+      roles,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        type: user?.role?.type,
-        role: payload.role,
-        image: user.image,
+        id,
+        email,
+        roles,
+        ...rest,
       },
     };
   }
@@ -76,7 +73,7 @@ export class AuthService {
     if (!password) throw new Error('password is required');
     password = await hashPassword(password);
 
-    const role = await this.usersService.getRoleByType(RoleType.USER);
+    const role = await this.usersService.getRoleByType(RoleType.ADMIN);
     const payload = {
       name,
       email,

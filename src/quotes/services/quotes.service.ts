@@ -305,7 +305,6 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async updateOneQuote(input) {
-    console.log('input:::', input);
     const { id, update } = input;
 
     const [quotation] = await this.query({

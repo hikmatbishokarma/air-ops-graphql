@@ -74,6 +74,9 @@ export class QuotesEntity extends BaseEntity {
   proformaInvoiceNo: string;
   @Prop({ default: 0 })
   proformaInvoiceRevision: number;
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
+  agentId: Types.ObjectId;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

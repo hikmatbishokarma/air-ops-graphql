@@ -23,6 +23,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 import { CityModule } from './city/city.module';
 import { MediaModule } from './media/media.module';
+import { AgentModule } from './agent/agent.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { MediaModule } from './media/media.module';
     DashboardModule,
     CityModule,
     MediaModule,
+    AgentModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

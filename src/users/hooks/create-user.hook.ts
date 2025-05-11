@@ -2,7 +2,7 @@ import { BeforeCreateOneHook, CreateOneInputType } from '@app/query-graphql';
 import { UserDTO } from '../dto/users.dto';
 import { GqlContextType } from '@nestjs/graphql';
 import { Injectable } from '@nestjs/common';
-import { RoleType } from 'src/app-constants/enums';
+import { RoleType, UserType } from 'src/app-constants/enums';
 import { generatePassword, hashPassword } from 'src/common/helper';
 import { RolesService } from 'src/roles/services/roles.service';
 
@@ -16,8 +16,10 @@ export class CreateUserHook<T extends UserDTO>
     context: GqlContextType,
   ): Promise<CreateOneInputType<T>> {
     const { input } = instance;
-    console.log('input::', input);
-    const { password } = input;
+
+    const { password, agentId } = input;
+    input.type = agentId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
+
     // // Validate password requirement for CUSTOMER and ADMIN roles
     // if (!password && [RoleType.PARTNER, RoleType.ADMIN].includes(roleType))
     //   throw new Error('password is required');

@@ -15,6 +15,7 @@ import { CreateQuoteHook } from '../hooks/create-quote.hook';
 import { PriceInputDto } from 'src/price/dto/price.dto';
 import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
 import { RepresentativeDto } from 'src/representative/dto/representative.dto';
+import { AgentDto } from 'src/agent/dto/agent.dto';
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
@@ -28,6 +29,7 @@ import { RepresentativeDto } from 'src/representative/dto/representative.dto';
 })
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
 @Relation('representative', () => RepresentativeDto, { disableRemove: true })
+@Relation('agent', () => AgentDto, { disableRemove: true })
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {
   @Field(() => ID)
@@ -68,4 +70,7 @@ export class QuotesDto extends BaseDTO {
 
   @Field(() => Int, { defaultValue: 0, nullable: true })
   proformaInvoiceRevision: number;
+
+  @FilterableField({ nullable: true })
+  agentId: string;
 }

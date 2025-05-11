@@ -70,8 +70,6 @@ export class MediaController {
     @UploadedFile() file: Express.Multer.File,
     @Body() body,
   ) {
-    console.log('file', body, file);
-
     const filePath = path
       .join('media', category, file.filename)
       .replace(/\\/g, '/');

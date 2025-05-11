@@ -4,23 +4,27 @@ import {
   PagingStrategies,
   QueryOptions,
   Relation,
+  UnPagedRelation,
 } from '@app/query-graphql';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsMobilePhone } from 'class-validator';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { Gender, RoleType } from 'src/app-constants/enums';
+import { Gender, RoleType, UserType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { RoleDTO } from 'src/roles/dto/roles.dto';
 import { CreateUserHook } from '../hooks/create-user.hook';
 import { Exclude } from 'class-transformer';
+import { AgentDto } from 'src/agent/dto/agent.dto';
 
 @ObjectType('User', { description: 'user dto' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@Relation('role', () => RoleDTO, { disableRemove: true })
+@UnPagedRelation('roles', () => RoleDTO, { disableRemove: true })
+@Relation('agent', () => AgentDto, { disableRemove: true })
 @BeforeCreateOne(CreateUserHook)
+@InputType()
 export class UserDTO extends BaseDTO {
   @FilterableField()
   name: string;
@@ -55,6 +59,21 @@ export class UserDTO extends BaseDTO {
   @Field(() => Gender, { nullable: true })
   gender: Gender;
 
-  @FilterableField()
-  role: string;
+  // @FilterableField()
+  // role: string;
+
+  @FilterableField(() => [String], {
+    allowedComparisons: ['eq', 'neq', 'in', 'notIn'],
+    nullable: true,
+  })
+  roles: string[];
+
+  @FilterableField({ nullable: true })
+  agentId: string;
+
+  @FilterableField(() => UserType, { defaultValue: UserType.PLATFORM_USER })
+  type: UserType;
+
+  @Field(() => UserDTO, { nullable: true })
+  createdByUser?: UserDTO; // ✅ Add this for relation
 }

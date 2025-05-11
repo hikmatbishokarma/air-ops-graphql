@@ -3,12 +3,13 @@ import { registerEnumType } from '@nestjs/graphql';
 //#region  ROLES ENUMS
 
 export enum RoleType {
+  SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
-  PARTNER = 'PARTNER',
   SALES = 'SALES',
   OPERATOR = 'OPERATOR',
-  SITE_ADMIN = 'SITE ADMIN',
-  USER = 'USER',
+  ENGINEERING = 'ENGINEERING',
+  AUDIT = 'AUDIT',
+  ACCOUNTING = 'ACCOUNTING',
 }
 
 registerEnumType(RoleType, {
@@ -101,31 +102,60 @@ registerEnumType(DateRange, {
 
 export enum TemplateType {
   QUOTATION = 'quotation',
-  INVOICE='invoice'
+  INVOICE = 'invoice',
 }
 
 export enum CounterType {
   quotation = 'quotation',
   proformaInvoice = 'progormaInvoice',
-  taxInvoice='taxIncoice'
+  taxInvoice = 'taxIncoice',
 }
 
 export enum SalesDocumentType {
-   QUOTATION = 'quotation',
-  INVOICE='invoice'
+  QUOTATION = 'quotation',
+  INVOICE = 'invoice',
 }
 
 registerEnumType(SalesDocumentType, {
   name: 'SalesDocumentType',
 });
 
-export enum InvoiceType{
-
-   PROFORMA_INVOICE = 'progormaInvoice',
-  TAX_INVOICE='taxIncoice'
+export enum InvoiceType {
+  PROFORMA_INVOICE = 'progormaInvoice',
+  TAX_INVOICE = 'taxIncoice',
 }
-
 
 registerEnumType(InvoiceType, {
   name: 'InvoiceType',
+});
+
+export enum SubscriptionPlan {
+  FREE = 'free',
+  STANDARD = 'standard',
+  ENTERPRISE = 'enterprise',
+}
+
+registerEnumType(SubscriptionPlan, {
+  name: 'SubscriptionPlan',
+});
+
+export enum BillingCycle {
+  MONTHLY = 'monthly',
+  QUARTERLY = 'quarterly',
+  YEARLY = 'yearly',
+}
+
+registerEnumType(BillingCycle, {
+  name: 'BillingCycle',
+});
+
+export enum UserType {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  PLATFORM_USER = 'PLATFORM_USER',
+  AGENT_ADMIN = 'AGENT_ADMIN',
+  AGENT_USER = 'AGENT_USER',
+}
+
+registerEnumType(UserType, {
+  name: 'type',
 });
