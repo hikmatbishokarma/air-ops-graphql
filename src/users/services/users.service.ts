@@ -154,6 +154,8 @@ export class UsersService extends MongooseQueryService<UserEntity> {
 
     const tempPassword = !password ? generatePassword(8) : password;
 
+    console.log('user tempPassword', tempPassword);
+
     const hashedPassword = await hashPassword(tempPassword);
     user['password'] = hashedPassword;
     user.type = agentId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
@@ -250,6 +252,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     if (!role) throw new Error('Admin Role Not Found');
 
     const tempPassword = generatePassword(8);
+    console.log('tempPassword', tempPassword);
 
     const hashedPassword = await hashPassword(tempPassword);
 
