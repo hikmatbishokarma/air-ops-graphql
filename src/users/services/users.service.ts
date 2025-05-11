@@ -250,7 +250,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     if (!role) throw new Error('Admin Role Not Found');
 
     const tempPassword = generatePassword(8);
-    console.log('tempPassword', tempPassword, 'args::', args);
+
     const hashedPassword = await hashPassword(tempPassword);
 
     // Auto-merge role, password and any future props in `args`

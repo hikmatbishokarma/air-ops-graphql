@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { getDateRangeFilter } from 'src/common/helper';
 import { QuotesService } from 'src/quotes/services/quotes.service';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class SalesDashboardService {
@@ -10,8 +11,14 @@ export class SalesDashboardService {
     range: string,
     startDate?: string,
     endDate?: string,
+    agentId?: string,
   ) {
-    const filter = getDateRangeFilter(range, startDate, endDate);
+    let filter = getDateRangeFilter(range, startDate, endDate);
+
+    filter = {
+      ...filter,
+      ...(agentId && { agentId: { $eq: new ObjectId(agentId) } }),
+    };
 
     // Fetch all required data in parallel
     const [

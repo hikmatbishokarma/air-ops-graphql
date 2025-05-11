@@ -13,11 +13,13 @@ export class SalesDashboardResolver {
     range: string,
     @Args('startDate', { nullable: true }) startDate?: string,
     @Args('endDate', { nullable: true }) endDate?: string,
+    @Args('agentId', { nullable: true }) agentId?: string,
   ) {
     return await this.salesDashboardService.getSalesDashboardData(
       range,
       startDate,
       endDate,
+      agentId,
     );
   }
 }

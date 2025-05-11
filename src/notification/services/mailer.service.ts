@@ -48,7 +48,7 @@ export class MailerService {
         html,
         attachments,
       });
-      console.log('email---', result);
+
       return { success: true, message: 'Email sent successfully' };
     } catch (error) {
       console.error('Email sending error:', error);
