@@ -110,6 +110,7 @@ type AircraftCategory {
 }
 
 type AircraftCategoryAggregateGroupBy {
+  createdAt: DateTime
   description: String
   isActive: Boolean
   name: String
@@ -127,6 +128,7 @@ type AircraftCategoryConnection {
 }
 
 type AircraftCategoryCountAggregate {
+  createdAt: Int
   description: Int
   isActive: Int
   name: Int
@@ -134,6 +136,7 @@ type AircraftCategoryCountAggregate {
 
 input AircraftCategoryDeleteFilter {
   and: [AircraftCategoryDeleteFilter!]
+  createdAt: DateFieldComparison
   description: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -166,6 +169,7 @@ type AircraftCategoryDeleteResponse {
 
 input AircraftCategoryFilter {
   and: [AircraftCategoryFilter!]
+  createdAt: DateFieldComparison
   description: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -173,11 +177,13 @@ input AircraftCategoryFilter {
 }
 
 type AircraftCategoryMaxAggregate {
+  createdAt: DateTime
   description: String
   name: String
 }
 
 type AircraftCategoryMinAggregate {
+  createdAt: DateTime
   description: String
   name: String
 }
@@ -189,6 +195,7 @@ input AircraftCategorySort {
 }
 
 enum AircraftCategorySortFields {
+  createdAt
   description
   isActive
   name
@@ -196,6 +203,7 @@ enum AircraftCategorySortFields {
 
 input AircraftCategoryUpdateFilter {
   and: [AircraftCategoryUpdateFilter!]
+  createdAt: DateFieldComparison
   description: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -243,6 +251,7 @@ type AircraftDetail {
 type AircraftDetailAggregateGroupBy {
   category: String
   code: String
+  createdAt: DateTime
   isActive: Boolean
   name: String
 }
@@ -261,6 +270,7 @@ type AircraftDetailConnection {
 type AircraftDetailCountAggregate {
   category: Int
   code: Int
+  createdAt: Int
   isActive: Int
   name: Int
 }
@@ -269,6 +279,7 @@ input AircraftDetailDeleteFilter {
   and: [AircraftDetailDeleteFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftDetailDeleteFilter!]
@@ -315,6 +326,7 @@ input AircraftDetailFilter {
   and: [AircraftDetailFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftDetailFilter!]
@@ -323,12 +335,14 @@ input AircraftDetailFilter {
 type AircraftDetailMaxAggregate {
   category: String
   code: String
+  createdAt: DateTime
   name: String
 }
 
 type AircraftDetailMinAggregate {
   category: String
   code: String
+  createdAt: DateTime
   name: String
 }
 
@@ -341,6 +355,7 @@ input AircraftDetailSort {
 enum AircraftDetailSortFields {
   category
   code
+  createdAt
   isActive
   name
 }
@@ -349,6 +364,7 @@ input AircraftDetailUpdateFilter {
   and: [AircraftDetailUpdateFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [AircraftDetailUpdateFilter!]
@@ -388,6 +404,7 @@ type Airport {
 type AirportAggregateGroupBy {
   city: String
   country: String
+  createdAt: DateTime
   iata_code: String
   icao_code: String
   isActive: Boolean
@@ -408,6 +425,7 @@ type AirportConnection {
 type AirportCountAggregate {
   city: Int
   country: Int
+  createdAt: Int
   iata_code: Int
   icao_code: Int
   isActive: Int
@@ -418,6 +436,7 @@ input AirportDeleteFilter {
   and: [AirportDeleteFilter!]
   city: StringFieldComparison
   country: StringFieldComparison
+  createdAt: DateFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -459,6 +478,7 @@ input AirportFilter {
   and: [AirportFilter!]
   city: StringFieldComparison
   country: StringFieldComparison
+  createdAt: DateFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -469,6 +489,7 @@ input AirportFilter {
 type AirportMaxAggregate {
   city: String
   country: String
+  createdAt: DateTime
   iata_code: String
   icao_code: String
   name: String
@@ -477,6 +498,7 @@ type AirportMaxAggregate {
 type AirportMinAggregate {
   city: String
   country: String
+  createdAt: DateTime
   iata_code: String
   icao_code: String
   name: String
@@ -491,6 +513,7 @@ input AirportSort {
 enum AirportSortFields {
   city
   country
+  createdAt
   iata_code
   icao_code
   isActive
@@ -501,6 +524,7 @@ input AirportUpdateFilter {
   and: [AirportUpdateFilter!]
   city: StringFieldComparison
   country: StringFieldComparison
+  createdAt: DateFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -562,6 +586,7 @@ type City {
 }
 
 type CityAggregateGroupBy {
+  createdAt: DateTime
   isActive: Boolean
   name: String
   state: String
@@ -579,6 +604,7 @@ type CityConnection {
 }
 
 type CityCountAggregate {
+  createdAt: Int
   isActive: Int
   name: Int
   state: Int
@@ -586,6 +612,7 @@ type CityCountAggregate {
 
 input CityDeleteFilter {
   and: [CityDeleteFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [CityDeleteFilter!]
@@ -618,6 +645,7 @@ type CityDeleteResponse {
 
 input CityFilter {
   and: [CityFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [CityFilter!]
@@ -625,11 +653,13 @@ input CityFilter {
 }
 
 type CityMaxAggregate {
+  createdAt: DateTime
   name: String
   state: String
 }
 
 type CityMinAggregate {
+  createdAt: DateTime
   name: String
   state: String
 }
@@ -641,6 +671,7 @@ input CitySort {
 }
 
 enum CitySortFields {
+  createdAt
   isActive
   name
   state
@@ -648,6 +679,7 @@ enum CitySortFields {
 
 input CityUpdateFilter {
   and: [CityUpdateFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [CityUpdateFilter!]
@@ -1253,6 +1285,26 @@ input CreateUserInput {
   user: UserInputDto!
 }
 
+input DateFieldComparison {
+  between: DateFieldComparisonBetween
+  eq: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  is: Boolean
+  isNot: Boolean
+  lt: DateTime
+  lte: DateTime
+  neq: DateTime
+  notBetween: DateFieldComparisonBetween
+  notIn: [DateTime!]
+}
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
 enum DateRange {
   custom
   lastMonth
@@ -1459,6 +1511,7 @@ type Invoice {
 }
 
 type InvoiceAggregateGroupBy {
+  createdAt: DateTime
   invoiceNo: String
   isActive: Boolean
   isLatest: Boolean
@@ -1479,6 +1532,7 @@ type InvoiceConnection {
 }
 
 type InvoiceCountAggregate {
+  createdAt: Int
   invoiceNo: Int
   isActive: Int
   isLatest: Int
@@ -1489,6 +1543,7 @@ type InvoiceCountAggregate {
 
 input InvoiceDeleteFilter {
   and: [InvoiceDeleteFilter!]
+  createdAt: DateFieldComparison
   invoiceNo: StringFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
@@ -1529,6 +1584,7 @@ type InvoiceDeleteResponse {
 
 input InvoiceFilter {
   and: [InvoiceFilter!]
+  createdAt: DateFieldComparison
   invoiceNo: StringFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
@@ -1539,6 +1595,7 @@ input InvoiceFilter {
 }
 
 type InvoiceMaxAggregate {
+  createdAt: DateTime
   invoiceNo: String
   quotation: String
   quotationNo: String
@@ -1546,6 +1603,7 @@ type InvoiceMaxAggregate {
 }
 
 type InvoiceMinAggregate {
+  createdAt: DateTime
   invoiceNo: String
   quotation: String
   quotationNo: String
@@ -1559,6 +1617,7 @@ input InvoiceSort {
 }
 
 enum InvoiceSortFields {
+  createdAt
   invoiceNo
   isActive
   isLatest
@@ -1591,6 +1650,7 @@ input InvoiceTypeFilterComparison {
 
 input InvoiceUpdateFilter {
   and: [InvoiceUpdateFilter!]
+  createdAt: DateFieldComparison
   invoiceNo: StringFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
@@ -2043,6 +2103,7 @@ type QuoteAggregateGroupBy {
   aircraft: String
   category: String
   code: String
+  createdAt: DateTime
   isActive: Boolean
   isLatest: Boolean
   proformaInvoiceNo: String
@@ -2069,6 +2130,7 @@ type QuoteCountAggregate {
   aircraft: Int
   category: Int
   code: Int
+  createdAt: Int
   isActive: Int
   isLatest: Int
   proformaInvoiceNo: Int
@@ -2085,6 +2147,7 @@ input QuoteDeleteFilter {
   and: [QuoteDeleteFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteDeleteFilter!]
@@ -2142,6 +2205,7 @@ input QuoteFilter {
   and: [QuoteFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteFilter!]
@@ -2158,6 +2222,7 @@ type QuoteMaxAggregate {
   aircraft: String
   category: String
   code: String
+  createdAt: DateTime
   proformaInvoiceNo: String
   providerType: String
   quotationNo: String
@@ -2171,6 +2236,7 @@ type QuoteMinAggregate {
   aircraft: String
   category: String
   code: String
+  createdAt: DateTime
   proformaInvoiceNo: String
   providerType: String
   quotationNo: String
@@ -2190,6 +2256,7 @@ enum QuoteSortFields {
   aircraft
   category
   code
+  createdAt
   isActive
   isLatest
   proformaInvoiceNo
@@ -2231,6 +2298,7 @@ input QuoteUpdateFilter {
   and: [QuoteUpdateFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   isLatest: BooleanFieldComparison
   or: [QuoteUpdateFilter!]
@@ -2401,6 +2469,7 @@ type RolePermission {
 }
 
 type RolePermissionAggregateGroupBy {
+  createdAt: DateTime
   isActive: Boolean
   role: String
 }
@@ -2417,12 +2486,14 @@ type RolePermissionConnection {
 }
 
 type RolePermissionCountAggregate {
+  createdAt: Int
   isActive: Int
   role: Int
 }
 
 input RolePermissionDeleteFilter {
   and: [RolePermissionDeleteFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [RolePermissionDeleteFilter!]
   role: StringFieldComparison
@@ -2454,16 +2525,19 @@ type RolePermissionDeleteResponse {
 
 input RolePermissionFilter {
   and: [RolePermissionFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [RolePermissionFilter!]
   role: StringFieldComparison
 }
 
 type RolePermissionMaxAggregate {
+  createdAt: DateTime
   role: String
 }
 
 type RolePermissionMinAggregate {
+  createdAt: DateTime
   role: String
 }
 
@@ -2474,12 +2548,14 @@ input RolePermissionSort {
 }
 
 enum RolePermissionSortFields {
+  createdAt
   isActive
   role
 }
 
 input RolePermissionUpdateFilter {
   and: [RolePermissionUpdateFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [RolePermissionUpdateFilter!]
   role: StringFieldComparison
@@ -3405,6 +3481,7 @@ type User {
 
 type UserAggregateGroupBy {
   agentId: String
+  createdAt: DateTime
   email: String
   isActive: Boolean
   name: String
@@ -3426,6 +3503,7 @@ type UserConnection {
 
 type UserCountAggregate {
   agentId: Int
+  createdAt: Int
   email: Int
   isActive: Int
   name: Int
@@ -3454,6 +3532,7 @@ input UserDTO {
 input UserDeleteFilter {
   agentId: StringFieldComparison
   and: [UserDeleteFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3503,6 +3582,7 @@ type UserDeleteResponse {
 input UserFilter {
   agentId: StringFieldComparison
   and: [UserFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3563,6 +3643,7 @@ input UserInputDto {
 
 type UserMaxAggregate {
   agentId: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -3572,6 +3653,7 @@ type UserMaxAggregate {
 
 type UserMinAggregate {
   agentId: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -3594,6 +3676,7 @@ input UserSort {
 
 enum UserSortFields {
   agentId
+  createdAt
   email
   isActive
   name
@@ -3605,6 +3688,7 @@ enum UserSortFields {
 input UserUpdateFilter {
   agentId: StringFieldComparison
   and: [UserUpdateFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3668,6 +3752,7 @@ type agent {
 type agentAggregateGroupBy {
   billingCycle: BillingCycle
   companyName: String
+  createdAt: DateTime
   email: String
   isActive: Boolean
   name: String
@@ -3679,6 +3764,7 @@ type agentAggregateGroupBy {
 type agentCountAggregate {
   billingCycle: Int
   companyName: Int
+  createdAt: Int
   email: Int
   isActive: Int
   name: Int
@@ -3691,6 +3777,7 @@ input agentDeleteFilter {
   and: [agentDeleteFilter!]
   billingCycle: BillingCycleFilterComparison
   companyName: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3704,6 +3791,7 @@ input agentFilter {
   and: [agentFilter!]
   billingCycle: BillingCycleFilterComparison
   companyName: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3716,6 +3804,7 @@ input agentFilter {
 type agentMaxAggregate {
   billingCycle: BillingCycle
   companyName: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -3726,6 +3815,7 @@ type agentMaxAggregate {
 type agentMinAggregate {
   billingCycle: BillingCycle
   companyName: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -3742,6 +3832,7 @@ input agentSort {
 enum agentSortFields {
   billingCycle
   companyName
+  createdAt
   email
   isActive
   name
@@ -3754,6 +3845,7 @@ input agentUpdateFilter {
   and: [agentUpdateFilter!]
   billingCycle: BillingCycleFilterComparison
   companyName: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -3795,6 +3887,7 @@ type client {
 
 type clientAggregateGroupBy {
   address: String
+  createdAt: DateTime
   email: String
   isActive: Boolean
   isCompany: Boolean
@@ -3804,6 +3897,7 @@ type clientAggregateGroupBy {
 
 type clientCountAggregate {
   address: Int
+  createdAt: Int
   email: Int
   isActive: Int
   isCompany: Int
@@ -3814,6 +3908,7 @@ type clientCountAggregate {
 input clientDeleteFilter {
   address: StringFieldComparison
   and: [clientDeleteFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
@@ -3825,6 +3920,7 @@ input clientDeleteFilter {
 input clientFilter {
   address: StringFieldComparison
   and: [clientFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
@@ -3835,12 +3931,14 @@ input clientFilter {
 
 type clientMaxAggregate {
   address: String
+  createdAt: DateTime
   email: String
   phone: String
 }
 
 type clientMinAggregate {
   address: String
+  createdAt: DateTime
   email: String
   phone: String
 }
@@ -3853,6 +3951,7 @@ input clientSort {
 
 enum clientSortFields {
   address
+  createdAt
   email
   isActive
   isCompany
@@ -3863,6 +3962,7 @@ enum clientSortFields {
 input clientUpdateFilter {
   address: StringFieldComparison
   and: [clientUpdateFilter!]
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   isCompany: BooleanFieldComparison
@@ -3905,17 +4005,20 @@ type price {
 
 type priceAggregateGroupBy {
   aircraft: String
+  createdAt: DateTime
   isActive: Boolean
 }
 
 type priceCountAggregate {
   aircraft: Int
+  createdAt: Int
   isActive: Int
 }
 
 input priceDeleteFilter {
   aircraft: StringFieldComparison
   and: [priceDeleteFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [priceDeleteFilter!]
 }
@@ -3923,6 +4026,7 @@ input priceDeleteFilter {
 input priceFilter {
   aircraft: StringFieldComparison
   and: [priceFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [priceFilter!]
 }
@@ -3940,10 +4044,12 @@ input priceInput {
 
 type priceMaxAggregate {
   aircraft: String
+  createdAt: DateTime
 }
 
 type priceMinAggregate {
   aircraft: String
+  createdAt: DateTime
 }
 
 input priceSort {
@@ -3954,12 +4060,14 @@ input priceSort {
 
 enum priceSortFields {
   aircraft
+  createdAt
   isActive
 }
 
 input priceUpdateFilter {
   aircraft: StringFieldComparison
   and: [priceUpdateFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   or: [priceUpdateFilter!]
 }
@@ -3996,6 +4104,7 @@ type representative {
 type representativeAggregateGroupBy {
   address: String
   client: String
+  createdAt: DateTime
   email: String
   isActive: Boolean
   name: String
@@ -4005,6 +4114,7 @@ type representativeAggregateGroupBy {
 type representativeCountAggregate {
   address: Int
   client: Int
+  createdAt: Int
   email: Int
   isActive: Int
   name: Int
@@ -4015,6 +4125,7 @@ input representativeDeleteFilter {
   address: StringFieldComparison
   and: [representativeDeleteFilter!]
   client: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -4026,6 +4137,7 @@ input representativeFilter {
   address: StringFieldComparison
   and: [representativeFilter!]
   client: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -4036,6 +4148,7 @@ input representativeFilter {
 type representativeMaxAggregate {
   address: String
   client: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -4044,6 +4157,7 @@ type representativeMaxAggregate {
 type representativeMinAggregate {
   address: String
   client: String
+  createdAt: DateTime
   email: String
   name: String
   phone: String
@@ -4058,6 +4172,7 @@ input representativeSort {
 enum representativeSortFields {
   address
   client
+  createdAt
   email
   isActive
   name
@@ -4068,6 +4183,7 @@ input representativeUpdateFilter {
   address: StringFieldComparison
   and: [representativeUpdateFilter!]
   client: StringFieldComparison
+  createdAt: DateFieldComparison
   email: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
@@ -4103,17 +4219,20 @@ type resource {
 }
 
 type resourceAggregateGroupBy {
+  createdAt: DateTime
   isActive: Boolean
   menu: String
 }
 
 type resourceCountAggregate {
+  createdAt: Int
   isActive: Int
   menu: Int
 }
 
 input resourceDeleteFilter {
   and: [resourceDeleteFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceDeleteFilter!]
@@ -4121,16 +4240,19 @@ input resourceDeleteFilter {
 
 input resourceFilter {
   and: [resourceFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceFilter!]
 }
 
 type resourceMaxAggregate {
+  createdAt: DateTime
   menu: String
 }
 
 type resourceMinAggregate {
+  createdAt: DateTime
   menu: String
 }
 
@@ -4141,12 +4263,14 @@ input resourceSort {
 }
 
 enum resourceSortFields {
+  createdAt
   isActive
   menu
 }
 
 input resourceUpdateFilter {
   and: [resourceUpdateFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceUpdateFilter!]
@@ -4181,12 +4305,14 @@ type role {
 }
 
 type roleAggregateGroupBy {
+  createdAt: DateTime
   isActive: Boolean
   name: String
   type: RoleType
 }
 
 type roleCountAggregate {
+  createdAt: Int
   isActive: Int
   name: Int
   type: Int
@@ -4194,6 +4320,7 @@ type roleCountAggregate {
 
 input roleDeleteFilter {
   and: [roleDeleteFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleDeleteFilter!]
@@ -4202,6 +4329,7 @@ input roleDeleteFilter {
 
 input roleFilter {
   and: [roleFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleFilter!]
@@ -4209,11 +4337,13 @@ input roleFilter {
 }
 
 type roleMaxAggregate {
+  createdAt: DateTime
   name: String
   type: RoleType
 }
 
 type roleMinAggregate {
+  createdAt: DateTime
   name: String
   type: RoleType
 }
@@ -4225,6 +4355,7 @@ input roleSort {
 }
 
 enum roleSortFields {
+  createdAt
   isActive
   name
   type
@@ -4232,6 +4363,7 @@ enum roleSortFields {
 
 input roleUpdateFilter {
   and: [roleUpdateFilter!]
+  createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   or: [roleUpdateFilter!]

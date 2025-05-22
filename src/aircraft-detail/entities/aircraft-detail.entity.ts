@@ -33,6 +33,9 @@ export class AircraftDetailEntity extends BaseEntity {
   seatLayoutImage: string;
   @Prop()
   rangeMapImage: string;
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
+  agentId: Types.ObjectId;
 }
 
 export const AircraftDetailSchema =

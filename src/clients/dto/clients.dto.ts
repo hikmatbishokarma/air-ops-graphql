@@ -5,6 +5,7 @@ import {
   Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { AgentDto } from 'src/agent/dto/agent.dto';
 import { ClientType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
@@ -13,6 +14,7 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
+@Relation('agent', () => AgentDto, { disableRemove: true })
 export class ClientsDto extends BaseDTO {
   @Field()
   name: string;
@@ -27,4 +29,6 @@ export class ClientsDto extends BaseDTO {
   isCompany: boolean;
   @FilterableField()
   isPerson: boolean;
+  @FilterableField({ nullable: true })
+  agentId: string;
 }

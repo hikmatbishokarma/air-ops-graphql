@@ -6,7 +6,7 @@ export abstract class BaseDTO {
   @Field(() => ID)
   id!: string;
 
-  @Field({
+  @FilterableField({
     nullable: true,
     description: 'The date when the record was created',
   })
