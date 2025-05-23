@@ -4,7 +4,7 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'aircraft-categories', timestamps: true })
 export class AircraftCategoriesEntity extends BaseEntity {
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String, required: true })
   name: string;
   @Prop()
   description: string;
@@ -15,3 +15,5 @@ export class AircraftCategoriesEntity extends BaseEntity {
 export const AircraftCategoriesSchema = SchemaFactory.createForClass(
   AircraftCategoriesEntity,
 );
+
+AircraftCategoriesSchema.index({ name: 1, agentId: 1 }, { unique: true });

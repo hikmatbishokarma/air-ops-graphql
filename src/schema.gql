@@ -86,6 +86,9 @@ input AgentDto {
 
 """AircraftCategory"""
 type AircraftCategory {
+  agent: agent!
+  agentId: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -110,6 +113,7 @@ type AircraftCategory {
 }
 
 type AircraftCategoryAggregateGroupBy {
+  agentId: String
   createdAt: DateTime
   description: String
   isActive: Boolean
@@ -128,6 +132,7 @@ type AircraftCategoryConnection {
 }
 
 type AircraftCategoryCountAggregate {
+  agentId: Int
   createdAt: Int
   description: Int
   isActive: Int
@@ -135,6 +140,7 @@ type AircraftCategoryCountAggregate {
 }
 
 input AircraftCategoryDeleteFilter {
+  agentId: StringFieldComparison
   and: [AircraftCategoryDeleteFilter!]
   createdAt: DateFieldComparison
   description: StringFieldComparison
@@ -144,6 +150,8 @@ input AircraftCategoryDeleteFilter {
 }
 
 type AircraftCategoryDeleteResponse {
+  agentId: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -168,6 +176,7 @@ type AircraftCategoryDeleteResponse {
 }
 
 input AircraftCategoryFilter {
+  agentId: StringFieldComparison
   and: [AircraftCategoryFilter!]
   createdAt: DateFieldComparison
   description: StringFieldComparison
@@ -177,12 +186,14 @@ input AircraftCategoryFilter {
 }
 
 type AircraftCategoryMaxAggregate {
+  agentId: String
   createdAt: DateTime
   description: String
   name: String
 }
 
 type AircraftCategoryMinAggregate {
+  agentId: String
   createdAt: DateTime
   description: String
   name: String
@@ -195,6 +206,7 @@ input AircraftCategorySort {
 }
 
 enum AircraftCategorySortFields {
+  agentId
   createdAt
   description
   isActive
@@ -202,6 +214,7 @@ enum AircraftCategorySortFields {
 }
 
 input AircraftCategoryUpdateFilter {
+  agentId: StringFieldComparison
   and: [AircraftCategoryUpdateFilter!]
   createdAt: DateFieldComparison
   description: StringFieldComparison
@@ -212,6 +225,8 @@ input AircraftCategoryUpdateFilter {
 
 """Aircraft Detail"""
 type AircraftDetail {
+  agent: agent!
+  agentId: String
   category: AircraftCategory!
   code: String!
 
@@ -249,6 +264,7 @@ type AircraftDetail {
 }
 
 type AircraftDetailAggregateGroupBy {
+  agentId: String
   category: String
   code: String
   createdAt: DateTime
@@ -268,6 +284,7 @@ type AircraftDetailConnection {
 }
 
 type AircraftDetailCountAggregate {
+  agentId: Int
   category: Int
   code: Int
   createdAt: Int
@@ -276,6 +293,7 @@ type AircraftDetailCountAggregate {
 }
 
 input AircraftDetailDeleteFilter {
+  agentId: StringFieldComparison
   and: [AircraftDetailDeleteFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
@@ -286,6 +304,7 @@ input AircraftDetailDeleteFilter {
 }
 
 type AircraftDetailDeleteResponse {
+  agentId: String
   category: String
   code: String
 
@@ -323,6 +342,7 @@ type AircraftDetailDeleteResponse {
 }
 
 input AircraftDetailFilter {
+  agentId: StringFieldComparison
   and: [AircraftDetailFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
@@ -333,6 +353,7 @@ input AircraftDetailFilter {
 }
 
 type AircraftDetailMaxAggregate {
+  agentId: String
   category: String
   code: String
   createdAt: DateTime
@@ -340,6 +361,7 @@ type AircraftDetailMaxAggregate {
 }
 
 type AircraftDetailMinAggregate {
+  agentId: String
   category: String
   code: String
   createdAt: DateTime
@@ -353,6 +375,7 @@ input AircraftDetailSort {
 }
 
 enum AircraftDetailSortFields {
+  agentId
   category
   code
   createdAt
@@ -361,6 +384,7 @@ enum AircraftDetailSortFields {
 }
 
 input AircraftDetailUpdateFilter {
+  agentId: StringFieldComparison
   and: [AircraftDetailUpdateFilter!]
   category: StringFieldComparison
   code: StringFieldComparison
@@ -699,6 +723,7 @@ type ClientConnection {
 
 type ClientDeleteResponse {
   address: String
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -766,6 +791,8 @@ input CreateAgent {
 }
 
 input CreateAircraftCategory {
+  agentId: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -790,6 +817,7 @@ input CreateAircraftCategory {
 }
 
 input CreateAircraftDetail {
+  agentId: String
   category: String
   code: String
 
@@ -882,6 +910,7 @@ input CreateCity {
 
 input CreateClient {
   address: String
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1195,6 +1224,7 @@ input CreateResource {
 
 input CreateRole {
   accessPermissions: [accessPermissionInput!]
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -1740,7 +1770,11 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
   sendAcknowledgement(input: acknowledgementInput!): String!
   sendEmail(input: MailerInput!): MailerResponseDto!
+  setAgentOnAircraftCategory(input: SetAgentOnAircraftCategoryInput!): AircraftCategory!
+  setAgentOnAircraftDetail(input: SetAgentOnAircraftDetailInput!): AircraftDetail!
+  setAgentOnClient(input: SetAgentOnClientInput!): client!
   setAgentOnQuote(input: SetAgentOnQuoteInput!): Quote!
+  setAgentOnRole(input: SetAgentOnRoleInput!): role!
   setAgentOnUser(input: SetAgentOnUserInput!): User!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
@@ -2418,6 +2452,7 @@ type RoleConnection {
 
 type RoleDeleteResponse {
   accessPermissions: [AccessPermissionInput!]
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -2593,7 +2628,39 @@ enum SalesDocumentType {
   QUOTATION
 }
 
+input SetAgentOnAircraftCategoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetAgentOnAircraftDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetAgentOnClientInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetAgentOnQuoteInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetAgentOnRoleInput {
   """The id of the record."""
   id: ID!
 
@@ -2809,6 +2876,8 @@ input UpdateAgent {
 }
 
 input UpdateAircraftCategory {
+  agentId: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -2833,6 +2902,7 @@ input UpdateAircraftCategory {
 }
 
 input UpdateAircraftDetail {
+  agentId: String
   category: String
   code: String
 
@@ -2925,6 +2995,7 @@ input UpdateCity {
 
 input UpdateClient {
   address: String
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -3348,6 +3419,7 @@ input UpdateResource {
 
 input UpdateRole {
   accessPermissions: [accessPermissionInput!]
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -3858,6 +3930,8 @@ input agentUpdateFilter {
 """Client"""
 type client {
   address: String!
+  agent: agent!
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -3887,6 +3961,7 @@ type client {
 
 type clientAggregateGroupBy {
   address: String
+  agentId: String
   createdAt: DateTime
   email: String
   isActive: Boolean
@@ -3897,6 +3972,7 @@ type clientAggregateGroupBy {
 
 type clientCountAggregate {
   address: Int
+  agentId: Int
   createdAt: Int
   email: Int
   isActive: Int
@@ -3907,6 +3983,7 @@ type clientCountAggregate {
 
 input clientDeleteFilter {
   address: StringFieldComparison
+  agentId: StringFieldComparison
   and: [clientDeleteFilter!]
   createdAt: DateFieldComparison
   email: StringFieldComparison
@@ -3919,6 +3996,7 @@ input clientDeleteFilter {
 
 input clientFilter {
   address: StringFieldComparison
+  agentId: StringFieldComparison
   and: [clientFilter!]
   createdAt: DateFieldComparison
   email: StringFieldComparison
@@ -3931,6 +4009,7 @@ input clientFilter {
 
 type clientMaxAggregate {
   address: String
+  agentId: String
   createdAt: DateTime
   email: String
   phone: String
@@ -3938,6 +4017,7 @@ type clientMaxAggregate {
 
 type clientMinAggregate {
   address: String
+  agentId: String
   createdAt: DateTime
   email: String
   phone: String
@@ -3951,6 +4031,7 @@ input clientSort {
 
 enum clientSortFields {
   address
+  agentId
   createdAt
   email
   isActive
@@ -3961,6 +4042,7 @@ enum clientSortFields {
 
 input clientUpdateFilter {
   address: StringFieldComparison
+  agentId: StringFieldComparison
   and: [clientUpdateFilter!]
   createdAt: DateFieldComparison
   email: StringFieldComparison
@@ -4279,6 +4361,8 @@ input resourceUpdateFilter {
 """User Roles"""
 type role {
   accessPermissions: [AccessPermissionInput!]!
+  agent: agent!
+  agentId: String
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -4305,6 +4389,7 @@ type role {
 }
 
 type roleAggregateGroupBy {
+  agentId: String
   createdAt: DateTime
   isActive: Boolean
   name: String
@@ -4312,6 +4397,7 @@ type roleAggregateGroupBy {
 }
 
 type roleCountAggregate {
+  agentId: Int
   createdAt: Int
   isActive: Int
   name: Int
@@ -4319,6 +4405,7 @@ type roleCountAggregate {
 }
 
 input roleDeleteFilter {
+  agentId: StringFieldComparison
   and: [roleDeleteFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
@@ -4328,6 +4415,7 @@ input roleDeleteFilter {
 }
 
 input roleFilter {
+  agentId: StringFieldComparison
   and: [roleFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
@@ -4337,12 +4425,14 @@ input roleFilter {
 }
 
 type roleMaxAggregate {
+  agentId: String
   createdAt: DateTime
   name: String
   type: RoleType
 }
 
 type roleMinAggregate {
+  agentId: String
   createdAt: DateTime
   name: String
   type: RoleType
@@ -4355,6 +4445,7 @@ input roleSort {
 }
 
 enum roleSortFields {
+  agentId
   createdAt
   isActive
   name
@@ -4362,6 +4453,7 @@ enum roleSortFields {
 }
 
 input roleUpdateFilter {
+  agentId: StringFieldComparison
   and: [roleUpdateFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison

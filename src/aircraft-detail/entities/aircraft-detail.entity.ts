@@ -4,9 +4,9 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'aircraft-details', timestamps: true })
 export class AircraftDetailEntity extends BaseEntity {
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String, required: true })
   name: string;
-  @Prop({ type: String, required: true, unique: true })
+  @Prop({ type: String, required: true })
   code: string;
   @Prop({
     ref: 'AircraftCategoriesEntity',
@@ -40,3 +40,5 @@ export class AircraftDetailEntity extends BaseEntity {
 
 export const AircraftDetailSchema =
   SchemaFactory.createForClass(AircraftDetailEntity);
+
+AircraftDetailSchema.index({ code: 1, agentId: 1 }, { unique: true });
