@@ -9,7 +9,7 @@ import { UserDTO } from './dto/users.dto';
 import { RolesModule } from 'src/roles/roles.module';
 import { RolesService } from 'src/roles/services/roles.service';
 import { NotificationModule } from 'src/notification/notification.module';
-import { AgentModule } from 'src/agent/agent.module';
+import { AgentModule } from 'src/operator/operator.module';
 
 @Module({
   imports: [

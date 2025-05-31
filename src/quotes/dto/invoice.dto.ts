@@ -16,7 +16,6 @@ import { QuotesDto } from 'src/quotes/dto/quotes.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('quotation', () => QuotesDto, { disableRemove: true })
-
 export class InvoiceDto extends BaseDTO {
   @FilterableField()
   quotation: string;
@@ -30,13 +29,18 @@ export class InvoiceDto extends BaseDTO {
   @Field(() => Int, { defaultValue: 0 })
   revision: number;
 
-  @FilterableField()
-  invoiceNo: string;
+  @FilterableField({ nullable: true })
+  proformaInvoiceNo: string;
+
+  @FilterableField({ nullable: true })
+  taxInvoiceNo: string;
 
   @Field()
-  template: string
+  template: string;
 
   @FilterableField(() => InvoiceType)
-  type: string
+  type: string;
 
+  @FilterableField({ nullable: true })
+  operatorId: string;
 }

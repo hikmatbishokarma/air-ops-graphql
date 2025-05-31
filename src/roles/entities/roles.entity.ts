@@ -30,10 +30,14 @@ export class RoleEntity extends BaseEntity {
   @Prop({ type: [AccessPermission] })
   accessPermissions: AccessPermission[];
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(RoleEntity);
 
-RoleSchema.index({ type: 1, agentId: 1 }, { unique: true });
+RoleSchema.index({ type: 1, operatorId: 1 }, { unique: true });

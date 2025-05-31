@@ -6,6 +6,7 @@ import { acknowledgementInput } from '../../notification/inputs/acknowledgement.
 import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
 import { UpdateOneInputType } from '@app/query-graphql';
 import { UpdateOneQuoteInput } from '../inputs/update-quote.input';
+import { TripConfirmationInput } from '../inputs/trip-confirmation.input';
 
 @Resolver()
 export class QuotesResolver {
@@ -38,5 +39,10 @@ export class QuotesResolver {
   })
   async updateOneQuote(@Args('input') input: UpdateOneQuoteInput) {
     return await this.quotesService.updateOneQuote(input);
+  }
+
+  @Mutation(() => QuotesDto)
+  async tripConfirmation(@Args('args') args: TripConfirmationInput) {
+    return await this.quotesService.tripConfirmation(args);
   }
 }

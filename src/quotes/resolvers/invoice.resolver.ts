@@ -1,14 +1,14 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
-import { InvoiceService } from "../services/invoice.service";
-import { GenerateInvoiceInput } from "../inputs/generate-invoice.input";
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { InvoiceService } from '../services/invoice.service';
+import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
+import { InvoiceDto } from '../dto/invoice.dto';
 
 @Resolver()
-export class InvoiceResolver{
-constructor(private readonly invoiceService:InvoiceService){}
+export class InvoiceResolver {
+  constructor(private readonly invoiceService: InvoiceService) {}
 
-@Query(() => String)
-async generateInvoice(@Args('args') args: GenerateInvoiceInput) {
-  return await this.invoiceService.generateInvoice(args);
-}
-
+  @Mutation(() => InvoiceDto)
+  async generateInvoice(@Args('args') args: GenerateInvoiceInput) {
+    return await this.invoiceService.generateInvoice(args);
+  }
 }

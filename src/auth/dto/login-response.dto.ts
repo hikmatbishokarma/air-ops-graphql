@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { AgentDto } from 'src/agent/dto/agent.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { UserDTO } from 'src/users/dto/users.dto';
 
 @ObjectType()
@@ -31,8 +31,8 @@ export class UserInput extends UserDTO {
   roles: string[];
   @Field(() => [GraphQLJSONObject])
   permissions: Object[];
-  @Field(() => AgentDto, { nullable: true })
-  agent: AgentDto;
+  @Field(() => OperatorDto, { nullable: true })
+  operator: OperatorDto;
 }
 
 @ObjectType()

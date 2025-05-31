@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types, Document } from 'mongoose';
-import { QuoteStatus } from 'src/app-constants/enums';
+import { Category, QuoteStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { PricesDto } from 'src/price/entities/price.entity';
 
@@ -27,12 +27,15 @@ export class QuotesEntity extends BaseEntity {
   @Prop({ ref: 'RepresentativeEntity', type: SchemaTypes.ObjectId })
   representative: Types.ObjectId;
 
-  @Prop({
-    ref: 'AircraftCategoriesEntity',
-    type: SchemaTypes.ObjectId,
-    required: true,
-  })
-  category: Types.ObjectId;
+  // @Prop({
+  //   ref: 'AircraftCategoriesEntity',
+  //   type: SchemaTypes.ObjectId,
+  //   required: true,
+  // })
+  // category: Types.ObjectId;
+
+  @Prop({ type: String, enum: Category })
+  category: Category;
 
   @Prop({
     ref: 'AircraftDetailEntity',
@@ -70,13 +73,21 @@ export class QuotesEntity extends BaseEntity {
 
   @Prop({ default: 0 })
   revision: number;
-  @Prop()
-  proformaInvoiceNo: string;
-  @Prop({ default: 0 })
-  proformaInvoiceRevision: number;
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  // @Prop()
+  // proformaInvoiceNo: string;
+  // @Prop({ default: 0 })
+  // proformaInvoiceRevision: number;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
+
+  @Prop()
+  confirmationTemplate?: string;
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);

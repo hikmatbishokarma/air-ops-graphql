@@ -110,7 +110,7 @@ export const QuotePdfTemplate = (quote) => {
         <!-- Header Section -->
         <div class="header">
             <div class="details">
-                <strong>Passenger Details:</strong><br>
+                <strong>Client Details:</strong><br>
                 Name: ${client.name}<br>
                 Contact:  ${client.phone}<br>
                 Email:  ${client.email}
@@ -134,7 +134,7 @@ export const QuotePdfTemplate = (quote) => {
                     <th>Date</th>
                     <th>From</th>
                     <th>To</th>
-                    <th>Apx.Fly.Time</th>
+                    <th>Block Time</th>
                     <th>Remarks</th>
                 </tr>
             </thead>

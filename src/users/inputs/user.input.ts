@@ -24,7 +24,7 @@ export class UserInputDto {
   address: string;
 
   @Field({ nullable: true, defaultValue: undefined })
-  agentId?: string;
+  operatorId?: string;
 }
 
 @InputType()

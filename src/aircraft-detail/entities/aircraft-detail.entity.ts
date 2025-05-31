@@ -34,11 +34,15 @@ export class AircraftDetailEntity extends BaseEntity {
   @Prop()
   rangeMapImage: string;
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 }
 
 export const AircraftDetailSchema =
   SchemaFactory.createForClass(AircraftDetailEntity);
 
-AircraftDetailSchema.index({ code: 1, agentId: 1 }, { unique: true });
+AircraftDetailSchema.index({ code: 1, operatorId: 1 }, { unique: true });

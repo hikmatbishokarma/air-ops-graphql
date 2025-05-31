@@ -2,11 +2,11 @@ import { NestjsQueryGraphQLModule } from '@app/query-graphql';
 import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { forwardRef, Module } from '@nestjs/common';
 
-import { AgentEntity, AgentSchema } from './entities/agent.entity';
-import { AgentDto } from './dto/agent.dto';
+import { OperatorEntity, OperatorSchema } from './entities/operator.entity';
+import { OperatorDto } from './dto/operator.dto';
 
-import { AgentResolver } from './resolvers/agent.resolver';
-import { AgentService } from './services/agent.service';
+import { OperatorResolver } from './resolvers/operator.resolver';
+import { OperatorService } from './services/operator.service';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
@@ -16,21 +16,21 @@ import { UsersModule } from 'src/users/users.module';
       imports: [
         NestjsQueryMongooseModule.forFeature([
           {
-            document: AgentEntity,
-            name: AgentEntity.name,
-            schema: AgentSchema,
+            document: OperatorEntity,
+            name: OperatorEntity.name,
+            schema: OperatorSchema,
           },
         ]),
       ],
       resolvers: [
         {
-          DTOClass: AgentDto,
-          EntityClass: AgentEntity,
+          DTOClass: OperatorDto,
+          EntityClass: OperatorEntity,
         },
       ],
     }),
   ],
-  providers: [AgentResolver, AgentService],
-  exports: [AgentService],
+  providers: [OperatorResolver, OperatorService],
+  exports: [OperatorService],
 })
 export class AgentModule {}

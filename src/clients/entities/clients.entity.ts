@@ -19,8 +19,18 @@ export class ClientsEntity extends BaseEntity {
   isCompany: boolean;
   @Prop({ default: false })
   isPerson: boolean;
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
+  @Prop()
+  panNo: string;
+  @Prop()
+  gstNo: string;
+  @Prop()
+  billingAddress: string;
 }
 
 export const ClientsSchema = SchemaFactory.createForClass(ClientsEntity);

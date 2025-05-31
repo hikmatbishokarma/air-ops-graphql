@@ -62,6 +62,7 @@ export enum QuoteStatus {
   TAX_INVOICE = 'Tax Invoice',
   CANCELLED = 'Cancelled',
   'DEPRECATED' = 'Deprecated',
+  CONFIRMED = 'Confirmed',
 }
 
 registerEnumType(QuoteStatus, {
@@ -121,8 +122,8 @@ registerEnumType(SalesDocumentType, {
 });
 
 export enum InvoiceType {
-  PROFORMA_INVOICE = 'progormaInvoice',
-  TAX_INVOICE = 'taxIncoice',
+  PROFORMA_INVOICE = 'Proforma Invoice',
+  TAX_INVOICE = 'Tax Invoice',
 }
 
 registerEnumType(InvoiceType, {
@@ -158,4 +159,16 @@ export enum UserType {
 
 registerEnumType(UserType, {
   name: 'type',
+});
+
+export enum Category {
+  CHARTER = 'Charter',
+  IN_HOUSE = 'In House',
+  TEST_FLIGHT = 'Test Flight',
+  TRAINING = 'Training',
+  GROUND_RUN = 'Ground Run',
+}
+
+registerEnumType(Category, {
+  name: 'Category',
 });

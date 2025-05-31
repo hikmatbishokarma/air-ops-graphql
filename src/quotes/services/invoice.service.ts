@@ -22,69 +22,138 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   }
 
   async generateInvoice(args) {
-    const { id, quotationNo, isRevised } = args;
+    const { id, quotationNo, proformaInvoiceNo, type } = args;
 
-    const quote = await this.quoteService.getQuoteById(quotationNo);
-    if (!quote) throw new BadRequestException('No Quote Found');
+    if (type === InvoiceType.PROFORMA_INVOICE) {
+      const quote = await this.quoteService.getQuoteById(quotationNo);
+      if (!quote) throw new BadRequestException('No Quote Found');
 
-    let proformaInvoiceNo = quote.proformaInvoiceNo ?? '';
-    if (!isRevised) {
+      const invoice = await this.query({
+        filter: { quotationNo: { eq: quotationNo } },
+      });
+
+      if (invoice.length) throw new Error('Performance is already generated');
+
       const invoiceNo = await this.generateProformaInvoiceNumber();
-      proformaInvoiceNo = invoiceNo;
+
+      let htmlContent = InvoiceTemplate({
+        ...quote,
+        invoiceNo,
+        type: InvoiceType.PROFORMA_INVOICE,
+      });
+      if (!htmlContent) throw new BadRequestException('No Content Found');
+
       const created = await this.createOne({
         quotation: quote._id,
         quotationNo: quote.quotationNo,
-        invoiceNo,
+        proformaInvoiceNo: invoiceNo,
         isLatest: true,
         type: InvoiceType.PROFORMA_INVOICE,
+        template: htmlContent,
       });
 
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
-    } else {
-      const [invoice] = await this.query({
-        filter: { quotationNo: quotationNo },
-        paging: { limit: 1 },
-        sorting: [{ field: 'id', direction: SortDirection.DESC }],
-      });
 
-      invoice.revision += 1;
-      const originalInvoiceNo = invoice.invoiceNo.split('/R')[0];
-      invoice.invoiceNo = `${originalInvoiceNo}/R${invoice.revision}`;
-
-      const created = await this.createOne(invoice);
-      if (!created)
-        throw new InternalServerErrorException('Error in creating invoice');
-
-      await this.updateOne(invoice._id.toString(), {
-        isLatest: false,
-      });
+      return created;
     }
+    if (type === InvoiceType.TAX_INVOICE) {
+      const invoice = await this.query({
+        filter: { proformaInvoiceNo: { eq: proformaInvoiceNo } },
+      });
 
-    //update quotation status
+      if (invoice.length == 0) throw new Error('no invoice found');
 
-    await this.quoteService.updateOne(quote._id.toString(), {
-      status: QuoteStatus.PROFOMA_INVOICE,
-      proformaInvoiceNo,
-    });
+      const quote = await this.quoteService.getQuoteById(
+        invoice?.[0]?.quotationNo,
+      );
+      if (!quote) throw new BadRequestException('No Quote Found');
 
-    quote.proformaInvoiceNo = proformaInvoiceNo;
-    let htmlContent = InvoiceTemplate(quote);
-    if (!htmlContent) throw new BadRequestException('No Content Found');
+      if (quote.status !== QuoteStatus.CONFIRMED)
+        throw new BadRequestException('Quote is not confirmed');
 
-    return htmlContent;
+      const invoiceNo = await this.generateTaxInvoiceNumber();
+
+      let htmlContent = InvoiceTemplate({
+        ...quote,
+        invoiceNo,
+        type: InvoiceType.TAX_INVOICE,
+      });
+      if (!htmlContent)
+        throw new BadRequestException('Failed to generate invoice');
+
+      const created = await this.createOne({
+        quotation: quote._id,
+        quotationNo: quote.quotationNo,
+        taxInvoiceNo: invoiceNo,
+        isLatest: true,
+        type: InvoiceType.PROFORMA_INVOICE,
+        template: htmlContent,
+      });
+      if (!created)
+        throw new InternalServerErrorException('Error in creating invoice');
+
+      return created;
+    }
   }
 
   async generateProformaInvoiceNumber(): Promise<string> {
-    const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
+    // const currentYear = new Date().getFullYear() % 100; // Get last two digits of the year
 
+    // const counter = await this.counterModel.findOneAndUpdate(
+    //   { year: currentYear, type: CounterType.proformaInvoice },
+    //   { $inc: { serial: 1 } },
+    //   { new: true, upsert: true },
+    // );
+
+    // const serialNumber = counter.serial.toString().padStart(4, '0'); // Format serial to 4 digits
+    // return `AOPI/${currentYear}/${serialNumber}`;
+
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100; // Last two digits of the year
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    const dateTimePart = `${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}`;
+
+    const invoiceNo = `AOPI/${currentYear}/${dateTimePart}`;
+    return invoiceNo;
+  }
+
+  async generateTaxInvoiceNumber(): Promise<string> {
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100; // Last two digits of the year
+
+    const fyStart = new Date().getFullYear() % 100; // e.g., 2025 => 25
+    const fyEnd = (fyStart + 1) % 100;
+    // 26
     const counter = await this.counterModel.findOneAndUpdate(
-      { year: currentYear, type: CounterType.proformaInvoice },
+      { year: currentYear, type: CounterType.taxInvoice },
       { $inc: { serial: 1 } },
       { new: true, upsert: true },
     );
 
-    const serialNumber = counter.serial.toString().padStart(4, '0'); // Format serial to 4 digits
-    return `AOPI/${currentYear}/${serialNumber}`;
+    const paddedSerial = String(counter).padStart(2, '0'); // e.g. 1 → 01
+
+    return `AO${fyStart}-${fyEnd}/INV/${paddedSerial}`;
   }
+
+  // async previewInvoice(args) {
+  //   const { id, invoiceNo, type } = args;
+
+  //   const invoice = await this.query({
+  //     filter: { invoiceNo: invoiceNo, type: type },
+  //   });
+
+  //   if (!invoice.length) throw new BadRequestException('No Invoice Found');
+
+  //   const quote = await this.quoteService.getQuoteById(
+  //     invoice?.[0]?.quotationNo,
+  //   );
+  //   if (!quote) throw new BadRequestException('No Quote Found');
+
+  //   let htmlContent = InvoiceTemplate(quote);
+  //   if (!htmlContent) throw new BadRequestException('No Content Found');
+  //   return htmlContent;
+  // }
 }

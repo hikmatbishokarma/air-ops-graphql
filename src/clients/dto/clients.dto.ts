@@ -5,7 +5,7 @@ import {
   Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { AgentDto } from 'src/agent/dto/agent.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { ClientType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
@@ -14,7 +14,7 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@Relation('agent', () => AgentDto, { disableRemove: true })
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class ClientsDto extends BaseDTO {
   @Field()
   name: string;
@@ -30,5 +30,11 @@ export class ClientsDto extends BaseDTO {
   @FilterableField()
   isPerson: boolean;
   @FilterableField({ nullable: true })
-  agentId: string;
+  operatorId: string;
+  @FilterableField({ nullable: true })
+  panNo: string;
+  @FilterableField({ nullable: true })
+  gstNo: string;
+  @Field({ nullable: true })
+  billingAddress: string;
 }

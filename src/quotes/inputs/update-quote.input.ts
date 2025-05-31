@@ -2,17 +2,17 @@ import { Field, Float, InputType, Int } from '@nestjs/graphql';
 import { QuotesDto } from '../dto/quotes.dto';
 import { UpdateOneInputType } from '@app/query-graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import { QuoteStatus } from 'src/app-constants/enums';
+import { Category, QuoteStatus } from 'src/app-constants/enums';
 import { PriceInputDto } from 'src/price/dto/price.dto';
 
 @InputType()
 export class UpdateQuoteDTO {
   @Field({ nullable: true })
   requestedBy: string;
-  @Field()
-  representative: string;
-  @Field()
-  category: string;
+  @Field({ nullable: true })
+  representative?: string;
+  @Field(() => Category)
+  category: Category;
   @Field()
   aircraft: string;
   @Field()

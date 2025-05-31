@@ -17,8 +17,8 @@ export class CreateUserHook<T extends UserDTO>
   ): Promise<CreateOneInputType<T>> {
     const { input } = instance;
 
-    const { password, agentId } = input;
-    input.type = agentId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
+    const { password, operatorId } = input;
+    input.type = operatorId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
 
     // // Validate password requirement for CUSTOMER and ADMIN roles
     // if (!password && [RoleType.PARTNER, RoleType.ADMIN].includes(roleType))

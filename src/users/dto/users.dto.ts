@@ -14,7 +14,7 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 import { RoleDTO } from 'src/roles/dto/roles.dto';
 import { CreateUserHook } from '../hooks/create-user.hook';
 import { Exclude } from 'class-transformer';
-import { AgentDto } from 'src/agent/dto/agent.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 
 @ObjectType('User', { description: 'user dto' })
 @QueryOptions({
@@ -22,7 +22,7 @@ import { AgentDto } from 'src/agent/dto/agent.dto';
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @UnPagedRelation('roles', () => RoleDTO, { disableRemove: true })
-@Relation('agent', () => AgentDto, { disableRemove: true })
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 @BeforeCreateOne(CreateUserHook)
 @InputType()
 export class UserDTO extends BaseDTO {
@@ -69,7 +69,7 @@ export class UserDTO extends BaseDTO {
   roles: string[];
 
   @FilterableField({ nullable: true })
-  agentId: string;
+  operatorId: string;
 
   @FilterableField(() => UserType, { defaultValue: UserType.PLATFORM_USER })
   type: UserType;

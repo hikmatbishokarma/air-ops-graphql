@@ -1,17 +1,19 @@
 import moment from 'moment';
+import { InvoiceType } from 'src/app-constants/enums';
 
 export const InvoiceTemplate = (quote) => {
   const {
     itinerary,
-    price,
+    prices,
     grandTotal,
     aircraftDetail,
     client,
     quotationNo,
-    proformaInvoiceNo,
+    invoiceNo,
     createdAt,
     totalPrice,
     gstAmount,
+    type: invoiceType,
   } = quote;
 
   return `
@@ -20,7 +22,7 @@ export const InvoiceTemplate = (quote) => {
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Proforma Invoice</title>
+  <title>${invoiceType}</title>
   <style>
     body { font-family: Arial, sans-serif; font-size: 12px; }
     table { width: 100%; border-collapse: collapse; }
@@ -31,14 +33,14 @@ export const InvoiceTemplate = (quote) => {
 </head>
 <body>
   <div class="header">
-    <h2>Proforma Invoice</h2>
+    <h2>${invoiceType}</h2>
     <p>(ORIGINAL FOR RECIPIENT)</p>
   </div>
   
   <table>
     <tr>
       <td><strong>From:</strong><br/>RENARD JET AVIATION PRIVATE LIMITED<br/>New Delhi</td>
-      <td><strong>Invoice No:</strong> ${proformaInvoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
+      <td><strong>Invoice No:</strong> ${invoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
     </tr>
     <tr>
       <td><strong>To:</strong><br/>${client.name}<br/>${client.address}</td>
@@ -54,25 +56,21 @@ export const InvoiceTemplate = (quote) => {
         <th>Sl No.</th>
         <th>Particulars</th>
         <th>HSN/SAC</th>
-        <th>GST Rate</th>
         <th>Amount</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>Charter Flight Booking - VOHY to VOHY</td>
+    ${prices
+      .map(
+        (item, index) => ` <tr> 
+      <td>${item.id}</td> 
+      <td>${item.label}</td>
         <td>996426</td>
-        <td>18%</td>
-        <td>19,50,000.00</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Airport, Refueling & Admin Charges</td>
-        <td>996426</td>
-        <td>18%</td>
-        <td>1,00,000.00</td>
-      </tr>
+      
+        <td>${item.total}</td> 
+        </tr>`,
+      )
+      .join('')}
     </tbody>
   </table>
 
@@ -81,15 +79,15 @@ export const InvoiceTemplate = (quote) => {
   <table>
     <tr>
       <td class="total">Taxable Value</td>
-      <td>20,50,000.00</td>
+      <td>${totalPrice}</td>
     </tr>
     <tr>
       <td class="total">IGST @18%</td>
-      <td>3,69,000.00</td>
+      <td>${gstAmount}</td>
     </tr>
     <tr>
       <td class="total">Total Amount</td>
-      <td>₹24,19,000.00</td>
+      <td>${grandTotal}</td>
     </tr>
   </table>
 

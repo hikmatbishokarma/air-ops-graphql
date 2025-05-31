@@ -21,7 +21,7 @@ import { MailerService } from 'src/notification/services/mailer.service';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserInput } from '../inputs/user.input';
 import { getTempPasswordEmailText } from 'src/notification/templates/temp-pwd-email.template';
-import { AgentService } from 'src/agent/services/agent.service';
+import { OperatorService } from 'src/operator/services/operator.service';
 
 @Injectable()
 export class UsersService extends MongooseQueryService<UserEntity> {
@@ -31,7 +31,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     private readonly roleService: RolesService,
     private readonly mailerService: MailerService,
     private readonly config: ConfigService,
-    private readonly agentService: AgentService,
+    private readonly operatorService: OperatorService,
   ) {
     super(model);
     this.url = config.get<string>('url');
@@ -94,9 +94,11 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     if (!user) throw new Error('User not found');
     user = user.toObject();
 
-    let agent;
-    if (user.agentId) {
-      agent = await this.agentService.findById(user.agentId.toString());
+    let operator;
+    if (user.operatorId) {
+      operator = await this.operatorService.findById(
+        user.operatorId.toString(),
+      );
     }
 
     const roles = await this.roleService.query({
@@ -143,14 +145,14 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       id: user._id,
       roles: uniqueRoles,
       permissions,
-      agent,
+      operator,
     };
   }
 
   async createOneUser(user, currentUser) {
     const createdBy = currentUser?.id || currentUser?.sub;
     user.createdBy = createdBy;
-    const { password, agentId } = user;
+    const { password, operatorId } = user;
 
     const tempPassword = !password ? generatePassword(8) : password;
 
@@ -158,7 +160,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
 
     const hashedPassword = await hashPassword(tempPassword);
     user['password'] = hashedPassword;
-    user.type = agentId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
+    user.type = operatorId ? UserType.AGENT_USER : UserType.PLATFORM_USER;
 
     const result = await this.createOne(user);
     if (result) {
@@ -247,7 +249,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
     };
   }
 
-  async createAgentAsAdmin(args) {
+  async createOperatorAsAdmin(args) {
     const role = await this.getRoleByType(RoleType.ADMIN);
     if (!role) throw new Error('Admin Role Not Found');
 
@@ -261,7 +263,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
       name: args.name,
       email: args.email,
       phone: args.phone,
-      agentId: args.agentId,
+      operatorId: args.operatorId,
       address: args.address,
       city: args.city,
       state: args.state,

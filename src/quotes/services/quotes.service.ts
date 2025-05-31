@@ -21,6 +21,7 @@ import { Counter } from '../entities/counter.entity';
 import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
 import { calculateDuration } from 'src/common/helper';
+import { TripConfirmationTemplate } from 'src/notification/templates/trip-confirmation';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -283,10 +284,10 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       proformaInvoiceNo = `${proformaInvoiceNo}/R${proformaInvoiceRevision}`;
     }
 
-    await this.updateOne(quote._id.toString(), {
-      proformaInvoiceNo,
-      proformaInvoiceRevision,
-    });
+    // await this.updateOne(quote._id.toString(), {
+    //   proformaInvoiceNo,
+    //   // proformaInvoiceRevision,
+    // });
 
     return htmlContent;
   }
@@ -333,5 +334,22 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
 
     return updated;
+  }
+
+  async tripConfirmation(args) {
+    const { quotationNo } = args;
+
+    const quote = await this.getQuoteById(quotationNo);
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const htmlContent = TripConfirmationTemplate(quote);
+    if (!htmlContent) throw new BadRequestException('No Content Found');
+
+    const updateQuote = await this.updateOne(quote._id.toString(), {
+      status: QuoteStatus.CONFIRMED,
+      confirmationTemplate: htmlContent,
+    });
+    if (!updateQuote) throw new BadRequestException('Error in updating quote');
+    return updateQuote;
   }
 }

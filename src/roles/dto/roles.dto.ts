@@ -7,7 +7,7 @@ import {
 } from '@app/query-graphql';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
-import { AgentDto } from 'src/agent/dto/agent.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { Permissions, ResourceAction, RoleType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { ResourceDto } from 'src/resource/dto/resource.dto';
@@ -31,7 +31,7 @@ export class AccessPermissionInput {
 //   disableRemove: true,
 //   nullable: true,
 // })
-@Relation('agent', () => AgentDto, { disableRemove: true })
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class RoleDTO extends BaseDTO {
   @FilterableField(() => RoleType)
   type: RoleType;
@@ -49,5 +49,5 @@ export class RoleDTO extends BaseDTO {
   accessPermissions: AccessPermissionInput[];
 
   @FilterableField({ nullable: true })
-  agentId: string;
+  operatorId: string;
 }

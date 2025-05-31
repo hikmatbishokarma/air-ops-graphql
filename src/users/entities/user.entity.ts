@@ -42,8 +42,12 @@ export class UserEntity extends BaseEntity {
   @Prop([{ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true }])
   roles: Types.ObjectId[];
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 
   @Prop({ type: String, enum: UserType, default: UserType.PLATFORM_USER })
   type: UserType;

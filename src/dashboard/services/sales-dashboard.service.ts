@@ -11,13 +11,13 @@ export class SalesDashboardService {
     range: string,
     startDate?: string,
     endDate?: string,
-    agentId?: string,
+    operatorId?: string,
   ) {
     let filter = getDateRangeFilter(range, startDate, endDate);
 
     filter = {
       ...filter,
-      ...(agentId && { agentId: { $eq: new ObjectId(agentId) } }),
+      ...(operatorId && { operatorId: { $eq: new ObjectId(operatorId) } }),
     };
 
     // Fetch all required data in parallel

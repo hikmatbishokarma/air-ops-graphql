@@ -8,12 +8,16 @@ export class AircraftCategoriesEntity extends BaseEntity {
   name: string;
   @Prop()
   description: string;
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'AgentEntity', default: undefined })
-  agentId: Types.ObjectId;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 }
 
 export const AircraftCategoriesSchema = SchemaFactory.createForClass(
   AircraftCategoriesEntity,
 );
 
-AircraftCategoriesSchema.index({ name: 1, agentId: 1 }, { unique: true });
+AircraftCategoriesSchema.index({ name: 1, operatorId: 1 }, { unique: true });

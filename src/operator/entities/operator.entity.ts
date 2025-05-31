@@ -52,8 +52,8 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 
 // const BrandingSchema = SchemaFactory.createForClass(BrandingEntity);
 
-@Schema({ collection: 'agents', timestamps: true })
-export class AgentEntity extends BaseEntity {
+@Schema({ collection: 'operators', timestamps: true })
+export class OperatorEntity extends BaseEntity {
   //basic details
   // @Prop({ type: BasicEntity, required: true })
   // basic: BasicEntity;
@@ -109,8 +109,8 @@ export class AgentEntity extends BaseEntity {
   billingCycle?: string;
 }
 
-export const AgentSchema = SchemaFactory.createForClass(AgentEntity);
+export const OperatorSchema = SchemaFactory.createForClass(OperatorEntity);
 
-// AgentSchema.virtual('createdByUser').get(function () {
+// OperatorSchema.virtual('createdByUser').get(function () {
 //   return this?.createdBy;
 // });

@@ -8,38 +8,41 @@ import {
 import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
-import { QuoteStatus } from 'src/app-constants/enums';
+import { Category, QuoteStatus } from 'src/app-constants/enums';
 import { ClientsDto } from 'src/clients/dto/clients.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { CreateQuoteHook } from '../hooks/create-quote.hook';
 import { PriceInputDto } from 'src/price/dto/price.dto';
 import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
 import { RepresentativeDto } from 'src/representative/dto/representative.dto';
-import { AgentDto } from 'src/agent/dto/agent.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
+// @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
 @Relation('aircraft', () => AircraftDetailDto, {
   disableRemove: true,
   nullable: true,
 })
 @Relation('requestedBy', () => ClientsDto, { disableRemove: true })
-@Relation('representative', () => RepresentativeDto, { disableRemove: true })
-@Relation('agent', () => AgentDto, { disableRemove: true })
+@Relation('representative', () => RepresentativeDto, {
+  disableRemove: true,
+  nullable: true,
+})
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {
   @Field(() => ID)
   id!: string;
   @FilterableField()
   requestedBy: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   representative: string;
-  @FilterableField()
-  category: string;
+  @FilterableField(() => Category)
+  category: Category;
   @FilterableField()
   aircraft: string;
   @FilterableField()
@@ -65,12 +68,15 @@ export class QuotesDto extends BaseDTO {
   code: string;
   @Field(() => Int, { defaultValue: 0 })
   revision: number;
-  @FilterableField({ nullable: true })
-  proformaInvoiceNo: string;
 
-  @Field(() => Int, { defaultValue: 0, nullable: true })
-  proformaInvoiceRevision: number;
+  // @FilterableField({ nullable: true })
+  // proformaInvoiceNo: string;
+
+  // @Field(() => Int, { defaultValue: 0, nullable: true })
+  // proformaInvoiceRevision: number;
 
   @FilterableField({ nullable: true })
-  agentId: string;
+  operatorId: string;
+  @Field({ nullable: true })
+  confirmationTemplate?: string;
 }

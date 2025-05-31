@@ -23,7 +23,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 import { CityModule } from './city/city.module';
 import { MediaModule } from './media/media.module';
-import { AgentModule } from './agent/agent.module';
+import { AgentModule } from './operator/operator.module';
 
 @Module({
   imports: [

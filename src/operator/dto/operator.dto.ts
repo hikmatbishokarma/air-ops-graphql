@@ -69,14 +69,14 @@ import { UserDTO } from 'src/users/dto/users.dto';
 //   themeColor?: string;
 // }
 
-@ObjectType('agent', { description: 'Agent' })
+@ObjectType('operator', { description: 'Operator' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
 // @Relation('createdByUser', () => UserDTO, { disableRemove: true })
 @InputType()
-export class AgentDto extends BaseDTO {
+export class OperatorDto extends BaseDTO {
   // @Field(() => BasicInputDto)
   // basic: BasicInputDto;
   //basic info
