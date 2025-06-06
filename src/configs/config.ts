@@ -9,6 +9,7 @@ const config: any = {
     debug: true,
     schemaDestination: './src/schema.gql',
     sortSchema: true,
+    introspection: true,
   },
   mongo: {
     uri:

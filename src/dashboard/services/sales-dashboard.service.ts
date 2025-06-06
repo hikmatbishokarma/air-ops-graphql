@@ -158,8 +158,8 @@ export class SalesDashboardService {
           quotes: {
             $sum: { $cond: [{ $eq: ['$status', 'Quote'] }, 1, 0] },
           },
-          cancellations: {
-            $sum: { $cond: [{ $eq: ['$status', 'Cancelled'] }, 1, 0] },
+          tripConfirmations: {
+            $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
           },
           taxInvoice: {
             $sum: { $cond: [{ $eq: ['$status', 'Tax Invoice'] }, 1, 0] },
@@ -201,7 +201,7 @@ export class SalesDashboardService {
         $project: {
           _id: 0, // Remove _id
           quotes: 1, // Count of quotes (plural)
-          cancellations: 1, // Count of cancelled orders (plural)
+          tripConfirmations: 1,
           taxInvoice: 1,
           proformaInvoice: 1,
           invoices: 1,
@@ -214,7 +214,7 @@ export class SalesDashboardService {
       salesSummary[0] || {
         totalQuotations: 0,
         quotes: 0,
-        cancellations: 0,
+        tripConfirmations: 0,
         taxInvoice: 0,
         proformaInvoice: 0,
         invoices: 0,

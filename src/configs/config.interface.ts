@@ -8,6 +8,7 @@ export interface GraphqlConfig {
   debug: boolean;
   schemaDestination: string;
   sortSchema: boolean;
+  introspection: boolean;
 }
 export interface CorsConfig {
   enabled: boolean;
