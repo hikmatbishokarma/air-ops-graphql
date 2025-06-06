@@ -878,6 +878,7 @@ input CreateInvoice {
   quotation: String
   quotationNo: String
   revision: Int = 0
+  status: QuoteStatus = PROFOMA_INVOICE
   taxInvoiceNo: String
   template: String
   type: InvoiceType
@@ -1493,6 +1494,7 @@ type Invoice {
   quotation: Quote!
   quotationNo: String!
   revision: Int!
+  status: QuoteStatus
   taxInvoiceNo: String
   template: String!
   type: InvoiceType!
@@ -1512,6 +1514,7 @@ type InvoiceAggregateGroupBy {
   proformaInvoiceNo: String
   quotation: String
   quotationNo: String
+  status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
 }
@@ -1535,6 +1538,7 @@ type InvoiceCountAggregate {
   proformaInvoiceNo: Int
   quotation: Int
   quotationNo: Int
+  status: Int
   taxInvoiceNo: Int
   type: Int
 }
@@ -1549,6 +1553,7 @@ input InvoiceDeleteFilter {
   proformaInvoiceNo: StringFieldComparison
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
 }
@@ -1573,6 +1578,7 @@ type InvoiceDeleteResponse {
   quotation: String
   quotationNo: String
   revision: Int
+  status: QuoteStatus
   taxInvoiceNo: String
   template: String
   type: InvoiceType
@@ -1594,6 +1600,7 @@ input InvoiceFilter {
   proformaInvoiceNo: StringFieldComparison
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
 }
@@ -1604,6 +1611,7 @@ type InvoiceMaxAggregate {
   proformaInvoiceNo: String
   quotation: String
   quotationNo: String
+  status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
 }
@@ -1614,6 +1622,7 @@ type InvoiceMinAggregate {
   proformaInvoiceNo: String
   quotation: String
   quotationNo: String
+  status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
 }
@@ -1632,6 +1641,7 @@ enum InvoiceSortFields {
   proformaInvoiceNo
   quotation
   quotationNo
+  status
   taxInvoiceNo
   type
 }
@@ -1668,6 +1678,7 @@ input InvoiceUpdateFilter {
   proformaInvoiceNo: StringFieldComparison
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
 }
@@ -3044,6 +3055,7 @@ input UpdateInvoice {
   quotation: String
   quotationNo: String
   revision: Int = 0
+  status: QuoteStatus = PROFOMA_INVOICE
   taxInvoiceNo: String
   template: String
   type: InvoiceType

@@ -6,7 +6,7 @@ import {
   Relation,
 } from '@app/query-graphql';
 import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
-import { InvoiceType } from 'src/app-constants/enums';
+import { InvoiceType, QuoteStatus } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { QuotesDto } from 'src/quotes/dto/quotes.dto';
 
@@ -43,4 +43,10 @@ export class InvoiceDto extends BaseDTO {
 
   @FilterableField({ nullable: true })
   operatorId: string;
+
+  @FilterableField(() => QuoteStatus, {
+    defaultValue: QuoteStatus.PROFOMA_INVOICE,
+    nullable: true,
+  })
+  status: QuoteStatus;
 }

@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { getDateRangeFilter } from 'src/common/helper';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { ObjectId } from 'mongodb';
+import { InvoiceService } from 'src/quotes/services/invoice.service';
 
 @Injectable()
 export class SalesDashboardService {
-  constructor(private readonly quoteService: QuotesService) {}
+  constructor(
+    private readonly quoteService: QuotesService,
+    private readonly invoiceService: InvoiceService,
+  ) {}
 
   async getSalesDashboardData(
     range: string,
@@ -146,8 +150,86 @@ export class SalesDashboardService {
   //   );
   // }
 
+  // private async getSalesSummary(filter) {
+  //   const salesSummary = await this.quoteService.Model.aggregate([
+  //     {
+  //       $match: filter,
+  //     },
+  //     {
+  //       $group: {
+  //         _id: null, // No grouping by month, we need a single summary
+  //         totalQuotations: { $sum: 1 },
+  //         quotes: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Quote'] }, 1, 0] },
+  //         },
+  //         tripConfirmations: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
+  //         },
+  //         taxInvoice: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Tax Invoice'] }, 1, 0] },
+  //         },
+  //         proformaInvoice: {
+  //           $sum: { $cond: [{ $eq: ['$status', 'Proforma Invoice'] }, 1, 0] },
+  //         },
+  //         invoices: {
+  //           $sum: {
+  //             $cond: [
+  //               {
+  //                 $or: [
+  //                   { $eq: ['$status', 'Tax Invoice'] },
+  //                   { $eq: ['$status', 'Proforma Invoice'] },
+  //                 ],
+  //               },
+  //               1,
+  //               0,
+  //             ],
+  //           },
+  //         },
+  //         revenue: {
+  //           $sum: {
+  //             $cond: [
+  //               {
+  //                 $or: [
+  //                   { $eq: ['$status', 'Tax Invoice'] },
+  //                   { $eq: ['$status', 'Proforma Invoice'] },
+  //                 ],
+  //               },
+  //               '$grandTotal',
+  //               0,
+  //             ],
+  //           },
+  //         },
+  //       },
+  //     },
+  //     {
+  //       $project: {
+  //         _id: 0, // Remove _id
+  //         quotes: 1, // Count of quotes (plural)
+  //         tripConfirmations: 1,
+  //         taxInvoice: 1,
+  //         proformaInvoice: 1,
+  //         invoices: 1,
+  //         revenue: 1, // Total revenue
+  //       },
+  //     },
+  //   ]);
+
+  //   return (
+  //     salesSummary[0] || {
+  //       totalQuotations: 0,
+  //       quotes: 0,
+  //       tripConfirmations: 0,
+  //       taxInvoice: 0,
+  //       proformaInvoice: 0,
+  //       invoices: 0,
+  //       revenue: 0,
+  //     }
+  //   );
+  // }
+
   private async getSalesSummary(filter) {
-    const salesSummary = await this.quoteService.Model.aggregate([
+    // Aggregation for quotes and trip confirmations from quoteService
+    const salesSummaryQuotes = await this.quoteService.Model.aggregate([
       {
         $match: filter,
       },
@@ -161,6 +243,26 @@ export class SalesDashboardService {
           tripConfirmations: {
             $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
           },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalQuotations: 1,
+          quotes: 1,
+          tripConfirmations: 1,
+        },
+      },
+    ]);
+
+    // Aggregation for invoices and revenue from invoiceService
+    const salesSummaryInvoices = await this.invoiceService.Model.aggregate([
+      {
+        $match: filter,
+      },
+      {
+        $group: {
+          _id: null,
           taxInvoice: {
             $sum: { $cond: [{ $eq: ['$status', 'Tax Invoice'] }, 1, 0] },
           },
@@ -168,59 +270,42 @@ export class SalesDashboardService {
             $sum: { $cond: [{ $eq: ['$status', 'Proforma Invoice'] }, 1, 0] },
           },
           invoices: {
-            $sum: {
-              $cond: [
-                {
-                  $or: [
-                    { $eq: ['$status', 'Tax Invoice'] },
-                    { $eq: ['$status', 'Proforma Invoice'] },
-                  ],
-                },
-                1,
-                0,
-              ],
-            },
+            $sum: 1, // Sum all documents that match the filter in the invoice collection
           },
           revenue: {
-            $sum: {
-              $cond: [
-                {
-                  $or: [
-                    { $eq: ['$status', 'Tax Invoice'] },
-                    { $eq: ['$status', 'Proforma Invoice'] },
-                  ],
-                },
-                '$grandTotal',
-                0,
-              ],
-            },
+            $sum: '$grandTotal', // Sum grandTotal for all invoices
           },
         },
       },
       {
         $project: {
-          _id: 0, // Remove _id
-          quotes: 1, // Count of quotes (plural)
-          tripConfirmations: 1,
-          taxInvoice: 1,
-          proformaInvoice: 1,
+          _id: 0,
           invoices: 1,
-          revenue: 1, // Total revenue
+          proformaInvoice: 1,
+          taxInvoice: 1,
+
+          revenue: 1,
         },
       },
     ]);
 
-    return (
-      salesSummary[0] || {
+    // Combine the results
+    const combinedSummary = {
+      ...(salesSummaryQuotes[0] || {
         totalQuotations: 0,
         quotes: 0,
         tripConfirmations: 0,
+      }),
+      ...(salesSummaryInvoices[0] || {
+        invoices: 0,
         taxInvoice: 0,
         proformaInvoice: 0,
-        invoices: 0,
+
         revenue: 0,
-      }
-    );
+      }),
+    };
+
+    return combinedSummary;
   }
 
   private async getSalesTrend(filter) {

@@ -73,13 +73,13 @@ export function getDateRangeFilter(
       break;
     case 'custom':
       if (startDate && endDate) {
-        // filter = {
-        //   createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) },
-        // };
-
         filter = {
-          createdAt: { $gte: startDate, $lte: endDate },
+          createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) },
         };
+
+        // filter = {
+        //   createdAt: { $gte: startDate, $lte: endDate },
+        // };
       }
       break;
   }

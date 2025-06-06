@@ -50,6 +50,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         isLatest: true,
         type: InvoiceType.PROFORMA_INVOICE,
         template: htmlContent,
+        status: QuoteStatus.PROFOMA_INVOICE,
       });
 
       if (!created)
@@ -87,8 +88,9 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         quotationNo: quote.quotationNo,
         taxInvoiceNo: invoiceNo,
         isLatest: true,
-        type: InvoiceType.PROFORMA_INVOICE,
+        type: InvoiceType.TAX_INVOICE,
         template: htmlContent,
+        status: QuoteStatus.TAX_INVOICE,
       });
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
@@ -133,9 +135,9 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       { new: true, upsert: true },
     );
 
-    const paddedSerial = String(counter).padStart(2, '0'); // e.g. 1 → 01
+    const serialNumber = counter.serial.toString().padStart(2, '0');
 
-    return `AO${fyStart}-${fyEnd}/INV/${paddedSerial}`;
+    return `AO${fyStart}-${fyEnd}/INV/${serialNumber}`;
   }
 
   // async previewInvoice(args) {
