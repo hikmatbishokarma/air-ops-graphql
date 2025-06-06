@@ -85,6 +85,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
 
       const created = await this.createOne({
         quotation: quote._id,
+        proformaInvoiceNo: proformaInvoiceNo,
         quotationNo: quote.quotationNo,
         taxInvoiceNo: invoiceNo,
         isLatest: true,
