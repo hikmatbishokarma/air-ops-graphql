@@ -2677,8 +2677,10 @@ input RoleTypeFilterComparison {
 }
 
 enum SalesDocumentType {
-  INVOICE
+  PROFORMA_INVOICE
   QUOTATION
+  TAX_INVOICE
+  TRIP_CONFIRMATION
 }
 
 input SetAircraftOnPriceInput {

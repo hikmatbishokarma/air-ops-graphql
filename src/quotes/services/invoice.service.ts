@@ -32,7 +32,10 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         filter: { quotationNo: { eq: quotationNo } },
       });
 
-      if (invoice.length) throw new Error('Performance is already generated');
+      if (invoice.length)
+        throw new Error(
+          `Performance is already generated Quote:${quotationNo}`,
+        );
 
       const invoiceNo = await this.generateProformaInvoiceNumber();
 
@@ -59,15 +62,40 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       return created;
     }
     if (type === InvoiceType.TAX_INVOICE) {
-      const invoice = await this.query({
-        filter: { proformaInvoiceNo: { eq: proformaInvoiceNo } },
+      const [taxInvoice] = await this.query({
+        // filter: { proformaInvoiceNo: { eq: proformaInvoiceNo } },
+        filter: {
+          quotationNo: { eq: quotationNo },
+          ...(proformaInvoiceNo
+            ? { proformaInvoiceNo: { eq: proformaInvoiceNo } }
+            : {}),
+          type: { eq: InvoiceType.TAX_INVOICE },
+        },
       });
 
-      if (invoice.length == 0) throw new Error('no invoice found');
+      if (taxInvoice)
+        throw new Error(
+          `Tax Invoice is already generated For this Quote:${quotationNo}`,
+        );
 
-      const quote = await this.quoteService.getQuoteById(
-        invoice?.[0]?.quotationNo,
-      );
+      const [invoice] = await this.query({
+        // filter: { proformaInvoiceNo: { eq: proformaInvoiceNo } },
+        filter: {
+          quotationNo: { eq: quotationNo },
+          ...(proformaInvoiceNo
+            ? { proformaInvoiceNo: { eq: proformaInvoiceNo } }
+            : {}),
+        },
+      });
+
+      if (!invoice) throw new Error('no invoice found');
+
+      if (invoice.status !== QuoteStatus.PROFOMA_INVOICE)
+        throw new Error(
+          `Proforma Invoice is not generated For this Quote:${invoice.quotationNo}`,
+        );
+
+      const quote = await this.quoteService.getQuoteById(invoice?.quotationNo);
       if (!quote) throw new BadRequestException('No Quote Found');
 
       if (quote.status !== QuoteStatus.CONFIRMED)
@@ -85,7 +113,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
 
       const created = await this.createOne({
         quotation: quote._id,
-        proformaInvoiceNo: proformaInvoiceNo,
+        proformaInvoiceNo: invoice.proformaInvoiceNo,
         quotationNo: quote.quotationNo,
         taxInvoiceNo: invoiceNo,
         isLatest: true,

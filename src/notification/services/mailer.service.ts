@@ -6,6 +6,8 @@ import { SalesDocumentType } from 'src/app-constants/enums';
 import { QuotePdfTemplate } from '../templates/email.template';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { InvoiceTemplate } from '../templates/invoice.template';
+import { TripConfirmationTemplate } from '../templates/trip-confirmation';
+import { InvoiceService } from 'src/quotes/services/invoice.service';
 
 @Injectable()
 export class MailerService {
@@ -30,6 +32,7 @@ export class MailerService {
   constructor(
     private readonly config: ConfigService,
     private readonly quoteService: QuotesService,
+    private readonly invoiceService: InvoiceService,
   ) {}
 
   async sendEmail(
@@ -131,8 +134,28 @@ export class MailerService {
       text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
     }
 
-    if (documentType == SalesDocumentType.INVOICE) {
-      htmlContent = InvoiceTemplate(quote);
+    if (
+      documentType == SalesDocumentType.PROFORMA_INVOICE ||
+      documentType == SalesDocumentType.TAX_INVOICE
+    ) {
+      // htmlContent = InvoiceTemplate(quote);
+      const [invoice] = await this.invoiceService.query({
+        filter: {
+          quotationNo: { eq: quotationNo },
+          type: { eq: documentType },
+        },
+      });
+      if (!invoice) throw new BadRequestException('No Invoice Found');
+      const referenceNo =
+        documentType == SalesDocumentType.PROFORMA_INVOICE
+          ? invoice?.proformaInvoiceNo
+          : invoice?.taxInvoiceNo;
+      htmlContent = invoice.template;
+      subject = `Your Flight Invoice - Reference No. ${referenceNo} `;
+      filePath = 'invoice.pdf';
+    }
+    if (documentType == SalesDocumentType.TRIP_CONFIRMATION) {
+      htmlContent = TripConfirmationTemplate(quote);
       subject = `Your Flight Invoice - Reference No. ${quote?.proformaInvoiceNo} `;
       filePath = 'invoice.pdf';
     }

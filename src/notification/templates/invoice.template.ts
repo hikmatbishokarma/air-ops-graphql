@@ -63,7 +63,7 @@ export const InvoiceTemplate = (quote) => {
     ${prices
       .map(
         (item, index) => ` <tr> 
-      <td>${item.id}</td> 
+      <td>${index + 1}</td> 
       <td>${item.label}</td>
         <td>996426</td>
       
