@@ -156,7 +156,7 @@ export class MailerService {
     }
     if (documentType == SalesDocumentType.TRIP_CONFIRMATION) {
       htmlContent = TripConfirmationTemplate(quote);
-      subject = `Your Flight Invoice - Reference No. ${quote?.proformaInvoiceNo} `;
+      subject = `Your Flight Invoice - Reference No. ${quotationNo} `;
       filePath = 'invoice.pdf';
     }
 
