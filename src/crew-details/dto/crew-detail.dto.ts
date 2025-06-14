@@ -1,33 +1,39 @@
-import { PagingStrategies, QueryOptions } from '@app/query-graphql';
+import {
+  FilterableField,
+  PagingStrategies,
+  QueryOptions,
+  Relation,
+} from '@app/query-graphql';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { CrewType, Gender } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 
 @ObjectType()
 @InputType('nomineeInput')
 export class NomineeDto {
-  @Field()
+  @Field({ nullable: true })
   fullName: string;
-  @Field(() => Gender)
+  @Field(() => Gender, { nullable: true })
   gender: Gender;
-  @Field()
+  @Field({ nullable: true })
   relation: string;
-  @Field()
+  @Field({ nullable: true })
   idProof: string;
-  @Field()
+  @Field({ nullable: true })
   mobileNumber: string;
-  @Field()
+  @Field({ nullable: true })
   alternateContact: string;
 }
 
 @ObjectType()
 @InputType('certificationInput')
 export class CertificationDto {
-  @Field()
+  @Field({ nullable: true })
   certification: string;
-  @Field()
+  @Field({ nullable: true })
   validTill: Date;
-  @Field()
+  @Field({ nullable: true })
   uploadCertificate?: string;
 }
 
@@ -36,68 +42,69 @@ export class CertificationDto {
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class CrewDetailDto extends BaseDTO {
   @Field(() => CrewType)
   type: CrewType;
 
-  @Field()
+  @Field({ nullable: true })
   profile: string;
 
-  @Field()
+  @Field({ nullable: true })
   location: string;
 
   @Field()
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   middleName: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName: string;
 
   @Field(() => Gender)
   gender: Gender;
 
-  @Field()
+  @Field({ nullable: true })
   dateOfBirth: Date;
 
-  @Field()
+  @Field({ nullable: true })
   bloodGroup: string;
 
-  @Field()
+  @Field({ nullable: true })
   designation: string;
 
-  @Field()
+  @Field({ nullable: true })
   education: string;
 
-  @Field()
+  @Field({ nullable: true })
   experience: string;
 
   @Field()
   mobileNumber: string;
 
-  @Field()
+  @Field({ nullable: true })
   alternateContact: string;
 
   @Field()
   email: string;
 
-  @Field()
-  aadharCard: string;
+  @Field({ nullable: true })
+  aadhar: string;
 
-  @Field()
+  @Field({ nullable: true })
   pan: string;
 
-  @Field()
+  @Field({ nullable: true })
   passportNo: string;
 
-  @Field()
+  @Field({ nullable: true })
   pinCode: string;
 
-  @Field()
+  @Field({ nullable: true })
   temporaryAddress: string;
 
-  @Field()
+  @Field({ nullable: true })
   permanentAddress: string;
 
   @Field(() => [CertificationDto])
@@ -107,15 +114,18 @@ export class CrewDetailDto extends BaseDTO {
   nominees: NomineeDto[];
 
   // Security
-  @Field()
+  @Field({ nullable: true })
   userName: string;
 
-  @Field()
+  @Field({ nullable: true })
   password: string;
 
-  @Field()
+  @Field({ nullable: true })
   repeatPassword: string;
 
-  @Field()
+  @Field({ nullable: true })
   enableTwoFactorAuth: boolean;
+
+  @FilterableField({ nullable: true })
+  operatorId: string;
 }

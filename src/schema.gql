@@ -545,9 +545,9 @@ input CategoryFilterComparison {
 }
 
 type CertificationDto {
-  certification: String!
-  uploadCertificate: String!
-  validTill: DateTime!
+  certification: String
+  uploadCertificate: String
+  validTill: DateTime
 }
 
 """City"""
@@ -871,7 +871,7 @@ input CreateClient {
 }
 
 input CreateCrewDetail {
-  aadharCard: String
+  aadhar: String
   alternateContact: String
   bloodGroup: String
   certifications: [certificationInput!]
@@ -898,16 +898,20 @@ input CreateCrewDetail {
   id: ID
   isActive: Boolean = true
   lastName: String
+  location: String
   middleName: String
   mobileNumber: String
   nominees: [nomineeInput!]
+  operatorId: String
   pan: String
   passportNo: String
   password: String
   permanentAddress: String
   pinCode: String
+  profile: String
   repeatPassword: String
   temporaryAddress: String
+  type: CrewType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1358,7 +1362,7 @@ type CrewDetailConnection {
 }
 
 type CrewDetailDeleteResponse {
-  aadharCard: String
+  aadhar: String
   alternateContact: String
   bloodGroup: String
   certifications: [CertificationDto!]
@@ -1385,16 +1389,20 @@ type CrewDetailDeleteResponse {
   id: ID
   isActive: Boolean
   lastName: String
+  location: String
   middleName: String
   mobileNumber: String
   nominees: [NomineeDto!]
+  operatorId: String
   pan: String
   passportNo: String
   password: String
   permanentAddress: String
   pinCode: String
+  profile: String
   repeatPassword: String
   temporaryAddress: String
+  type: CrewType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1402,6 +1410,13 @@ type CrewDetailDeleteResponse {
   """The email of the user who last updated the record"""
   updatedBy: String
   userName: String
+}
+
+enum CrewType {
+  CABIN_CREW
+  DOCTOR
+  ENGINEER
+  PILOT
 }
 
 input DateFieldComparison {
@@ -1923,6 +1938,7 @@ type Mutation {
   setOperatorOnAircraftCategory(input: SetOperatorOnAircraftCategoryInput!): AircraftCategory!
   setOperatorOnAircraftDetail(input: SetOperatorOnAircraftDetailInput!): AircraftDetail!
   setOperatorOnClient(input: SetOperatorOnClientInput!): client!
+  setOperatorOnCrewDetail(input: SetOperatorOnCrewDetailInput!): crewDetail!
   setOperatorOnQuote(input: SetOperatorOnQuoteInput!): Quote!
   setOperatorOnRole(input: SetOperatorOnRoleInput!): role!
   setOperatorOnUser(input: SetOperatorOnUserInput!): User!
@@ -1970,12 +1986,12 @@ type Mutation {
 }
 
 type NomineeDto {
-  alternateContact: String!
-  fullName: String!
-  gender: Gender!
-  idProof: String!
-  mobileNumber: String!
-  relation: String!
+  alternateContact: String
+  fullName: String
+  gender: Gender
+  idProof: String
+  mobileNumber: String
+  relation: String
 }
 
 type OffsetPageInfo {
@@ -2940,6 +2956,14 @@ input SetOperatorOnClientInput {
   relationId: ID!
 }
 
+input SetOperatorOnCrewDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnQuoteInput {
   """The id of the record."""
   id: ID!
@@ -3239,7 +3263,7 @@ input UpdateClient {
 }
 
 input UpdateCrewDetail {
-  aadharCard: String
+  aadhar: String
   alternateContact: String
   bloodGroup: String
   certifications: [certificationInput!]
@@ -3266,16 +3290,20 @@ input UpdateCrewDetail {
   id: ID
   isActive: Boolean = true
   lastName: String
+  location: String
   middleName: String
   mobileNumber: String
   nominees: [nomineeInput!]
+  operatorId: String
   pan: String
   passportNo: String
   password: String
   permanentAddress: String
   pinCode: String
+  profile: String
   repeatPassword: String
   temporaryAddress: String
+  type: CrewType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -4102,9 +4130,9 @@ input acknowledgementInput {
 }
 
 input certificationInput {
-  certification: String!
-  uploadCertificate: String!
-  validTill: DateTime!
+  certification: String
+  uploadCertificate: String
+  validTill: DateTime
 }
 
 """Client"""
@@ -4254,9 +4282,9 @@ input clientUpdateFilter {
 
 """Crew Detail"""
 type crewDetail {
-  aadharCard: String!
-  alternateContact: String!
-  bloodGroup: String!
+  aadhar: String
+  alternateContact: String
+  bloodGroup: String
   certifications: [CertificationDto!]!
 
   """The date when the record was created"""
@@ -4264,56 +4292,64 @@ type crewDetail {
 
   """The email of the user who created the record"""
   createdBy: String
-  dateOfBirth: DateTime!
+  dateOfBirth: DateTime
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  designation: String!
-  education: String!
+  designation: String
+  education: String
   email: String!
-  enableTwoFactorAuth: Boolean!
-  experience: String!
+  enableTwoFactorAuth: Boolean
+  experience: String
   firstName: String!
   gender: Gender!
   id: ID!
   isActive: Boolean!
-  lastName: String!
-  middleName: String!
+  lastName: String
+  location: String
+  middleName: String
   mobileNumber: String!
   nominees: [NomineeDto!]!
-  pan: String!
-  passportNo: String!
-  password: String!
-  permanentAddress: String!
-  pinCode: String!
-  repeatPassword: String!
-  temporaryAddress: String!
+  operator: operator!
+  operatorId: String
+  pan: String
+  passportNo: String
+  password: String
+  permanentAddress: String
+  pinCode: String
+  profile: String
+  repeatPassword: String
+  temporaryAddress: String
+  type: CrewType!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
-  userName: String!
+  userName: String
 }
 
 type crewDetailAggregateGroupBy {
   createdAt: DateTime
   isActive: Boolean
+  operatorId: String
 }
 
 type crewDetailCountAggregate {
   createdAt: Int
   isActive: Int
+  operatorId: Int
 }
 
 input crewDetailDeleteFilter {
   and: [crewDetailDeleteFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
   or: [crewDetailDeleteFilter!]
 }
 
@@ -4321,15 +4357,18 @@ input crewDetailFilter {
   and: [crewDetailFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
   or: [crewDetailFilter!]
 }
 
 type crewDetailMaxAggregate {
   createdAt: DateTime
+  operatorId: String
 }
 
 type crewDetailMinAggregate {
   createdAt: DateTime
+  operatorId: String
 }
 
 input crewDetailSort {
@@ -4341,12 +4380,14 @@ input crewDetailSort {
 enum crewDetailSortFields {
   createdAt
   isActive
+  operatorId
 }
 
 input crewDetailUpdateFilter {
   and: [crewDetailUpdateFilter!]
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
   or: [crewDetailUpdateFilter!]
 }
 
@@ -4356,12 +4397,12 @@ type loginResponseDto {
 }
 
 input nomineeInput {
-  alternateContact: String!
-  fullName: String!
-  gender: Gender!
-  idProof: String!
-  mobileNumber: String!
-  relation: String!
+  alternateContact: String
+  fullName: String
+  gender: Gender
+  idProof: String
+  mobileNumber: String
+  relation: String
 }
 
 """Operator"""

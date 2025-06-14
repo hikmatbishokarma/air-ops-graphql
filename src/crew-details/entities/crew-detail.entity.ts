@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 import { CrewType, Gender } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
@@ -92,7 +92,7 @@ export class CrewDetailEntity extends BaseEntity {
   email: string;
 
   @Prop()
-  uid: string;
+  aadhar: string;
 
   @Prop()
   pan: string;
@@ -129,6 +129,13 @@ export class CrewDetailEntity extends BaseEntity {
 
   @Prop({ default: false })
   enableTwoFactorAuth: boolean;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 }
 
 export const CrewDetailSchema = SchemaFactory.createForClass(CrewDetailEntity);
