@@ -24,6 +24,7 @@ import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 import { CityModule } from './city/city.module';
 import { MediaModule } from './media/media.module';
 import { AgentModule } from './operator/operator.module';
+import { CrewDetailModule } from './crew-details/crew-detail.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { AgentModule } from './operator/operator.module';
     CityModule,
     MediaModule,
     AgentModule,
+    CrewDetailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

@@ -4,21 +4,31 @@ import { Category, QuoteStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { PricesDto } from 'src/price/entities/price.entity';
 
-export class Segment {
-  @Prop({ ref: 'LocationEntity', type: SchemaTypes.ObjectId, required: true })
-  source: Types.ObjectId;
+@Schema({ _id: false })
+export class ItineraryEntity {
+  @Prop({ required: true })
+  source: string;
 
-  @Prop({ ref: 'LocationEntity', type: SchemaTypes.ObjectId, required: true })
-  destination: Types.ObjectId;
+  @Prop({ required: true })
+  destination: string;
 
   @Prop({ type: Date, required: true })
-  departureDate: Date;
+  depatureDate: Date;
 
-  @Prop({ type: Number, required: true, min: 1 })
-  pax: number;
+  @Prop({ required: true })
+  depatureTime: string;
+
+  @Prop({ type: Date, required: true })
+  arrivalDate: Date;
+
+  @Prop({ required: true })
+  arrivalTime: string;
+
+  @Prop({ required: true })
+  paxNumber: number;
 }
 
-const SegmentSchema = SchemaFactory.createForClass(Segment);
+const ItinerarySchema = SchemaFactory.createForClass(ItineraryEntity);
 
 @Schema({ collection: 'quotes', timestamps: true })
 export class QuotesEntity extends BaseEntity {
@@ -53,8 +63,11 @@ export class QuotesEntity extends BaseEntity {
   // @Prop()
   // revisedQuotationNo: string;
 
-  @Prop({ type: [Object], required: true })
-  itinerary: Object[];
+  // @Prop({ type: [Object], required: true })
+  // itinerary: Object[];
+
+  @Prop({ type: [ItineraryEntity], required: true })
+  itinerary: ItineraryEntity[];
 
   @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.QUOTE })
   status: QuoteStatus;

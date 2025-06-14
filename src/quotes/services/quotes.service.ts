@@ -22,6 +22,8 @@ import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
 import { calculateDuration } from 'src/common/helper';
 import { TripConfirmationTemplate } from 'src/notification/templates/trip-confirmation';
+import moment from 'moment';
+import e from 'express';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -351,5 +353,90 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
     if (!updateQuote) throw new BadRequestException('Error in updating quote');
     return updateQuote;
+  }
+
+  async flightSegmentsForCalendar(args) {
+    const { id, startDate, endDate } = args;
+
+    console.log(startDate, endDate);
+
+    console.log(startDate); // should be: 2025-06-01T18:30:00.000Z
+    console.log(new Date(startDate)); // should be: 2025-06-01T18:30:00.000Z
+
+    console.log('Type of startDate:', typeof startDate); // should be object
+    console.log('startDate instanceof Date:', startDate instanceof Date); // should be true
+    console.log('startDate ISO:', startDate.toISOString());
+
+    // const segments: any = await this.Model.find({
+    //   // itinerary: {
+    //   //   $elemMatch: {
+    //   //     depatureDate: { $gte: new Date(startDate), $lte: new Date(endDate) },
+    //   //   },
+    //   // },
+
+    //   itinerary: {
+    //     $elemMatch: {
+    //       depatureDate: {
+    //         $gte: '2025-06-01T18:30:00.000Z',
+    //         $lte: '2025-06-30T18:30:00.000Z',
+    //       },
+    //     },
+    //   },
+    // });
+
+    const segments: any = await this.Model.find({
+      itinerary: {
+        $elemMatch: {
+          depatureDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+      },
+    });
+
+    // const results = await this.Model.aggregate([
+    //   { $unwind: '$itinerary' },
+    //   {
+    //     $match: {
+    //       'itinerary.depatureDate': {
+    //         $gte: '2025-06-01T18:30:00.000Z',
+    //         $lte: '2025-06-30T18:30:00.000Z',
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       quotationNo: 1,
+    //       itinerary: 1,
+    //     },
+    //   },
+    // ]);
+
+    // console.log('results::', results);
+
+    const calenderData = [];
+
+    for (const segment of segments) {
+      for (const leg of segment.itinerary) {
+        const dep = new Date(leg.depatureDate);
+        if (dep >= startDate && dep <= endDate) {
+          calenderData.push({
+            title: `${leg.source} → ${leg.destination}`,
+            // start: leg.depatureDate,
+            start: new Date(
+              `${moment(leg.depatureDate).format('YYYY-MM-DD')}T${leg.depatureTime}:00Z`,
+            ),
+            end: new Date(
+              `${moment(leg.arrivalDate).format('YYYY-MM-DD')}T${leg.arrivalTime}:00Z`,
+            ),
+            // quotationNo: segment.quotationNo,
+          });
+        }
+      }
+    }
+    console.log(calenderData);
+    // return { calenderData: calenderData };
+    return calenderData;
   }
 }

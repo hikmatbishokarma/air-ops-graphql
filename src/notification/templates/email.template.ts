@@ -117,7 +117,7 @@ export const QuotePdfTemplate = (quote) => {
             </div>
             <div class="details">
                 <strong>Quote Number:</strong>${revisedQuotationNo || quotationNo}<br>
-                <strong>Date:</strong> ${moment(createdAt).format('DD-MMM-YYYY')}
+                <strong>Date:</strong> ${moment(createdAt).format('DD-MM-YYYY')}
             </div>
         </div>
 
@@ -141,7 +141,7 @@ export const QuotePdfTemplate = (quote) => {
             <tbody>
             ${itinerary.map(
               (item) => ` <tr>
-                    <td>${moment(item.depatureDate).format('DD-MMM-YYYY')}</td>
+                    <td>${moment(item.depatureDate).format('DD-MM-YYYY')}</td>
                     <td>${item?.source?.city}</td>
                     <td>${item?.destination?.city}</td>
                     <td>${item?.apxFlyTime}</td>

@@ -174,3 +174,24 @@ export enum Category {
 registerEnumType(Category, {
   name: 'Category',
 });
+
+export enum PaymentStatus {
+  PENDING = 'Pending',
+  PAID = 'Paid',
+  PARTIAL = 'Partial',
+}
+
+registerEnumType(PaymentStatus, {
+  name: 'PaymentStatus',
+});
+
+export enum CrewType {
+  DOCTOR = 'DOCTOR',
+  ENGINEER = 'ENGINEER',
+  PILOT = 'PILOT',
+  CABIN_CREW = 'CABIN_CREW',
+}
+
+registerEnumType(CrewType, {
+  name: 'CrewType',
+});

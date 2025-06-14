@@ -1,6 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { QuotesService } from '../services/quotes.service';
-import { QuotesDto } from '../dto/quotes.dto';
+import {
+  CalenderData,
+  CalenderDataResponse,
+  QuotesDto,
+} from '../dto/quotes.dto';
 import { UpdateQuoteStatusInput } from '../inputs/updatee-quote-status.input';
 import { acknowledgementInput } from '../../notification/inputs/acknowledgement.input';
 import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
@@ -44,5 +48,16 @@ export class QuotesResolver {
   @Mutation(() => QuotesDto)
   async tripConfirmation(@Args('args') args: TripConfirmationInput) {
     return await this.quotesService.tripConfirmation(args);
+  }
+
+  @Query(() => [CalenderData])
+  async flightSegmentsForCalendar(
+    @Args('startDate') startDate: Date,
+    @Args('endDate') endDate: Date,
+  ) {
+    return await this.quotesService.flightSegmentsForCalendar({
+      startDate,
+      endDate,
+    });
   }
 }

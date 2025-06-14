@@ -1,6 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types, Document } from 'mongoose';
-import { InvoiceType, QuoteStatus } from 'src/app-constants/enums';
+import {
+  InvoiceType,
+  PaymentStatus,
+  QuoteStatus,
+} from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'invoices', timestamps: true })
@@ -41,6 +45,9 @@ export class InvoiceEntity extends BaseEntity {
     default: QuoteStatus.PROFOMA_INVOICE,
   })
   status: QuoteStatus;
+
+  @Prop({ type: String, enum: PaymentStatus, default: PaymentStatus.PENDING })
+  paymentStatus: PaymentStatus;
 }
 
 export const InvoiceSchema = SchemaFactory.createForClass(InvoiceEntity);

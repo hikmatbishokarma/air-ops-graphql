@@ -80,3 +80,19 @@ export class QuotesDto extends BaseDTO {
   @Field({ nullable: true })
   confirmationTemplate?: string;
 }
+
+@ObjectType()
+export class CalenderData {
+  @Field()
+  title: string;
+  @Field()
+  start: Date;
+  @Field()
+  end: Date;
+}
+
+@ObjectType()
+export class CalenderDataResponse {
+  @Field(() => [CalenderData])
+  calenderData: CalenderData[];
+}
