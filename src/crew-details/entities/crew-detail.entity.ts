@@ -46,7 +46,7 @@ export const CertificationSchema =
 
 @Schema({ collection: 'crew-details', timestamps: true })
 export class CrewDetailEntity extends BaseEntity {
-  @Prop(() => CrewType)
+  @Prop({ type: String, enum: CrewType })
   type: CrewType;
 
   @Prop()
