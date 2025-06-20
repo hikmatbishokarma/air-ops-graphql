@@ -3,7 +3,7 @@ import { Document, SchemaTypes, Types } from 'mongoose';
 import { CrewType, Gender } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
-@Schema({ _id: false })
+@Schema({})
 export class NomineeEntity {
   @Prop()
   fullName: string;
@@ -29,7 +29,7 @@ export class NomineeEntity {
 
 export const NomineeSchema = SchemaFactory.createForClass(NomineeEntity);
 
-@Schema({ _id: false })
+@Schema({})
 export class CertificationEntity {
   @Prop()
   certification: string;
@@ -90,6 +90,18 @@ export class CrewDetailEntity extends BaseEntity {
 
   @Prop()
   email: string;
+
+  @Prop()
+  martialStatus: string;
+
+  @Prop()
+  anniversaryDate: Date;
+
+  @Prop()
+  religion: string;
+
+  @Prop()
+  nationality: string;
 
   @Prop()
   aadhar: string;

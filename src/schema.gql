@@ -873,6 +873,7 @@ input CreateClient {
 input CreateCrewDetail {
   aadhar: String
   alternateContact: String
+  anniversaryDate: DateTime
   bloodGroup: String
   certifications: [certificationInput!]
 
@@ -899,8 +900,10 @@ input CreateCrewDetail {
   isActive: Boolean = true
   lastName: String
   location: String
+  martialStatus: String
   middleName: String
   mobileNumber: String
+  nationality: String
   nominees: [nomineeInput!]
   operatorId: String
   pan: String
@@ -909,6 +912,7 @@ input CreateCrewDetail {
   permanentAddress: String
   pinCode: String
   profile: String
+  religion: String
   repeatPassword: String
   temporaryAddress: String
   type: CrewType
@@ -1364,6 +1368,7 @@ type CrewDetailConnection {
 type CrewDetailDeleteResponse {
   aadhar: String
   alternateContact: String
+  anniversaryDate: DateTime
   bloodGroup: String
   certifications: [CertificationDto!]
 
@@ -1390,8 +1395,10 @@ type CrewDetailDeleteResponse {
   isActive: Boolean
   lastName: String
   location: String
+  martialStatus: String
   middleName: String
   mobileNumber: String
+  nationality: String
   nominees: [NomineeDto!]
   operatorId: String
   pan: String
@@ -1400,6 +1407,7 @@ type CrewDetailDeleteResponse {
   permanentAddress: String
   pinCode: String
   profile: String
+  religion: String
   repeatPassword: String
   temporaryAddress: String
   type: CrewType
@@ -2353,6 +2361,7 @@ type Query {
   ): RoleConnection!
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
+  staffCertificates(search: String, validTillBefore: DateTime): crewDetail!
   user(
     """The id of the record to find."""
     id: ID!
@@ -3265,6 +3274,7 @@ input UpdateClient {
 input UpdateCrewDetail {
   aadhar: String
   alternateContact: String
+  anniversaryDate: DateTime
   bloodGroup: String
   certifications: [certificationInput!]
 
@@ -3291,8 +3301,10 @@ input UpdateCrewDetail {
   isActive: Boolean = true
   lastName: String
   location: String
+  martialStatus: String
   middleName: String
   mobileNumber: String
+  nationality: String
   nominees: [nomineeInput!]
   operatorId: String
   pan: String
@@ -3301,6 +3313,7 @@ input UpdateCrewDetail {
   permanentAddress: String
   pinCode: String
   profile: String
+  religion: String
   repeatPassword: String
   temporaryAddress: String
   type: CrewType
@@ -4284,6 +4297,7 @@ input clientUpdateFilter {
 type crewDetail {
   aadhar: String
   alternateContact: String
+  anniversaryDate: DateTime
   bloodGroup: String
   certifications: [CertificationDto!]!
 
@@ -4301,7 +4315,7 @@ type crewDetail {
   deletedBy: String
   designation: String
   education: String
-  email: String!
+  email: String
   enableTwoFactorAuth: Boolean
   experience: String
   firstName: String!
@@ -4310,8 +4324,10 @@ type crewDetail {
   isActive: Boolean!
   lastName: String
   location: String
+  martialStatus: String
   middleName: String
   mobileNumber: String!
+  nationality: String
   nominees: [NomineeDto!]!
   operator: operator!
   operatorId: String
@@ -4321,6 +4337,7 @@ type crewDetail {
   permanentAddress: String
   pinCode: String
   profile: String
+  religion: String
   repeatPassword: String
   temporaryAddress: String
   type: CrewType!

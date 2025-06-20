@@ -86,8 +86,20 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   alternateContact: string;
 
-  @Field()
+  @Field({ nullable: true })
   email: string;
+
+  @Field({ nullable: true })
+  martialStatus: string;
+
+  @Field({ nullable: true })
+  anniversaryDate: Date;
+
+  @Field({ nullable: true })
+  religion: string;
+
+  @Field({ nullable: true })
+  nationality: string;
 
   @Field({ nullable: true })
   aadhar: string;
