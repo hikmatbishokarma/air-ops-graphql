@@ -25,6 +25,7 @@ import { CityModule } from './city/city.module';
 import { MediaModule } from './media/media.module';
 import { AgentModule } from './operator/operator.module';
 import { CrewDetailModule } from './crew-details/crew-detail.module';
+import { ManualModule } from './manual/manual.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { CrewDetailModule } from './crew-details/crew-detail.module';
     MediaModule,
     AgentModule,
     CrewDetailModule,
+    ManualModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,
