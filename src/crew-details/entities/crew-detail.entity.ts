@@ -25,20 +25,36 @@ export class NomineeEntity {
 
   @Prop()
   alternateContact: string;
+
+  @Prop()
+  address: string;
+  @Prop()
+  insurance: string;
 }
 
 export const NomineeSchema = SchemaFactory.createForClass(NomineeEntity);
 
 @Schema({})
 export class CertificationEntity {
-  @Prop()
-  certification: string;
+  // @Prop()
+  // certification: string;
 
+  // @Prop()
+  // validTill: Date;
+
+  // @Prop()
+  // uploadCertificate: string;
+
+  @Prop()
+  name: string;
+  @Prop()
+  licenceNo: string;
+  @Prop()
+  dateOfIssue: Date;
+  @Prop()
+  issuedBy: string;
   @Prop()
   validTill: Date;
-
-  @Prop()
-  uploadCertificate: string;
 }
 
 export const CertificationSchema =
@@ -46,8 +62,14 @@ export const CertificationSchema =
 
 @Schema({ collection: 'crew-details', timestamps: true })
 export class CrewDetailEntity extends BaseEntity {
-  @Prop({ type: String, enum: CrewType })
-  type: CrewType;
+  @Prop([{ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true }])
+  roles: Types.ObjectId[];
+
+  // @Prop({ type: String, enum: CrewType })
+  // type: CrewType;
+
+  @Prop()
+  designation: string;
 
   @Prop()
   profile: string;
@@ -55,32 +77,26 @@ export class CrewDetailEntity extends BaseEntity {
   @Prop()
   location: string;
   // User Details
-  @Prop()
-  firstName: string;
+  // @Prop()
+  // firstName: string;
+
+  // @Prop()
+  // middleName: string;
+
+  // @Prop()
+  // lastName: string;
 
   @Prop()
-  middleName: string;
+  fullName: string;
 
   @Prop()
-  lastName: string;
+  displayName: string;
 
   @Prop()
   gender: string;
 
   @Prop()
   dateOfBirth: Date;
-
-  @Prop()
-  bloodGroup: string;
-
-  @Prop()
-  designation: string;
-
-  @Prop()
-  education: string;
-
-  @Prop()
-  experience: string;
 
   @Prop()
   mobileNumber: string;
@@ -90,6 +106,12 @@ export class CrewDetailEntity extends BaseEntity {
 
   @Prop()
   email: string;
+
+  @Prop()
+  education: string;
+
+  @Prop()
+  experience: string;
 
   @Prop()
   martialStatus: string;
@@ -112,14 +134,17 @@ export class CrewDetailEntity extends BaseEntity {
   @Prop()
   passportNo: string;
 
-  @Prop()
-  pinCode: string;
+  // @Prop()
+  // pinCode: string;
 
   @Prop()
-  temporaryAddress: string;
+  currentAddress: string;
 
   @Prop()
   permanentAddress: string;
+
+  @Prop()
+  bloodGroup: string;
 
   // Certifications
   @Prop({ type: [CertificationSchema], default: [] })

@@ -24,17 +24,32 @@ export class NomineeDto {
   mobileNumber: string;
   @Field({ nullable: true })
   alternateContact: string;
+  @Field({ nullable: true })
+  address: string;
+  @Field({ nullable: true })
+  insurance: string;
 }
 
 @ObjectType()
 @InputType('certificationInput')
 export class CertificationDto {
+  // @Field({ nullable: true })
+  // certification: string;
+  // @Field({ nullable: true })
+  // validTill: Date;
+  // @Field({ nullable: true })
+  // uploadCertificate?: string;
+
   @Field({ nullable: true })
-  certification: string;
+  name: string;
+  @Field({ nullable: true })
+  licenceNo: string;
+  @Field({ nullable: true })
+  dateOfIssue: Date;
+  @Field({ nullable: true })
+  issuedBy: string;
   @Field({ nullable: true })
   validTill: Date;
-  @Field({ nullable: true })
-  uploadCertificate?: string;
 }
 
 @ObjectType('crewDetail', { description: 'Crew Detail' })
@@ -44,8 +59,14 @@ export class CertificationDto {
 })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 export class CrewDetailDto extends BaseDTO {
-  @Field(() => CrewType)
-  type: CrewType;
+  // @Field(() => CrewType)
+  // type: CrewType;
+
+  @FilterableField(() => [String], {
+    allowedComparisons: ['eq', 'neq', 'in', 'notIn'],
+    nullable: true,
+  })
+  roles: string[];
 
   @Field({ nullable: true })
   profile: string;
@@ -53,32 +74,29 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   location: string;
 
-  @Field()
-  firstName: string;
-
   @Field({ nullable: true })
-  middleName: string;
+  designation: string;
 
-  @Field({ nullable: true })
-  lastName: string;
+  // @Field()
+  // firstName: string;
+
+  // @Field({ nullable: true })
+  // middleName: string;
+
+  // @Field({ nullable: true })
+  // lastName: string;
+
+  @FilterableField()
+  fullName: string;
+
+  @FilterableField()
+  displayName: string;
 
   @Field(() => Gender)
   gender: Gender;
 
   @Field({ nullable: true })
   dateOfBirth: Date;
-
-  @Field({ nullable: true })
-  bloodGroup: string;
-
-  @Field({ nullable: true })
-  designation: string;
-
-  @Field({ nullable: true })
-  education: string;
-
-  @Field({ nullable: true })
-  experience: string;
 
   @Field()
   mobileNumber: string;
@@ -88,6 +106,12 @@ export class CrewDetailDto extends BaseDTO {
 
   @Field({ nullable: true })
   email: string;
+
+  @Field({ nullable: true })
+  education: string;
+
+  @Field({ nullable: true })
+  experience: string;
 
   @Field({ nullable: true })
   martialStatus: string;
@@ -110,14 +134,17 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   passportNo: string;
 
-  @Field({ nullable: true })
-  pinCode: string;
+  // @Field({ nullable: true })
+  // pinCode: string;
 
   @Field({ nullable: true })
-  temporaryAddress: string;
+  currentAddress: string;
 
   @Field({ nullable: true })
   permanentAddress: string;
+
+  @Field({ nullable: true })
+  bloodGroup: string;
 
   @Field(() => [CertificationDto])
   certifications: CertificationDto[];
@@ -126,17 +153,17 @@ export class CrewDetailDto extends BaseDTO {
   nominees: NomineeDto[];
 
   // Security
-  @Field({ nullable: true })
-  userName: string;
+  // @Field({ nullable: true })
+  // userName: string;
 
-  @Field({ nullable: true })
-  password: string;
+  // @Field({ nullable: true })
+  // password: string;
 
-  @Field({ nullable: true })
-  repeatPassword: string;
+  // @Field({ nullable: true })
+  // repeatPassword: string;
 
-  @Field({ nullable: true })
-  enableTwoFactorAuth: boolean;
+  // @Field({ nullable: true })
+  // enableTwoFactorAuth: boolean;
 
   @FilterableField({ nullable: true })
   operatorId: string;
