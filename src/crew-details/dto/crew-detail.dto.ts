@@ -3,11 +3,13 @@ import {
   PagingStrategies,
   QueryOptions,
   Relation,
+  UnPagedRelation,
 } from '@app/query-graphql';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { CrewType, Gender } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
+import { RoleDTO } from 'src/roles/dto/roles.dto';
 
 @ObjectType()
 @InputType('nomineeInput')
@@ -58,6 +60,7 @@ export class CertificationDto {
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
+@UnPagedRelation('roles', () => RoleDTO, { disableRemove: true })
 export class CrewDetailDto extends BaseDTO {
   // @Field(() => CrewType)
   // type: CrewType;

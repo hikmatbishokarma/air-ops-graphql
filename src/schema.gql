@@ -7,6 +7,14 @@ type AccessPermissionInput {
   resource: String!
 }
 
+input AddRolesToCrewDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input AddRolesToUserInput {
   """The id of the record."""
   id: ID!
@@ -545,8 +553,10 @@ input CategoryFilterComparison {
 }
 
 type CertificationDto {
-  certification: String
-  uploadCertificate: String
+  dateOfIssue: DateTime
+  issuedBy: String
+  licenceNo: String
+  name: String
   validTill: DateTime
 }
 
@@ -882,6 +892,7 @@ input CreateCrewDetail {
 
   """The email of the user who created the record"""
   createdBy: String
+  currentAddress: String
   dateOfBirth: DateTime
 
   """The date when the record was deleted"""
@@ -890,39 +901,32 @@ input CreateCrewDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   designation: String
+  displayName: String
   education: String
   email: String
-  enableTwoFactorAuth: Boolean
   experience: String
-  firstName: String
+  fullName: String
   gender: Gender
   id: ID
   isActive: Boolean = true
-  lastName: String
   location: String
   martialStatus: String
-  middleName: String
   mobileNumber: String
   nationality: String
   nominees: [nomineeInput!]
   operatorId: String
   pan: String
   passportNo: String
-  password: String
   permanentAddress: String
-  pinCode: String
   profile: String
   religion: String
-  repeatPassword: String
-  temporaryAddress: String
-  type: CrewType
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
-  userName: String
 }
 
 input CreateInvoice {
@@ -1414,6 +1418,7 @@ type CrewDetailDeleteResponse {
 
   """The email of the user who created the record"""
   createdBy: String
+  currentAddress: String
   dateOfBirth: DateTime
 
   """The date when the record was deleted"""
@@ -1422,46 +1427,39 @@ type CrewDetailDeleteResponse {
   """The email of the user who deleted the record"""
   deletedBy: String
   designation: String
+  displayName: String
   education: String
   email: String
-  enableTwoFactorAuth: Boolean
   experience: String
-  firstName: String
+  fullName: String
   gender: Gender
   id: ID
   isActive: Boolean
-  lastName: String
   location: String
   martialStatus: String
-  middleName: String
   mobileNumber: String
   nationality: String
   nominees: [NomineeDto!]
   operatorId: String
   pan: String
   passportNo: String
-  password: String
   permanentAddress: String
-  pinCode: String
   profile: String
   religion: String
-  repeatPassword: String
-  temporaryAddress: String
-  type: CrewType
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
-  userName: String
 }
 
-enum CrewType {
-  CABIN_CREW
-  DOCTOR
-  ENGINEER
-  PILOT
+input CrewDetailRolesFilterComparison {
+  eq: [String!]
+  in: [[String!]!]
+  neq: [String!]
+  notIn: [[String!]!]
 }
 
 input DateFieldComparison {
@@ -1957,6 +1955,7 @@ type ManualDeleteResponse {
 }
 
 type Mutation {
+  addRolesToCrewDetail(input: AddRolesToCrewDetailInput!): crewDetail!
   addRolesToUser(input: AddRolesToUserInput!): User!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAircraftDetails(input: CreateManyAircraftDetailsInput!): [AircraftDetail!]!
@@ -2044,6 +2043,7 @@ type Mutation {
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
+  setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   signUp(input: SignUpInput!): User!
   tripConfirmation(args: TripConfirmationInput!): Quote!
@@ -2086,10 +2086,12 @@ type Mutation {
 }
 
 type NomineeDto {
+  address: String
   alternateContact: String
   fullName: String
   gender: Gender
   idProof: String
+  insurance: String
   mobileNumber: String
   relation: String
 }
@@ -3143,6 +3145,14 @@ input SetRoleOnRolePermissionInput {
   relationId: ID!
 }
 
+input SetRolesOnCrewDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input SetRolesOnUserInput {
   """The id of the record."""
   id: ID!
@@ -3397,6 +3407,7 @@ input UpdateCrewDetail {
 
   """The email of the user who created the record"""
   createdBy: String
+  currentAddress: String
   dateOfBirth: DateTime
 
   """The date when the record was deleted"""
@@ -3405,39 +3416,32 @@ input UpdateCrewDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   designation: String
+  displayName: String
   education: String
   email: String
-  enableTwoFactorAuth: Boolean
   experience: String
-  firstName: String
+  fullName: String
   gender: Gender
   id: ID
   isActive: Boolean = true
-  lastName: String
   location: String
   martialStatus: String
-  middleName: String
   mobileNumber: String
   nationality: String
   nominees: [nomineeInput!]
   operatorId: String
   pan: String
   passportNo: String
-  password: String
   permanentAddress: String
-  pinCode: String
   profile: String
   religion: String
-  repeatPassword: String
-  temporaryAddress: String
-  type: CrewType
+  roles: [String!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
-  userName: String
 }
 
 input UpdateInvoice {
@@ -4300,8 +4304,10 @@ input acknowledgementInput {
 }
 
 input certificationInput {
-  certification: String
-  uploadCertificate: String
+  dateOfIssue: DateTime
+  issuedBy: String
+  licenceNo: String
+  name: String
   validTill: DateTime
 }
 
@@ -4463,6 +4469,7 @@ type crewDetail {
 
   """The email of the user who created the record"""
   createdBy: String
+  currentAddress: String
   dateOfBirth: DateTime
 
   """The date when the record was deleted"""
@@ -4471,18 +4478,16 @@ type crewDetail {
   """The email of the user who deleted the record"""
   deletedBy: String
   designation: String
+  displayName: String!
   education: String
   email: String
-  enableTwoFactorAuth: Boolean
   experience: String
-  firstName: String!
+  fullName: String!
   gender: Gender!
   id: ID!
   isActive: Boolean!
-  lastName: String
   location: String
   martialStatus: String
-  middleName: String
   mobileNumber: String!
   nationality: String
   nominees: [NomineeDto!]!
@@ -4490,59 +4495,78 @@ type crewDetail {
   operatorId: String
   pan: String
   passportNo: String
-  password: String
   permanentAddress: String
-  pinCode: String
   profile: String
   religion: String
-  repeatPassword: String
-  temporaryAddress: String
-  type: CrewType!
+  roles(
+    """Specify to filter the records returned."""
+    filter: roleFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [roleSort!]! = []
+  ): [role!]!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
-  userName: String
 }
 
 type crewDetailAggregateGroupBy {
   createdAt: DateTime
+  displayName: String
+  fullName: String
   isActive: Boolean
   operatorId: String
+  roles: [String!]
 }
 
 type crewDetailCountAggregate {
   createdAt: Int
+  displayName: Int
+  fullName: Int
   isActive: Int
   operatorId: Int
+  roles: Int
 }
 
 input crewDetailDeleteFilter {
   and: [crewDetailDeleteFilter!]
   createdAt: DateFieldComparison
+  displayName: StringFieldComparison
+  fullName: StringFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [crewDetailDeleteFilter!]
+  roles: CrewDetailRolesFilterComparison
 }
 
 input crewDetailFilter {
   and: [crewDetailFilter!]
   createdAt: DateFieldComparison
+  displayName: StringFieldComparison
+  fullName: StringFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [crewDetailFilter!]
+  roles: CrewDetailRolesFilterComparison
 }
 
 type crewDetailMaxAggregate {
   createdAt: DateTime
+  displayName: String
+  fullName: String
   operatorId: String
+  roles: [String!]
 }
 
 type crewDetailMinAggregate {
   createdAt: DateTime
+  displayName: String
+  fullName: String
   operatorId: String
+  roles: [String!]
 }
 
 input crewDetailSort {
@@ -4553,16 +4577,22 @@ input crewDetailSort {
 
 enum crewDetailSortFields {
   createdAt
+  displayName
+  fullName
   isActive
   operatorId
+  roles
 }
 
 input crewDetailUpdateFilter {
   and: [crewDetailUpdateFilter!]
   createdAt: DateFieldComparison
+  displayName: StringFieldComparison
+  fullName: StringFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [crewDetailUpdateFilter!]
+  roles: CrewDetailRolesFilterComparison
 }
 
 type loginResponseDto {
@@ -4674,10 +4704,12 @@ input manualUpdateFilter {
 }
 
 input nomineeInput {
+  address: String
   alternateContact: String
   fullName: String
   gender: Gender
   idProof: String
+  insurance: String
   mobileNumber: String
   relation: String
 }
