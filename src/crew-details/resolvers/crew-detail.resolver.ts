@@ -1,19 +1,19 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { CrewDetailDto } from '../dto/crew-detail.dto';
+import { CertificationResponse, CrewDetailDto } from '../dto/crew-detail.dto';
 import { CrewDetailService } from '../services/crew-detail.service';
+import { GraphQLJSONObject } from 'graphql-type-json';
+import { StaffCertificationInput } from '../inputs/crew-detail-staff-certification-input';
 
 @Resolver()
 export class CrewDetailResolver {
   constructor(private readonly crewDetailService: CrewDetailService) {}
 
-  @Query(() => CrewDetailDto, { name: 'staffCertificates' })
+  @Query(() => CertificationResponse, { name: 'staffCertificates' })
   async staffCertificates(
-    @Args('validTillBefore', { nullable: true }) validTillBefore: Date,
-    @Args('search', { nullable: true }) search: string,
+    @Args('args', { nullable: true }) args: StaffCertificationInput,
   ) {
-    return await this.crewDetailService.staffCertificates(
-      validTillBefore,
-      search,
-    );
+    const result = await this.crewDetailService.staffCertificates(args);
+
+    return result;
   }
 }

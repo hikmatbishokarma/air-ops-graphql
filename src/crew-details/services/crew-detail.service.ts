@@ -11,18 +11,21 @@ export class CrewDetailService extends MongooseQueryService<CrewDetailEntity> {
     super(model);
   }
 
-  async staffCertificates(validTillBefore, search) {
-    const matchStage = {};
+  async staffCertificates(args) {
+    const { validTillBefore, search, operatorId } = args || {};
+    const matchStage = {
+      ...(operatorId && { operatorId: { eq: operatorId } }),
+    };
 
     if (validTillBefore) {
-      matchStage['certifications.validTillDate'] = { $lte: validTillBefore };
+      matchStage['certifications.validTill'] = { $lte: validTillBefore };
     }
 
     if (search) {
       matchStage['$expr'] = {
         $regexMatch: {
           input: {
-            $concat: ['$firstName', ' ', '$middleName', ' ', '$lastName'],
+            $concat: ['$fullName', '$displayName'],
           },
           regex: search,
           options: 'i',
@@ -30,22 +33,55 @@ export class CrewDetailService extends MongooseQueryService<CrewDetailEntity> {
       };
     }
 
-    const result = await this.Model.aggregate([
+    // const result = await this.Model.aggregate([
+    //   { $unwind: '$certifications' },
+    //   // Only include $match if any filters are present
+    //   ...(Object.keys(matchStage).length > 0 ? [{ $match: matchStage }] : []),
+    //   {
+    //     $project: {
+    //       _id: 0,
+    //       id: '$certifications._id',
+    //       staffName: '$fullName',
+    //       displayName: '$displayName',
+    //       validTill: '$certifications.validTill',
+    //       name: '$certifications.name',
+    //       licenceNo: '$certifications.licenceNo',
+    //       dateOfIssue: '$certifications.dateOfIssue',
+    //       issuedBy: '$certifications.issuedBy',
+    //     },
+    //   },
+    //   { $sort: { validTill: 1 } },
+    // ]);
+
+    const [{ data, totalCount }] = await this.Model.aggregate([
       { $unwind: '$certifications' },
-      // Only include $match if any filters are present
       ...(Object.keys(matchStage).length > 0 ? [{ $match: matchStage }] : []),
       {
-        $project: {
-          id: '$certifications._id',
-          crewName: {
-            $concat: ['$firstName', ' ', '$middleName', ' ', '$lastName'],
-          },
-          certificationName: '$certifications.certification',
-          validTillDate: '$certifications.validTill',
-          uploadCertificate: '$certifications.uploadCertificate',
+        $facet: {
+          data: [
+            {
+              $project: {
+                _id: 0,
+                id: '$certifications._id',
+                staffName: '$fullName',
+                displayName: '$displayName',
+                validTill: '$certifications.validTill',
+                name: '$certifications.name',
+                licenceNo: '$certifications.licenceNo',
+                dateOfIssue: '$certifications.dateOfIssue',
+                issuedBy: '$certifications.issuedBy',
+              },
+            },
+            { $sort: { validTill: 1 } },
+          ],
+          totalCount: [{ $count: 'count' }],
         },
       },
-      { $sort: { validTillDate: 1 } },
     ]);
+
+    return {
+      data,
+      totalCount: totalCount[0]?.count || 0,
+    };
   }
 }

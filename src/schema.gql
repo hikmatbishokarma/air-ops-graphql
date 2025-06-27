@@ -560,6 +560,11 @@ type CertificationDto {
   validTill: DateTime
 }
 
+type CertificationResponse {
+  data: [JSONObject!]!
+  totalCount: Int!
+}
+
 """City"""
 type City {
   """The date when the record was created"""
@@ -2469,7 +2474,7 @@ type Query {
   ): RoleConnection!
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
-  staffCertificates(search: String, validTillBefore: DateTime): crewDetail!
+  staffCertificates(args: StaffCertificationInput): CertificationResponse!
   user(
     """The id of the record to find."""
     id: ID!
@@ -3182,6 +3187,16 @@ enum SortDirection {
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
+}
+
+input StaffCertificationInput {
+  where: StaffCertificationWhereInput
+}
+
+input StaffCertificationWhereInput {
+  operatorId: String
+  search: String
+  validTillBefore: DateTime
 }
 
 input StringFieldComparison {

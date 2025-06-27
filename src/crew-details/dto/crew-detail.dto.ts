@@ -6,6 +6,7 @@ import {
   UnPagedRelation,
 } from '@app/query-graphql';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { GraphQLJSONObject } from 'graphql-type-json';
 import { CrewType, Gender } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
@@ -170,4 +171,12 @@ export class CrewDetailDto extends BaseDTO {
 
   @FilterableField({ nullable: true })
   operatorId: string;
+}
+
+@ObjectType()
+export class CertificationResponse {
+  @Field(() => [GraphQLJSONObject])
+  data: string;
+  @Field()
+  totalCount: number;
 }
