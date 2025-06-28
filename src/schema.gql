@@ -967,6 +967,38 @@ input CreateInvoice {
   updatedBy: String
 }
 
+input CreateLeave {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+  crewId: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  from: DateTime
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  reason: String
+  remark: String
+  status: LeaveStatus = PENDING
+  to: DateTime
+  type: LeaveType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateManual {
   attachment: String
 
@@ -1027,6 +1059,11 @@ input CreateManyCrewDetailsInput {
 input CreateManyInvoicesInput {
   """Array of records to create"""
   invoices: [CreateInvoice!]!
+}
+
+input CreateManyLeavesInput {
+  """Array of records to create"""
+  leaves: [CreateLeave!]!
 }
 
 input CreateManyManualsInput {
@@ -1107,6 +1144,11 @@ input CreateOneCrewDetailInput {
 input CreateOneInvoiceInput {
   """The record to create"""
   invoice: CreateInvoice!
+}
+
+input CreateOneLeaveInput {
+  """The record to create"""
+  leave: CreateLeave!
 }
 
 input CreateOneManualInput {
@@ -1535,6 +1577,11 @@ input DeleteManyInvoicesInput {
   filter: InvoiceDeleteFilter!
 }
 
+input DeleteManyLeavesInput {
+  """Filter to find records to delete"""
+  filter: LeaveDeleteFilter!
+}
+
 input DeleteManyManualsInput {
   """Filter to find records to delete"""
   filter: manualDeleteFilter!
@@ -1616,6 +1663,11 @@ input DeleteOneCrewDetailInput {
 }
 
 input DeleteOneInvoiceInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneLeaveInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -1909,6 +1961,232 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar JSONObject
 
+"""Leaves"""
+type Leave {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+  crew: crewDetail!
+  crewId: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  from: DateTime!
+  id: ID!
+  isActive: Boolean!
+  operator: operator!
+  operatorId: String
+  reason: String!
+  remark: String!
+  status: LeaveStatus!
+  to: DateTime!
+  type: LeaveType!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type LeaveAggregateGroupBy {
+  createdAt: DateTime
+  crewId: String
+  from: DateTime
+  isActive: Boolean
+  operatorId: String
+  status: LeaveStatus
+  to: DateTime
+  type: LeaveType
+}
+
+type LeaveConnection {
+  """Array of nodes."""
+  nodes: [Leave!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type LeaveCountAggregate {
+  createdAt: Int
+  crewId: Int
+  from: Int
+  isActive: Int
+  operatorId: Int
+  status: Int
+  to: Int
+  type: Int
+}
+
+input LeaveDeleteFilter {
+  and: [LeaveDeleteFilter!]
+  createdAt: DateFieldComparison
+  crewId: StringFieldComparison
+  from: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [LeaveDeleteFilter!]
+  status: LeaveStatusFilterComparison
+  to: DateFieldComparison
+  type: LeaveTypeFilterComparison
+}
+
+type LeaveDeleteResponse {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+  crewId: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  from: DateTime
+  id: ID
+  isActive: Boolean
+  operatorId: String
+  reason: String
+  remark: String
+  status: LeaveStatus
+  to: DateTime
+  type: LeaveType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input LeaveFilter {
+  and: [LeaveFilter!]
+  createdAt: DateFieldComparison
+  crewId: StringFieldComparison
+  from: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [LeaveFilter!]
+  status: LeaveStatusFilterComparison
+  to: DateFieldComparison
+  type: LeaveTypeFilterComparison
+}
+
+type LeaveMaxAggregate {
+  createdAt: DateTime
+  crewId: String
+  from: DateTime
+  operatorId: String
+  status: LeaveStatus
+  to: DateTime
+  type: LeaveType
+}
+
+type LeaveMinAggregate {
+  createdAt: DateTime
+  crewId: String
+  from: DateTime
+  operatorId: String
+  status: LeaveStatus
+  to: DateTime
+  type: LeaveType
+}
+
+input LeaveSort {
+  direction: SortDirection!
+  field: LeaveSortFields!
+  nulls: SortNulls
+}
+
+enum LeaveSortFields {
+  createdAt
+  crewId
+  from
+  isActive
+  operatorId
+  status
+  to
+  type
+}
+
+enum LeaveStatus {
+  APPROVED
+  CANCELLED
+  DECLINED
+  PENDING
+}
+
+input LeaveStatusFilterComparison {
+  eq: LeaveStatus
+  gt: LeaveStatus
+  gte: LeaveStatus
+  iLike: LeaveStatus
+  in: [LeaveStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: LeaveStatus
+  lt: LeaveStatus
+  lte: LeaveStatus
+  neq: LeaveStatus
+  notILike: LeaveStatus
+  notIn: [LeaveStatus!]
+  notLike: LeaveStatus
+}
+
+enum LeaveType {
+  BEREAVEMENT_LEAVE
+  CASUAL_LEAVE
+  MARRIAGE_LEAVE
+  PITERNITY_LEAVE
+  PRIVILEGE_LEAVE
+  SICK_LEAVE
+}
+
+input LeaveTypeFilterComparison {
+  eq: LeaveType
+  gt: LeaveType
+  gte: LeaveType
+  iLike: LeaveType
+  in: [LeaveType!]
+  is: Boolean
+  isNot: Boolean
+  like: LeaveType
+  lt: LeaveType
+  lte: LeaveType
+  neq: LeaveType
+  notILike: LeaveType
+  notIn: [LeaveType!]
+  notLike: LeaveType
+}
+
+input LeaveUpdateFilter {
+  and: [LeaveUpdateFilter!]
+  createdAt: DateFieldComparison
+  crewId: StringFieldComparison
+  from: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [LeaveUpdateFilter!]
+  status: LeaveStatusFilterComparison
+  to: DateFieldComparison
+  type: LeaveTypeFilterComparison
+}
+
 input MailerInput {
   html: String
   subject: String!
@@ -1969,6 +2247,7 @@ type Mutation {
   createManyClients(input: CreateManyClientsInput!): [client!]!
   createManyCrewDetails(input: CreateManyCrewDetailsInput!): [crewDetail!]!
   createManyInvoices(input: CreateManyInvoicesInput!): [Invoice!]!
+  createManyLeaves(input: CreateManyLeavesInput!): [Leave!]!
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
@@ -1985,6 +2264,7 @@ type Mutation {
   createOneClient(input: CreateOneClientInput!): client!
   createOneCrewDetail(input: CreateOneCrewDetailInput!): crewDetail!
   createOneInvoice(input: CreateOneInvoiceInput!): Invoice!
+  createOneLeave(input: CreateOneLeaveInput!): Leave!
   createOneManual(input: CreateOneManualInput!): manual!
   createOneOperator(input: CreateOneOperatorInput!): operator!
   createOnePrice(input: CreateOnePriceInput!): price!
@@ -2002,6 +2282,7 @@ type Mutation {
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
   deleteManyCrewDetails(input: DeleteManyCrewDetailsInput!): DeleteManyResponse!
   deleteManyInvoices(input: DeleteManyInvoicesInput!): DeleteManyResponse!
+  deleteManyLeaves(input: DeleteManyLeavesInput!): DeleteManyResponse!
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
@@ -2018,6 +2299,7 @@ type Mutation {
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
   deleteOneCrewDetail(input: DeleteOneCrewDetailInput!): CrewDetailDeleteResponse!
   deleteOneInvoice(input: DeleteOneInvoiceInput!): InvoiceDeleteResponse!
+  deleteOneLeave(input: DeleteOneLeaveInput!): LeaveDeleteResponse!
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
@@ -2037,10 +2319,12 @@ type Mutation {
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setCategoryOnAircraftDetail(input: SetCategoryOnAircraftDetailInput!): AircraftDetail!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
+  setCrewOnLeave(input: SetCrewOnLeaveInput!): Leave!
   setOperatorOnAircraftCategory(input: SetOperatorOnAircraftCategoryInput!): AircraftCategory!
   setOperatorOnAircraftDetail(input: SetOperatorOnAircraftDetailInput!): AircraftDetail!
   setOperatorOnClient(input: SetOperatorOnClientInput!): client!
   setOperatorOnCrewDetail(input: SetOperatorOnCrewDetailInput!): crewDetail!
+  setOperatorOnLeave(input: SetOperatorOnLeaveInput!): Leave!
   setOperatorOnManual(input: SetOperatorOnManualInput!): manual!
   setOperatorOnQuote(input: SetOperatorOnQuoteInput!): Quote!
   setOperatorOnRole(input: SetOperatorOnRoleInput!): role!
@@ -2052,6 +2336,7 @@ type Mutation {
   setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   signUp(input: SignUpInput!): User!
+  updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAircraftDetails(input: UpdateManyAircraftDetailsInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
@@ -2059,6 +2344,7 @@ type Mutation {
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
   updateManyCrewDetails(input: UpdateManyCrewDetailsInput!): UpdateManyResponse!
   updateManyInvoices(input: UpdateManyInvoicesInput!): UpdateManyResponse!
+  updateManyLeaves(input: UpdateManyLeavesInput!): UpdateManyResponse!
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
@@ -2075,6 +2361,7 @@ type Mutation {
   updateOneClient(input: UpdateOneClientInput!): client!
   updateOneCrewDetail(input: UpdateOneCrewDetailInput!): crewDetail!
   updateOneInvoice(input: UpdateOneInvoiceInput!): Invoice!
+  updateOneLeave(input: UpdateOneLeaveInput!): Leave!
   updateOneManual(input: UpdateOneManualInput!): manual!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
   updateOnePrice(input: UpdateOnePriceInput!): price!
@@ -2360,6 +2647,20 @@ type Query {
     """Specify to sort results."""
     sorting: [InvoiceSort!]! = []
   ): InvoiceConnection!
+  leave(
+    """The id of the record to find."""
+    id: ID!
+  ): Leave
+  leaves(
+    """Specify to filter the records returned."""
+    filter: LeaveFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [LeaveSort!]! = []
+  ): LeaveConnection!
   manual(
     """The id of the record to find."""
     id: ID!
@@ -3058,6 +3359,14 @@ input SetClientOnRepresentativeInput {
   relationId: ID!
 }
 
+input SetCrewOnLeaveInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnAircraftCategoryInput {
   """The id of the record."""
   id: ID!
@@ -3083,6 +3392,14 @@ input SetOperatorOnClientInput {
 }
 
 input SetOperatorOnCrewDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetOperatorOnLeaveInput {
   """The id of the record."""
   id: ID!
 
@@ -3492,6 +3809,47 @@ input UpdateInvoice {
   updatedBy: String
 }
 
+input UpdateLeave {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+  crewId: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  from: DateTime
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  reason: String
+  remark: String
+  status: LeaveStatus = PENDING
+  to: DateTime
+  type: LeaveType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateLeaveRequestDataInput {
+  remakr: String!
+  status: LeaveStatus! = PENDING
+}
+
+input UpdateLeaveRequestWhereInput {
+  id: ID!
+}
+
 input UpdateManual {
   attachment: String
 
@@ -3573,6 +3931,14 @@ input UpdateManyInvoicesInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateInvoice!
+}
+
+input UpdateManyLeavesInput {
+  """Filter used to find fields to update"""
+  filter: LeaveUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateLeave!
 }
 
 input UpdateManyManualsInput {
@@ -3706,6 +4072,14 @@ input UpdateOneInvoiceInput {
 
   """The update to apply."""
   update: UpdateInvoice!
+}
+
+input UpdateOneLeaveInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateLeave!
 }
 
 input UpdateOneManualInput {

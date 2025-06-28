@@ -195,3 +195,27 @@ export enum CrewType {
 registerEnumType(CrewType, {
   name: 'CrewType',
 });
+
+export enum LeaveType {
+  CASUAL_LEAVE = 'Casual Leave',
+  SICK_LEAVE = 'Sick Leave',
+  PRIVILEGE_LEAVE = 'Privilege Leave',
+  PITERNITY_LEAVE = 'Piternity Leave',
+  MARRIAGE_LEAVE = 'Marriage Leave',
+  BEREAVEMENT_LEAVE = 'Bereavement Leave',
+}
+
+registerEnumType(LeaveType, {
+  name: 'LeaveType',
+});
+
+export enum LeaveStatus {
+  PENDING = 'Pending',
+  APPROVED = 'Approved',
+  DECLINED = 'Declined',
+  CANCELLED = 'Cancelled',
+}
+
+registerEnumType(LeaveStatus, {
+  name: 'LeaveStatus',
+});
