@@ -2030,6 +2030,7 @@ type Mutation {
   forgotPassword(email: String!): ForgotPasswordDto!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
+  saleConfirmation(args: SaleConfirmationInput!): Quote!
   sendAcknowledgement(input: acknowledgementInput!): String!
   sendEmail(input: MailerInput!): MailerResponseDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
@@ -2051,7 +2052,6 @@ type Mutation {
   setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   signUp(input: SignUpInput!): User!
-  tripConfirmation(args: TripConfirmationInput!): Quote!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAircraftDetails(input: UpdateManyAircraftDetailsInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
@@ -2695,10 +2695,10 @@ enum QuoteSortFields {
 
 enum QuoteStatus {
   CANCELLED
-  CONFIRMED
   DEPRECATED
   PROFOMA_INVOICE
   QUOTE
+  SALE_CONFIRMED
   TAX_INVOICE
 }
 
@@ -3015,11 +3015,15 @@ input RoleTypeFilterComparison {
   notLike: RoleType
 }
 
+input SaleConfirmationInput {
+  quotationNo: String!
+}
+
 enum SalesDocumentType {
   PROFORMA_INVOICE
   QUOTATION
+  SALE_CONFIRMATION
   TAX_INVOICE
-  TRIP_CONFIRMATION
 }
 
 input SetAircraftOnPriceInput {
@@ -3237,10 +3241,6 @@ input SubscriptionPlanFilterComparison {
   notILike: SubscriptionPlan
   notIn: [SubscriptionPlan!]
   notLike: SubscriptionPlan
-}
-
-input TripConfirmationInput {
-  quotationNo: String!
 }
 
 input TypeFilterComparison {

@@ -6,7 +6,7 @@ import { SalesDocumentType } from 'src/app-constants/enums';
 import { QuotePdfTemplate } from '../templates/email.template';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { InvoiceTemplate } from '../templates/invoice.template';
-import { TripConfirmationTemplate } from '../templates/trip-confirmation';
+import { SaleConfirmationTemplate } from '../templates/sale-confirmation';
 import { InvoiceService } from 'src/quotes/services/invoice.service';
 
 @Injectable()
@@ -154,9 +154,9 @@ export class MailerService {
       subject = `Your Flight Invoice - Reference No. ${referenceNo} `;
       filePath = 'invoice.pdf';
     }
-    if (documentType == SalesDocumentType.TRIP_CONFIRMATION) {
-      htmlContent = TripConfirmationTemplate(quote);
-      subject = `Your Flight Invoice - Reference No. ${quotationNo} `;
+    if (documentType == SalesDocumentType.SALE_CONFIRMATION) {
+      htmlContent = SaleConfirmationTemplate(quote);
+      subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo} `;
       filePath = 'invoice.pdf';
     }
 

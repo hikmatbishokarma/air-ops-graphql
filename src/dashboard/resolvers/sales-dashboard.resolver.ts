@@ -1,5 +1,5 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { SalesDashboardService } from '../services/sales-dashboard.service';
+import { SalesDashboardService } from '../services/sale-dashboard.service';
 import { DateRange } from 'src/app-constants/enums';
 import { GraphQLJSONObject } from 'graphql-type-json';
 

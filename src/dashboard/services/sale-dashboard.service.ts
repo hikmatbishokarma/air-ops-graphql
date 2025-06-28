@@ -3,6 +3,7 @@ import { getDateRangeFilter } from 'src/common/helper';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { ObjectId } from 'mongodb';
 import { InvoiceService } from 'src/quotes/services/invoice.service';
+import { QuoteStatus } from 'src/app-constants/enums';
 
 @Injectable()
 export class SalesDashboardService {
@@ -228,7 +229,7 @@ export class SalesDashboardService {
   // }
 
   private async getSalesSummary(filter) {
-    // Aggregation for quotes and trip confirmations from quoteService
+    // Aggregation for quotes and Sales confirmations from quoteService
     const salesSummaryQuotes = await this.quoteService.Model.aggregate([
       {
         $match: filter,
@@ -238,10 +239,12 @@ export class SalesDashboardService {
           _id: null, // No grouping by month, we need a single summary
           totalQuotations: { $sum: 1 },
           quotes: {
-            $sum: { $cond: [{ $eq: ['$status', 'Quote'] }, 1, 0] },
+            $sum: { $cond: [{ $eq: ['$status', QuoteStatus.QUOTE] }, 1, 0] },
           },
-          tripConfirmations: {
-            $sum: { $cond: [{ $eq: ['$status', 'Confirmed'] }, 1, 0] },
+          saleConfirmations: {
+            $sum: {
+              $cond: [{ $eq: ['$status', QuoteStatus.SALE_CONFIRMED] }, 1, 0],
+            },
           },
         },
       },
@@ -250,7 +253,7 @@ export class SalesDashboardService {
           _id: 0,
           totalQuotations: 1,
           quotes: 1,
-          tripConfirmations: 1,
+          saleConfirmations: 1,
         },
       },
     ]);

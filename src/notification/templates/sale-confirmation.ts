@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const TripConfirmationTemplate = (quote) => {
+export const SaleConfirmationTemplate = (quote) => {
   const {
     itinerary,
     price,

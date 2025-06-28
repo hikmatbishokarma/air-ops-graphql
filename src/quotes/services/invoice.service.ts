@@ -98,7 +98,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       const quote = await this.quoteService.getQuoteById(invoice?.quotationNo);
       if (!quote) throw new BadRequestException('No Quote Found');
 
-      if (quote.status !== QuoteStatus.CONFIRMED)
+      if (quote.status !== QuoteStatus.SALE_CONFIRMED)
         throw new BadRequestException('Quote is not confirmed');
 
       const invoiceNo = await this.generateTaxInvoiceNumber();

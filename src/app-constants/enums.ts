@@ -62,7 +62,7 @@ export enum QuoteStatus {
   TAX_INVOICE = 'Tax Invoice',
   CANCELLED = 'Cancelled',
   'DEPRECATED' = 'Deprecated',
-  CONFIRMED = 'Confirmed',
+  SALE_CONFIRMED = 'Sale Confirmed',
 }
 
 registerEnumType(QuoteStatus, {
@@ -116,7 +116,7 @@ export enum SalesDocumentType {
   QUOTATION = 'quotation',
   PROFORMA_INVOICE = 'Proforma Invoice',
   TAX_INVOICE = 'Tax Invoice',
-  TRIP_CONFIRMATION = 'trip confirmation',
+  SALE_CONFIRMATION = 'Sale Confirmation',
 }
 
 registerEnumType(SalesDocumentType, {

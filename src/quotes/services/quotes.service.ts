@@ -21,7 +21,7 @@ import { Counter } from '../entities/counter.entity';
 import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
 import { calculateDuration } from 'src/common/helper';
-import { TripConfirmationTemplate } from 'src/notification/templates/trip-confirmation';
+import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confirmation';
 import moment from 'moment';
 import e from 'express';
 
@@ -338,17 +338,17 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     return updated;
   }
 
-  async tripConfirmation(args) {
+  async saleConfirmation(args) {
     const { quotationNo } = args;
 
     const quote = await this.getQuoteById(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    const htmlContent = TripConfirmationTemplate(quote);
+    const htmlContent = SaleConfirmationTemplate(quote);
     if (!htmlContent) throw new BadRequestException('No Content Found');
 
     const updateQuote = await this.updateOne(quote._id.toString(), {
-      status: QuoteStatus.CONFIRMED,
+      status: QuoteStatus.SALE_CONFIRMED,
       confirmationTemplate: htmlContent,
     });
     if (!updateQuote) throw new BadRequestException('Error in updating quote');

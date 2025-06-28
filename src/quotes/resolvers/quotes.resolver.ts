@@ -6,11 +6,9 @@ import {
   QuotesDto,
 } from '../dto/quotes.dto';
 import { UpdateQuoteStatusInput } from '../inputs/updatee-quote-status.input';
-import { acknowledgementInput } from '../../notification/inputs/acknowledgement.input';
-import { GenerateInvoiceInput } from '../inputs/generate-invoice.input';
-import { UpdateOneInputType } from '@app/query-graphql';
+
 import { UpdateOneQuoteInput } from '../inputs/update-quote.input';
-import { TripConfirmationInput } from '../inputs/trip-confirmation.input';
+import { SaleConfirmationInput } from '../inputs/sale-confirmation.input';
 
 @Resolver()
 export class QuotesResolver {
@@ -46,8 +44,8 @@ export class QuotesResolver {
   }
 
   @Mutation(() => QuotesDto)
-  async tripConfirmation(@Args('args') args: TripConfirmationInput) {
-    return await this.quotesService.tripConfirmation(args);
+  async saleConfirmation(@Args('args') args: SaleConfirmationInput) {
+    return await this.quotesService.saleConfirmation(args);
   }
 
   @Query(() => [CalenderData])
