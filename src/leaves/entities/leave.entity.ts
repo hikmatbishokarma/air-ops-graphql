@@ -8,9 +8,9 @@ export class LeaveEntity extends BaseEntity {
   @Prop({ type: String, enum: LeaveType, required: true })
   type: LeaveType;
   @Prop({ type: Date, required: true })
-  from: Date;
+  fromDate: Date;
   @Prop({ type: Date, required: true })
-  to: Date;
+  toDate: Date;
   @Prop()
   reason: string;
   @Prop()

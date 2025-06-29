@@ -982,14 +982,14 @@ input CreateLeave {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  from: DateTime
+  fromDate: DateTime
   id: ID
   isActive: Boolean = true
   operatorId: String
   reason: String
   remark: String
   status: LeaveStatus = PENDING
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 
   """The date when the record was last updated"""
@@ -1970,7 +1970,7 @@ type Leave {
 
   """The email of the user who created the record"""
   createdBy: String
-  crew: crewDetail!
+  crew: crewDetail
   crewId: String
 
   """The date when the record was deleted"""
@@ -1978,15 +1978,15 @@ type Leave {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  from: DateTime!
+  fromDate: DateTime!
   id: ID!
   isActive: Boolean!
   operator: operator!
   operatorId: String
   reason: String!
-  remark: String!
+  remark: String
   status: LeaveStatus!
-  to: DateTime!
+  toDate: DateTime!
   type: LeaveType!
 
   """The date when the record was last updated"""
@@ -1999,11 +1999,11 @@ type Leave {
 type LeaveAggregateGroupBy {
   createdAt: DateTime
   crewId: String
-  from: DateTime
+  fromDate: DateTime
   isActive: Boolean
   operatorId: String
   status: LeaveStatus
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 }
 
@@ -2021,11 +2021,11 @@ type LeaveConnection {
 type LeaveCountAggregate {
   createdAt: Int
   crewId: Int
-  from: Int
+  fromDate: Int
   isActive: Int
   operatorId: Int
   status: Int
-  to: Int
+  toDate: Int
   type: Int
 }
 
@@ -2033,12 +2033,12 @@ input LeaveDeleteFilter {
   and: [LeaveDeleteFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
-  from: DateFieldComparison
+  fromDate: DateFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [LeaveDeleteFilter!]
   status: LeaveStatusFilterComparison
-  to: DateFieldComparison
+  toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
 }
 
@@ -2057,14 +2057,14 @@ type LeaveDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  from: DateTime
+  fromDate: DateTime
   id: ID
   isActive: Boolean
   operatorId: String
   reason: String
   remark: String
   status: LeaveStatus
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 
   """The date when the record was last updated"""
@@ -2078,32 +2078,32 @@ input LeaveFilter {
   and: [LeaveFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
-  from: DateFieldComparison
+  fromDate: DateFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [LeaveFilter!]
   status: LeaveStatusFilterComparison
-  to: DateFieldComparison
+  toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
 }
 
 type LeaveMaxAggregate {
   createdAt: DateTime
   crewId: String
-  from: DateTime
+  fromDate: DateTime
   operatorId: String
   status: LeaveStatus
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 }
 
 type LeaveMinAggregate {
   createdAt: DateTime
   crewId: String
-  from: DateTime
+  fromDate: DateTime
   operatorId: String
   status: LeaveStatus
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 }
 
@@ -2116,11 +2116,11 @@ input LeaveSort {
 enum LeaveSortFields {
   createdAt
   crewId
-  from
+  fromDate
   isActive
   operatorId
   status
-  to
+  toDate
   type
 }
 
@@ -2152,7 +2152,7 @@ enum LeaveType {
   BEREAVEMENT_LEAVE
   CASUAL_LEAVE
   MARRIAGE_LEAVE
-  PITERNITY_LEAVE
+  PATERNITY_LEAVE
   PRIVILEGE_LEAVE
   SICK_LEAVE
 }
@@ -2178,12 +2178,12 @@ input LeaveUpdateFilter {
   and: [LeaveUpdateFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
-  from: DateFieldComparison
+  fromDate: DateFieldComparison
   isActive: BooleanFieldComparison
   operatorId: StringFieldComparison
   or: [LeaveUpdateFilter!]
   status: LeaveStatusFilterComparison
-  to: DateFieldComparison
+  toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
 }
 
@@ -3824,14 +3824,14 @@ input UpdateLeave {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  from: DateTime
+  fromDate: DateTime
   id: ID
   isActive: Boolean = true
   operatorId: String
   reason: String
   remark: String
   status: LeaveStatus = PENDING
-  to: DateTime
+  toDate: DateTime
   type: LeaveType
 
   """The date when the record was last updated"""
@@ -3842,7 +3842,7 @@ input UpdateLeave {
 }
 
 input UpdateLeaveRequestDataInput {
-  remakr: String!
+  remark: String
   status: LeaveStatus! = PENDING
 }
 

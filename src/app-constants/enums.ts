@@ -200,7 +200,7 @@ export enum LeaveType {
   CASUAL_LEAVE = 'Casual Leave',
   SICK_LEAVE = 'Sick Leave',
   PRIVILEGE_LEAVE = 'Privilege Leave',
-  PITERNITY_LEAVE = 'Piternity Leave',
+  PATERNITY_LEAVE = 'Paternity Leave',
   MARRIAGE_LEAVE = 'Marriage Leave',
   BEREAVEMENT_LEAVE = 'Bereavement Leave',
 }

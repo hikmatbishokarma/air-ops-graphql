@@ -19,6 +19,6 @@ export class UpdateLeaveRequestWhereInput {
 export class UpdateLeaveRequestDataInput {
   @Field(() => LeaveStatus, { defaultValue: LeaveStatus.PENDING })
   status: LeaveStatus;
-  @Field()
-  remakr: string;
+  @Field({ nullable: true })
+  remark: string;
 }

@@ -15,15 +15,15 @@ import { OperatorDto } from 'src/operator/dto/operator.dto';
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@Relation('crew', () => CrewDetailDto, { disableRemove: true })
+@Relation('crew', () => CrewDetailDto, { disableRemove: true, nullable: true })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 export class LeaveDto extends BaseDTO {
   @FilterableField(() => LeaveType)
   type: LeaveType;
   @FilterableField()
-  from: Date;
+  fromDate: Date;
   @FilterableField()
-  to: Date;
+  toDate: Date;
   @Field()
   reason: string;
   @Field({ nullable: true })
@@ -34,6 +34,6 @@ export class LeaveDto extends BaseDTO {
   crewId: string;
   @FilterableField({ nullable: true })
   operatorId: string;
-  @Field()
+  @Field({ nullable: true })
   remark: string;
 }
