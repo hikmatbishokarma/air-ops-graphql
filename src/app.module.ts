@@ -27,6 +27,8 @@ import { AgentModule } from './operator/operator.module';
 import { CrewDetailModule } from './crew-details/crew-detail.module';
 import { ManualModule } from './manual/manual.module';
 import { LeaveModule } from './leaves/leave.module';
+import { SecurityModule } from './seccurity/security.module';
+import { LibraryModule } from './library/library.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { LeaveModule } from './leaves/leave.module';
     CrewDetailModule,
     ManualModule,
     LeaveModule,
+    SecurityModule,
+    LibraryModule,
     ConfigModule.forRoot({
       isGlobal: true,
       // ignoreEnvFile: true,

@@ -999,6 +999,33 @@ input CreateLeave {
   updatedBy: String
 }
 
+input CreateLibrary {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateManual {
   attachment: String
 
@@ -1066,6 +1093,11 @@ input CreateManyLeavesInput {
   leaves: [CreateLeave!]!
 }
 
+input CreateManyLibrariesInput {
+  """Array of records to create"""
+  libraries: [CreateLibrary!]!
+}
+
 input CreateManyManualsInput {
   """Array of records to create"""
   manuals: [CreateManual!]!
@@ -1104,6 +1136,11 @@ input CreateManyRolePermissionsInput {
 input CreateManyRolesInput {
   """Array of records to create"""
   roles: [CreateRole!]!
+}
+
+input CreateManySecuritiesInput {
+  """Array of records to create"""
+  securities: [CreateSecurity!]!
 }
 
 input CreateManyUsersInput {
@@ -1151,6 +1188,11 @@ input CreateOneLeaveInput {
   leave: CreateLeave!
 }
 
+input CreateOneLibraryInput {
+  """The record to create"""
+  library: CreateLibrary!
+}
+
 input CreateOneManualInput {
   """The record to create"""
   manual: CreateManual!
@@ -1189,6 +1231,11 @@ input CreateOneRoleInput {
 input CreateOneRolePermissionInput {
   """The record to create"""
   rolePermission: CreateRolePermission!
+}
+
+input CreateOneSecurityInput {
+  """The record to create"""
+  security: CreateSecurity!
 }
 
 input CreateOperator {
@@ -1401,6 +1448,33 @@ input CreateRolePermission {
   updatedBy: String
 }
 
+input CreateSecurity {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateUser {
   address: String
   city: String
@@ -1582,6 +1656,11 @@ input DeleteManyLeavesInput {
   filter: LeaveDeleteFilter!
 }
 
+input DeleteManyLibrariesInput {
+  """Filter to find records to delete"""
+  filter: libraryDeleteFilter!
+}
+
 input DeleteManyManualsInput {
   """Filter to find records to delete"""
   filter: manualDeleteFilter!
@@ -1625,6 +1704,11 @@ input DeleteManyRolePermissionsInput {
 input DeleteManyRolesInput {
   """Filter to find records to delete"""
   filter: roleDeleteFilter!
+}
+
+input DeleteManySecuritiesInput {
+  """Filter to find records to delete"""
+  filter: securityDeleteFilter!
 }
 
 input DeleteManyUsersInput {
@@ -1672,6 +1756,11 @@ input DeleteOneLeaveInput {
   id: ID!
 }
 
+input DeleteOneLibraryInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneManualInput {
   """The id of the record to delete."""
   id: ID!
@@ -1708,6 +1797,11 @@ input DeleteOneRoleInput {
 }
 
 input DeleteOneRolePermissionInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneSecurityInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -2187,6 +2281,44 @@ input LeaveUpdateFilter {
   type: LeaveTypeFilterComparison
 }
 
+type LibraryConnection {
+  """Array of nodes."""
+  nodes: [library!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type LibraryDeleteResponse {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean
+  name: String
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input MailerInput {
   html: String
   subject: String!
@@ -2248,6 +2380,7 @@ type Mutation {
   createManyCrewDetails(input: CreateManyCrewDetailsInput!): [crewDetail!]!
   createManyInvoices(input: CreateManyInvoicesInput!): [Invoice!]!
   createManyLeaves(input: CreateManyLeavesInput!): [Leave!]!
+  createManyLibraries(input: CreateManyLibrariesInput!): [library!]!
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
@@ -2256,6 +2389,7 @@ type Mutation {
   createManyResources(input: CreateManyResourcesInput!): [resource!]!
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
+  createManySecurities(input: CreateManySecuritiesInput!): [security!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAircraftDetail(input: CreateOneAircraftDetailInput!): AircraftDetail!
@@ -2265,6 +2399,7 @@ type Mutation {
   createOneCrewDetail(input: CreateOneCrewDetailInput!): crewDetail!
   createOneInvoice(input: CreateOneInvoiceInput!): Invoice!
   createOneLeave(input: CreateOneLeaveInput!): Leave!
+  createOneLibrary(input: CreateOneLibraryInput!): library!
   createOneManual(input: CreateOneManualInput!): manual!
   createOneOperator(input: CreateOneOperatorInput!): operator!
   createOnePrice(input: CreateOnePriceInput!): price!
@@ -2273,6 +2408,7 @@ type Mutation {
   createOneResource(input: CreateOneResourceInput!): resource!
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
+  createOneSecurity(input: CreateOneSecurityInput!): security!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
@@ -2283,6 +2419,7 @@ type Mutation {
   deleteManyCrewDetails(input: DeleteManyCrewDetailsInput!): DeleteManyResponse!
   deleteManyInvoices(input: DeleteManyInvoicesInput!): DeleteManyResponse!
   deleteManyLeaves(input: DeleteManyLeavesInput!): DeleteManyResponse!
+  deleteManyLibraries(input: DeleteManyLibrariesInput!): DeleteManyResponse!
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
@@ -2291,6 +2428,7 @@ type Mutation {
   deleteManyResources(input: DeleteManyResourcesInput!): DeleteManyResponse!
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
+  deleteManySecurities(input: DeleteManySecuritiesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
   deleteOneAircraftDetail(input: DeleteOneAircraftDetailInput!): AircraftDetailDeleteResponse!
@@ -2300,6 +2438,7 @@ type Mutation {
   deleteOneCrewDetail(input: DeleteOneCrewDetailInput!): CrewDetailDeleteResponse!
   deleteOneInvoice(input: DeleteOneInvoiceInput!): InvoiceDeleteResponse!
   deleteOneLeave(input: DeleteOneLeaveInput!): LeaveDeleteResponse!
+  deleteOneLibrary(input: DeleteOneLibraryInput!): LibraryDeleteResponse!
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
@@ -2308,6 +2447,7 @@ type Mutation {
   deleteOneResource(input: DeleteOneResourceInput!): ResourceDeleteResponse!
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
+  deleteOneSecurity(input: DeleteOneSecurityInput!): SecurityDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
@@ -2325,9 +2465,11 @@ type Mutation {
   setOperatorOnClient(input: SetOperatorOnClientInput!): client!
   setOperatorOnCrewDetail(input: SetOperatorOnCrewDetailInput!): crewDetail!
   setOperatorOnLeave(input: SetOperatorOnLeaveInput!): Leave!
+  setOperatorOnLibrary(input: SetOperatorOnLibraryInput!): library!
   setOperatorOnManual(input: SetOperatorOnManualInput!): manual!
   setOperatorOnQuote(input: SetOperatorOnQuoteInput!): Quote!
   setOperatorOnRole(input: SetOperatorOnRoleInput!): role!
+  setOperatorOnSecurity(input: SetOperatorOnSecurityInput!): security!
   setOperatorOnUser(input: SetOperatorOnUserInput!): User!
   setQuotationOnInvoice(input: SetQuotationOnInvoiceInput!): Invoice!
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
@@ -2345,6 +2487,7 @@ type Mutation {
   updateManyCrewDetails(input: UpdateManyCrewDetailsInput!): UpdateManyResponse!
   updateManyInvoices(input: UpdateManyInvoicesInput!): UpdateManyResponse!
   updateManyLeaves(input: UpdateManyLeavesInput!): UpdateManyResponse!
+  updateManyLibraries(input: UpdateManyLibrariesInput!): UpdateManyResponse!
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
@@ -2353,6 +2496,7 @@ type Mutation {
   updateManyResources(input: UpdateManyResourcesInput!): UpdateManyResponse!
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
+  updateManySecurities(input: UpdateManySecuritiesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
   updateOneAircraftDetail(input: UpdateOneAircraftDetailInput!): AircraftDetail!
@@ -2362,6 +2506,7 @@ type Mutation {
   updateOneCrewDetail(input: UpdateOneCrewDetailInput!): crewDetail!
   updateOneInvoice(input: UpdateOneInvoiceInput!): Invoice!
   updateOneLeave(input: UpdateOneLeaveInput!): Leave!
+  updateOneLibrary(input: UpdateOneLibraryInput!): library!
   updateOneManual(input: UpdateOneManualInput!): manual!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
   updateOnePrice(input: UpdateOnePriceInput!): price!
@@ -2372,6 +2517,7 @@ type Mutation {
   updateOneResource(input: UpdateOneResourceInput!): resource!
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
+  updateOneSecurity(input: UpdateOneSecurityInput!): security!
   updateOneUser(input: UpdateOneUserInput!): User!
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
   upgradeQuote(code: String!): Quote!
@@ -2661,6 +2807,20 @@ type Query {
     """Specify to sort results."""
     sorting: [LeaveSort!]! = []
   ): LeaveConnection!
+  libraries(
+    """Specify to filter the records returned."""
+    filter: libraryFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [librarySort!]! = []
+  ): LibraryConnection!
+  library(
+    """The id of the record to find."""
+    id: ID!
+  ): library
   manual(
     """The id of the record to find."""
     id: ID!
@@ -2773,6 +2933,20 @@ type Query {
     """Specify to sort results."""
     sorting: [roleSort!]! = []
   ): RoleConnection!
+  securities(
+    """Specify to filter the records returned."""
+    filter: securityFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [securitySort!]! = []
+  ): SecurityConnection!
+  security(
+    """The id of the record to find."""
+    id: ID!
+  ): security
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   staffCertificates(args: StaffCertificationInput): CertificationResponse!
@@ -3327,6 +3501,44 @@ enum SalesDocumentType {
   TAX_INVOICE
 }
 
+type SecurityConnection {
+  """Array of nodes."""
+  nodes: [security!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type SecurityDeleteResponse {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean
+  name: String
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input SetAircraftOnPriceInput {
   """The id of the record."""
   id: ID!
@@ -3407,6 +3619,14 @@ input SetOperatorOnLeaveInput {
   relationId: ID!
 }
 
+input SetOperatorOnLibraryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnManualInput {
   """The id of the record."""
   id: ID!
@@ -3424,6 +3644,14 @@ input SetOperatorOnQuoteInput {
 }
 
 input SetOperatorOnRoleInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetOperatorOnSecurityInput {
   """The id of the record."""
   id: ID!
 
@@ -3850,6 +4078,33 @@ input UpdateLeaveRequestWhereInput {
   id: ID!
 }
 
+input UpdateLibrary {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateManual {
   attachment: String
 
@@ -3941,6 +4196,14 @@ input UpdateManyLeavesInput {
   update: UpdateLeave!
 }
 
+input UpdateManyLibrariesInput {
+  """Filter used to find fields to update"""
+  filter: libraryUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateLibrary!
+}
+
 input UpdateManyManualsInput {
   """Filter used to find fields to update"""
   filter: manualUpdateFilter!
@@ -4008,6 +4271,14 @@ input UpdateManyRolesInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateRole!
+}
+
+input UpdateManySecuritiesInput {
+  """Filter used to find fields to update"""
+  filter: securityUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateSecurity!
 }
 
 input UpdateManyUsersInput {
@@ -4082,6 +4353,14 @@ input UpdateOneLeaveInput {
   update: UpdateLeave!
 }
 
+input UpdateOneLibraryInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateLibrary!
+}
+
 input UpdateOneManualInput {
   """The id of the record to update"""
   id: ID!
@@ -4144,6 +4423,14 @@ input UpdateOneRolePermissionInput {
 
   """The update to apply."""
   update: UpdateRolePermission!
+}
+
+input UpdateOneSecurityInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateSecurity!
 }
 
 input UpdateOneUserInput {
@@ -4372,6 +4659,33 @@ input UpdateRolePermission {
   isActive: Boolean = true
   permissions: [JSONObject!]
   role: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateSecurity {
+  attachment: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  name: String
+  operatorId: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -4982,6 +5296,109 @@ input crewDetailUpdateFilter {
   operatorId: StringFieldComparison
   or: [crewDetailUpdateFilter!]
   roles: CrewDetailRolesFilterComparison
+}
+
+"""Library"""
+type library {
+  attachment: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  operator: operator!
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type libraryAggregateGroupBy {
+  createdAt: DateTime
+  department: String
+  isActive: Boolean
+  name: String
+  operatorId: String
+}
+
+type libraryCountAggregate {
+  createdAt: Int
+  department: Int
+  isActive: Int
+  name: Int
+  operatorId: Int
+}
+
+input libraryDeleteFilter {
+  and: [libraryDeleteFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [libraryDeleteFilter!]
+}
+
+input libraryFilter {
+  and: [libraryFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [libraryFilter!]
+}
+
+type libraryMaxAggregate {
+  createdAt: DateTime
+  department: String
+  name: String
+  operatorId: String
+}
+
+type libraryMinAggregate {
+  createdAt: DateTime
+  department: String
+  name: String
+  operatorId: String
+}
+
+input librarySort {
+  direction: SortDirection!
+  field: librarySortFields!
+  nulls: SortNulls
+}
+
+enum librarySortFields {
+  createdAt
+  department
+  isActive
+  name
+  operatorId
+}
+
+input libraryUpdateFilter {
+  and: [libraryUpdateFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [libraryUpdateFilter!]
 }
 
 type loginResponseDto {
@@ -5651,6 +6068,109 @@ input roleUpdateFilter {
   operatorId: StringFieldComparison
   or: [roleUpdateFilter!]
   type: RoleTypeFilterComparison
+}
+
+"""Security"""
+type security {
+  attachment: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  department: String!
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  operator: operator!
+  operatorId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type securityAggregateGroupBy {
+  createdAt: DateTime
+  department: String
+  isActive: Boolean
+  name: String
+  operatorId: String
+}
+
+type securityCountAggregate {
+  createdAt: Int
+  department: Int
+  isActive: Int
+  name: Int
+  operatorId: Int
+}
+
+input securityDeleteFilter {
+  and: [securityDeleteFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [securityDeleteFilter!]
+}
+
+input securityFilter {
+  and: [securityFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [securityFilter!]
+}
+
+type securityMaxAggregate {
+  createdAt: DateTime
+  department: String
+  name: String
+  operatorId: String
+}
+
+type securityMinAggregate {
+  createdAt: DateTime
+  department: String
+  name: String
+  operatorId: String
+}
+
+input securitySort {
+  direction: SortDirection!
+  field: securitySortFields!
+  nulls: SortNulls
+}
+
+enum securitySortFields {
+  createdAt
+  department
+  isActive
+  name
+  operatorId
+}
+
+input securityUpdateFilter {
+  and: [securityUpdateFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  isActive: BooleanFieldComparison
+  name: StringFieldComparison
+  operatorId: StringFieldComparison
+  or: [securityUpdateFilter!]
 }
 
 enum type {
