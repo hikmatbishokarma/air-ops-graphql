@@ -4,8 +4,22 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
+import { GraphQLJSONObject } from 'graphql-type-json';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+
+@ObjectType()
+@InputType('groundHandlersInfo')
+export class groundHandlersInfoDTO {
+  @Field()
+  fullName: string;
+  @Field()
+  companyName: string;
+  @Field()
+  contactNumber: string;
+  @Field()
+  email: string;
+}
 
 @ObjectType('Airport', { description: 'Airport' })
 @QueryOptions({
@@ -27,4 +41,14 @@ export class AirportsDto extends BaseDTO {
   city: string;
   @FilterableField({ nullable: true })
   country: string;
+  @FilterableField()
+  openHrs: string;
+  @FilterableField()
+  closeHrs: string;
+  @FilterableField()
+  contactNumber: string;
+  @FilterableField()
+  email: string;
+  @Field(() => [groundHandlersInfoDTO])
+  groundHandlersInfo: groundHandlersInfoDTO;
 }

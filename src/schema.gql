@@ -334,6 +334,8 @@ input AircraftDetailUpdateFilter {
 """Airport"""
 type Airport {
   city: String!
+  closeHrs: String!
+  contactNumber: String!
   country: String
 
   """The date when the record was created"""
@@ -347,6 +349,8 @@ type Airport {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String!
+  groundHandlersInfo: [groundHandlersInfoDTO!]!
   iata_code: String!
   icao_code: String!
   id: ID!
@@ -354,6 +358,7 @@ type Airport {
   latitude: Float!
   longitude: Float!
   name: String!
+  openHrs: String!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -364,12 +369,16 @@ type Airport {
 
 type AirportAggregateGroupBy {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
   createdAt: DateTime
+  email: String
   iata_code: String
   icao_code: String
   isActive: Boolean
   name: String
+  openHrs: String
 }
 
 type AirportConnection {
@@ -385,28 +394,38 @@ type AirportConnection {
 
 type AirportCountAggregate {
   city: Int
+  closeHrs: Int
+  contactNumber: Int
   country: Int
   createdAt: Int
+  email: Int
   iata_code: Int
   icao_code: Int
   isActive: Int
   name: Int
+  openHrs: Int
 }
 
 input AirportDeleteFilter {
   and: [AirportDeleteFilter!]
   city: StringFieldComparison
+  closeHrs: StringFieldComparison
+  contactNumber: StringFieldComparison
   country: StringFieldComparison
   createdAt: DateFieldComparison
+  email: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
+  openHrs: StringFieldComparison
   or: [AirportDeleteFilter!]
 }
 
 type AirportDeleteResponse {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
 
   """The date when the record was created"""
@@ -420,6 +439,8 @@ type AirportDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
+  groundHandlersInfo: [groundHandlersInfoDTO!]
   iata_code: String
   icao_code: String
   id: ID
@@ -427,6 +448,7 @@ type AirportDeleteResponse {
   latitude: Float
   longitude: Float
   name: String
+  openHrs: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -438,31 +460,43 @@ type AirportDeleteResponse {
 input AirportFilter {
   and: [AirportFilter!]
   city: StringFieldComparison
+  closeHrs: StringFieldComparison
+  contactNumber: StringFieldComparison
   country: StringFieldComparison
   createdAt: DateFieldComparison
+  email: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
+  openHrs: StringFieldComparison
   or: [AirportFilter!]
 }
 
 type AirportMaxAggregate {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
   createdAt: DateTime
+  email: String
   iata_code: String
   icao_code: String
   name: String
+  openHrs: String
 }
 
 type AirportMinAggregate {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
   createdAt: DateTime
+  email: String
   iata_code: String
   icao_code: String
   name: String
+  openHrs: String
 }
 
 input AirportSort {
@@ -473,23 +507,31 @@ input AirportSort {
 
 enum AirportSortFields {
   city
+  closeHrs
+  contactNumber
   country
   createdAt
+  email
   iata_code
   icao_code
   isActive
   name
+  openHrs
 }
 
 input AirportUpdateFilter {
   and: [AirportUpdateFilter!]
   city: StringFieldComparison
+  closeHrs: StringFieldComparison
+  contactNumber: StringFieldComparison
   country: StringFieldComparison
   createdAt: DateFieldComparison
+  email: StringFieldComparison
   iata_code: StringFieldComparison
   icao_code: StringFieldComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
+  openHrs: StringFieldComparison
   or: [AirportUpdateFilter!]
 }
 
@@ -723,6 +765,7 @@ type ClientDeleteResponse {
   isActive: Boolean
   isCompany: Boolean
   isPerson: Boolean
+  lastName: String
   name: String
   operatorId: String
   panNo: String
@@ -800,6 +843,8 @@ input CreateAircraftDetail {
 
 input CreateAirport {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
 
   """The date when the record was created"""
@@ -813,6 +858,8 @@ input CreateAirport {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
+  groundHandlersInfo: [groundHandlersInfo!]
   iata_code: String
   icao_code: String
   id: ID
@@ -820,6 +867,7 @@ input CreateAirport {
   latitude: Float
   longitude: Float
   name: String
+  openHrs: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -873,6 +921,7 @@ input CreateClient {
   isActive: Boolean = true
   isCompany: Boolean
   isPerson: Boolean
+  lastName: String
   name: String
   operatorId: String
   panNo: String
@@ -3870,6 +3919,8 @@ input UpdateAircraftDetail {
 
 input UpdateAirport {
   city: String
+  closeHrs: String
+  contactNumber: String
   country: String
 
   """The date when the record was created"""
@@ -3883,6 +3934,8 @@ input UpdateAirport {
 
   """The email of the user who deleted the record"""
   deletedBy: String
+  email: String
+  groundHandlersInfo: [groundHandlersInfo!]
   iata_code: String
   icao_code: String
   id: ID
@@ -3890,6 +3943,7 @@ input UpdateAirport {
   latitude: Float
   longitude: Float
   name: String
+  openHrs: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3943,6 +3997,7 @@ input UpdateClient {
   isActive: Boolean = true
   isCompany: Boolean
   isPerson: Boolean
+  lastName: String
   name: String
   operatorId: String
   panNo: String
@@ -5036,6 +5091,7 @@ type client {
   isActive: Boolean!
   isCompany: Boolean!
   isPerson: Boolean!
+  lastName: String
   name: String!
   operator: operator!
   operatorId: String
@@ -5296,6 +5352,20 @@ input crewDetailUpdateFilter {
   operatorId: StringFieldComparison
   or: [crewDetailUpdateFilter!]
   roles: CrewDetailRolesFilterComparison
+}
+
+input groundHandlersInfo {
+  companyName: String!
+  contactNumber: String!
+  email: String!
+  fullName: String!
+}
+
+type groundHandlersInfoDTO {
+  companyName: String!
+  contactNumber: String!
+  email: String!
+  fullName: String!
 }
 
 """Library"""

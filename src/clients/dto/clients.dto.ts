@@ -18,6 +18,8 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 export class ClientsDto extends BaseDTO {
   @Field()
   name: string;
+  @Field({ nullable: true })
+  lastName: string;
   @FilterableField({ nullable: false })
   phone: string;
   @FilterableField({ nullable: false })

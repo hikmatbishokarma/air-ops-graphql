@@ -7,6 +7,8 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 export class ClientsEntity extends BaseEntity {
   @Prop({ required: true })
   name: string;
+  @Prop()
+  lastName: string;
   @Prop({ required: true, unique: true })
   phone: string;
   @Prop({ required: true, unique: true })

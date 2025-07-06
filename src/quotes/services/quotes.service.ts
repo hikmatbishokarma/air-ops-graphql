@@ -358,15 +358,6 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   async flightSegmentsForCalendar(args) {
     const { id, startDate, endDate } = args;
 
-    console.log(startDate, endDate);
-
-    console.log(startDate); // should be: 2025-06-01T18:30:00.000Z
-    console.log(new Date(startDate)); // should be: 2025-06-01T18:30:00.000Z
-
-    console.log('Type of startDate:', typeof startDate); // should be object
-    console.log('startDate instanceof Date:', startDate instanceof Date); // should be true
-    console.log('startDate ISO:', startDate.toISOString());
-
     // const segments: any = await this.Model.find({
     //   // itinerary: {
     //   //   $elemMatch: {
@@ -435,7 +426,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
         }
       }
     }
-    console.log(calenderData);
+
     // return { calenderData: calenderData };
     return calenderData;
   }
