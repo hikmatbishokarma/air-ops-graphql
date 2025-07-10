@@ -23,7 +23,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AircraftDetailModule } from './aircraft-detail/aircraft-detail.module';
 import { CityModule } from './city/city.module';
 import { MediaModule } from './media/media.module';
-import { AgentModule } from './operator/operator.module';
+import { OperatorModule } from './operator/operator.module';
 import { CrewDetailModule } from './crew-details/crew-detail.module';
 import { ManualModule } from './manual/manual.module';
 import { LeaveModule } from './leaves/leave.module';
@@ -48,7 +48,7 @@ import { LibraryModule } from './library/library.module';
     DashboardModule,
     CityModule,
     MediaModule,
-    AgentModule,
+    OperatorModule,
     CrewDetailModule,
     ManualModule,
     LeaveModule,

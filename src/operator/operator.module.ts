@@ -33,4 +33,4 @@ import { UsersModule } from 'src/users/users.module';
   providers: [OperatorResolver, OperatorService],
   exports: [OperatorService],
 })
-export class AgentModule {}
+export class OperatorModule {}

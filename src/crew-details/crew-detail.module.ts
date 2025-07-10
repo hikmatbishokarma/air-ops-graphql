@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   CrewDetailEntity,
@@ -9,9 +9,16 @@ import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { CrewDetailDto } from './dto/crew-detail.dto';
 import { CrewDetailService } from './services/crew-detail.service';
 import { CrewDetailResolver } from './resolvers/crew-detail.resolver';
+import { OperatorModule } from 'src/operator/operator.module';
+import { RolesModule } from 'src/roles/roles.module';
+import { NotificationModule } from 'src/notification/notification.module';
+import { CrewAuthService } from './services/crew-auth.service';
 
 @Module({
   imports: [
+    NotificationModule,
+    forwardRef(() => OperatorModule),
+    RolesModule,
     MongooseModule.forFeature([
       { name: CrewDetailEntity.name, schema: CrewDetailSchema },
     ]),
@@ -34,7 +41,7 @@ import { CrewDetailResolver } from './resolvers/crew-detail.resolver';
     }),
   ],
 
-  providers: [CrewDetailService, CrewDetailResolver],
-  exports: [CrewDetailService],
+  providers: [CrewDetailService, CrewDetailResolver, CrewAuthService],
+  exports: [CrewDetailService, CrewAuthService],
 })
 export class CrewDetailModule {}

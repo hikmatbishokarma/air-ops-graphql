@@ -9,13 +9,13 @@ import { UserDTO } from './dto/users.dto';
 import { RolesModule } from 'src/roles/roles.module';
 import { RolesService } from 'src/roles/services/roles.service';
 import { NotificationModule } from 'src/notification/notification.module';
-import { AgentModule } from 'src/operator/operator.module';
+import { OperatorModule } from 'src/operator/operator.module';
 
 @Module({
   imports: [
     RolesModule,
     NotificationModule,
-    forwardRef(() => AgentModule),
+    forwardRef(() => OperatorModule),
     // MongooseModule.forFeature([{ name: UserEntity.name, schema: UserSchema }]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [

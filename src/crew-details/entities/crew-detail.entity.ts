@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes, Types } from 'mongoose';
-import { CrewType, Gender } from 'src/app-constants/enums';
+import { CrewType, Gender, UserType } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({})
@@ -99,7 +99,7 @@ export class CrewDetailEntity extends BaseEntity {
   dateOfBirth: Date;
 
   @Prop()
-  mobileNumber: string;
+  phone: string;
 
   @Prop()
   alternateContact: string;
@@ -173,6 +173,9 @@ export class CrewDetailEntity extends BaseEntity {
     default: undefined,
   })
   operatorId: Types.ObjectId;
+
+  // @Prop({ type: String, enum: UserType, default: UserType.PLATFORM_USER })
+  // type: UserType;
 }
 
 export const CrewDetailSchema = SchemaFactory.createForClass(CrewDetailEntity);

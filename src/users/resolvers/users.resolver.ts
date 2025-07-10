@@ -15,11 +15,6 @@ import { CurrentUser } from '../current-user.decorator';
 export class UsersResolver {
   constructor(private readonly userService: UsersService) {}
 
-  @Query(() => String)
-  async getUser(@Args('id') id: string) {
-    return 'mnmnmn';
-  }
-
   @Mutation(() => UserDTO)
   async createOneUser(
     @Args('input') input: CreateUserInput,

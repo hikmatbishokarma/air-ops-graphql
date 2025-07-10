@@ -1,20 +1,8 @@
-import {
-  FilterableField,
-  PagingStrategies,
-  QueryOptions,
-  Relation,
-  UnPagedRelation,
-} from '@app/query-graphql';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { GraphQLJSONObject } from 'graphql-type-json';
-import { CrewType, Gender, UserType } from 'src/app-constants/enums';
-import { BaseDTO } from 'src/common/dtos/base.dto';
-import { OperatorDto } from 'src/operator/dto/operator.dto';
-import { RoleDTO } from 'src/roles/dto/roles.dto';
+import { Field, InputType } from '@nestjs/graphql';
+import { Gender } from 'src/app-constants/enums';
 
-@ObjectType()
-@InputType('nomineeInput')
-export class NomineeDto {
+@InputType()
+export class NomineeInput {
   @Field({ nullable: true })
   fullName: string;
   @Field(() => Gender, { nullable: true })
@@ -33,9 +21,8 @@ export class NomineeDto {
   insurance: string;
 }
 
-@ObjectType()
-@InputType('certificationInput')
-export class CertificationDto {
+@InputType()
+export class CertificationInput {
   @Field({ nullable: true })
   name: string;
   @Field({ nullable: true })
@@ -47,19 +34,9 @@ export class CertificationDto {
   @Field({ nullable: true })
   validTill: Date;
 }
-
-@ObjectType('crewDetail', { description: 'Crew Detail' })
-@QueryOptions({
-  enableTotalCount: true,
-  pagingStrategy: PagingStrategies.OFFSET,
-})
-@Relation('operator', () => OperatorDto, { disableRemove: true })
-@UnPagedRelation('roles', () => RoleDTO, { disableRemove: true })
-export class CrewDetailDto extends BaseDTO {
-  @FilterableField(() => [String], {
-    allowedComparisons: ['eq', 'neq', 'in', 'notIn'],
-    nullable: true,
-  })
+@InputType()
+export class CrewInput {
+  @Field(() => [String])
   roles: string[];
 
   @Field({ nullable: true })
@@ -71,10 +48,10 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   designation: string;
 
-  @FilterableField()
+  @Field()
   fullName: string;
 
-  @FilterableField()
+  @Field()
   displayName: string;
 
   @Field(() => Gender)
@@ -128,26 +105,18 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   bloodGroup: string;
 
-  @Field(() => [CertificationDto])
-  certifications: CertificationDto[];
+  @Field(() => [CertificationInput])
+  certifications: CertificationInput[];
 
-  @Field(() => [NomineeDto])
-  nominees: NomineeDto[];
+  @Field(() => [NomineeInput])
+  nominees: NomineeInput[];
 
-  @FilterableField({ nullable: true })
+  @Field({ nullable: true })
   operatorId: string;
-
-  // @FilterableField(() => UserType, { defaultValue: UserType.PLATFORM_USER })
-  // type: UserType;
-
-  @Field(() => CrewDetailDto, { nullable: true })
-  createdByUser?: CrewDetailDto; // ✅ Add this for relation
 }
 
-@ObjectType()
-export class CertificationResponse {
-  @Field(() => [GraphQLJSONObject])
-  data: string;
+@InputType()
+export class CreateCrewInput {
   @Field()
-  totalCount: number;
+  crew: CrewInput;
 }
