@@ -22,7 +22,7 @@ export class LeaveEntity extends BaseEntity {
     ref: 'CrewDetailEntity',
     default: undefined,
   })
-  crewId: Types.ObjectId;
+  crew: Types.ObjectId;
 
   @Prop({
     type: SchemaTypes.ObjectId,

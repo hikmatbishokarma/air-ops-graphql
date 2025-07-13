@@ -89,6 +89,12 @@ export class CalenderData {
   start: Date;
   @Field()
   end: Date;
+  @Field()
+  depatureTime: string;
+  @Field()
+  arrivalTime: string;
+  @Field(() => GraphQLJSONObject)
+  aircraft: Object;
 }
 
 @ObjectType()

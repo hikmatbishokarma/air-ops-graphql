@@ -14,7 +14,7 @@ import { CrewAuthService } from '../services/crew-auth.service';
 import { CreateCrewInput, CrewInput } from '../inputs/crew-detail.input';
 import { CurrentUser } from 'src/users/current-user.decorator';
 
-@Resolver()
+@Resolver(() => CrewDetailDto)
 export class CrewDetailResolver {
   constructor(
     private readonly crewDetailService: CrewDetailService,
@@ -31,7 +31,7 @@ export class CrewDetailResolver {
   }
 
   @Mutation(() => CrewDetailDto)
-  async createOneUser(
+  async createCrew(
     @Args('input') input: CreateCrewInput,
     @CurrentUser() currentUser: CrewDetailDto, // ← Get user here
   ) {

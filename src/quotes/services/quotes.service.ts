@@ -384,31 +384,26 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           },
         },
       },
+    }).select({ itinerary: 1, aircraft: 1 });
+
+    const aircraftIds = segments.map((item) => item.aircraft);
+
+    const aircraftList = await this.aircraftService.query({
+      filter: { id: { in: aircraftIds } },
+      projection: { name: 1, code: 1 },
     });
 
-    // const results = await this.Model.aggregate([
-    //   { $unwind: '$itinerary' },
-    //   {
-    //     $match: {
-    //       'itinerary.depatureDate': {
-    //         $gte: '2025-06-01T18:30:00.000Z',
-    //         $lte: '2025-06-30T18:30:00.000Z',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $project: {
-    //       quotationNo: 1,
-    //       itinerary: 1,
-    //     },
-    //   },
-    // ]);
-
-    // console.log('results::', results);
+    // --- NEW CODE: Create the aircraft map ---
+    const aircraftMap = aircraftList.reduce((acc, aircraft) => {
+      acc[aircraft.id.toString()] = aircraft; // Map aircraft ID to the aircraft object
+      return acc;
+    }, {});
 
     const calenderData = [];
 
     for (const segment of segments) {
+      const aircraftDetails = aircraftMap[segment.aircraft.toString()];
+
       for (const leg of segment.itinerary) {
         const dep = new Date(leg.depatureDate);
         if (dep >= startDate && dep <= endDate) {
@@ -421,7 +416,9 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
             end: new Date(
               `${moment(leg.arrivalDate).format('YYYY-MM-DD')}T${leg.arrivalTime}:00Z`,
             ),
-            // quotationNo: segment.quotationNo,
+            depatureTime: leg.depatureTime,
+            arrivalTime: leg.arrivalTime,
+            aircraft: aircraftDetails,
           });
         }
       }

@@ -55,6 +55,7 @@ export class CertificationDto {
 })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 @UnPagedRelation('roles', () => RoleDTO, { disableRemove: true })
+@InputType()
 export class CrewDetailDto extends BaseDTO {
   @FilterableField(() => [String], {
     allowedComparisons: ['eq', 'neq', 'in', 'notIn'],
@@ -83,7 +84,7 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   dateOfBirth: Date;
 
-  @Field()
+  @Field({ nullable: true })
   phone: string;
 
   @Field({ nullable: true })

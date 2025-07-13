@@ -31,7 +31,7 @@ export class LeaveDto extends BaseDTO {
   @FilterableField(() => LeaveStatus, { defaultValue: LeaveStatus.PENDING })
   status: LeaveStatus;
   @FilterableField({ nullable: true })
-  crewId: string;
+  crew: string;
   @FilterableField({ nullable: true })
   operatorId: string;
   @Field({ nullable: true })
