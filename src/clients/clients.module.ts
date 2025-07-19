@@ -26,5 +26,6 @@ import { ClientsService } from './services/clients.service';
     }),
   ],
   providers: [ClientsService],
+  exports: [ClientsService],
 })
 export class ClientsModule {}

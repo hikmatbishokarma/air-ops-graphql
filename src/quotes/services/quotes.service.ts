@@ -177,6 +177,15 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       },
       { $unwind: { path: '$client', preserveNullAndEmptyArrays: true } },
       {
+        $lookup: {
+          from: 'operators',
+          localField: 'operatorId',
+          foreignField: '_id',
+          as: 'operator',
+        },
+      },
+      { $unwind: { path: '$operator', preserveNullAndEmptyArrays: true } },
+      {
         $project: {
           _id: 1,
           itinerary: 1,
@@ -184,10 +193,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           proformaInvoiceNo: 1,
           aircraftDetail: 1,
           'aircraftCategory.name': 1,
-          'client.name': 1,
-          'client.phone': 1,
-          'client.email': 1,
-          'client.address': 1,
+          client: 1,
+          operator: 1,
           status: 1,
           prices: 1,
           grandTotal: 1,

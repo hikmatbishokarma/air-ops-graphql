@@ -29,6 +29,7 @@ import { ManualModule } from './manual/manual.module';
 import { LeaveModule } from './leaves/leave.module';
 import { SecurityModule } from './seccurity/security.module';
 import { LibraryModule } from './library/library.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -56,14 +57,15 @@ import { LibraryModule } from './library/library.module';
     LibraryModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      // ignoreEnvFile: true,
+      envFilePath: join(__dirname, '..', '.env'),
       load: [config],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
+        uri: configService.get<string>('mongo.uri'),
       }),
+
       inject: [ConfigService],
     }),
     GraphQLModule.forRootAsync({

@@ -9,25 +9,28 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
-import { SortDirection } from '@app/core';
 import { CounterType, InvoiceType, QuoteStatus } from 'src/app-constants/enums';
+import { ConfigService } from '@nestjs/config';
 
 export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
+  private baseUrl: string;
   constructor(
     @InjectModel(InvoiceEntity.name) model: Model<InvoiceEntity>,
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
     private readonly quoteService: QuotesService,
+    private readonly config: ConfigService,
   ) {
     super(model);
+    this.baseUrl = this.config.get<string>('site_url');
   }
 
   async generateInvoice(args) {
     const { id, quotationNo, proformaInvoiceNo, type } = args;
 
-    if (type === InvoiceType.PROFORMA_INVOICE) {
-      const quote = await this.quoteService.getQuoteById(quotationNo);
-      if (!quote) throw new BadRequestException('No Quote Found');
+    const quote = await this.quoteService.getQuoteById(quotationNo);
+    if (!quote) throw new BadRequestException('No Quote Found');
 
+    if (type === InvoiceType.PROFORMA_INVOICE) {
       const invoice = await this.query({
         filter: { quotationNo: { eq: quotationNo } },
       });
@@ -43,6 +46,9 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         ...quote,
         invoiceNo,
         type: InvoiceType.PROFORMA_INVOICE,
+        logoUrl: quote?.operator
+          ? `${this.baseUrl}${quote?.operator?.companyLogo}`
+          : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`,
       });
       if (!htmlContent) throw new BadRequestException('No Content Found');
 

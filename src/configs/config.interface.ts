@@ -2,6 +2,11 @@ export interface Config {
   cors: CorsConfig;
   graphql: GraphqlConfig;
   mongo?: MongoConfig;
+  server?: ServerConfig;
+  url: string;
+  site_url: string;
+  email: EmailConfig;
+  multer_dest?: any;
 }
 export interface GraphqlConfig {
   playgroundEnabled: boolean;
@@ -16,4 +21,16 @@ export interface CorsConfig {
 
 export interface MongoConfig {
   uri: string;
+}
+
+export interface ServerConfig {
+  port: number;
+}
+
+export interface EmailConfig {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  secure: boolean;
 }

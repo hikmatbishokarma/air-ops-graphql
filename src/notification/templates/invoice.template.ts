@@ -14,6 +14,8 @@ export const InvoiceTemplate = (quote) => {
     totalPrice,
     gstAmount,
     type: invoiceType,
+    operator,
+    logoUrl,
   } = quote;
 
   return `
@@ -29,21 +31,29 @@ export const InvoiceTemplate = (quote) => {
     th, td { border: 1px solid #000; padding: 6px; text-align: left; }
     .header, .footer { text-align: center; margin: 10px 0; }
     .total { font-weight: bold; }
+    #invoiceLogo { /* Use an ID for specific styling without a class */
+      position: absolute; 
+      left: 20px; /* Adjust this value for desired left margin */
+      top: 10px; /* Adjust this value for desired top margin */
+      max-width: 150px; /* Adjust this value to control logo size, e.g., 100px, 180px */
+      height: auto; 
+    }
   </style>
 </head>
 <body>
   <div class="header">
+  <img src="${logoUrl}"  alt="Company Logo" id="invoiceLogo"/>
     <h2>${invoiceType}</h2>
     <p>(ORIGINAL FOR RECIPIENT)</p>
   </div>
   
   <table>
     <tr>
-      <td><strong>From:</strong><br/>RENARD JET AVIATION PRIVATE LIMITED<br/>New Delhi</td>
+      <td><strong>From:</strong><br/>${operator?.companyName || ''}Airops<br/>${operator?.address || ''}Hyderabad, Telengana</td>
       <td><strong>Invoice No:</strong> ${invoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
     </tr>
     <tr>
-      <td><strong>To:</strong><br/>${client.name}<br/>${client.address}</td>
+      <td><strong>To:</strong><br/>Name:${client.name}<br/>Address:${client.address}<br/>GST:${client.gstNo}<br/>PAN:${client.panNo}</td>
       <td><strong>Reference No:</strong>${quotationNo}</td>
     </tr>
   </table>
@@ -79,7 +89,7 @@ export const InvoiceTemplate = (quote) => {
   <table>
     <tr>
       <td class="total">Taxable Value</td>
-      <td>${totalPrice}</td>
+      <td>${grandTotal}</td>
     </tr>
     <tr>
       <td class="total">IGST @18%</td>
@@ -87,7 +97,7 @@ export const InvoiceTemplate = (quote) => {
     </tr>
     <tr>
       <td class="total">Total Amount</td>
-      <td>${grandTotal}</td>
+      <td>${totalPrice}</td>
     </tr>
   </table>
 

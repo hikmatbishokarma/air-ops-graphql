@@ -30,7 +30,7 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
     private readonly config: ConfigService,
   ) {
     super(model);
-    this.url = config.get<string>('url');
+    this.url = this.config.get<string>('url');
   }
 
   async getRoleByType(roleType) {
