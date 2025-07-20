@@ -567,7 +567,11 @@ type CalenderData {
   aircraft: JSONObject!
   arrivalTime: String!
   depatureTime: String!
+  destination: String!
+  duration: String!
   end: DateTime!
+  id: String!
+  source: String!
   start: DateTime!
   title: String!
 }
@@ -5704,7 +5708,7 @@ type operator {
 
   """The email of the user who created the record"""
   createdBy: String
-  createdByUser: User
+  createdByUser: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
