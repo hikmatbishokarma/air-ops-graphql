@@ -162,7 +162,6 @@ input AircraftCategoryUpdateFilter {
 
 """Aircraft Detail"""
 type AircraftDetail {
-  category: AircraftCategory!
   code: String!
 
   """The date when the record was created"""
@@ -201,7 +200,6 @@ type AircraftDetail {
 }
 
 type AircraftDetailAggregateGroupBy {
-  category: String
   code: String
   createdAt: DateTime
   isActive: Boolean
@@ -221,7 +219,6 @@ type AircraftDetailConnection {
 }
 
 type AircraftDetailCountAggregate {
-  category: Int
   code: Int
   createdAt: Int
   isActive: Int
@@ -231,7 +228,6 @@ type AircraftDetailCountAggregate {
 
 input AircraftDetailDeleteFilter {
   and: [AircraftDetailDeleteFilter!]
-  category: StringFieldComparison
   code: StringFieldComparison
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
@@ -241,7 +237,6 @@ input AircraftDetailDeleteFilter {
 }
 
 type AircraftDetailDeleteResponse {
-  category: String
   code: String
 
   """The date when the record was created"""
@@ -280,7 +275,6 @@ type AircraftDetailDeleteResponse {
 
 input AircraftDetailFilter {
   and: [AircraftDetailFilter!]
-  category: StringFieldComparison
   code: StringFieldComparison
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
@@ -290,7 +284,6 @@ input AircraftDetailFilter {
 }
 
 type AircraftDetailMaxAggregate {
-  category: String
   code: String
   createdAt: DateTime
   name: String
@@ -298,7 +291,6 @@ type AircraftDetailMaxAggregate {
 }
 
 type AircraftDetailMinAggregate {
-  category: String
   code: String
   createdAt: DateTime
   name: String
@@ -312,7 +304,6 @@ input AircraftDetailSort {
 }
 
 enum AircraftDetailSortFields {
-  category
   code
   createdAt
   isActive
@@ -322,7 +313,6 @@ enum AircraftDetailSortFields {
 
 input AircraftDetailUpdateFilter {
   and: [AircraftDetailUpdateFilter!]
-  category: StringFieldComparison
   code: StringFieldComparison
   createdAt: DateFieldComparison
   isActive: BooleanFieldComparison
@@ -334,8 +324,8 @@ input AircraftDetailUpdateFilter {
 """Airport"""
 type Airport {
   city: String!
-  closeHrs: String!
-  contactNumber: String!
+  closeHrs: String
+  contactNumber: String
   country: String
 
   """The date when the record was created"""
@@ -349,7 +339,7 @@ type Airport {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  email: String!
+  email: String
   groundHandlersInfo: [groundHandlersInfoDTO!]!
   iata_code: String!
   icao_code: String!
@@ -358,7 +348,7 @@ type Airport {
   latitude: Float!
   longitude: Float!
   name: String!
-  openHrs: String!
+  openHrs: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -819,7 +809,6 @@ input CreateAircraftCategory {
 }
 
 input CreateAircraftDetail {
-  category: String
   code: String
 
   """The date when the record was created"""
@@ -2586,7 +2575,6 @@ type Mutation {
   sendEmail(input: MailerInput!): MailerResponseDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
-  setCategoryOnAircraftDetail(input: SetCategoryOnAircraftDetailInput!): AircraftDetail!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
   setCrewOnLeave(input: SetCrewOnLeaveInput!): Leave!
   setOperatorOnAircraftCategory(input: SetOperatorOnAircraftCategoryInput!): AircraftCategory!
@@ -2750,10 +2738,10 @@ input OperatorDto {
   email: String!
   name: String!
   phone: String!
-  pinCode: String
-  state: String
+  pinCode: String!
+  state: String!
   subscriptionPlan: SubscriptionPlan
-  supportEmail: String!
+  supportEmail: String
   themeColor: String
   ticketFooterNote: String
   websiteUrl: String
@@ -3694,14 +3682,6 @@ input SetAircraftOnQuoteInput {
   relationId: ID!
 }
 
-input SetCategoryOnAircraftDetailInput {
-  """The id of the record."""
-  id: ID!
-
-  """The id of relation."""
-  relationId: ID!
-}
-
 input SetClientOnRepresentativeInput {
   """The id of the record."""
   id: ID!
@@ -3970,7 +3950,6 @@ input UpdateAircraftCategory {
 }
 
 input UpdateAircraftDetail {
-  category: String
   code: String
 
   """The date when the record was created"""
@@ -5720,10 +5699,10 @@ type operator {
   isActive: Boolean!
   name: String!
   phone: String!
-  pinCode: String
-  state: String
+  pinCode: String!
+  state: String!
   subscriptionPlan: SubscriptionPlan
-  supportEmail: String!
+  supportEmail: String
   themeColor: String
   ticketFooterNote: String
 
@@ -5744,7 +5723,6 @@ type operatorAggregateGroupBy {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
-  supportEmail: String
 }
 
 type operatorCountAggregate {
@@ -5756,7 +5734,6 @@ type operatorCountAggregate {
   name: Int
   phone: Int
   subscriptionPlan: Int
-  supportEmail: Int
 }
 
 input operatorDeleteFilter {
@@ -5770,7 +5747,6 @@ input operatorDeleteFilter {
   or: [operatorDeleteFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
-  supportEmail: StringFieldComparison
 }
 
 input operatorFilter {
@@ -5784,7 +5760,6 @@ input operatorFilter {
   or: [operatorFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
-  supportEmail: StringFieldComparison
 }
 
 type operatorMaxAggregate {
@@ -5795,7 +5770,6 @@ type operatorMaxAggregate {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
-  supportEmail: String
 }
 
 type operatorMinAggregate {
@@ -5806,7 +5780,6 @@ type operatorMinAggregate {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
-  supportEmail: String
 }
 
 input operatorSort {
@@ -5824,7 +5797,6 @@ enum operatorSortFields {
   name
   phone
   subscriptionPlan
-  supportEmail
 }
 
 input operatorUpdateFilter {
@@ -5838,7 +5810,6 @@ input operatorUpdateFilter {
   or: [operatorUpdateFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
-  supportEmail: StringFieldComparison
 }
 
 """price"""

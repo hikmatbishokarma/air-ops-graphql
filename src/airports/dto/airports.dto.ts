@@ -41,13 +41,13 @@ export class AirportsDto extends BaseDTO {
   city: string;
   @FilterableField({ nullable: true })
   country: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   openHrs: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   closeHrs: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   contactNumber: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   email: string;
   @Field(() => [groundHandlersInfoDTO])
   groundHandlersInfo: groundHandlersInfoDTO;

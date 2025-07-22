@@ -8,12 +8,12 @@ export class AircraftDetailEntity extends BaseEntity {
   name: string;
   @Prop({ type: String, required: true })
   code: string;
-  @Prop({
-    ref: 'AircraftCategoriesEntity',
-    type: SchemaTypes.ObjectId,
-    required: true,
-  })
-  category: Types.ObjectId;
+  // @Prop({
+  //   ref: 'AircraftCategoriesEntity',
+  //   type: SchemaTypes.ObjectId,
+  //   required: true,
+  // })
+  // category: Types.ObjectId;
   @Prop()
   description: string;
 

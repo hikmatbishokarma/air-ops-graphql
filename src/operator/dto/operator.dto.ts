@@ -77,9 +77,6 @@ import { UserDTO } from 'src/users/dto/users.dto';
 // @Relation('createdByUser', () => UserDTO, { disableRemove: true })
 @InputType()
 export class OperatorDto extends BaseDTO {
-  // @Field(() => BasicInputDto)
-  // basic: BasicInputDto;
-  //basic info
   @FilterableField()
   name: string;
   @FilterableField()
@@ -94,47 +91,33 @@ export class OperatorDto extends BaseDTO {
   address: string;
   @Field()
   city: string;
-  @Field({ nullable: true })
+  @Field()
   state: string;
-  // @Field()
-  // country: string;
-  @Field({ nullable: true })
+
+  @Field()
   pinCode: string;
-  //company details
-  // @Field(() => CompanyDetailsInputDto)
-  // companyDetails: BasicInputDto;
+
   @FilterableField()
   companyName: string;
-  // @Field()
-  // companyAddress: string;
-  // @FilterableField()
-  // @IsEmail({}, { message: 'Email must be a valid email address' })
-  // @IsNotEmpty({ message: 'Email is required' })
-  // companyEmail: string;
-  // @FilterableField()
-  // @IsPhoneNumber(null, { message: 'Phone must be a valid phone number' })
-  // @IsNotEmpty({ message: 'Phone is required' })
-  // companyPhone: string;
-  // @Field({ nullable: false })
-  // branch: string;
-
-  //branding
-  // @Field(() => BrandingInputdto)
-  // branding: BrandingInputdto;
 
   @Field()
   companyLogo: string;
-  @FilterableField()
+
+  @Field({ nullable: true })
   supportEmail: string;
+
   @Field({ nullable: true })
   ticketFooterNote: string;
+
   @Field({ nullable: true })
   websiteUrl: string;
+
   @Field({ nullable: true })
   themeColor?: string;
 
   @FilterableField(() => SubscriptionPlan, { nullable: true })
   subscriptionPlan?: string;
+
   @FilterableField(() => BillingCycle, { nullable: true })
   billingCycle?: string;
 
