@@ -84,6 +84,8 @@ export class QuotesDto extends BaseDTO {
 @ObjectType()
 export class CalenderData {
   @Field()
+  id: string;
+  @Field()
   title: string;
   @Field()
   start: Date;
@@ -95,6 +97,12 @@ export class CalenderData {
   arrivalTime: string;
   @Field(() => GraphQLJSONObject)
   aircraft: Object;
+  @Field()
+  source: string;
+  @Field()
+  destination: string;
+  @Field()
+  duration: string;
 }
 
 @ObjectType()

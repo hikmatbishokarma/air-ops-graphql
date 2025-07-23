@@ -23,15 +23,15 @@ export class specificationsDTO {
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-@Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
+// @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 export class AircraftDetailDto extends BaseDTO {
   @FilterableField()
   name: string;
   @FilterableField()
   code: string;
-  @FilterableField()
-  category: string;
+  // @FilterableField()
+  // category: string;
   @Field()
   description: string;
   @Field(() => [GraphQLJSONObject])

@@ -12,6 +12,8 @@ import {
 import { RoleType, UserType } from 'src/app-constants/enums';
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -24,13 +26,14 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
   constructor(
     @InjectModel(CrewDetailEntity.name)
     private readonly model: Model<CrewDetailEntity>,
+    @Inject(forwardRef(() => OperatorService))
     private readonly operatorService: OperatorService,
     private readonly roleService: RolesService,
     private readonly mailerService: MailerService,
     private readonly config: ConfigService,
   ) {
     super(model);
-    this.url = config.get<string>('url');
+    this.url = this.config.get<string>('url');
   }
 
   async getRoleByType(roleType) {

@@ -5,13 +5,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { OperatorDto } from '../dto/operator.dto';
 import { UsersService } from 'src/users/services/users.service';
+import { CrewDetailService } from 'src/crew-details/services/crew-detail.service';
+import { CrewAuthService } from 'src/crew-details/services/crew-auth.service';
 
 @Injectable()
 export class OperatorService extends MongooseQueryService<OperatorEntity> {
   constructor(
     @InjectModel(OperatorEntity.name) model: Model<OperatorEntity>,
     // private readonly userService: UsersService,
-    @Inject(forwardRef(() => UsersService)) private userService: UsersService,
+    // @Inject(forwardRef(() => UsersService)) private userService: UsersService,
+    @Inject(forwardRef(() => CrewDetailService))
+    private crewDetailService: CrewDetailService,
+    @Inject(forwardRef(() => CrewAuthService))
+    private crewAuthService: CrewAuthService,
   ) {
     super(model);
   }
@@ -21,7 +27,7 @@ export class OperatorService extends MongooseQueryService<OperatorEntity> {
 
     //check the duplicate
 
-    const user = await this.userService.query({
+    const user = await this.crewDetailService.query({
       filter: {
         or: [{ email: { eq: input.email } }, { phone: { eq: input.phone } }],
       },
@@ -35,7 +41,7 @@ export class OperatorService extends MongooseQueryService<OperatorEntity> {
 
     if (!operator) throw new Error('Failed to create operator');
 
-    const createUser = await this.userService.createOperatorAsAdmin({
+    const createUser = await this.crewAuthService.createOperatorAsAdmin({
       ...operator?.toObject(),
       operatorId: operator.id,
       createdBy,
@@ -47,6 +53,6 @@ export class OperatorService extends MongooseQueryService<OperatorEntity> {
   }
 
   async getUserById(id: string) {
-    return await this.userService.findById(id);
+    return await this.crewDetailService.findById(id);
   }
 }

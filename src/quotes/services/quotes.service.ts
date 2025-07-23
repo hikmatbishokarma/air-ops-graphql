@@ -20,7 +20,7 @@ import { QuotePdfTemplate } from 'src/notification/templates/email.template';
 import { Counter } from '../entities/counter.entity';
 import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
-import { calculateDuration } from 'src/common/helper';
+import { calculateDuration, getDuration } from 'src/common/helper';
 import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confirmation';
 import moment from 'moment';
 import e from 'express';
@@ -177,6 +177,15 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       },
       { $unwind: { path: '$client', preserveNullAndEmptyArrays: true } },
       {
+        $lookup: {
+          from: 'operators',
+          localField: 'operatorId',
+          foreignField: '_id',
+          as: 'operator',
+        },
+      },
+      { $unwind: { path: '$operator', preserveNullAndEmptyArrays: true } },
+      {
         $project: {
           _id: 1,
           itinerary: 1,
@@ -184,10 +193,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           proformaInvoiceNo: 1,
           aircraftDetail: 1,
           'aircraftCategory.name': 1,
-          'client.name': 1,
-          'client.phone': 1,
-          'client.email': 1,
-          'client.address': 1,
+          client: 1,
+          operator: 1,
           status: 1,
           prices: 1,
           grandTotal: 1,
@@ -408,7 +415,10 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
         const dep = new Date(leg.depatureDate);
         if (dep >= startDate && dep <= endDate) {
           calenderData.push({
+            id: segment.id,
             title: `${leg.source} → ${leg.destination}`,
+            source: leg.source,
+            destination: leg.destination,
             // start: leg.depatureDate,
             start: new Date(
               `${moment(leg.depatureDate).format('YYYY-MM-DD')}T${leg.depatureTime}:00Z`,
@@ -419,6 +429,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
             depatureTime: leg.depatureTime,
             arrivalTime: leg.arrivalTime,
             aircraft: aircraftDetails,
+            duration: getDuration(leg.depatureTime, leg.arrivalTime),
           });
         }
       }

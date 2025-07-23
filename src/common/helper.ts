@@ -146,3 +146,14 @@ export const calculateDuration = (depatureTime, arrivalTime) => {
     return `${hours}hr ${minutes}min`;
   }
 };
+
+export const getDuration = (start: string, end: string) => {
+  const [startH, startM] = start.split(':').map(Number);
+  const [endH, endM] = end.split(':').map(Number);
+  let durationMins = endH * 60 + endM - (startH * 60 + startM);
+  if (durationMins < 0) durationMins += 1440;
+
+  const h = Math.floor(durationMins / 60);
+  const m = durationMins % 60;
+  return `${h}h ${m}m`;
+};
