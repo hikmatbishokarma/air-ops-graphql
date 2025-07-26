@@ -52,10 +52,12 @@ export class QuotesResolver {
   async flightSegmentsForCalendar(
     @Args('startDate') startDate: Date,
     @Args('endDate') endDate: Date,
+    @Args('operatorId', { nullable: true }) operatorId: string,
   ) {
     return await this.quotesService.flightSegmentsForCalendar({
       startDate,
       endDate,
+      operatorId,
     });
   }
 }

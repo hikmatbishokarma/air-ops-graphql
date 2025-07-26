@@ -3299,7 +3299,7 @@ type Query {
     """Specify to sort results."""
     sorting: [crewDetailSort!]! = []
   ): CrewDetailConnection!
-  flightSegmentsForCalendar(endDate: DateTime!, startDate: DateTime!): [CalenderData!]!
+  flightSegmentsForCalendar(endDate: DateTime!, operatorId: String, startDate: DateTime!): [CalenderData!]!
   getSalesDashboardData(endDate: String, operatorId: String, range: DateRange! = today, startDate: String): JSONObject!
   invoice(
     """The id of the record to find."""

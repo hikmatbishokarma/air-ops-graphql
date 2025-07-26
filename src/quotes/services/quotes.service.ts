@@ -376,7 +376,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async flightSegmentsForCalendar(args) {
-    const { id, startDate, endDate } = args;
+    const { id, startDate, endDate, operatorId } = args;
 
     // const segments: any = await this.Model.find({
     //   // itinerary: {
@@ -404,6 +404,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           },
         },
       },
+      ...(operatorId && { operatorId }),
     }).select({ itinerary: 1, aircraft: 1 });
 
     const aircraftIds = segments.map((item) => item.aircraft);

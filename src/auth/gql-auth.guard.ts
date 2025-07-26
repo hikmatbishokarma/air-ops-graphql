@@ -22,11 +22,10 @@ export class GqlAuthGuard implements CanActivate {
     }
 
     try {
-      console.log('payload:::');
       const payload = await this.jwtService.verifyAsync(token, {
         secret: '1234', // replace with config if needed
       });
-      console.log('payload:::', payload);
+
       req.user = payload; // attaches user to req
     } catch (err) {
       throw new UnauthorizedException('Invalid token');
