@@ -4,6 +4,7 @@ import {
   QueryOptions,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { AccessRequestStatus } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
 @ObjectType('AccessRequest', { description: 'AccessRequest' })
@@ -21,8 +22,11 @@ export class AccessRequestDto extends BaseDTO {
   @FilterableField()
   requestedBy: string;
 
-  @FilterableField()
-  status: string;
+  @FilterableField(() => AccessRequestStatus, {
+    defaultValue: AccessRequestStatus.PENDING,
+    nullable: true,
+  })
+  status: AccessRequestStatus;
 
   @FilterableField()
   reviewedBy?: string;

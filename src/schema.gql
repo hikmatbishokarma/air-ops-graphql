@@ -7,6 +7,197 @@ type AccessPermissionInput {
   resource: String!
 }
 
+"""AccessRequest"""
+type AccessRequest {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  docId: String!
+  docType: String!
+  id: ID!
+  isActive: Boolean!
+  reason: String
+  requestedBy: String!
+  reviewedAt: DateTime!
+  reviewedBy: String!
+  status: AccessRequestStatus
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type AccessRequestAggregateGroupBy {
+  createdAt: DateTime
+  docId: String
+  docType: String
+  isActive: Boolean
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus
+}
+
+type AccessRequestConnection {
+  """Array of nodes."""
+  nodes: [AccessRequest!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type AccessRequestCountAggregate {
+  createdAt: Int
+  docId: Int
+  docType: Int
+  isActive: Int
+  requestedBy: Int
+  reviewedAt: Int
+  reviewedBy: Int
+  status: Int
+}
+
+input AccessRequestDeleteFilter {
+  and: [AccessRequestDeleteFilter!]
+  createdAt: DateFieldComparison
+  docId: StringFieldComparison
+  docType: StringFieldComparison
+  isActive: BooleanFieldComparison
+  or: [AccessRequestDeleteFilter!]
+  requestedBy: StringFieldComparison
+  reviewedAt: DateFieldComparison
+  reviewedBy: StringFieldComparison
+  status: AccessRequestStatusFilterComparison
+}
+
+type AccessRequestDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  docId: String
+  docType: String
+  id: ID
+  isActive: Boolean
+  reason: String
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input AccessRequestFilter {
+  and: [AccessRequestFilter!]
+  createdAt: DateFieldComparison
+  docId: StringFieldComparison
+  docType: StringFieldComparison
+  isActive: BooleanFieldComparison
+  or: [AccessRequestFilter!]
+  requestedBy: StringFieldComparison
+  reviewedAt: DateFieldComparison
+  reviewedBy: StringFieldComparison
+  status: AccessRequestStatusFilterComparison
+}
+
+type AccessRequestMaxAggregate {
+  createdAt: DateTime
+  docId: String
+  docType: String
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus
+}
+
+type AccessRequestMinAggregate {
+  createdAt: DateTime
+  docId: String
+  docType: String
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus
+}
+
+input AccessRequestSort {
+  direction: SortDirection!
+  field: AccessRequestSortFields!
+  nulls: SortNulls
+}
+
+enum AccessRequestSortFields {
+  createdAt
+  docId
+  docType
+  isActive
+  requestedBy
+  reviewedAt
+  reviewedBy
+  status
+}
+
+enum AccessRequestStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
+}
+
+input AccessRequestStatusFilterComparison {
+  eq: AccessRequestStatus
+  gt: AccessRequestStatus
+  gte: AccessRequestStatus
+  iLike: AccessRequestStatus
+  in: [AccessRequestStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: AccessRequestStatus
+  lt: AccessRequestStatus
+  lte: AccessRequestStatus
+  neq: AccessRequestStatus
+  notILike: AccessRequestStatus
+  notIn: [AccessRequestStatus!]
+  notLike: AccessRequestStatus
+}
+
+input AccessRequestUpdateFilter {
+  and: [AccessRequestUpdateFilter!]
+  createdAt: DateFieldComparison
+  docId: StringFieldComparison
+  docType: StringFieldComparison
+  isActive: BooleanFieldComparison
+  or: [AccessRequestUpdateFilter!]
+  requestedBy: StringFieldComparison
+  reviewedAt: DateFieldComparison
+  reviewedBy: StringFieldComparison
+  status: AccessRequestStatusFilterComparison
+}
+
 input AddRolesToCrewDetailInput {
   """The id of the record."""
   id: ID!
@@ -345,8 +536,8 @@ type Airport {
   icao_code: String!
   id: ID!
   isActive: Boolean!
-  latitude: Float!
-  longitude: Float!
+  latitude: Float
+  longitude: Float
   name: String!
   openHrs: String
 
@@ -783,6 +974,38 @@ type ClientDeleteResponse {
   updatedBy: String
 }
 
+"""Cursor for paging through collections"""
+scalar ConnectionCursor
+
+input CreateAccessRequest {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  docId: String
+  docType: String
+  id: ID
+  isActive: Boolean = true
+  reason: String
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus = PENDING
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
 input CreateAircraftCategory {
   """The date when the record was created"""
   createdAt: DateTime
@@ -1111,6 +1334,11 @@ input CreateManual {
   updatedBy: String
 }
 
+input CreateManyAccessRequestsInput {
+  """Array of records to create"""
+  accessRequests: [CreateAccessRequest!]!
+}
+
 input CreateManyAircraftCategoriesInput {
   """Array of records to create"""
   aircraftCategories: [CreateAircraftCategory!]!
@@ -1161,6 +1389,11 @@ input CreateManyManualsInput {
   manuals: [CreateManual!]!
 }
 
+input CreateManyNotificationsInput {
+  """Array of records to create"""
+  notifications: [CreateNotification!]!
+}
+
 input CreateManyOperatorsInput {
   """Array of records to create"""
   operators: [CreateOperator!]!
@@ -1204,6 +1437,42 @@ input CreateManySecuritiesInput {
 input CreateManyUsersInput {
   """Array of records to create"""
   users: [CreateUser!]!
+}
+
+input CreateNotification {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  isReadBy: [String!]
+  message: String
+  metadata: JSONObject
+  recipientIds: [String!]
+  recipientRoles: [String!]
+  refId: String
+  refType: String
+  title: String
+  type: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateOneAccessRequestInput {
+  """The record to create"""
+  accessRequest: CreateAccessRequest!
 }
 
 input CreateOneAircraftCategoryInput {
@@ -1254,6 +1523,11 @@ input CreateOneLibraryInput {
 input CreateOneManualInput {
   """The record to create"""
   manual: CreateManual!
+}
+
+input CreateOneNotificationInput {
+  """The record to create"""
+  notification: CreateNotification!
 }
 
 input CreateOneOperatorInput {
@@ -1701,6 +1975,20 @@ input CrewInput {
   roles: [String!]!
 }
 
+input CursorPaging {
+  """Paginate after opaque cursor"""
+  after: ConnectionCursor
+
+  """Paginate before opaque cursor"""
+  before: ConnectionCursor
+
+  """Paginate first"""
+  first: Int
+
+  """Paginate last"""
+  last: Int
+}
+
 input DateFieldComparison {
   between: DateFieldComparisonBetween
   eq: DateTime
@@ -1733,6 +2021,11 @@ enum DateRange {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input DeleteManyAccessRequestsInput {
+  """Filter to find records to delete"""
+  filter: AccessRequestDeleteFilter!
+}
 
 input DeleteManyAircraftCategoriesInput {
   """Filter to find records to delete"""
@@ -1782,6 +2075,11 @@ input DeleteManyLibrariesInput {
 input DeleteManyManualsInput {
   """Filter to find records to delete"""
   filter: manualDeleteFilter!
+}
+
+input DeleteManyNotificationsInput {
+  """Filter to find records to delete"""
+  filter: notificationDeleteFilter!
 }
 
 input DeleteManyOperatorsInput {
@@ -1834,6 +2132,11 @@ input DeleteManyUsersInput {
   filter: UserDeleteFilter!
 }
 
+input DeleteOneAccessRequestInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneAircraftCategoryInput {
   """The id of the record to delete."""
   id: ID!
@@ -1880,6 +2183,11 @@ input DeleteOneLibraryInput {
 }
 
 input DeleteOneManualInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneNotificationInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -2486,10 +2794,16 @@ type ManualDeleteResponse {
   updatedBy: String
 }
 
+input MarkAsReadInput {
+  notificationIds: [String!]!
+  userId: String!
+}
+
 type Mutation {
   addRolesToCrewDetail(input: AddRolesToCrewDetailInput!): crewDetail!
   addRolesToUser(input: AddRolesToUserInput!): User!
   createCrew(input: CreateCrewInput!): crewDetail!
+  createManyAccessRequests(input: CreateManyAccessRequestsInput!): [AccessRequest!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAircraftDetails(input: CreateManyAircraftDetailsInput!): [AircraftDetail!]!
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
@@ -2500,6 +2814,7 @@ type Mutation {
   createManyLeaves(input: CreateManyLeavesInput!): [Leave!]!
   createManyLibraries(input: CreateManyLibrariesInput!): [library!]!
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
+  createManyNotifications(input: CreateManyNotificationsInput!): [notification!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
@@ -2509,6 +2824,7 @@ type Mutation {
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManySecurities(input: CreateManySecuritiesInput!): [security!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
+  createOneAccessRequest(input: CreateOneAccessRequestInput!): AccessRequest!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAircraftDetail(input: CreateOneAircraftDetailInput!): AircraftDetail!
   createOneAirport(input: CreateOneAirportInput!): Airport!
@@ -2519,6 +2835,7 @@ type Mutation {
   createOneLeave(input: CreateOneLeaveInput!): Leave!
   createOneLibrary(input: CreateOneLibraryInput!): library!
   createOneManual(input: CreateOneManualInput!): manual!
+  createOneNotification(input: CreateOneNotificationInput!): notification!
   createOneOperator(input: CreateOneOperatorInput!): operator!
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
@@ -2529,6 +2846,7 @@ type Mutation {
   createOneSecurity(input: CreateOneSecurityInput!): security!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
+  deleteManyAccessRequests(input: DeleteManyAccessRequestsInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAircraftDetails(input: DeleteManyAircraftDetailsInput!): DeleteManyResponse!
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
@@ -2539,6 +2857,7 @@ type Mutation {
   deleteManyLeaves(input: DeleteManyLeavesInput!): DeleteManyResponse!
   deleteManyLibraries(input: DeleteManyLibrariesInput!): DeleteManyResponse!
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
+  deleteManyNotifications(input: DeleteManyNotificationsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
@@ -2548,6 +2867,7 @@ type Mutation {
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManySecurities(input: DeleteManySecuritiesInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
+  deleteOneAccessRequest(input: DeleteOneAccessRequestInput!): AccessRequestDeleteResponse!
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
   deleteOneAircraftDetail(input: DeleteOneAircraftDetailInput!): AircraftDetailDeleteResponse!
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
@@ -2558,6 +2878,7 @@ type Mutation {
   deleteOneLeave(input: DeleteOneLeaveInput!): LeaveDeleteResponse!
   deleteOneLibrary(input: DeleteOneLibraryInput!): LibraryDeleteResponse!
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
+  deleteOneNotification(input: DeleteOneNotificationInput!): NotificationDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
@@ -2569,6 +2890,8 @@ type Mutation {
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
+  markNotificationsAsRead(input: MarkAsReadInput!): Boolean!
+  requestManualAccess(docId: String!): AccessRequest!
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
   saleConfirmation(args: SaleConfirmationInput!): Quote!
   sendAcknowledgement(input: acknowledgementInput!): String!
@@ -2595,7 +2918,9 @@ type Mutation {
   setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   signUp(input: SignUpInput!): User!
+  updateAccessRequestStatus(notificationId: String!, status: AccessRequestStatus!): AccessRequest!
   updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
+  updateManyAccessRequests(input: UpdateManyAccessRequestsInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
   updateManyAircraftDetails(input: UpdateManyAircraftDetailsInput!): UpdateManyResponse!
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
@@ -2606,6 +2931,7 @@ type Mutation {
   updateManyLeaves(input: UpdateManyLeavesInput!): UpdateManyResponse!
   updateManyLibraries(input: UpdateManyLibrariesInput!): UpdateManyResponse!
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
+  updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
@@ -2615,6 +2941,7 @@ type Mutation {
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManySecurities(input: UpdateManySecuritiesInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
+  updateOneAccessRequest(input: UpdateOneAccessRequestInput!): AccessRequest!
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
   updateOneAircraftDetail(input: UpdateOneAircraftDetailInput!): AircraftDetail!
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
@@ -2625,6 +2952,7 @@ type Mutation {
   updateOneLeave(input: UpdateOneLeaveInput!): Leave!
   updateOneLibrary(input: UpdateOneLibraryInput!): library!
   updateOneManual(input: UpdateOneManualInput!): manual!
+  updateOneNotification(input: UpdateOneNotificationInput!): notification!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
   updateOnePrice(input: UpdateOnePriceInput!): price!
 
@@ -2660,6 +2988,45 @@ input NomineeInput {
   insurance: String
   mobileNumber: String
   relation: String
+}
+
+type NotificationConnection {
+  """Array of edges."""
+  edges: [notificationEdge!]!
+
+  """Paging information"""
+  pageInfo: PageInfo!
+}
+
+type NotificationDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  isReadBy: [String!]
+  message: String
+  metadata: JSONObject
+  recipientIds: [String!]
+  recipientRoles: [String!]
+  refId: String
+  refType: String
+  title: String
+  type: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 type OffsetPageInfo {
@@ -2747,6 +3114,20 @@ input OperatorDto {
   websiteUrl: String
 }
 
+type PageInfo {
+  """The cursor of the last returned record."""
+  endCursor: ConnectionCursor
+
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+
+  """The cursor of the first returned record."""
+  startCursor: ConnectionCursor
+}
+
 enum PaymentStatus {
   PAID
   PARTIAL
@@ -2820,6 +3201,20 @@ type PriceInputDto {
 
 type Query {
   RequestedQuoteList: [Quote!]!
+  accessRequest(
+    """The id of the record to find."""
+    id: ID!
+  ): AccessRequest
+  accessRequests(
+    """Specify to filter the records returned."""
+    filter: AccessRequestFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [AccessRequestSort!]! = []
+  ): AccessRequestConnection!
   aircraftCategories(
     """Specify to filter the records returned."""
     filter: AircraftCategoryFilter! = {}
@@ -2962,6 +3357,20 @@ type Query {
     """Specify to sort results."""
     sorting: [manualSort!]! = []
   ): ManualConnection!
+  notification(
+    """The id of the record to find."""
+    id: ID!
+  ): notification
+  notifications(
+    """Specify to filter the records returned."""
+    filter: notificationFilter! = {}
+
+    """Limit or page results."""
+    paging: CursorPaging! = {first: 10}
+
+    """Specify to sort results."""
+    sorting: [notificationSort!]! = []
+  ): NotificationConnection!
   operator(
     """The id of the record to find."""
     id: ID!
@@ -3077,6 +3486,7 @@ type Query {
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   staffCertificates(args: StaffCertificationInput): CertificationResponse!
+  systemNotifications(where: SystemNotificationWhereInput): [notification!]!
   user(
     """The id of the record to find."""
     id: ID!
@@ -3595,7 +4005,7 @@ enum RoleType {
   ADMIN
   AUDIT
   ENGINEERING
-  OPERATOR
+  OPS
   SALES
   SUPER_ADMIN
 }
@@ -3907,6 +4317,12 @@ input SubscriptionPlanFilterComparison {
   notLike: SubscriptionPlan
 }
 
+input SystemNotificationWhereInput {
+  refId: String
+  refType: String
+  type: String
+}
+
 input TypeFilterComparison {
   eq: type
   gt: type
@@ -3922,6 +4338,35 @@ input TypeFilterComparison {
   notILike: type
   notIn: [type!]
   notLike: type
+}
+
+input UpdateAccessRequest {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  docId: String
+  docType: String
+  id: ID
+  isActive: Boolean = true
+  reason: String
+  requestedBy: String
+  reviewedAt: DateTime
+  reviewedBy: String
+  status: AccessRequestStatus = PENDING
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateAircraftCategory {
@@ -4257,6 +4702,14 @@ input UpdateManual {
   updatedBy: String
 }
 
+input UpdateManyAccessRequestsInput {
+  """Filter used to find fields to update"""
+  filter: AccessRequestUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateAccessRequest!
+}
+
 input UpdateManyAircraftCategoriesInput {
   """Filter used to find fields to update"""
   filter: AircraftCategoryUpdateFilter!
@@ -4337,6 +4790,14 @@ input UpdateManyManualsInput {
   update: UpdateManual!
 }
 
+input UpdateManyNotificationsInput {
+  """Filter used to find fields to update"""
+  filter: notificationUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateNotification!
+}
+
 input UpdateManyOperatorsInput {
   """Filter used to find fields to update"""
   filter: operatorUpdateFilter!
@@ -4412,6 +4873,45 @@ input UpdateManyUsersInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateUser!
+}
+
+input UpdateNotification {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  isReadBy: [String!]
+  message: String
+  metadata: JSONObject
+  recipientIds: [String!]
+  recipientRoles: [String!]
+  refId: String
+  refType: String
+  title: String
+  type: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateOneAccessRequestInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateAccessRequest!
 }
 
 input UpdateOneAircraftCategoryInput {
@@ -4492,6 +4992,14 @@ input UpdateOneManualInput {
 
   """The update to apply."""
   update: UpdateManual!
+}
+
+input UpdateOneNotificationInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateNotification!
 }
 
 input UpdateOneOperatorInput {
@@ -5672,6 +6180,95 @@ input nomineeInput {
   insurance: String
   mobileNumber: String
   relation: String
+}
+
+type notification {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The email of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The email of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  isReadBy: [String!]
+  message: String!
+  metadata: JSONObject
+  recipientIds: [String!]
+  recipientRoles: [String!]
+  refId: String!
+  refType: String!
+  title: String
+  type: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The email of the user who last updated the record"""
+  updatedBy: String
+}
+
+type notificationAggregateGroupBy {
+  createdAt: DateTime
+  isActive: Boolean
+}
+
+type notificationCountAggregate {
+  createdAt: Int
+  isActive: Int
+}
+
+input notificationDeleteFilter {
+  and: [notificationDeleteFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [notificationDeleteFilter!]
+}
+
+type notificationEdge {
+  """Cursor for this node."""
+  cursor: ConnectionCursor!
+
+  """The node containing the notification"""
+  node: notification!
+}
+
+input notificationFilter {
+  and: [notificationFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [notificationFilter!]
+}
+
+type notificationMaxAggregate {
+  createdAt: DateTime
+}
+
+type notificationMinAggregate {
+  createdAt: DateTime
+}
+
+input notificationSort {
+  direction: SortDirection!
+  field: notificationSortFields!
+  nulls: SortNulls
+}
+
+enum notificationSortFields {
+  createdAt
+  isActive
+}
+
+input notificationUpdateFilter {
+  and: [notificationUpdateFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [notificationUpdateFilter!]
 }
 
 """Operator"""

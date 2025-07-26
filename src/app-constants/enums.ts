@@ -6,7 +6,7 @@ export enum RoleType {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
   SALES = 'SALES',
-  OPERATOR = 'OPERATOR',
+  OPS = 'OPS',
   ENGINEERING = 'ENGINEERING',
   AUDIT = 'AUDIT',
   ACCOUNTING = 'ACCOUNTING',
@@ -218,4 +218,14 @@ export enum LeaveStatus {
 
 registerEnumType(LeaveStatus, {
   name: 'LeaveStatus',
+});
+
+export enum AccessRequestStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  DECLINED = 'DECLINED',
+}
+
+registerEnumType(AccessRequestStatus, {
+  name: 'AccessRequestStatus',
 });

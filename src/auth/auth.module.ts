@@ -12,7 +12,7 @@ import { CrewDetailModule } from 'src/crew-details/crew-detail.module';
     JwtModule.register({
       global: true,
       secret: '1234', //TODO: Do not expose this key publicly.
-      signOptions: { expiresIn: '3600s' },
+      signOptions: { expiresIn: '2 days' },
     }),
   ],
   providers: [AuthService, AuthResolver],

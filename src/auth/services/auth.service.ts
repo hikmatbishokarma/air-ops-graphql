@@ -102,6 +102,8 @@ export class AuthService {
       sub: id,
       email,
       roles,
+      name: rest?.displayName || rest?.fullName || '',
+      profile: rest.profile || '',
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

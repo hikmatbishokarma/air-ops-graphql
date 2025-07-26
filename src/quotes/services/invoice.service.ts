@@ -30,6 +30,10 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     const quote = await this.quoteService.getQuoteById(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
+    const logoUrl = quote?.operator
+      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
+      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+
     if (type === InvoiceType.PROFORMA_INVOICE) {
       const invoice = await this.query({
         filter: { quotationNo: { eq: quotationNo } },
@@ -46,9 +50,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         ...quote,
         invoiceNo,
         type: InvoiceType.PROFORMA_INVOICE,
-        logoUrl: quote?.operator
-          ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-          : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`,
+        logoUrl,
       });
       if (!htmlContent) throw new BadRequestException('No Content Found');
 
@@ -113,6 +115,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         ...quote,
         invoiceNo,
         type: InvoiceType.TAX_INVOICE,
+        logoUrl,
       });
       if (!htmlContent)
         throw new BadRequestException('Failed to generate invoice');

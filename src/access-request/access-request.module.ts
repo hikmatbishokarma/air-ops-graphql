@@ -8,10 +8,13 @@ import {
 import { AccessRequestDto } from './dto/access-request.dto';
 import { AccessRequestService } from './services/access-request.service';
 import { NotificationModule } from 'src/notification/notification.module';
+import { AccessRequestResolver } from './resolvers/access-request.resolver';
+import { ManualModule } from 'src/manual/manual.module';
 
 @Module({
   imports: [
     NotificationModule,
+    ManualModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([
@@ -30,7 +33,7 @@ import { NotificationModule } from 'src/notification/notification.module';
       ],
     }),
   ],
-  providers: [AccessRequestService],
+  providers: [AccessRequestService, AccessRequestResolver],
   exports: [AccessRequestService],
 })
 export class AccessRequestModule {}

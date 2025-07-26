@@ -12,6 +12,8 @@ export const SaleConfirmationTemplate = (quote) => {
     createdAt,
     totalPrice,
     gstAmount,
+    logoUrl,
+    operator,
   } = quote;
 
   return `
@@ -31,10 +33,61 @@ export const SaleConfirmationTemplate = (quote) => {
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 6px 8px; border: 1px solid #ccc; }
     .flex-row { display: flex; justify-content: space-between; }
+    .header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.header > div,
+.header > img {
+  width: 48%;
+}
+.header-left,
+.header-right {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.details {
+  margin-top: 8px;
+}
+#invoiceLogo {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
+
+  <!-- Header Section -->
+<div class="header">
+  <div class="header-left">
+    <img src="${quote.logoUrl}" alt="Company Logo" id="invoiceLogo" />
+    <div>
+      <strong>From:</strong><br/>
+      ${quote.operator?.companyName || 'Airops'}<br/>
+      ${quote.operator?.address || 'Hyderabad, Telangana'}
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="details">
+      <strong>Quote Number:</strong> ${quote.revisedQuotationNo || quote.quotationNo}<br>
+      <strong>Date:</strong> ${moment(quote.createdAt).format('DD-MM-YYYY')}
+    </div>
+    <div class="details">
+      <strong>Client Details:</strong><br>
+      Name: ${quote.client?.name || 'N/A'}<br>
+      Contact: ${quote.client?.phone || 'N/A'}<br>
+      Email: ${quote.client?.email || 'N/A'}
+    </div>
+  </div>
+</div>
+
 
     <!-- Booking Details -->
     <div class="section-title">✈️ Booking Details</div>

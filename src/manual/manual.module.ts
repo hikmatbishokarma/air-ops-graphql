@@ -31,5 +31,6 @@ import { ManualResolver } from './resolvers/manual.resolver';
     }),
   ],
   providers: [ManualService, ManualResolver],
+  exports: [ManualService],
 })
 export class ManualModule {}

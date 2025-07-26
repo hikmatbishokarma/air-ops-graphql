@@ -24,6 +24,7 @@ import { calculateDuration, getDuration } from 'src/common/helper';
 import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confirmation';
 import moment from 'moment';
 import e from 'express';
+import { ConfigService } from '@nestjs/config';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -32,6 +33,7 @@ const quotationWorkflowTransition = {
 
 @Injectable()
 export class QuotesService extends MongooseQueryService<QuotesEntity> {
+  private baseUrl: string;
   constructor(
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
@@ -39,8 +41,10 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
     @InjectModel(QuotationTemplateEntity.name)
     private quotationTemplate: Model<QuotationTemplateEntity>,
+    private readonly config: ConfigService,
   ) {
     super(model);
+    this.baseUrl = this.config.get<string>('site_url');
   }
 
   async RequestedQuoteList() {
@@ -255,9 +259,14 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       return quotationTemp.template;
     } else {
       const quote = await this.getQuoteById(quotationNo);
+
+      const logoUrl = quote?.operator
+        ? `${this.baseUrl}${quote?.operator?.companyLogo}`
+        : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+
       if (!quote) throw new BadRequestException('No Quote Found');
 
-      const htmlContent = QuotePdfTemplate(quote);
+      const htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
       return htmlContent;
     }
   }
@@ -351,7 +360,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const quote = await this.getQuoteById(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    const htmlContent = SaleConfirmationTemplate(quote);
+    const logoUrl = quote?.operator
+      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
+      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+
+    const htmlContent = SaleConfirmationTemplate({ ...quote, logoUrl });
     if (!htmlContent) throw new BadRequestException('No Content Found');
 
     const updateQuote = await this.updateOne(quote._id.toString(), {

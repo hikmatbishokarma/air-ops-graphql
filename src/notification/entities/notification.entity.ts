@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { SchemaTypes, Types } from 'mongoose';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'notifications' })
@@ -20,7 +20,7 @@ export class NotificationEntity extends BaseEntity {
   recipientIds?: Types.ObjectId[];
   @Prop()
   isReadBy: Types.ObjectId[];
-  @Prop()
+  @Prop({ type: Object })
   metadata?: object;
 }
 

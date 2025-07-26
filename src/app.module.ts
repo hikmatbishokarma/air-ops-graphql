@@ -30,6 +30,7 @@ import { LeaveModule } from './leaves/leave.module';
 import { SecurityModule } from './seccurity/security.module';
 import { LibraryModule } from './library/library.module';
 import { join } from 'path';
+import { AccessRequestModule } from './access-request/access-request.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { join } from 'path';
     LeaveModule,
     SecurityModule,
     LibraryModule,
+    AccessRequestModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),

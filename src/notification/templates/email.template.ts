@@ -12,6 +12,8 @@ export const QuotePdfTemplate = (quote) => {
     createdAt,
     totalPrice,
     gstAmount,
+    logoUrl,
+    operator,
   } = quote;
 
   return `
@@ -24,7 +26,24 @@ export const QuotePdfTemplate = (quote) => {
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .container { width: 100%; max-width: 800px; margin: auto; border: 1px solid #ddd; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.header > div,
+.header > img {
+  width: 48%;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
         .details { font-size: 14px; }
         .greeting { margin-bottom: 20px; font-size: 14px; }
         .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -102,6 +121,13 @@ export const QuotePdfTemplate = (quote) => {
   margin-top:20px;
   margin-bottom:20px;
   }
+   #invoiceLogo { /* Use an ID for specific styling without a class */
+      
+      left: 20px; /* Adjust this value for desired left margin */
+      top: 10px; /* Adjust this value for desired top margin */
+      max-width: 150px; /* Adjust this value to control logo size, e.g., 100px, 180px */
+      height: auto; 
+    }
     </style>
 </head>
 <body>
@@ -109,17 +135,28 @@ export const QuotePdfTemplate = (quote) => {
     <div class="container">
         <!-- Header Section -->
         <div class="header">
-            <div class="details">
-                <strong>Client Details:</strong><br>
-                Name: ${client.name}<br>
-                Contact:  ${client.phone}<br>
-                Email:  ${client.email}
-            </div>
-            <div class="details">
-                <strong>Quote Number:</strong>${revisedQuotationNo || quotationNo}<br>
-                <strong>Date:</strong> ${moment(createdAt).format('DD-MM-YYYY')}
-            </div>
-        </div>
+  <div class="header-left">
+    <img src="${logoUrl}" alt="Company Logo" id="invoiceLogo" />
+    <div>
+      <strong>From:</strong><br/>
+      ${operator?.companyName || ''} Airops<br/>
+      ${operator?.address || ''} Hyderabad, Telengana
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="details">
+      <strong>Quote Number:</strong> ${revisedQuotationNo || quotationNo}<br>
+      <strong>Date:</strong> ${moment(createdAt).format('DD-MM-YYYY')}
+    </div>
+    <div class="details">
+      <strong>Client Details:</strong><br>
+      Name: ${client.name}<br>
+      Contact: ${client.phone}<br>
+      Email: ${client.email}
+    </div>
+  </div>
+</div>
 
          <!-- Greeting Message -->
         <div class="greeting">

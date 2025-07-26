@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { AccessRequestStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ timestamps: true, collection: 'access-requests' })
@@ -13,7 +14,11 @@ export class AccessRequestEntity extends BaseEntity {
   @Prop({ required: true })
   requestedBy: Types.ObjectId;
 
-  @Prop({ default: 'PENDING', enum: ['PENDING', 'APPROVED', 'DECLINED'] })
+  @Prop({
+    type: String,
+    enum: AccessRequestStatus,
+    default: AccessRequestStatus.PENDING,
+  })
   status: string;
 
   @Prop()

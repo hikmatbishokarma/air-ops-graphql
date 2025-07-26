@@ -33,9 +33,9 @@ export class AirportsDto extends BaseDTO {
   iata_code: string;
   @FilterableField()
   icao_code: string;
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   latitude: number;
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   longitude: number;
   @FilterableField()
   city: string;
