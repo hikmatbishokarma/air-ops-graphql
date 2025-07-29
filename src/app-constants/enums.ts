@@ -229,3 +229,14 @@ export enum AccessRequestStatus {
 registerEnumType(AccessRequestStatus, {
   name: 'AccessRequestStatus',
 });
+
+export enum AirportType {
+  CIVIL = 'Civil Airport',
+  HELIPORT = 'Heliport',
+  AIR_STRIP = 'Air Strip',
+  DEFENCE = 'Defence Airport',
+}
+
+registerEnumType(AirportType, {
+  name: 'AirportType',
+});

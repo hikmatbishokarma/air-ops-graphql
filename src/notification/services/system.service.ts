@@ -50,7 +50,6 @@ export class SystemNotificationService extends MongooseQueryService<Notification
     console.log('where:::', where);
     const result = await this.query({});
 
-    console.log('result:::', result);
     return result;
   }
 

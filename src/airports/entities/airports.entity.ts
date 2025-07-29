@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { AirportType } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ _id: false, timestamps: false })
@@ -9,6 +10,20 @@ export class groundHandlersInfoEntity {
   companyName: string;
   @Prop({ unique: true })
   contactNumber: string;
+  @Prop()
+  alternateContactNumber: string;
+  @Prop({ unique: true })
+  email: string;
+}
+
+@Schema({ _id: false, timestamps: false })
+export class fuelSupplierEntity {
+  @Prop()
+  companyName: string;
+  @Prop({ unique: true })
+  contactNumber: string;
+  @Prop()
+  alternateContactNumber: string;
   @Prop({ unique: true })
   email: string;
 }
@@ -39,6 +54,12 @@ export class AirportsEntity extends BaseEntity {
   email: string;
   @Prop({ type: [groundHandlersInfoEntity] })
   groundHandlersInfo: groundHandlersInfoEntity[];
+
+  @Prop({ type: [fuelSupplierEntity] })
+  fuelSuppliers: fuelSupplierEntity[];
+
+  @Prop({ type: String, enum: AirportType, default: AirportType.CIVIL })
+  type: AirportType;
 }
 
 export const AirportsSchema = SchemaFactory.createForClass(AirportsEntity);

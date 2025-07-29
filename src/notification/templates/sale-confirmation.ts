@@ -117,8 +117,8 @@ export const SaleConfirmationTemplate = (quote) => {
           <td><strong>Aircraft:</strong> ${aircraftDetail?.name}</td>
         </tr>
         <tr>
-          <td><strong>Departure Airport:</strong><br>${item?.source?.name}<br>${item.depatureTime}</td>
-          <td><strong>Arrival Airport:</strong><br>${item?.destination?.name}<br>${item.arrivalTime}</td>
+          <td><strong>Departure Airport:</strong><br>${item?.source?.name},${item?.source?.city}<br>${item.depatureTime}</td>
+          <td><strong>Arrival Airport:</strong><br>${item?.destination?.name},${item?.destination?.city}<br>${item.arrivalTime}</td>
         </tr>
       </table>
 

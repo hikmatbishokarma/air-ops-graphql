@@ -6,6 +6,7 @@ import {
 } from '@app/query-graphql';
 import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
+import { AirportType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
 @ObjectType()
@@ -17,6 +18,21 @@ export class groundHandlersInfoDTO {
   companyName: string;
   @Field()
   contactNumber: string;
+  @Field({ nullable: true })
+  alternateContactNumber: string;
+  @Field()
+  email: string;
+}
+
+@ObjectType()
+@InputType('fuelSupplier')
+export class fuelSupplierDTO {
+  @Field()
+  companyName: string;
+  @Field()
+  contactNumber: string;
+  @Field({ nullable: true })
+  alternateContactNumber: string;
   @Field()
   email: string;
 }
@@ -51,4 +67,8 @@ export class AirportsDto extends BaseDTO {
   email: string;
   @Field(() => [groundHandlersInfoDTO])
   groundHandlersInfo: groundHandlersInfoDTO;
+  @Field(() => [fuelSupplierDTO])
+  fuelSuppliers: fuelSupplierDTO;
+  @FilterableField(() => AirportType, { defaultValue: AirportType.CIVIL })
+  type: AirportType;
 }
