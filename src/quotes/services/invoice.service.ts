@@ -41,7 +41,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
 
       if (invoice.length)
         throw new Error(
-          `Performance is already generated Quote:${quotationNo}`,
+          `Proforma Invoice is already generated Quote:${quotationNo}`,
         );
 
       const invoiceNo = await this.generateProformaInvoiceNumber();
