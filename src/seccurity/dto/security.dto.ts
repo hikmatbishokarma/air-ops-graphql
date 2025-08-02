@@ -5,6 +5,7 @@ import {
   Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { SecurityDocType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
 
@@ -15,6 +16,8 @@ import { OperatorDto } from 'src/operator/dto/operator.dto';
 })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 export class SecurityDto extends BaseDTO {
+  @FilterableField(() => SecurityDocType, { nullable: true })
+  type: SecurityDocType;
   @FilterableField()
   name: string;
   @FilterableField()

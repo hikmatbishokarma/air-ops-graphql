@@ -240,3 +240,22 @@ export enum AirportType {
 registerEnumType(AirportType, {
   name: 'AirportType',
 });
+
+export enum SecurityDocType {
+  APPROVALS = 'Approvals',
+  ORGANIZATION = 'Organization',
+  MEETINGS = 'Meetings',
+  AUDIT = 'Audit',
+  FILE_RECORDS = 'File Records',
+  LIBRARY = 'Library',
+  STAFF = 'Staff',
+  SECURITY_TRAINING = 'Security Training',
+  REGISTERS = 'Registers',
+  AIRCRAFT_DOCUMENTS = 'Aircraft Documents',
+  MANUALS = 'Manuals',
+  AGREEMENTS = 'Agreements',
+}
+
+registerEnumType(SecurityDocType, {
+  name: 'SecurityDocType',
+});

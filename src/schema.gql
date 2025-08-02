@@ -1837,6 +1837,7 @@ input CreateSecurity {
   isActive: Boolean = true
   name: String
   operatorId: String
+  type: SecurityDocType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -4106,12 +4107,45 @@ type SecurityDeleteResponse {
   isActive: Boolean
   name: String
   operatorId: String
+  type: SecurityDocType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The email of the user who last updated the record"""
   updatedBy: String
+}
+
+enum SecurityDocType {
+  AGREEMENTS
+  AIRCRAFT_DOCUMENTS
+  APPROVALS
+  AUDIT
+  FILE_RECORDS
+  LIBRARY
+  MANUALS
+  MEETINGS
+  ORGANIZATION
+  REGISTERS
+  SECURITY_TRAINING
+  STAFF
+}
+
+input SecurityDocTypeFilterComparison {
+  eq: SecurityDocType
+  gt: SecurityDocType
+  gte: SecurityDocType
+  iLike: SecurityDocType
+  in: [SecurityDocType!]
+  is: Boolean
+  isNot: Boolean
+  like: SecurityDocType
+  lt: SecurityDocType
+  lte: SecurityDocType
+  neq: SecurityDocType
+  notILike: SecurityDocType
+  notIn: [SecurityDocType!]
+  notLike: SecurityDocType
 }
 
 input SetAircraftOnPriceInput {
@@ -5359,6 +5393,7 @@ input UpdateSecurity {
   isActive: Boolean = true
   name: String
   operatorId: String
+  type: SecurityDocType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6890,6 +6925,7 @@ type security {
   name: String!
   operator: operator!
   operatorId: String
+  type: SecurityDocType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6904,6 +6940,7 @@ type securityAggregateGroupBy {
   isActive: Boolean
   name: String
   operatorId: String
+  type: SecurityDocType
 }
 
 type securityCountAggregate {
@@ -6912,6 +6949,7 @@ type securityCountAggregate {
   isActive: Int
   name: Int
   operatorId: Int
+  type: Int
 }
 
 input securityDeleteFilter {
@@ -6922,6 +6960,7 @@ input securityDeleteFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [securityDeleteFilter!]
+  type: SecurityDocTypeFilterComparison
 }
 
 input securityFilter {
@@ -6932,6 +6971,7 @@ input securityFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [securityFilter!]
+  type: SecurityDocTypeFilterComparison
 }
 
 type securityMaxAggregate {
@@ -6939,6 +6979,7 @@ type securityMaxAggregate {
   department: String
   name: String
   operatorId: String
+  type: SecurityDocType
 }
 
 type securityMinAggregate {
@@ -6946,6 +6987,7 @@ type securityMinAggregate {
   department: String
   name: String
   operatorId: String
+  type: SecurityDocType
 }
 
 input securitySort {
@@ -6960,6 +7002,7 @@ enum securitySortFields {
   isActive
   name
   operatorId
+  type
 }
 
 input securityUpdateFilter {
@@ -6970,6 +7013,7 @@ input securityUpdateFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [securityUpdateFilter!]
+  type: SecurityDocTypeFilterComparison
 }
 
 enum type {
