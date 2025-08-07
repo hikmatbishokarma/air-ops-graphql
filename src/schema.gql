@@ -1332,7 +1332,7 @@ input CreateLibrary {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType = OTHERS
   id: ID
   isActive: Boolean = true
   name: String
@@ -1832,7 +1832,7 @@ input CreateSecurity {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType = OTHERS
   id: ID
   isActive: Boolean = true
   name: String
@@ -2274,6 +2274,37 @@ input DeleteOneSecurityInput {
 input DeleteOneUserInput {
   """The id of the record to delete."""
   id: ID!
+}
+
+enum DepartmentType {
+  ACCOUNTS
+  ADMIN
+  AUDIT
+  CAMO
+  ENGINEERING
+  HR
+  OPS
+  OTHERS
+  SALES
+  SECURITY
+  TRAINING
+}
+
+input DepartmentTypeFilterComparison {
+  eq: DepartmentType
+  gt: DepartmentType
+  gte: DepartmentType
+  iLike: DepartmentType
+  in: [DepartmentType!]
+  is: Boolean
+  isNot: Boolean
+  like: DepartmentType
+  lt: DepartmentType
+  lte: DepartmentType
+  neq: DepartmentType
+  notILike: DepartmentType
+  notIn: [DepartmentType!]
+  notLike: DepartmentType
 }
 
 type ForgotPasswordDto {
@@ -2770,7 +2801,7 @@ type LibraryDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType
   id: ID
   isActive: Boolean
   name: String
@@ -4102,7 +4133,7 @@ type SecurityDeleteResponse {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType
   id: ID
   isActive: Boolean
   name: String
@@ -4736,7 +4767,7 @@ input UpdateLibrary {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType = OTHERS
   id: ID
   isActive: Boolean = true
   name: String
@@ -5388,7 +5419,7 @@ input UpdateSecurity {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String
+  department: DepartmentType = OTHERS
   id: ID
   isActive: Boolean = true
   name: String
@@ -6066,7 +6097,7 @@ type library {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String!
+  department: DepartmentType!
   id: ID!
   isActive: Boolean!
   name: String!
@@ -6082,7 +6113,7 @@ type library {
 
 type libraryAggregateGroupBy {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   isActive: Boolean
   name: String
   operatorId: String
@@ -6099,7 +6130,7 @@ type libraryCountAggregate {
 input libraryDeleteFilter {
   and: [libraryDeleteFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
@@ -6109,7 +6140,7 @@ input libraryDeleteFilter {
 input libraryFilter {
   and: [libraryFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
@@ -6118,14 +6149,14 @@ input libraryFilter {
 
 type libraryMaxAggregate {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   name: String
   operatorId: String
 }
 
 type libraryMinAggregate {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   name: String
   operatorId: String
 }
@@ -6147,7 +6178,7 @@ enum librarySortFields {
 input libraryUpdateFilter {
   and: [libraryUpdateFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
@@ -6919,7 +6950,7 @@ type security {
 
   """The email of the user who deleted the record"""
   deletedBy: String
-  department: String!
+  department: DepartmentType!
   id: ID!
   isActive: Boolean!
   name: String!
@@ -6936,7 +6967,7 @@ type security {
 
 type securityAggregateGroupBy {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   isActive: Boolean
   name: String
   operatorId: String
@@ -6955,7 +6986,7 @@ type securityCountAggregate {
 input securityDeleteFilter {
   and: [securityDeleteFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
@@ -6966,7 +6997,7 @@ input securityDeleteFilter {
 input securityFilter {
   and: [securityFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
@@ -6976,7 +7007,7 @@ input securityFilter {
 
 type securityMaxAggregate {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   name: String
   operatorId: String
   type: SecurityDocType
@@ -6984,7 +7015,7 @@ type securityMaxAggregate {
 
 type securityMinAggregate {
   createdAt: DateTime
-  department: String
+  department: DepartmentType
   name: String
   operatorId: String
   type: SecurityDocType
@@ -7008,7 +7039,7 @@ enum securitySortFields {
 input securityUpdateFilter {
   and: [securityUpdateFilter!]
   createdAt: DateFieldComparison
-  department: StringFieldComparison
+  department: DepartmentTypeFilterComparison
   isActive: BooleanFieldComparison
   name: StringFieldComparison
   operatorId: StringFieldComparison
