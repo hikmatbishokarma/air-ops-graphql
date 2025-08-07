@@ -259,3 +259,23 @@ export enum SecurityDocType {
 registerEnumType(SecurityDocType, {
   name: 'SecurityDocType',
 });
+
+// src/common/enums/document-type.enum.ts
+
+export enum DepartmentType {
+  SALES = 'SALES',
+  OPS = 'OPS',
+  CAMO = 'CAMO',
+  ENGINEERING = 'ENGINEERING',
+  SECURITY = 'SECURITY',
+  ACCOUNTS = 'ACCOUNTS',
+  HR = 'HR',
+  ADMIN = 'ADMIN',
+  AUDIT = 'AUDIT',
+  TRAINING = 'TRAINING',
+  OTHERS = 'OTHERS',
+}
+
+registerEnumType(DepartmentType, {
+  name: 'DepartmentType',
+});

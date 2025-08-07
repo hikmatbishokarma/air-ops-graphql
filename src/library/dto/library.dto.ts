@@ -5,6 +5,7 @@ import {
   Relation,
 } from '@app/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { DepartmentType } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
 
@@ -17,8 +18,10 @@ import { OperatorDto } from 'src/operator/dto/operator.dto';
 export class LibraryDto extends BaseDTO {
   @FilterableField()
   name: string;
-  @FilterableField()
-  department: string;
+  @FilterableField(() => DepartmentType, {
+    defaultValue: DepartmentType.OTHERS,
+  })
+  department: DepartmentType;
   @Field()
   attachment: string;
   @FilterableField({ nullable: true })
