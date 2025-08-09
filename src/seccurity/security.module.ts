@@ -7,6 +7,8 @@ import { SecurityDto } from './dto/security.dto';
 import { SecurityService } from './services/security.service';
 import { SecurityResolver } from './resolvers/security.resolver';
 import { SecurityEntity, SecuritySchema } from './entities/security.entity';
+import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { GqlRolesGuard } from 'src/roles/gql-roles.guard';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { SecurityEntity, SecuritySchema } from './entities/security.entity';
         {
           DTOClass: SecurityDto,
           EntityClass: SecurityEntity,
+          guards: [GqlAuthGuard, GqlRolesGuard], // <- Add your guards here
         },
       ],
     }),

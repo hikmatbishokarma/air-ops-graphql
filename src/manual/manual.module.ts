@@ -6,6 +6,8 @@ import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { ManualDto } from './dto/manual.dto';
 import { ManualService } from './services/manual.service';
 import { ManualResolver } from './resolvers/manual.resolver';
+import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { GqlRolesGuard } from 'src/roles/gql-roles.guard';
 
 @Module({
   imports: [
@@ -26,6 +28,7 @@ import { ManualResolver } from './resolvers/manual.resolver';
         {
           DTOClass: ManualDto,
           EntityClass: ManualEntity,
+          guards: [GqlAuthGuard, GqlRolesGuard], // <- Add your guards here
         },
       ],
     }),

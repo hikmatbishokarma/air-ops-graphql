@@ -9,7 +9,7 @@ export abstract class BaseEntity extends Document {
   createdAt?: string;
 
   @Prop({
-    ref: 'UserEntity',
+    ref: 'CrewDetailEntity',
     type: SchemaTypes.ObjectId,
     required: false,
   })
@@ -19,7 +19,7 @@ export abstract class BaseEntity extends Document {
   updatedAt?: Date;
 
   @Prop({
-    ref: 'UserEntity',
+    ref: 'CrewDetailEntity',
     type: SchemaTypes.ObjectId,
     required: false,
   })

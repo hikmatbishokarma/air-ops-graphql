@@ -8,6 +8,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty, IsPhoneNumber } from 'class-validator';
 import { BillingCycle, SubscriptionPlan } from 'src/app-constants/enums';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { CrewDetailDto } from 'src/crew-details/dto/crew-detail.dto';
 import { UserDTO } from 'src/users/dto/users.dto';
 
 // @ObjectType()
@@ -121,6 +122,6 @@ export class OperatorDto extends BaseDTO {
   @FilterableField(() => BillingCycle, { nullable: true })
   billingCycle?: string;
 
-  @Field(() => UserDTO, { nullable: true })
-  createdByUser?: UserDTO; // ✅ Add this for relation
+  @Field(() => CrewDetailDto, { nullable: true })
+  createdByUser?: CrewDetailDto; // ✅ Add this for relation
 }

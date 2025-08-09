@@ -12,13 +12,13 @@ type AccessRequest {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   docId: String!
   docType: String!
@@ -33,7 +33,7 @@ type AccessRequest {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -87,13 +87,13 @@ type AccessRequestDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   docId: String
   docType: String
@@ -108,7 +108,7 @@ type AccessRequestDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -219,13 +219,13 @@ type AircraftCategory {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String!
   id: ID!
@@ -237,7 +237,7 @@ type AircraftCategory {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -282,13 +282,13 @@ type AircraftCategoryDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -299,7 +299,7 @@ type AircraftCategoryDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -358,13 +358,13 @@ type AircraftDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String!
   flightImages: [String!]
@@ -384,7 +384,7 @@ type AircraftDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
   warningText: String
@@ -433,13 +433,13 @@ type AircraftDetailDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   flightImages: [String!]
@@ -458,7 +458,7 @@ type AircraftDetailDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
   warningText: String
@@ -522,13 +522,13 @@ type Airport {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   fuelSuppliers: [fuelSupplierDTO!]!
@@ -546,7 +546,7 @@ type Airport {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -617,13 +617,13 @@ type AirportDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   fuelSuppliers: [fuelSupplierDTO!]
@@ -641,7 +641,7 @@ type AirportDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -844,13 +844,13 @@ type City {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID!
   isActive: Boolean!
@@ -860,7 +860,7 @@ type City {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -902,13 +902,13 @@ type CityDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean
@@ -918,7 +918,7 @@ type CityDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -983,13 +983,13 @@ type ClientDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   gstNo: String
@@ -1006,7 +1006,7 @@ type ClientDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1017,13 +1017,13 @@ input CreateAccessRequest {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   docId: String
   docType: String
@@ -1038,7 +1038,7 @@ input CreateAccessRequest {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1046,13 +1046,13 @@ input CreateAircraftCategory {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -1063,7 +1063,7 @@ input CreateAircraftCategory {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1073,13 +1073,13 @@ input CreateAircraftDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   flightImages: [String!]
@@ -1098,7 +1098,7 @@ input CreateAircraftDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
   warningText: String
@@ -1113,13 +1113,13 @@ input CreateAirport {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   fuelSuppliers: [fuelSupplier!]
@@ -1137,7 +1137,7 @@ input CreateAirport {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1145,13 +1145,13 @@ input CreateCity {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -1161,7 +1161,7 @@ input CreateCity {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1172,13 +1172,13 @@ input CreateClient {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   gstNo: String
@@ -1195,7 +1195,7 @@ input CreateClient {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1209,7 +1209,7 @@ input CreateCrewDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: CrewDetailDto
   currentAddress: String
@@ -1218,7 +1218,7 @@ input CreateCrewDetail {
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
   displayName: String
@@ -1245,7 +1245,7 @@ input CreateCrewDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1257,13 +1257,13 @@ input CreateInvoice {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -1282,7 +1282,7 @@ input CreateInvoice {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1292,14 +1292,14 @@ input CreateLeave {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   crew: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   fromDate: DateTime
   id: ID
@@ -1314,7 +1314,7 @@ input CreateLeave {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1324,13 +1324,13 @@ input CreateLibrary {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType = OTHERS
   id: ID
@@ -1341,7 +1341,7 @@ input CreateLibrary {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1351,13 +1351,13 @@ input CreateManual {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: String
   id: ID
@@ -1368,7 +1368,7 @@ input CreateManual {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1481,13 +1481,13 @@ input CreateNotification {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -1504,7 +1504,7 @@ input CreateNotification {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1618,14 +1618,14 @@ input CreateOperator {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
-  createdByUser: UserDTO
+  createdByUser: CrewDetailDto
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -1642,7 +1642,7 @@ input CreateOperator {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
 }
@@ -1653,13 +1653,13 @@ input CreatePrice {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float = 0
   id: ID
@@ -1669,7 +1669,7 @@ input CreatePrice {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1682,13 +1682,13 @@ input CreateQuote {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float = 0
   id: ID
@@ -1707,7 +1707,7 @@ input CreateQuote {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   version: Int = 1
 }
@@ -1719,13 +1719,13 @@ input CreateRepresentative {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -1736,7 +1736,7 @@ input CreateRepresentative {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1744,13 +1744,13 @@ input CreateResource {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   icon: String
   id: ID
@@ -1762,7 +1762,7 @@ input CreateResource {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1772,13 +1772,13 @@ input CreateRole {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -1790,7 +1790,7 @@ input CreateRole {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1798,13 +1798,13 @@ input CreateRolePermission {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -1814,7 +1814,7 @@ input CreateRolePermission {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1824,13 +1824,13 @@ input CreateSecurity {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType = OTHERS
   id: ID
@@ -1842,7 +1842,7 @@ input CreateSecurity {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1853,14 +1853,14 @@ input CreateUser {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   dob: String
   email: String
@@ -1879,7 +1879,7 @@ input CreateUser {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -1908,7 +1908,7 @@ type CrewDetailDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
   currentAddress: String
@@ -1917,7 +1917,7 @@ type CrewDetailDeleteResponse {
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
   displayName: String
@@ -1944,7 +1944,7 @@ type CrewDetailDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2331,13 +2331,13 @@ type Invoice {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID!
   isActive: Boolean!
@@ -2356,7 +2356,7 @@ type Invoice {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2419,13 +2419,13 @@ type InvoiceDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean
@@ -2444,7 +2444,7 @@ type InvoiceDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2558,14 +2558,14 @@ type Leave {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   crew: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   fromDate: DateTime!
   id: ID!
@@ -2581,7 +2581,7 @@ type Leave {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2637,14 +2637,14 @@ type LeaveDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   crew: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   fromDate: DateTime
   id: ID
@@ -2659,7 +2659,7 @@ type LeaveDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2793,13 +2793,13 @@ type LibraryDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType
   id: ID
@@ -2810,7 +2810,7 @@ type LibraryDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2843,13 +2843,13 @@ type ManualDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: String
   id: ID
@@ -2860,7 +2860,7 @@ type ManualDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -2969,6 +2969,9 @@ type Mutation {
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
+  setCreatedByOnLibrary(input: SetCreatedByOnLibraryInput!): library!
+  setCreatedByOnManual(input: SetCreatedByOnManualInput!): manual!
+  setCreatedByOnSecurity(input: SetCreatedByOnSecurityInput!): security!
   setCrewOnLeave(input: SetCrewOnLeaveInput!): Leave!
   setOperatorOnAircraftCategory(input: SetOperatorOnAircraftCategoryInput!): AircraftCategory!
   setOperatorOnAircraftDetail(input: SetOperatorOnAircraftDetailInput!): AircraftDetail!
@@ -2987,6 +2990,9 @@ type Mutation {
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
+  setUpdatedByOnLibrary(input: SetUpdatedByOnLibraryInput!): library!
+  setUpdatedByOnManual(input: SetUpdatedByOnManualInput!): manual!
+  setUpdatedByOnSecurity(input: SetUpdatedByOnSecurityInput!): security!
   signUp(input: SignUpInput!): User!
   updateAccessRequestStatus(notificationId: String!, status: AccessRequestStatus!): AccessRequest!
   updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
@@ -3072,13 +3078,13 @@ type NotificationDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean
@@ -3095,7 +3101,7 @@ type NotificationDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -3136,14 +3142,14 @@ type OperatorDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
-  createdByUser: User
+  createdByUser: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -3160,7 +3166,7 @@ type OperatorDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
 }
@@ -3171,7 +3177,7 @@ input OperatorDto {
   city: String!
   companyLogo: String!
   companyName: String!
-  createdByUser: UserDTO
+  createdByUser: CrewDetailDto
   email: String!
   name: String!
   phone: String!
@@ -3238,13 +3244,13 @@ type PriceDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float
   id: ID
@@ -3254,7 +3260,7 @@ type PriceDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -3583,13 +3589,13 @@ type Quote {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float!
   id: ID!
@@ -3609,7 +3615,7 @@ type Quote {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   version: Int!
 }
@@ -3681,13 +3687,13 @@ type QuoteDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float
   id: ID
@@ -3706,7 +3712,7 @@ type QuoteDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   version: Int
 }
@@ -3836,13 +3842,13 @@ type RepresentativeDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -3853,7 +3859,7 @@ type RepresentativeDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -3891,13 +3897,13 @@ type ResourceDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   icon: String
   id: ID
@@ -3909,7 +3915,7 @@ type ResourceDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -3930,13 +3936,13 @@ type RoleDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -3948,7 +3954,7 @@ type RoleDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -3957,13 +3963,13 @@ type RolePermission {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID!
   isActive: Boolean!
@@ -3973,7 +3979,7 @@ type RolePermission {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4012,13 +4018,13 @@ type RolePermissionDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean
@@ -4028,7 +4034,7 @@ type RolePermissionDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4125,13 +4131,13 @@ type SecurityDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType
   id: ID
@@ -4143,7 +4149,7 @@ type SecurityDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4196,6 +4202,30 @@ input SetAircraftOnQuoteInput {
 }
 
 input SetClientOnRepresentativeInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetCreatedByOnLibraryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetCreatedByOnManualInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetCreatedByOnSecurityInput {
   """The id of the record."""
   id: ID!
 
@@ -4347,6 +4377,30 @@ input SetRolesOnUserInput {
   relationIds: [ID!]!
 }
 
+input SetUpdatedByOnLibraryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetUpdatedByOnManualInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetUpdatedByOnSecurityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SignInInput {
   password: String!
   userName: String!
@@ -4447,13 +4501,13 @@ input UpdateAccessRequest {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   docId: String
   docType: String
@@ -4468,7 +4522,7 @@ input UpdateAccessRequest {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4476,13 +4530,13 @@ input UpdateAircraftCategory {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -4493,7 +4547,7 @@ input UpdateAircraftCategory {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4503,13 +4557,13 @@ input UpdateAircraftDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   flightImages: [String!]
@@ -4528,7 +4582,7 @@ input UpdateAircraftDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
   warningText: String
@@ -4543,13 +4597,13 @@ input UpdateAirport {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   fuelSuppliers: [fuelSupplier!]
@@ -4567,7 +4621,7 @@ input UpdateAirport {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4575,13 +4629,13 @@ input UpdateCity {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -4591,7 +4645,7 @@ input UpdateCity {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4602,13 +4656,13 @@ input UpdateClient {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   gstNo: String
@@ -4625,7 +4679,7 @@ input UpdateClient {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4639,7 +4693,7 @@ input UpdateCrewDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: CrewDetailDto
   currentAddress: String
@@ -4648,7 +4702,7 @@ input UpdateCrewDetail {
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
   displayName: String
@@ -4675,7 +4729,7 @@ input UpdateCrewDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4683,13 +4737,13 @@ input UpdateInvoice {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -4708,7 +4762,7 @@ input UpdateInvoice {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4718,14 +4772,14 @@ input UpdateLeave {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   crew: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   fromDate: DateTime
   id: ID
@@ -4740,7 +4794,7 @@ input UpdateLeave {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4759,13 +4813,13 @@ input UpdateLibrary {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType = OTHERS
   id: ID
@@ -4776,7 +4830,7 @@ input UpdateLibrary {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4786,13 +4840,13 @@ input UpdateManual {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: String
   id: ID
@@ -4803,7 +4857,7 @@ input UpdateManual {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -4984,13 +5038,13 @@ input UpdateNotification {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -5007,7 +5061,7 @@ input UpdateNotification {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5189,14 +5243,14 @@ input UpdateOperator {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
-  createdByUser: UserDTO
+  createdByUser: CrewDetailDto
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -5213,7 +5267,7 @@ input UpdateOperator {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
 }
@@ -5224,13 +5278,13 @@ input UpdatePrice {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float = 0
   id: ID
@@ -5240,7 +5294,7 @@ input UpdatePrice {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5253,13 +5307,13 @@ input UpdateQuote {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float = 0
   id: ID
@@ -5278,7 +5332,7 @@ input UpdateQuote {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   version: Int = 1
 }
@@ -5306,13 +5360,13 @@ input UpdateRepresentative {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String
   id: ID
@@ -5323,7 +5377,7 @@ input UpdateRepresentative {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5331,13 +5385,13 @@ input UpdateResource {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   icon: String
   id: ID
@@ -5349,7 +5403,7 @@ input UpdateResource {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5359,13 +5413,13 @@ input UpdateRole {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID
@@ -5377,7 +5431,7 @@ input UpdateRole {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5385,13 +5439,13 @@ input UpdateRolePermission {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID
   isActive: Boolean = true
@@ -5401,7 +5455,7 @@ input UpdateRolePermission {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5411,13 +5465,13 @@ input UpdateSecurity {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType = OTHERS
   id: ID
@@ -5429,7 +5483,7 @@ input UpdateSecurity {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5440,14 +5494,14 @@ input UpdateUser {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: UserDTO
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   dob: String
   email: String
@@ -5466,7 +5520,7 @@ input UpdateUser {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5478,14 +5532,14 @@ type User {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   dob: String
   email: String!
@@ -5511,7 +5565,7 @@ type User {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5585,14 +5639,14 @@ type UserDeleteResponse {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: User
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   dob: String
   email: String
@@ -5611,7 +5665,7 @@ type UserDeleteResponse {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5638,7 +5692,7 @@ type UserInput {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
   currentAddress: String
@@ -5647,7 +5701,7 @@ type UserInput {
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
   displayName: String!
@@ -5676,7 +5730,7 @@ type UserInput {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5774,13 +5828,13 @@ type client {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String!
   gstNo: String
@@ -5798,7 +5852,7 @@ type client {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -5923,7 +5977,7 @@ type crewDetail {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
   currentAddress: String
@@ -5932,7 +5986,7 @@ type crewDetail {
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
   displayName: String!
@@ -5966,7 +6020,7 @@ type crewDetail {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6088,14 +6142,12 @@ type library {
 
   """The date when the record was created"""
   createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
+  createdBy: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType!
   id: ID!
@@ -6106,9 +6158,7 @@ type library {
 
   """The date when the record was last updated"""
   updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
+  updatedBy: crewDetail
 }
 
 type libraryAggregateGroupBy {
@@ -6196,14 +6246,12 @@ type manual {
 
   """The date when the record was created"""
   createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
+  createdBy: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: String!
   id: ID!
@@ -6214,9 +6262,7 @@ type manual {
 
   """The date when the record was last updated"""
   updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
+  updatedBy: crewDetail
 }
 
 type manualAggregateGroupBy {
@@ -6308,13 +6354,13 @@ type notification {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   id: ID!
   isActive: Boolean!
@@ -6331,7 +6377,7 @@ type notification {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6404,14 +6450,14 @@ type operator {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String!
   id: ID!
@@ -6428,7 +6474,7 @@ type operator {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
 }
@@ -6538,13 +6584,13 @@ type price {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   grandTotal: Float!
   id: ID!
@@ -6554,7 +6600,7 @@ type price {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6635,13 +6681,13 @@ type representative {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   email: String!
   id: ID!
@@ -6652,7 +6698,7 @@ type representative {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6751,13 +6797,13 @@ type resource {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   icon: String!
   id: ID!
@@ -6769,7 +6815,7 @@ type resource {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6838,13 +6884,13 @@ type role {
   """The date when the record was created"""
   createdAt: DateTime
 
-  """The email of the user who created the record"""
+  """The id of the user who created the record"""
   createdBy: String
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   description: String
   id: ID!
@@ -6857,7 +6903,7 @@ type role {
   """The date when the record was last updated"""
   updatedAt: DateTime
 
-  """The email of the user who last updated the record"""
+  """The id of the user who last updated the record"""
   updatedBy: String
 }
 
@@ -6941,14 +6987,12 @@ type security {
 
   """The date when the record was created"""
   createdAt: DateTime
-
-  """The email of the user who created the record"""
-  createdBy: String
+  createdBy: crewDetail
 
   """The date when the record was deleted"""
   deletedAt: DateTime
 
-  """The email of the user who deleted the record"""
+  """The id of the user who deleted the record"""
   deletedBy: String
   department: DepartmentType!
   id: ID!
@@ -6960,9 +7004,7 @@ type security {
 
   """The date when the record was last updated"""
   updatedAt: DateTime
-
-  """The email of the user who last updated the record"""
-  updatedBy: String
+  updatedBy: crewDetail
 }
 
 type securityAggregateGroupBy {
