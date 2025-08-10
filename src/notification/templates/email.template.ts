@@ -227,31 +227,11 @@ export const QuotePdfTemplate = (quote) => {
               
                </div>
 
-<!----banner-two---start--->
-
-<div class="row-side-images">
-  <div class="column-img">
-    <img src="https://www.fort.aero/wp-content/uploads/2023/08/Hawker-800XP-1-800x533.jpg" alt="Snow" style="width:100%">
-  </div>
-  <div class="column-img">
-    <img src="https://www.fort.aero/wp-content/uploads/2023/08/Hawker-800XP-1-800x533.jpg" style="width:100%">
-  </div>
-
-</div>
 
 
-<!----banner-three---start--->
 
-<div class="row-side-images">
-  <div class="column-img">
-  <h3 class="range-text">Range Map</h3>
-    <img src="https://airops.in/${aircraftDetail.rangeMapImage}" alt="Snow" style="width:100%">
-  </div>
-  <div class="column-img">
-<p>The Hawker Beechcraft 750 is a light-to-midisze jet. the Hawker 750 is powered by two honeywell engines. 
-you will able to cash in Hawkers reliability and perfomance permise. while travelling styling in 750 options business jet.</p>
-</div>
-</div>
+
+
 
 
 <!----banner-four---start--->
@@ -295,9 +275,6 @@ you will able to cash in Hawkers reliability and perfomance permise. while trave
                <img src="https://airops.in/${aircraftDetail.warningImage}">
                </div>
 
-               <div class="substances-t1">
-               <img src="https://d3tfanr7troppj.cloudfront.net/static_files/images/000/006/230/original/Caution-1.webp?1729752459">
-               </div>
                </div>
   
 
