@@ -176,6 +176,8 @@ export class CrewDetailEntity extends BaseEntity {
 
   // @Prop({ type: String, enum: UserType, default: UserType.PLATFORM_USER })
   // type: UserType;
+  @Prop()
+  crewId: string;
 }
 
 export const CrewDetailSchema = SchemaFactory.createForClass(CrewDetailEntity);

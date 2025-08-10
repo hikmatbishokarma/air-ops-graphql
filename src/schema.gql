@@ -1212,6 +1212,7 @@ input CreateCrewDetail {
   """The id of the user who created the record"""
   createdBy: String
   createdByUser: CrewDetailDto
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
 
@@ -1911,6 +1912,7 @@ type CrewDetailDeleteResponse {
   """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
 
@@ -1955,10 +1957,11 @@ input CrewDetailDto {
   bloodGroup: String
   certifications: [certificationInput!]!
   createdByUser: CrewDetailDto
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
   designation: String
-  displayName: String!
+  displayName: String
   education: String
   email: String
   experience: String
@@ -4696,6 +4699,7 @@ input UpdateCrewDetail {
   """The id of the user who created the record"""
   createdBy: String
   createdByUser: CrewDetailDto
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
 
@@ -5695,6 +5699,7 @@ type UserInput {
   """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
 
@@ -5704,7 +5709,7 @@ type UserInput {
   """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
-  displayName: String!
+  displayName: String
   education: String
   email: String
   experience: String
@@ -5980,6 +5985,7 @@ type crewDetail {
   """The id of the user who created the record"""
   createdBy: String
   createdByUser: crewDetail
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
 
@@ -5989,7 +5995,7 @@ type crewDetail {
   """The id of the user who deleted the record"""
   deletedBy: String
   designation: String
-  displayName: String!
+  displayName: String
   education: String
   email: String
   experience: String
@@ -6026,6 +6032,7 @@ type crewDetail {
 
 type crewDetailAggregateGroupBy {
   createdAt: DateTime
+  crewId: String
   displayName: String
   fullName: String
   isActive: Boolean
@@ -6035,6 +6042,7 @@ type crewDetailAggregateGroupBy {
 
 type crewDetailCountAggregate {
   createdAt: Int
+  crewId: Int
   displayName: Int
   fullName: Int
   isActive: Int
@@ -6045,6 +6053,7 @@ type crewDetailCountAggregate {
 input crewDetailDeleteFilter {
   and: [crewDetailDeleteFilter!]
   createdAt: DateFieldComparison
+  crewId: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -6056,6 +6065,7 @@ input crewDetailDeleteFilter {
 input crewDetailFilter {
   and: [crewDetailFilter!]
   createdAt: DateFieldComparison
+  crewId: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -6066,6 +6076,7 @@ input crewDetailFilter {
 
 type crewDetailMaxAggregate {
   createdAt: DateTime
+  crewId: String
   displayName: String
   fullName: String
   operatorId: String
@@ -6074,6 +6085,7 @@ type crewDetailMaxAggregate {
 
 type crewDetailMinAggregate {
   createdAt: DateTime
+  crewId: String
   displayName: String
   fullName: String
   operatorId: String
@@ -6088,6 +6100,7 @@ input crewDetailSort {
 
 enum crewDetailSortFields {
   createdAt
+  crewId
   displayName
   fullName
   isActive
@@ -6098,6 +6111,7 @@ enum crewDetailSortFields {
 input crewDetailUpdateFilter {
   and: [crewDetailUpdateFilter!]
   createdAt: DateFieldComparison
+  crewId: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   isActive: BooleanFieldComparison
@@ -7103,10 +7117,11 @@ input userInput {
   bloodGroup: String
   certifications: [certificationInput!]!
   createdByUser: CrewDetailDto
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
   designation: String
-  displayName: String!
+  displayName: String
   education: String
   email: String
   experience: String

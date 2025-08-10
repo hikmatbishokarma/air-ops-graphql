@@ -75,7 +75,7 @@ export class CrewDetailDto extends BaseDTO {
   @FilterableField()
   fullName: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   displayName: string;
 
   @Field(() => Gender)
@@ -143,6 +143,9 @@ export class CrewDetailDto extends BaseDTO {
 
   @Field(() => CrewDetailDto, { nullable: true })
   createdByUser?: CrewDetailDto; // ✅ Add this for relation
+
+  @FilterableField({ nullable: true })
+  crewId: string;
 }
 
 @ObjectType()

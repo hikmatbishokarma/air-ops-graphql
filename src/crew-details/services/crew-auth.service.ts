@@ -47,6 +47,7 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
     let [user] = await this.query({
       filter: {
         or: [{ email: { eq: userName } }, { phone: { eq: userName } }],
+        isActive: { is: true },
       },
     });
 
