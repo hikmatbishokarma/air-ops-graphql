@@ -49,11 +49,17 @@ export const InvoiceTemplate = (quote) => {
   
   <table>
     <tr>
-      <td><strong>From:</strong><br/>${operator?.companyName || ''}Airops<br/>${operator?.address || ''}Hyderabad, Telengana</td>
+      <td><strong>From:</strong><br/>${operator?.companyName || ''}Airops<br/>${operator?.address || ''}Hyderabad, Telangana</td>
       <td><strong>Invoice No:</strong> ${invoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
     </tr>
     <tr>
-      <td><strong>To:</strong><br/>Name:${client.name}<br/>Address:${client.address}<br/>GST:${client.gstNo}<br/>PAN:${client.panNo}</td>
+      <td>
+    <strong>To:</strong><br/>
+    Name:${client.name}<br/>
+    Address:${client.address}<br/>
+    ${client.gstNo ? `GST:${client.gstNo}<br/>` : ''}
+    ${client.panNo ? `PAN:${client.panNo}` : ''}
+  </td>
       <td><strong>Reference No:</strong>${quotationNo}</td>
     </tr>
   </table>

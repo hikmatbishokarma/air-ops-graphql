@@ -3,7 +3,7 @@ import moment from 'moment';
 export const QuotePdfTemplate = (quote) => {
   const {
     itinerary,
-    price,
+    prices,
     grandTotal,
     aircraftDetail,
     client,
@@ -15,6 +15,17 @@ export const QuotePdfTemplate = (quote) => {
     logoUrl,
     operator,
   } = quote;
+
+  const priceRows = prices
+    .map(
+      (item) => `
+    <tr>
+        <td>${item.label}</td>
+        <td>${item.total}</td>
+    </tr>
+`,
+    )
+    .join('');
 
   return `
     <!DOCTYPE html>
@@ -140,7 +151,7 @@ export const QuotePdfTemplate = (quote) => {
     <div>
       <strong>From:</strong><br/>
       ${operator?.companyName || ''} Airops<br/>
-      ${operator?.address || ''} Hyderabad, Telengana
+      ${operator?.address || ''} Hyderabad, Telangana
     </div>
   </div>
 
@@ -153,7 +164,10 @@ export const QuotePdfTemplate = (quote) => {
       <strong>Client Details:</strong><br>
       Name: ${client.name}<br>
       Contact: ${client.phone}<br>
-      Email: ${client.email}
+      Email: ${client.email}<br>
+      Address:${client.address}<br>
+      ${client.gstNo ? `GST:${client.gstNo}<br>` : ''}
+      ${client.panNo ? `PAN:${client.panNo}` : ''}
     </div>
   </div>
 </div>
@@ -199,6 +213,7 @@ export const QuotePdfTemplate = (quote) => {
                 </tr>
             </thead>
             <tbody>
+               ${priceRows}
                 <tr>
                     <td>Subtotal</td>
                     <td>${grandTotal}</td>
@@ -212,6 +227,7 @@ export const QuotePdfTemplate = (quote) => {
                     <td><strong>${totalPrice}</strong></td>
                 </tr>
             </tbody>
+            
         </table>
 
 <!---note--para--->
