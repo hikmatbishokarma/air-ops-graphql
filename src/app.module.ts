@@ -31,6 +31,7 @@ import { SecurityModule } from './seccurity/security.module';
 import { LibraryModule } from './library/library.module';
 import { join } from 'path';
 import { AccessRequestModule } from './access-request/access-request.module';
+import { PassengerDetailModule } from './passenger-detail/passenger-detail.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { AccessRequestModule } from './access-request/access-request.module';
     SecurityModule,
     LibraryModule,
     AccessRequestModule,
+    PassengerDetailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),

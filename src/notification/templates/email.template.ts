@@ -232,7 +232,7 @@ export const QuotePdfTemplate = (quote) => {
 
 <!---note--para--->
 <div class="note-para-view">
-<p>${aircraftDetail.noteText}</p>
+<p>${aircraftDetail?.noteText}</p>
 </div>
 
         <!----banner-one---start--->
@@ -255,7 +255,7 @@ export const QuotePdfTemplate = (quote) => {
 <div class="row-side-images">
   <div class="column-img">
  
-    <img src="https://airops.in/${aircraftDetail.seatLayoutImage}" alt="Snow" style="width:100%">
+    <img src="https://airops.in/${aircraftDetail?.seatLayoutImage}" alt="Snow" style="width:100%">
   </div>
   <div class="column-img">
   <h3 class="range-text">Specifications</h3>
@@ -277,7 +277,7 @@ export const QuotePdfTemplate = (quote) => {
 
   <!-- Terms and Conditions -->
         <div class="terms">
-             ${aircraftDetail.termsAndConditions}
+             ${aircraftDetail?.termsAndConditions}
         </div>
         <!-- Footer Section --> 
         
@@ -288,7 +288,7 @@ export const QuotePdfTemplate = (quote) => {
                    <p>${aircraftDetail?.warningText ?? ''}</p>
                 
                      <div class="terms-bay">
-               <img src="https://airops.in/${aircraftDetail.warningImage}">
+               <img src="https://airops.in/${aircraftDetail?.warningImage}">
                </div>
 
                </div>

@@ -1438,6 +1438,11 @@ input CreateManyOperatorsInput {
   operators: [CreateOperator!]!
 }
 
+input CreateManyPassengerDetailsInput {
+  """Array of records to create"""
+  passengerDetails: [CreatePassengerDetail!]!
+}
+
 input CreateManyPricesInput {
   """Array of records to create"""
   prices: [CreatePrice!]!
@@ -1574,6 +1579,11 @@ input CreateOneOperatorInput {
   operator: CreateOperator!
 }
 
+input CreateOnePassengerDetailInput {
+  """The record to create"""
+  passengerDetail: CreatePassengerDetail!
+}
+
 input CreateOnePriceInput {
   """The record to create"""
   price: CreatePrice!
@@ -1646,6 +1656,34 @@ input CreateOperator {
   """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
+}
+
+input CreatePassengerDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  meals: [mealInput!]
+  meta: JSONObject
+  passengers: [passengerInput!]
+  quotation: String
+  quotationNo: String
+  travel: [travelInput!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreatePrice {
@@ -2129,6 +2167,11 @@ input DeleteManyOperatorsInput {
   filter: operatorDeleteFilter!
 }
 
+input DeleteManyPassengerDetailsInput {
+  """Filter to find records to delete"""
+  filter: PassengerDetailDeleteFilter!
+}
+
 input DeleteManyPricesInput {
   """Filter to find records to delete"""
   filter: priceDeleteFilter!
@@ -2235,6 +2278,11 @@ input DeleteOneNotificationInput {
 }
 
 input DeleteOneOperatorInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOnePassengerDetailInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -2872,6 +2920,14 @@ input MarkAsReadInput {
   userId: String!
 }
 
+type MealDto {
+  category: String!
+  instructions: String!
+  item: String!
+  portions: Int!
+  type: String!
+}
+
 type Mutation {
   addRolesToCrewDetail(input: AddRolesToCrewDetailInput!): crewDetail!
   addRolesToUser(input: AddRolesToUserInput!): User!
@@ -2889,6 +2945,7 @@ type Mutation {
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
   createManyNotifications(input: CreateManyNotificationsInput!): [notification!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
+  createManyPassengerDetails(input: CreateManyPassengerDetailsInput!): [PassengerDetail!]!
   createManyPrices(input: CreateManyPricesInput!): [price!]!
   createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
   createManyRepresentatives(input: CreateManyRepresentativesInput!): [representative!]!
@@ -2910,6 +2967,7 @@ type Mutation {
   createOneManual(input: CreateOneManualInput!): manual!
   createOneNotification(input: CreateOneNotificationInput!): notification!
   createOneOperator(input: CreateOneOperatorInput!): operator!
+  createOnePassengerDetail(input: CreateOnePassengerDetailInput!): PassengerDetail!
   createOnePrice(input: CreateOnePriceInput!): price!
   createOneQuote(input: CreateOneQuoteInput!): Quote!
   createOneRepresentative(input: CreateOneRepresentativeInput!): representative!
@@ -2932,6 +2990,7 @@ type Mutation {
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
   deleteManyNotifications(input: DeleteManyNotificationsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
+  deleteManyPassengerDetails(input: DeleteManyPassengerDetailsInput!): DeleteManyResponse!
   deleteManyPrices(input: DeleteManyPricesInput!): DeleteManyResponse!
   deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
   deleteManyRepresentatives(input: DeleteManyRepresentativesInput!): DeleteManyResponse!
@@ -2953,6 +3012,7 @@ type Mutation {
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
   deleteOneNotification(input: DeleteOneNotificationInput!): NotificationDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
+  deleteOnePassengerDetail(input: DeleteOnePassengerDetailInput!): PassengerDetailDeleteResponse!
   deleteOnePrice(input: DeleteOnePriceInput!): PriceDeleteResponse!
   deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
   deleteOneRepresentative(input: DeleteOneRepresentativeInput!): RepresentativeDeleteResponse!
@@ -2988,6 +3048,7 @@ type Mutation {
   setOperatorOnSecurity(input: SetOperatorOnSecurityInput!): security!
   setOperatorOnUser(input: SetOperatorOnUserInput!): User!
   setQuotationOnInvoice(input: SetQuotationOnInvoiceInput!): Invoice!
+  setQuotationOnPassengerDetail(input: SetQuotationOnPassengerDetailInput!): PassengerDetail!
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
@@ -3012,6 +3073,7 @@ type Mutation {
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
   updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
+  updateManyPassengerDetails(input: UpdateManyPassengerDetailsInput!): UpdateManyResponse!
   updateManyPrices(input: UpdateManyPricesInput!): UpdateManyResponse!
   updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
   updateManyRepresentatives(input: UpdateManyRepresentativesInput!): UpdateManyResponse!
@@ -3033,6 +3095,7 @@ type Mutation {
   updateOneManual(input: UpdateOneManualInput!): manual!
   updateOneNotification(input: UpdateOneNotificationInput!): notification!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
+  updateOnePassengerDetail(input: UpdateOnePassengerDetailInput!): PassengerDetail!
   updateOnePrice(input: UpdateOnePriceInput!): price!
 
   """Update one Quote """
@@ -3205,6 +3268,147 @@ type PageInfo {
 
   """The cursor of the first returned record."""
   startCursor: ConnectionCursor
+}
+
+""" Passenger Details"""
+type PassengerDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  meals: [MealDto!]!
+  meta: JSONObject!
+  passengers: [PassengerDto!]!
+  quotation: Quote!
+  quotationNo: String!
+  travel: [TravelDto!]!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type PassengerDetailAggregateGroupBy {
+  createdAt: DateTime
+  isActive: Boolean
+  quotation: String
+  quotationNo: String
+}
+
+type PassengerDetailConnection {
+  """Array of nodes."""
+  nodes: [PassengerDetail!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type PassengerDetailCountAggregate {
+  createdAt: Int
+  isActive: Int
+  quotation: Int
+  quotationNo: Int
+}
+
+input PassengerDetailDeleteFilter {
+  and: [PassengerDetailDeleteFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [PassengerDetailDeleteFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+}
+
+type PassengerDetailDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  meals: [MealDto!]
+  meta: JSONObject
+  passengers: [PassengerDto!]
+  quotation: String
+  quotationNo: String
+  travel: [TravelDto!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input PassengerDetailFilter {
+  and: [PassengerDetailFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [PassengerDetailFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+}
+
+type PassengerDetailMaxAggregate {
+  createdAt: DateTime
+  quotation: String
+  quotationNo: String
+}
+
+type PassengerDetailMinAggregate {
+  createdAt: DateTime
+  quotation: String
+  quotationNo: String
+}
+
+input PassengerDetailSort {
+  direction: SortDirection!
+  field: PassengerDetailSortFields!
+  nulls: SortNulls
+}
+
+enum PassengerDetailSortFields {
+  createdAt
+  isActive
+  quotation
+  quotationNo
+}
+
+input PassengerDetailUpdateFilter {
+  and: [PassengerDetailUpdateFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  or: [PassengerDetailUpdateFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+}
+
+type PassengerDto {
+  aadharId: String!
+  age: Int!
+  gender: String!
+  name: String!
 }
 
 enum PaymentStatus {
@@ -3464,6 +3668,20 @@ type Query {
     """Specify to sort results."""
     sorting: [operatorSort!]! = []
   ): OperatorConnection!
+  passengerDetail(
+    """The id of the record to find."""
+    id: ID!
+  ): PassengerDetail
+  passengerDetails(
+    """Specify to filter the records returned."""
+    filter: PassengerDetailFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [PassengerDetailSort!]! = []
+  ): PassengerDetailConnection!
   price(
     """The id of the record to find."""
     id: ID!
@@ -4340,6 +4558,14 @@ input SetQuotationOnInvoiceInput {
   relationId: ID!
 }
 
+input SetQuotationOnPassengerDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetRepresentativeOnQuoteInput {
   """The id of the record."""
   id: ID!
@@ -4481,6 +4707,14 @@ input SystemNotificationWhereInput {
   refId: String
   refType: String
   type: String
+}
+
+type TravelDto {
+  category: String!
+  dropAt: String!
+  seatingCapacity: Int!
+  type: String!
+  vehicleChoice: String!
 }
 
 input TypeFilterComparison {
@@ -4969,6 +5203,14 @@ input UpdateManyOperatorsInput {
   update: UpdateOperator!
 }
 
+input UpdateManyPassengerDetailsInput {
+  """Filter used to find fields to update"""
+  filter: PassengerDetailUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdatePassengerDetail!
+}
+
 input UpdateManyPricesInput {
   """Filter used to find fields to update"""
   filter: priceUpdateFilter!
@@ -5173,6 +5415,14 @@ input UpdateOneOperatorInput {
   update: UpdateOperator!
 }
 
+input UpdateOnePassengerDetailInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdatePassengerDetail!
+}
+
 input UpdateOnePriceInput {
   """The id of the record to update"""
   id: ID!
@@ -5274,6 +5524,34 @@ input UpdateOperator {
   """The id of the user who last updated the record"""
   updatedBy: String
   websiteUrl: String
+}
+
+input UpdatePassengerDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  meals: [mealInput!]
+  meta: JSONObject
+  passengers: [passengerInput!]
+  quotation: String
+  quotationNo: String
+  travel: [travelInput!]
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdatePrice {
@@ -6353,6 +6631,14 @@ input manualUpdateFilter {
   or: [manualUpdateFilter!]
 }
 
+input mealInput {
+  category: String!
+  instructions: String!
+  item: String!
+  portions: Int!
+  type: String!
+}
+
 input nomineeInput {
   address: String
   alternateContact: String
@@ -6589,6 +6875,13 @@ input operatorUpdateFilter {
   or: [operatorUpdateFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+}
+
+input passengerInput {
+  aadharId: String!
+  age: Int!
+  gender: String!
+  name: String!
 }
 
 """price"""
@@ -7101,6 +7394,14 @@ input securityUpdateFilter {
   operatorId: StringFieldComparison
   or: [securityUpdateFilter!]
   type: SecurityDocTypeFilterComparison
+}
+
+input travelInput {
+  category: String!
+  dropAt: String!
+  seatingCapacity: Int!
+  type: String!
+  vehicleChoice: String!
 }
 
 enum type {
