@@ -5,6 +5,12 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 
 @Schema({ collection: 'clients' })
 export class ClientsEntity extends BaseEntity {
+  @Prop({
+    type: String,
+    enum: ClientType,
+    default: ClientType.PERSON,
+  })
+  type: ClientType;
   @Prop({ required: true })
   name: string;
   @Prop()

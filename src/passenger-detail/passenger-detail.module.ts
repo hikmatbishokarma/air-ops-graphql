@@ -12,6 +12,7 @@ import {
 } from './entities/passenger-detail.entity';
 import { PassengerDetailDto } from './dto/passenger-detail.dto';
 import { PassengerDetailService } from './services/passenger-detail.service';
+import { PassengerDetailResolver } from './resolvers/passenger-detail.resolver';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { PassengerDetailService } from './services/passenger-detail.service';
       ],
     }),
   ],
-  providers: [PassengerDetailService],
+  providers: [PassengerDetailService, PassengerDetailResolver],
   exports: [PassengerDetailService],
 })
 export class PassengerDetailModule {}

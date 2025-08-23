@@ -16,6 +16,8 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
 export class ClientsDto extends BaseDTO {
+  @FilterableField(() => ClientType, { defaultValue: ClientType.PERSON })
+  type: ClientType;
   @Field()
   name: string;
   @Field({ nullable: true })
@@ -27,9 +29,9 @@ export class ClientsDto extends BaseDTO {
   @FilterableField({ nullable: false })
   address: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   isCompany: boolean;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   isPerson: boolean;
   @FilterableField({ nullable: true })
   operatorId: string;

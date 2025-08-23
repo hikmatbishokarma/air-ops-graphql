@@ -49,7 +49,8 @@ export const InvoiceTemplate = (quote) => {
   
   <table>
     <tr>
-      <td><strong>From:</strong><br/>${operator?.companyName || ''}Airops<br/>${operator?.address || ''}Hyderabad, Telangana</td>
+      <td><strong>From:</strong><br/>${operator?.companyName || 'Airops'}<br/>${operator?.address || 'Hyderabad, Telangana'} <br/>
+      </td>
       <td><strong>Invoice No:</strong> ${invoiceNo}<br/><strong>Dated:</strong> ${moment().format('DD-MMM-YY')}</td>
     </tr>
     <tr>

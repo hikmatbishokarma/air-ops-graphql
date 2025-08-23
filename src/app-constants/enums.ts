@@ -35,6 +35,7 @@ registerEnumType(ResourceAction, {
 export enum ClientType {
   COMPANY = 'COMPANY',
   PERSON = 'PERSON',
+  OTHER = 'OTHER',
 }
 registerEnumType(ClientType, {
   name: 'ClientType',

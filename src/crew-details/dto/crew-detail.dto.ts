@@ -48,6 +48,31 @@ export class CertificationDto {
   validTill: Date;
 }
 
+@ObjectType()
+@InputType('BankDetailInput')
+export class BankDetailDto {
+  @Field({ nullable: true })
+  accountPayee: string;
+
+  @Field({ nullable: true })
+  bankName: string;
+
+  @Field({ nullable: true })
+  accountNumber: string;
+
+  @Field({ nullable: true })
+  branch: string;
+
+  @Field({ nullable: true })
+  swiftCode: string;
+
+  @Field({ nullable: true })
+  ifscCode: string;
+
+  @Field({ nullable: true, defaultValue: false })
+  isDefault: boolean;
+}
+
 @ObjectType('crewDetail', { description: 'Crew Detail' })
 @QueryOptions({
   enableTotalCount: true,
@@ -78,7 +103,7 @@ export class CrewDetailDto extends BaseDTO {
   @FilterableField({ nullable: true })
   displayName: string;
 
-  @Field(() => Gender)
+  @Field(() => Gender, { nullable: true })
   gender: Gender;
 
   @Field({ nullable: true })
@@ -118,6 +143,9 @@ export class CrewDetailDto extends BaseDTO {
   pan: string;
 
   @Field({ nullable: true })
+  gst: string;
+
+  @Field({ nullable: true })
   passportNo: string;
 
   @Field({ nullable: true })
@@ -129,10 +157,10 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   bloodGroup: string;
 
-  @Field(() => [CertificationDto])
+  @Field(() => [CertificationDto], { nullable: true })
   certifications: CertificationDto[];
 
-  @Field(() => [NomineeDto])
+  @Field(() => [NomineeDto], { nullable: true })
   nominees: NomineeDto[];
 
   @FilterableField({ nullable: true })
@@ -146,6 +174,9 @@ export class CrewDetailDto extends BaseDTO {
 
   @FilterableField({ nullable: true })
   crewId: string;
+
+  @Field(() => [BankDetailDto], { nullable: true })
+  bankDetails: BankDetailDto[];
 }
 
 @ObjectType()

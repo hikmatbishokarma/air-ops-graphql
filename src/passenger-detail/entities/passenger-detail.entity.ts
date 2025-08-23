@@ -57,8 +57,45 @@ export class TravelEntity {
   dropAt?: string;
 }
 const TravelSchema = SchemaFactory.createForClass(TravelEntity);
+@Schema()
+export class SectorEntity {
+  @Prop()
+  id: string;
+  @Prop()
+  source: string;
 
-@Schema({ collection: 'passenger-detail', timestamps: true })
+  @Prop()
+  destination: string;
+
+  @Prop({ type: Date, required: true })
+  depatureDate: Date;
+
+  @Prop()
+  depatureTime: string;
+
+  @Prop({ type: Date, required: true })
+  arrivalDate: Date;
+
+  @Prop()
+  arrivalTime: string;
+
+  @Prop()
+  paxNumber: number;
+  @Prop()
+  flightTime: string;
+
+  @Prop({ type: [PassengerEntity] })
+  passengers: PassengerEntity[];
+
+  @Prop({ type: [MealEntity] })
+  meals: MealEntity[];
+
+  @Prop({ type: TravelEntity })
+  travel: TravelEntity;
+}
+
+const SectorSchema = SchemaFactory.createForClass(SectorEntity);
+@Schema({ collection: 'passenger-details', timestamps: true })
 export class PassengerDetailEntity extends BaseEntity {
   @Prop({ ref: 'QuotesEntity', type: SchemaTypes.ObjectId, required: true })
   quotation: Types.ObjectId;
@@ -66,17 +103,19 @@ export class PassengerDetailEntity extends BaseEntity {
   @Prop({ required: true })
   quotationNo: string;
 
-  @Prop({ type: [TravelEntity] })
-  passengers: TravelEntity[];
+  @Prop({ type: [SectorEntity], default: [] })
+  sectors: SectorEntity[];
+  // @Prop({ type: [PassengerEntity] })
+  // passengers: PassengerEntity[];
 
-  @Prop({ type: [MealEntity] })
-  meals: MealEntity[];
+  // @Prop({ type: [MealEntity] })
+  // meals: MealEntity[];
 
-  @Prop({ type: TravelEntity })
-  travel: TravelEntity[];
+  // @Prop({ type: TravelEntity })
+  // travel: TravelEntity;
 
-  @Prop({ type: mongoose.Schema.Types.Mixed })
-  meta: object;
+  // @Prop({ type: mongoose.Schema.Types.Mixed })
+  // meta: object;
 }
 
 export const PassengerDetailSchema = SchemaFactory.createForClass(

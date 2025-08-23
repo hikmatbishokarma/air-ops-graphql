@@ -9,7 +9,7 @@ Dear ${user.name},
 
 Here are your temporary login details:
 
-Email: ${user.email}
+Email: ${user.fullName}
 Temporary Password: ${tempPassword}
 
 Please use the link below to log in and reset your password immediately:

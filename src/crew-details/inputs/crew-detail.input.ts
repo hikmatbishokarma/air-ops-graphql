@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Gender } from 'src/app-constants/enums';
+import { BankDetailDto } from '../dto/crew-detail.dto';
 
 @InputType()
 export class NomineeInput {
@@ -94,6 +95,9 @@ export class CrewInput {
   pan: string;
 
   @Field({ nullable: true })
+  gst: string;
+
+  @Field({ nullable: true })
   passportNo: string;
 
   @Field({ nullable: true })
@@ -113,6 +117,12 @@ export class CrewInput {
 
   @Field({ nullable: true })
   operatorId: string;
+
+  @Field({ nullable: true })
+  crewId: string;
+
+  @Field(() => [BankDetailDto], { nullable: true })
+  bankDetails: BankDetailDto[];
 }
 
 @InputType()

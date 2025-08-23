@@ -52,6 +52,35 @@ export class TravelDto {
   dropAt: string;
 }
 
+@ObjectType()
+@InputType('sector')
+export class SectorDto {
+  @Field({ nullable: true })
+  id: string;
+  @Field()
+  source: string;
+  @Field()
+  destination: string;
+  @Field()
+  depatureDate: Date;
+  @Field()
+  depatureTime: string;
+  @Field()
+  arrivalTime: string;
+  @Field()
+  arrivalDate: Date;
+  @Field()
+  pax: number;
+  @Field()
+  flightTime: string;
+  @Field(() => [PassengerDto])
+  passengers: PassengerDto[];
+  @Field(() => [MealDto])
+  meals: MealDto[];
+  @Field(() => TravelDto)
+  travel: TravelDto;
+}
+
 @ObjectType('PassengerDetail', { description: ' Passenger Details' })
 @QueryOptions({
   enableTotalCount: true,
@@ -63,12 +92,14 @@ export class PassengerDetailDto extends BaseDTO {
   quotation: string;
   @FilterableField()
   quotationNo: string;
-  @Field(() => [PassengerDto])
-  passengers: PassengerDto[];
-  @Field(() => [MealDto])
-  meals: MealDto[];
-  @Field(() => [TravelDto])
-  travel: TravelDto;
-  @Field(() => GraphQLJSONObject)
-  meta: object;
+  @Field(() => [SectorDto], { defaultValue: [] })
+  sectors: SectorDto[];
+  // @Field(() => [PassengerDto])
+  // passengers: PassengerDto[];
+  // @Field(() => [MealDto])
+  // meals: MealDto[];
+  // @Field(() => TravelDto)
+  // travel: TravelDto;
+  // @Field(() => GraphQLJSONObject)
+  // meta: object;
 }

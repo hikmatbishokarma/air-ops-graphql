@@ -752,6 +752,26 @@ input AirportUpdateFilter {
   type: AirportTypeFilterComparison
 }
 
+type BankDetailDto {
+  accountNumber: String
+  accountPayee: String
+  bankName: String
+  branch: String
+  ifscCode: String
+  isDefault: Boolean
+  swiftCode: String
+}
+
+input BankDetailInput {
+  accountNumber: String
+  accountPayee: String
+  bankName: String
+  branch: String
+  ifscCode: String
+  isDefault: Boolean = false
+  swiftCode: String
+}
+
 enum BillingCycle {
   MONTHLY
   QUARTERLY
@@ -1002,12 +1022,36 @@ type ClientDeleteResponse {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The id of the user who last updated the record"""
   updatedBy: String
+}
+
+enum ClientType {
+  COMPANY
+  OTHER
+  PERSON
+}
+
+input ClientTypeFilterComparison {
+  eq: ClientType
+  gt: ClientType
+  gte: ClientType
+  iLike: ClientType
+  in: [ClientType!]
+  is: Boolean
+  isNot: Boolean
+  like: ClientType
+  lt: ClientType
+  lte: ClientType
+  neq: ClientType
+  notILike: ClientType
+  notIn: [ClientType!]
+  notLike: ClientType
 }
 
 """Cursor for paging through collections"""
@@ -1191,6 +1235,7 @@ input CreateClient {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType = PERSON
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1203,6 +1248,7 @@ input CreateCrewDetail {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailInput!]
   bloodGroup: String
   certifications: [certificationInput!]
 
@@ -1228,6 +1274,7 @@ input CreateCrewDetail {
   experience: String
   fullName: String
   gender: Gender
+  gst: String
   id: ID
   isActive: Boolean = true
   location: String
@@ -1672,12 +1719,9 @@ input CreatePassengerDetail {
   deletedBy: String
   id: ID
   isActive: Boolean = true
-  meals: [mealInput!]
-  meta: JSONObject
-  passengers: [passengerInput!]
   quotation: String
   quotationNo: String
-  travel: [travelInput!]
+  sectors: [sector!] = []
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1941,6 +1985,7 @@ type CrewDetailDeleteResponse {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailDto!]
   bloodGroup: String
   certifications: [CertificationDto!]
 
@@ -1966,6 +2011,7 @@ type CrewDetailDeleteResponse {
   experience: String
   fullName: String
   gender: Gender
+  gst: String
   id: ID
   isActive: Boolean
   location: String
@@ -1992,8 +2038,9 @@ input CrewDetailDto {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailInput!]
   bloodGroup: String
-  certifications: [certificationInput!]!
+  certifications: [certificationInput!]
   createdByUser: CrewDetailDto
   crewId: String
   currentAddress: String
@@ -2004,11 +2051,12 @@ input CrewDetailDto {
   email: String
   experience: String
   fullName: String!
-  gender: Gender!
+  gender: Gender
+  gst: String
   location: String
   martialStatus: String
   nationality: String
-  nominees: [nomineeInput!]!
+  nominees: [nomineeInput!]
   operatorId: String
   pan: String
   passportNo: String
@@ -2030,8 +2078,10 @@ input CrewInput {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailInput!]
   bloodGroup: String
   certifications: [CertificationInput!]!
+  crewId: String
   currentAddress: String
   dateOfBirth: DateTime
   designation: String
@@ -2041,6 +2091,7 @@ input CrewInput {
   experience: String
   fullName: String!
   gender: Gender!
+  gst: String
   location: String
   martialStatus: String
   nationality: String
@@ -3106,6 +3157,7 @@ type Mutation {
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneSecurity(input: UpdateOneSecurityInput!): security!
   updateOneUser(input: UpdateOneUserInput!): User!
+  updatePassengerDetail(data: UpdatePassengerDetailDataInput!, where: UpdatePassengerDetailWhereInput!): PassengerDetail!
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
   upgradeQuote(code: String!): Quote!
 }
@@ -3285,12 +3337,9 @@ type PassengerDetail {
   deletedBy: String
   id: ID!
   isActive: Boolean!
-  meals: [MealDto!]!
-  meta: JSONObject!
-  passengers: [PassengerDto!]!
   quotation: Quote!
   quotationNo: String!
-  travel: [TravelDto!]!
+  sectors: [SectorDto!]!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3347,12 +3396,9 @@ type PassengerDetailDeleteResponse {
   deletedBy: String
   id: ID
   isActive: Boolean
-  meals: [MealDto!]
-  meta: JSONObject
-  passengers: [PassengerDto!]
   quotation: String
   quotationNo: String
-  travel: [TravelDto!]
+  sectors: [SectorDto!]
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -4335,6 +4381,21 @@ enum SalesDocumentType {
   TAX_INVOICE
 }
 
+type SectorDto {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: String!
+  flightTime: String!
+  id: String
+  meals: [MealDto!]!
+  passengers: [PassengerDto!]!
+  pax: Int!
+  source: String!
+  travel: TravelDto!
+}
+
 type SecurityConnection {
   """Array of nodes."""
   nodes: [security!]!
@@ -4912,6 +4973,7 @@ input UpdateClient {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType = PERSON
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -4924,6 +4986,7 @@ input UpdateCrewDetail {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailInput!]
   bloodGroup: String
   certifications: [certificationInput!]
 
@@ -4949,6 +5012,7 @@ input UpdateCrewDetail {
   experience: String
   fullName: String
   gender: Gender
+  gst: String
   id: ID
   isActive: Boolean = true
   location: String
@@ -5540,18 +5604,24 @@ input UpdatePassengerDetail {
   deletedBy: String
   id: ID
   isActive: Boolean = true
-  meals: [mealInput!]
-  meta: JSONObject
-  passengers: [passengerInput!]
   quotation: String
   quotationNo: String
-  travel: [travelInput!]
+  sectors: [sector!] = []
 
   """The date when the record was last updated"""
   updatedAt: DateTime
 
   """The id of the user who last updated the record"""
   updatedBy: String
+}
+
+input UpdatePassengerDetailDataInput {
+  sector: sector!
+}
+
+input UpdatePassengerDetailWhereInput {
+  quotation: ID!
+  quotationNo: String!
 }
 
 input UpdatePrice {
@@ -5968,8 +6038,9 @@ type UserInput {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailDto!]
   bloodGroup: String
-  certifications: [CertificationDto!]!
+  certifications: [CertificationDto!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -5992,13 +6063,14 @@ type UserInput {
   email: String
   experience: String
   fullName: String!
-  gender: Gender!
+  gender: Gender
+  gst: String
   id: String!
   isActive: Boolean!
   location: String
   martialStatus: String
   nationality: String
-  nominees: [NomineeDto!]!
+  nominees: [NomineeDto!]
   operator: operator
   operatorId: String
   pan: String
@@ -6123,14 +6195,15 @@ type client {
   gstNo: String
   id: ID!
   isActive: Boolean!
-  isCompany: Boolean!
-  isPerson: Boolean!
+  isCompany: Boolean
+  isPerson: Boolean
   lastName: String
   name: String!
   operator: operator!
   operatorId: String
   panNo: String
   phone: String!
+  type: ClientType!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6150,6 +6223,7 @@ type clientAggregateGroupBy {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType
 }
 
 type clientCountAggregate {
@@ -6163,6 +6237,7 @@ type clientCountAggregate {
   operatorId: Int
   panNo: Int
   phone: Int
+  type: Int
 }
 
 input clientDeleteFilter {
@@ -6178,6 +6253,7 @@ input clientDeleteFilter {
   or: [clientDeleteFilter!]
   panNo: StringFieldComparison
   phone: StringFieldComparison
+  type: ClientTypeFilterComparison
 }
 
 input clientFilter {
@@ -6193,6 +6269,7 @@ input clientFilter {
   or: [clientFilter!]
   panNo: StringFieldComparison
   phone: StringFieldComparison
+  type: ClientTypeFilterComparison
 }
 
 type clientMaxAggregate {
@@ -6203,6 +6280,7 @@ type clientMaxAggregate {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType
 }
 
 type clientMinAggregate {
@@ -6213,6 +6291,7 @@ type clientMinAggregate {
   operatorId: String
   panNo: String
   phone: String
+  type: ClientType
 }
 
 input clientSort {
@@ -6232,6 +6311,7 @@ enum clientSortFields {
   operatorId
   panNo
   phone
+  type
 }
 
 input clientUpdateFilter {
@@ -6247,6 +6327,7 @@ input clientUpdateFilter {
   or: [clientUpdateFilter!]
   panNo: StringFieldComparison
   phone: StringFieldComparison
+  type: ClientTypeFilterComparison
 }
 
 """Crew Detail"""
@@ -6254,8 +6335,9 @@ type crewDetail {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailDto!]
   bloodGroup: String
-  certifications: [CertificationDto!]!
+  certifications: [CertificationDto!]
 
   """The date when the record was created"""
   createdAt: DateTime
@@ -6278,13 +6360,14 @@ type crewDetail {
   email: String
   experience: String
   fullName: String!
-  gender: Gender!
+  gender: Gender
+  gst: String
   id: ID!
   isActive: Boolean!
   location: String
   martialStatus: String
   nationality: String
-  nominees: [NomineeDto!]!
+  nominees: [NomineeDto!]
   operator: operator!
   operatorId: String
   pan: String
@@ -7288,6 +7371,21 @@ input roleUpdateFilter {
   type: RoleTypeFilterComparison
 }
 
+input sector {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: String!
+  flightTime: String!
+  id: String
+  meals: [mealInput!]!
+  passengers: [passengerInput!]!
+  pax: Int!
+  source: String!
+  travel: travelInput!
+}
+
 """Security"""
 type security {
   attachment: String!
@@ -7415,8 +7513,9 @@ input userInput {
   aadhar: String
   alternateContact: String
   anniversaryDate: DateTime
+  bankDetails: [BankDetailInput!]
   bloodGroup: String
-  certifications: [certificationInput!]!
+  certifications: [certificationInput!]
   createdByUser: CrewDetailDto
   crewId: String
   currentAddress: String
@@ -7427,12 +7526,13 @@ input userInput {
   email: String
   experience: String
   fullName: String!
-  gender: Gender!
+  gender: Gender
+  gst: String
   id: String!
   location: String
   martialStatus: String
   nationality: String
-  nominees: [nomineeInput!]!
+  nominees: [nomineeInput!]
   operator: OperatorDto
   operatorId: String
   pan: String

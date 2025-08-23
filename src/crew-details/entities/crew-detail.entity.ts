@@ -60,6 +60,32 @@ export class CertificationEntity {
 export const CertificationSchema =
   SchemaFactory.createForClass(CertificationEntity);
 
+@Schema({})
+export class BankDetail {
+  @Prop()
+  accountPayee: string;
+
+  @Prop()
+  bankName: string;
+
+  @Prop()
+  accountNumber: string;
+
+  @Prop()
+  branch: string;
+
+  @Prop()
+  swiftCode?: string;
+
+  @Prop()
+  ifscCode: string;
+
+  @Prop({ default: false })
+  isDefault: boolean;
+}
+
+export const BankDetailSchema = SchemaFactory.createForClass(BankDetail);
+
 @Schema({ collection: 'crew-details', timestamps: true })
 export class CrewDetailEntity extends BaseEntity {
   @Prop([{ type: SchemaTypes.ObjectId, ref: 'RoleEntity', required: true }])
@@ -132,6 +158,9 @@ export class CrewDetailEntity extends BaseEntity {
   pan: string;
 
   @Prop()
+  gst: string;
+
+  @Prop()
   passportNo: string;
 
   // @Prop()
@@ -178,6 +207,9 @@ export class CrewDetailEntity extends BaseEntity {
   // type: UserType;
   @Prop()
   crewId: string;
+
+  @Prop({ type: [BankDetailSchema], default: [] })
+  bankDetails: BankDetail[];
 }
 
 export const CrewDetailSchema = SchemaFactory.createForClass(CrewDetailEntity);
