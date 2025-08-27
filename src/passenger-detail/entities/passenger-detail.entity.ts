@@ -60,7 +60,7 @@ const TravelSchema = SchemaFactory.createForClass(TravelEntity);
 @Schema()
 export class SectorEntity {
   @Prop()
-  id: string;
+  id: number;
   @Prop()
   source: string;
 
@@ -80,7 +80,7 @@ export class SectorEntity {
   arrivalTime: string;
 
   @Prop()
-  paxNumber: number;
+  pax: number;
   @Prop()
   flightTime: string;
 
@@ -116,6 +116,13 @@ export class PassengerDetailEntity extends BaseEntity {
 
   // @Prop({ type: mongoose.Schema.Types.Mixed })
   // meta: object;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: 'OperatorEntity',
+    default: undefined,
+  })
+  operatorId: Types.ObjectId;
 }
 
 export const PassengerDetailSchema = SchemaFactory.createForClass(

@@ -7,6 +7,7 @@ import {
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { QuotesDto } from 'src/quotes/dto/quotes.dto';
 
 @ObjectType()
@@ -54,9 +55,10 @@ export class TravelDto {
 
 @ObjectType()
 @InputType('sector')
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class SectorDto {
   @Field({ nullable: true })
-  id: string;
+  id: number;
   @Field()
   source: string;
   @Field()
@@ -102,4 +104,7 @@ export class PassengerDetailDto extends BaseDTO {
   // travel: TravelDto;
   // @Field(() => GraphQLJSONObject)
   // meta: object;
+
+  @FilterableField({ nullable: true })
+  operatorId: string;
 }
