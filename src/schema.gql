@@ -752,6 +752,11 @@ input AirportUpdateFilter {
   type: AirportTypeFilterComparison
 }
 
+type AssignedCrewDto {
+  crews: [String!]!
+  designation: String!
+}
+
 type BankDetailDto {
   accountNumber: String
   accountPayee: String
@@ -1525,6 +1530,11 @@ input CreateManySecuritiesInput {
   securities: [CreateSecurity!]!
 }
 
+input CreateManyTripDetailsInput {
+  """Array of records to create"""
+  tripDetails: [CreateTripDetail!]!
+}
+
 input CreateManyUsersInput {
   """Array of records to create"""
   users: [CreateUser!]!
@@ -1664,6 +1674,11 @@ input CreateOneRolePermissionInput {
 input CreateOneSecurityInput {
   """The record to create"""
   security: CreateSecurity!
+}
+
+input CreateOneTripDetailInput {
+  """The record to create"""
+  tripDetail: CreateTripDetail!
 }
 
 input CreateOperator {
@@ -1922,6 +1937,34 @@ input CreateSecurity {
   name: String
   operatorId: String
   type: SecurityDocType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateTripDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  sectors: [TripSector!] = []
+  status: TripDetailStatus = DRAFT
+  tripId: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2264,6 +2307,11 @@ input DeleteManySecuritiesInput {
   filter: securityDeleteFilter!
 }
 
+input DeleteManyTripDetailsInput {
+  """Filter to find records to delete"""
+  filter: TripDetailDeleteFilter!
+}
+
 input DeleteManyUsersInput {
   """Filter to find records to delete"""
   filter: UserDeleteFilter!
@@ -2374,6 +2422,11 @@ input DeleteOneSecurityInput {
   id: ID!
 }
 
+input DeleteOneTripDetailInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneUserInput {
   """The id of the record to delete."""
   id: ID!
@@ -2410,9 +2463,41 @@ input DepartmentTypeFilterComparison {
   notLike: DepartmentType
 }
 
+type DocumentDto {
+  externalLink: String!
+  fileUrl: String!
+  type: String!
+}
+
+input DocumentInput {
+  externalLink: String!
+  fileUrl: String!
+  type: String!
+}
+
 type ForgotPasswordDto {
   message: String!
   status: Boolean!
+}
+
+type FuelRecordDto {
+  designation: String!
+  fuelGauge: String!
+  fuelLoaded: String!
+  fuelOnArrival: String!
+  fuelStation: String!
+  handledBy: String!
+  uploadedDate: DateTime!
+}
+
+input FuelRecordInput {
+  designation: String!
+  fuelGauge: String!
+  fuelLoaded: String!
+  fuelOnArrival: String!
+  fuelStation: String!
+  handledBy: String!
+  uploadedDate: DateTime!
 }
 
 enum Gender {
@@ -3005,6 +3090,7 @@ type Mutation {
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManySecurities(input: CreateManySecuritiesInput!): [security!]!
+  createManyTripDetails(input: CreateManyTripDetailsInput!): [TripDetail!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAccessRequest(input: CreateOneAccessRequestInput!): AccessRequest!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
@@ -3027,6 +3113,7 @@ type Mutation {
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneSecurity(input: CreateOneSecurityInput!): security!
+  createOneTripDetail(input: CreateOneTripDetailInput!): TripDetail!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
   deleteManyAccessRequests(input: DeleteManyAccessRequestsInput!): DeleteManyResponse!
@@ -3050,6 +3137,7 @@ type Mutation {
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManySecurities(input: DeleteManySecuritiesInput!): DeleteManyResponse!
+  deleteManyTripDetails(input: DeleteManyTripDetailsInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAccessRequest(input: DeleteOneAccessRequestInput!): AccessRequestDeleteResponse!
   deleteOneAircraftCategory(input: DeleteOneAircraftCategoryInput!): AircraftCategoryDeleteResponse!
@@ -3072,6 +3160,7 @@ type Mutation {
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneSecurity(input: DeleteOneSecurityInput!): SecurityDeleteResponse!
+  deleteOneTripDetail(input: DeleteOneTripDetailInput!): TripDetailDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
@@ -3095,12 +3184,15 @@ type Mutation {
   setOperatorOnLeave(input: SetOperatorOnLeaveInput!): Leave!
   setOperatorOnLibrary(input: SetOperatorOnLibraryInput!): library!
   setOperatorOnManual(input: SetOperatorOnManualInput!): manual!
+  setOperatorOnPassengerDetail(input: SetOperatorOnPassengerDetailInput!): PassengerDetail!
   setOperatorOnQuote(input: SetOperatorOnQuoteInput!): Quote!
   setOperatorOnRole(input: SetOperatorOnRoleInput!): role!
   setOperatorOnSecurity(input: SetOperatorOnSecurityInput!): security!
+  setOperatorOnTripDetail(input: SetOperatorOnTripDetailInput!): TripDetail!
   setOperatorOnUser(input: SetOperatorOnUserInput!): User!
   setQuotationOnInvoice(input: SetQuotationOnInvoiceInput!): Invoice!
   setQuotationOnPassengerDetail(input: SetQuotationOnPassengerDetailInput!): PassengerDetail!
+  setQuotationOnTripDetail(input: SetQuotationOnTripDetailInput!): TripDetail!
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
@@ -3133,6 +3225,7 @@ type Mutation {
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManySecurities(input: UpdateManySecuritiesInput!): UpdateManyResponse!
+  updateManyTripDetails(input: UpdateManyTripDetailsInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAccessRequest(input: UpdateOneAccessRequestInput!): AccessRequest!
   updateOneAircraftCategory(input: UpdateOneAircraftCategoryInput!): AircraftCategory!
@@ -3157,9 +3250,11 @@ type Mutation {
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneSecurity(input: UpdateOneSecurityInput!): security!
+  updateOneTripDetail(input: UpdateOneTripDetailInput!): TripDetail!
   updateOneUser(input: UpdateOneUserInput!): User!
   updatePassengerDetail(data: UpdatePassengerDetailDataInput!, where: UpdatePassengerDetailWhereInput!): PassengerDetail!
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
+  updateTripDetail(data: UpdateTripDetailDataInput!, where: UpdateTripDetailWhereInput!): TripDetail!
   upgradeQuote(code: String!): Quote!
 }
 
@@ -3338,6 +3433,7 @@ type PassengerDetail {
   deletedBy: String
   id: ID!
   isActive: Boolean!
+  operator: operator!
   operatorId: String
   quotation: Quote!
   quotationNo: String!
@@ -3841,6 +3937,20 @@ type Query {
   signIn(input: SignInInput!): loginResponseDto!
   staffCertificates(args: StaffCertificationInput): CertificationResponse!
   systemNotifications(where: SystemNotificationWhereInput): [notification!]!
+  tripDetail(
+    """The id of the record to find."""
+    id: ID!
+  ): TripDetail
+  tripDetails(
+    """Specify to filter the records returned."""
+    filter: TripDetailFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [TripDetailSort!]! = []
+  ): TripDetailConnection!
   user(
     """The id of the record to find."""
     id: ID!
@@ -4590,6 +4700,14 @@ input SetOperatorOnManualInput {
   relationId: ID!
 }
 
+input SetOperatorOnPassengerDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnQuoteInput {
   """The id of the record."""
   id: ID!
@@ -4614,6 +4732,14 @@ input SetOperatorOnSecurityInput {
   relationId: ID!
 }
 
+input SetOperatorOnTripDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnUserInput {
   """The id of the record."""
   id: ID!
@@ -4631,6 +4757,14 @@ input SetQuotationOnInvoiceInput {
 }
 
 input SetQuotationOnPassengerDetailInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetQuotationOnTripDetailInput {
   """The id of the record."""
   id: ID!
 
@@ -4787,6 +4921,224 @@ type TravelDto {
   seatingCapacity: Int!
   type: String!
   vehicleChoice: String!
+}
+
+"""Trip Detail """
+type TripDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  operator: operator!
+  operatorId: String
+  quotation: Quote!
+  quotationNo: String!
+  sectors: [TripSectorDto!]!
+  status: TripDetailStatus!
+  tripId: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type TripDetailAggregateGroupBy {
+  createdAt: DateTime
+  isActive: Boolean
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  status: TripDetailStatus
+  tripId: String
+}
+
+type TripDetailConnection {
+  """Array of nodes."""
+  nodes: [TripDetail!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type TripDetailCountAggregate {
+  createdAt: Int
+  isActive: Int
+  operatorId: Int
+  quotation: Int
+  quotationNo: Int
+  status: Int
+  tripId: Int
+}
+
+input TripDetailDeleteFilter {
+  and: [TripDetailDeleteFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TripDetailDeleteFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  status: TripDetailStatusFilterComparison
+  tripId: StringFieldComparison
+}
+
+type TripDetailDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  sectors: [TripSectorDto!]
+  status: TripDetailStatus
+  tripId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input TripDetailFilter {
+  and: [TripDetailFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TripDetailFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  status: TripDetailStatusFilterComparison
+  tripId: StringFieldComparison
+}
+
+type TripDetailMaxAggregate {
+  createdAt: DateTime
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  status: TripDetailStatus
+  tripId: String
+}
+
+type TripDetailMinAggregate {
+  createdAt: DateTime
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  status: TripDetailStatus
+  tripId: String
+}
+
+input TripDetailSort {
+  direction: SortDirection!
+  field: TripDetailSortFields!
+  nulls: SortNulls
+}
+
+enum TripDetailSortFields {
+  createdAt
+  isActive
+  operatorId
+  quotation
+  quotationNo
+  status
+  tripId
+}
+
+enum TripDetailStatus {
+  DRAFT
+  PUBLISHED
+}
+
+input TripDetailStatusFilterComparison {
+  eq: TripDetailStatus
+  gt: TripDetailStatus
+  gte: TripDetailStatus
+  iLike: TripDetailStatus
+  in: [TripDetailStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: TripDetailStatus
+  lt: TripDetailStatus
+  lte: TripDetailStatus
+  neq: TripDetailStatus
+  notILike: TripDetailStatus
+  notIn: [TripDetailStatus!]
+  notLike: TripDetailStatus
+}
+
+input TripDetailUpdateFilter {
+  and: [TripDetailUpdateFilter!]
+  createdAt: DateFieldComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TripDetailUpdateFilter!]
+  quotation: StringFieldComparison
+  quotationNo: StringFieldComparison
+  status: TripDetailStatusFilterComparison
+  tripId: StringFieldComparison
+}
+
+input TripSector {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  assignedCrews: [assignedCrewInput!]!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: String!
+  documents: [DocumentInput!]!
+  flightTime: String!
+  fuelRecord: FuelRecordInput!
+  pax: Int!
+  sectorNo: Int
+  source: String!
+  status: TripSectorStatus! = IN_PROGRESS
+}
+
+type TripSectorDto {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  assignedCrews: [AssignedCrewDto!]!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: String!
+  documents: [DocumentDto!]!
+  flightTime: String!
+  fuelRecord: FuelRecordDto!
+  pax: Int!
+  sectorNo: Int
+  source: String!
+  status: TripSectorStatus!
+}
+
+enum TripSectorStatus {
+  COMPLETED
+  IN_PROGRESS
 }
 
 input TypeFilterComparison {
@@ -5347,6 +5699,14 @@ input UpdateManySecuritiesInput {
   update: UpdateSecurity!
 }
 
+input UpdateManyTripDetailsInput {
+  """Filter used to find fields to update"""
+  filter: TripDetailUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateTripDetail!
+}
+
 input UpdateManyUsersInput {
   """Filter used to find fields to update"""
   filter: UserUpdateFilter!
@@ -5552,6 +5912,14 @@ input UpdateOneSecurityInput {
 
   """The update to apply."""
   update: UpdateSecurity!
+}
+
+input UpdateOneTripDetailInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateTripDetail!
 }
 
 input UpdateOneUserInput {
@@ -5849,6 +6217,42 @@ input UpdateSecurity {
 
   """The id of the user who last updated the record"""
   updatedBy: String
+}
+
+input UpdateTripDetail {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  quotation: String
+  quotationNo: String
+  sectors: [TripSector!] = []
+  status: TripDetailStatus = DRAFT
+  tripId: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateTripDetailDataInput {
+  sector: TripSector!
+}
+
+input UpdateTripDetailWhereInput {
+  tripId: String!
 }
 
 input UpdateUser {
@@ -6177,6 +6581,11 @@ input acknowledgementInput {
   documentType: SalesDocumentType!
   email: String!
   quotationNo: String!
+}
+
+input assignedCrewInput {
+  crews: [String!]!
+  designation: String!
 }
 
 input certificationInput {

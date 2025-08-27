@@ -55,7 +55,6 @@ export class TravelDto {
 
 @ObjectType()
 @InputType('sector')
-@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class SectorDto {
   @Field({ nullable: true })
   id: number;
@@ -89,6 +88,7 @@ export class SectorDto {
   pagingStrategy: PagingStrategies.OFFSET,
 })
 @Relation('quotation', () => QuotesDto, { disableRemove: true })
+@Relation('operator', () => OperatorDto, { disableRemove: true })
 export class PassengerDetailDto extends BaseDTO {
   @FilterableField()
   quotation: string;

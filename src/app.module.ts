@@ -32,6 +32,7 @@ import { LibraryModule } from './library/library.module';
 import { join } from 'path';
 import { AccessRequestModule } from './access-request/access-request.module';
 import { PassengerDetailModule } from './passenger-detail/passenger-detail.module';
+import { TripDetailModule } from './ops/operation.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { PassengerDetailModule } from './passenger-detail/passenger-detail.modul
     LibraryModule,
     AccessRequestModule,
     PassengerDetailModule,
+    TripDetailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),

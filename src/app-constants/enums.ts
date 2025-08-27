@@ -280,3 +280,21 @@ export enum DepartmentType {
 registerEnumType(DepartmentType, {
   name: 'DepartmentType',
 });
+
+export enum TripDetailStatus {
+  DRAFT = 'Draft',
+  PUBLISHED = 'Published',
+}
+
+registerEnumType(TripDetailStatus, {
+  name: 'TripDetailStatus',
+});
+
+export enum TripSectorStatus {
+  IN_PROGRESS = 'In Progress',
+  COMPLETED = 'Completed',
+}
+
+registerEnumType(TripSectorStatus, {
+  name: 'TripSectorStatus',
+});
