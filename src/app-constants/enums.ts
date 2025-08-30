@@ -62,6 +62,7 @@ export enum QuoteStatus {
   PROFOMA_INVOICE = 'Proforma Invoice',
   TAX_INVOICE = 'Tax Invoice',
   CANCELLED = 'Cancelled',
+  PAX_ADDED = 'Pax Added',
   'DEPRECATED' = 'Deprecated',
   SALE_CONFIRMED = 'Sale Confirmed',
 }

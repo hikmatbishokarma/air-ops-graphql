@@ -160,15 +160,19 @@ export const QuotePdfTemplate = (quote) => {
       <strong>Quote Number:</strong> ${revisedQuotationNo || quotationNo}<br>
       <strong>Date:</strong> ${moment(createdAt).format('DD-MM-YYYY')}
     </div>
-    <div class="details">
+${
+  client
+    ? `<div class="details">
       <strong>Client Details:</strong><br>
       Name: ${client.name}<br>
       Contact: ${client.phone}<br>
       Email: ${client.email}<br>
-      Address:${client.address}<br>
-      ${client.gstNo ? `GST:${client.gstNo}<br>` : ''}
-      ${client.panNo ? `PAN:${client.panNo}` : ''}
-    </div>
+      Address: ${client.address}<br>
+      ${client.gstNo ? `GST: ${client.gstNo}<br>` : ''}
+      ${client.panNo ? `PAN: ${client.panNo}` : ''}
+    </div>`
+    : ''
+}
   </div>
 </div>
 
@@ -205,30 +209,36 @@ export const QuotePdfTemplate = (quote) => {
         </table>
 
         <!-- Pricing Table -->
-        <table class="total-table">
-            <thead>
-                <tr>
-                    <th>Estimated Charter Cost</th>
-                    <th>INR (₹)</th>
-                </tr>
-            </thead>
-            <tbody>
-               ${priceRows}
-                <tr>
-                    <td>Subtotal</td>
-                    <td>${grandTotal}</td>
-                </tr>
-                <tr>
-                    <td>GST (18%)</td>
-                    <td>${gstAmount}</td>
-                </tr>
-                <tr>
-                    <td><strong>Total</strong></td>
-                    <td><strong>${totalPrice}</strong></td>
-                </tr>
-            </tbody>
-            
-        </table>
+        ${
+          priceRows.length > 0
+            ? `
+  <table class="total-table">
+    <thead>
+      <tr>
+        <th>Estimated Charter Cost</th>
+        <th>INR (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${priceRows}
+      <tr>
+        <td>Subtotal</td>
+        <td>${grandTotal}</td>
+      </tr>
+      <tr>
+        <td>GST (18%)</td>
+        <td>${gstAmount}</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>${totalPrice}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+`
+            : ''
+        }
+
 
 <!---note--para--->
 <div class="note-para-view">

@@ -213,3 +213,10 @@ export class CrewDetailEntity extends BaseEntity {
 }
 
 export const CrewDetailSchema = SchemaFactory.createForClass(CrewDetailEntity);
+
+CrewDetailSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

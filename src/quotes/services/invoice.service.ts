@@ -67,6 +67,10 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
 
+      await this.quoteService.updateOne(quote.id, {
+        status: QuoteStatus.PROFOMA_INVOICE,
+      });
+
       return created;
     }
     if (type === InvoiceType.TAX_INVOICE) {
@@ -132,6 +136,10 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       });
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
+
+      await this.quoteService.updateOne(quote.id, {
+        status: QuoteStatus.TAX_INVOICE,
+      });
 
       return created;
     }

@@ -1795,8 +1795,8 @@ input CreateQuote {
   isLatest: Boolean = true
   itinerary: [JSONObject!]
   operatorId: String
-  prices: [priceInput!]
-  providerType: String
+  prices: [priceInput!] = []
+  providerType: String = "airops"
   quotationNo: String
   representative: String
   requestedBy: String
@@ -3835,6 +3835,7 @@ type Query {
     """Specify to sort results."""
     sorting: [PassengerDetailSort!]! = []
   ): PassengerDetailConnection!
+  previewSalesConfirmation(quotationNo: String!): String!
   price(
     """The id of the record to find."""
     id: ID!
@@ -3990,13 +3991,13 @@ type Quote {
   isActive: Boolean!
   isLatest: Boolean!
   itinerary: [JSONObject!]!
-  operator: operator!
+  operator: operator
   operatorId: String
-  prices: [PriceInputDto!]!
-  providerType: String!
+  prices: [PriceInputDto!]
+  providerType: String
   quotationNo: String!
   representative: representative
-  requestedBy: client!
+  requestedBy: client
   revision: Int!
   status: QuoteStatus!
 
@@ -4172,6 +4173,7 @@ enum QuoteSortFields {
 enum QuoteStatus {
   CANCELLED
   DEPRECATED
+  PAX_ADDED
   PROFOMA_INVOICE
   QUOTE
   SALE_CONFIRMED
@@ -4509,12 +4511,12 @@ type SectorDto {
   depatureTime: String!
   destination: String!
   flightTime: String!
-  id: Int
-  meals: [MealDto!]!
-  passengers: [PassengerDto!]!
+  meals: [MealDto!]
+  passengers: [PassengerDto!]
   pax: Int!
+  sectorNo: Int
   source: String!
-  travel: TravelDto!
+  travel: TravelDto
 }
 
 type SecurityConnection {
@@ -5107,13 +5109,13 @@ input TripDetailUpdateFilter {
 input TripSector {
   arrivalDate: DateTime!
   arrivalTime: String!
-  assignedCrews: [assignedCrewInput!]!
+  assignedCrews: [assignedCrewInput!]
   depatureDate: DateTime!
   depatureTime: String!
   destination: String!
-  documents: [DocumentInput!]!
+  documents: [DocumentInput!]
   flightTime: String!
-  fuelRecord: FuelRecordInput!
+  fuelRecord: FuelRecordInput
   pax: Int!
   sectorNo: Int
   source: String!
@@ -5123,13 +5125,13 @@ input TripSector {
 type TripSectorDto {
   arrivalDate: DateTime!
   arrivalTime: String!
-  assignedCrews: [AssignedCrewDto!]!
+  assignedCrews: [AssignedCrewDto!]
   depatureDate: DateTime!
   depatureTime: String!
   destination: String!
-  documents: [DocumentDto!]!
+  documents: [DocumentDto!]
   flightTime: String!
-  fuelRecord: FuelRecordDto!
+  fuelRecord: FuelRecordDto
   pax: Int!
   sectorNo: Int
   source: String!
@@ -6053,8 +6055,8 @@ input UpdateQuote {
   isLatest: Boolean = true
   itinerary: [JSONObject!]
   operatorId: String
-  prices: [priceInput!]
-  providerType: String
+  prices: [priceInput!] = []
+  providerType: String = "airops"
   quotationNo: String
   representative: String
   requestedBy: String
@@ -7799,12 +7801,12 @@ input sector {
   depatureTime: String!
   destination: String!
   flightTime: String!
-  id: Int
-  meals: [mealInput!]!
-  passengers: [passengerInput!]!
+  meals: [mealInput!]
+  passengers: [passengerInput!]
   pax: Int!
+  sectorNo: Int
   source: String!
-  travel: travelInput!
+  travel: travelInput
 }
 
 """Security"""

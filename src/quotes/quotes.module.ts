@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { NestjsQueryGraphQLModule } from '@app/query-graphql';
 import { NestjsQueryMongooseModule } from '@app/query-mongoose';
 import { QuotesEntity, QuotesSchema } from './entities/quotes.entity';
@@ -18,9 +18,11 @@ import { InvoiceService } from './services/invoice.service';
 import { InvoiceResolver } from './resolvers/invoice.resolver';
 import { InvoiceEntity, InvoiceSchema } from './entities/invoice.entity';
 import { InvoiceDto } from './dto/invoice.dto';
+import { PassengerDetailModule } from 'src/passenger-detail/passenger-detail.module';
 
 @Module({
   imports: [
+    forwardRef(() => PassengerDetailModule),
     AirportsModule,
     AircraftDetailModule,
     MongooseModule.forFeature([{ name: Counter.name, schema: CounterSchema }]),

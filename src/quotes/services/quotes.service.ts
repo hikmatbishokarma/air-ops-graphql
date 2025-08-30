@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -25,6 +27,7 @@ import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confir
 import moment from 'moment';
 import e from 'express';
 import { ConfigService } from '@nestjs/config';
+import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
@@ -42,6 +45,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     @InjectModel(QuotationTemplateEntity.name)
     private quotationTemplate: Model<QuotationTemplateEntity>,
     private readonly config: ConfigService,
+    @Inject(forwardRef(() => PassengerDetailService))
+    private readonly passengerDetailService: PassengerDetailService,
   ) {
     super(model);
     this.baseUrl = this.config.get<string>('site_url');
@@ -360,11 +365,22 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const quote = await this.getQuoteById(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
+    const [passengerInfo] = await this.passengerDetailService.query({
+      filter: {
+        quotation: { eq: quote._id },
+        quotationNo: { eq: quote.quotationNo },
+      },
+    });
+
     const logoUrl = quote?.operator
       ? `${this.baseUrl}${quote?.operator?.companyLogo}`
       : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
-    const htmlContent = SaleConfirmationTemplate({ ...quote, logoUrl });
+    const htmlContent = SaleConfirmationTemplate({
+      ...quote,
+      logoUrl,
+      passengerInfo,
+    });
     if (!htmlContent) throw new BadRequestException('No Content Found');
 
     const updateQuote = await this.updateOne(quote._id.toString(), {
@@ -373,6 +389,31 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
     if (!updateQuote) throw new BadRequestException('Error in updating quote');
     return updateQuote;
+  }
+
+  async previewSalesConfirmation(quotationNo) {
+    const quote = await this.getQuoteById(quotationNo);
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const [passengerInfo] = await this.passengerDetailService.query({
+      filter: {
+        quotation: { eq: quote._id },
+        quotationNo: { eq: quote.quotationNo },
+      },
+    });
+
+    const logoUrl = quote?.operator
+      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
+      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+
+    const htmlContent = SaleConfirmationTemplate({
+      ...quote,
+      logoUrl,
+      passengerInfo,
+    });
+    if (!htmlContent) throw new BadRequestException('No Content Found');
+
+    return htmlContent;
   }
 
   async flightSegmentsForCalendar(args) {

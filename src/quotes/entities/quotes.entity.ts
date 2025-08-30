@@ -32,7 +32,7 @@ const ItinerarySchema = SchemaFactory.createForClass(ItineraryEntity);
 
 @Schema({ collection: 'quotes', timestamps: true })
 export class QuotesEntity extends BaseEntity {
-  @Prop({ ref: 'ClientsEntity', type: SchemaTypes.ObjectId, required: true })
+  @Prop({ ref: 'ClientsEntity', type: SchemaTypes.ObjectId })
   requestedBy: Types.ObjectId;
   @Prop({ ref: 'RepresentativeEntity', type: SchemaTypes.ObjectId })
   representative: Types.ObjectId;
@@ -104,3 +104,10 @@ export class QuotesEntity extends BaseEntity {
 }
 
 export const QuotesSchema = SchemaFactory.createForClass(QuotesEntity);
+
+QuotesSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

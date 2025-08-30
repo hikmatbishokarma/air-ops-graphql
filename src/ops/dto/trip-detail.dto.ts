@@ -81,11 +81,11 @@ export class TripSectorDto {
   pax: number;
   @Field()
   flightTime: string;
-  @Field(() => [DocumentDto])
+  @Field(() => [DocumentDto], { nullable: true })
   documents: DocumentDto[];
-  @Field(() => [AssignedCrewDto])
+  @Field(() => [AssignedCrewDto], { nullable: true })
   assignedCrews: AssignedCrewDto[];
-  @Field(() => FuelRecordDto)
+  @Field(() => FuelRecordDto, { nullable: true })
   fuelRecord: FuelRecordDto;
   @FilterableField(() => TripSectorStatus, {
     defaultValue: TripSectorStatus.IN_PROGRESS,

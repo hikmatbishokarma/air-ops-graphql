@@ -27,17 +27,23 @@ import { OperatorDto } from 'src/operator/dto/operator.dto';
   disableRemove: true,
   nullable: true,
 })
-@Relation('requestedBy', () => ClientsDto, { disableRemove: true })
+@Relation('requestedBy', () => ClientsDto, {
+  disableRemove: true,
+  nullable: true,
+})
 @Relation('representative', () => RepresentativeDto, {
   disableRemove: true,
   nullable: true,
 })
-@Relation('operator', () => OperatorDto, { disableRemove: true })
+@Relation('operator', () => OperatorDto, {
+  disableRemove: true,
+  nullable: true,
+})
 @BeforeCreateOne(CreateQuoteHook)
 export class QuotesDto extends BaseDTO {
   @Field(() => ID)
   id!: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   requestedBy: string;
   @FilterableField({ nullable: true })
   representative: string;
@@ -45,7 +51,7 @@ export class QuotesDto extends BaseDTO {
   category: Category;
   @FilterableField()
   aircraft: string;
-  @FilterableField()
+  @FilterableField({ nullable: true, defaultValue: 'airops' })
   providerType: string;
   @FilterableField()
   quotationNo: string;
@@ -55,7 +61,7 @@ export class QuotesDto extends BaseDTO {
   itinerary: Object[];
   @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.QUOTE })
   status: QuoteStatus;
-  @Field(() => [PriceInputDto])
+  @Field(() => [PriceInputDto], { nullable: true, defaultValue: [] })
   prices: PriceInputDto[];
   @Field(() => Float, { defaultValue: 0 })
   grandTotal: number;

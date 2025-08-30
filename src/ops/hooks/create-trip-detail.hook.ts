@@ -19,7 +19,7 @@ export class CreateTripDetailHook<T extends TripDetailDto>
       input.operatorId,
     );
 
-    input.sectors.map((sector, idx) => ({
+    input.sectors = input.sectors.map((sector, idx) => ({
       ...sector,
       sectorNo: idx + 1,
     }));

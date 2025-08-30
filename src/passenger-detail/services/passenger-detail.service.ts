@@ -4,15 +4,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { QuotesService } from 'src/quotes/services/quotes.service';
+import { QuoteStatus } from 'src/app-constants/enums';
 
 @Injectable()
 export class PassengerDetailService extends MongooseQueryService<PassengerDetailEntity> {
   constructor(
     @InjectModel(PassengerDetailEntity.name)
     private readonly model: Model<PassengerDetailEntity>,
+    @Inject(forwardRef(() => QuotesService))
+    private readonly quotesService: QuotesService,
   ) {
     super(model);
   }
@@ -50,11 +56,11 @@ export class PassengerDetailService extends MongooseQueryService<PassengerDetail
   async updatePassengerDetail(args) {
     const { where, data } = args;
 
-    if (!data || !data.sector || !data.sector.id) {
+    if (!data || !data.sector || !data.sector.sectorNo) {
       throw new BadRequestException('Invalid data or sector ID provided.');
     }
 
-    const { id: sectorId } = data.sector;
+    const { sectorNo } = data.sector;
 
     try {
       const passengerDetail = await this.model.findOne(where);
@@ -65,7 +71,7 @@ export class PassengerDetailService extends MongooseQueryService<PassengerDetail
 
       // Find the index of the existing sector by its ID
       const sectorIndex = passengerDetail.sectors.findIndex(
-        (sector) => sector.id === sectorId,
+        (sector) => sector.sectorNo === sectorNo,
       );
 
       let updatedPassengerDetail;
@@ -93,6 +99,10 @@ export class PassengerDetailService extends MongooseQueryService<PassengerDetail
           'Passenger detail not found during update.',
         );
       }
+
+      await this.quotesService.updateOne(where.quotation, {
+        status: QuoteStatus.PAX_ADDED,
+      });
 
       return updatedPassengerDetail;
     } catch (error) {

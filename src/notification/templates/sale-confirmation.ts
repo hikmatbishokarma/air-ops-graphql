@@ -14,7 +14,19 @@ export const SaleConfirmationTemplate = (quote) => {
     gstAmount,
     logoUrl,
     operator,
+    passengerInfo,
   } = quote;
+
+  itinerary.forEach((sector, index) => {
+    const paxIfno = passengerInfo?.sectors?.find(
+      (pax) => pax.sectorNo == index + 1,
+    );
+    if (paxIfno) {
+      sector.passengers = paxIfno.passengers;
+      sector.meals = paxIfno.meals;
+      sector.travel = paxIfno.travel;
+    }
+  });
 
   return `
 
@@ -94,12 +106,9 @@ export const SaleConfirmationTemplate = (quote) => {
     <table>
       <tr>
         <td><strong>Date:</strong> ${moment(createdAt).format('DD MMMM, YYYY')}</td>
-        <td><strong>Filter Manager:</strong> Rahul Kishore - <a href="tel:+91-9311449483">+91-9311449483</a></td>
+        <td><strong>Aircraft:</strong> ${aircraftDetail?.name} - (${aircraftDetail?.code})</td>
       </tr>
-      <tr>
-        <td><strong>Name:</strong> Raj</td>
-        <td><strong>Filter Manager:</strong> Rahul Kishore - <a href="tel:+91-9311449483">+91-9311449483</a></td>
-      </tr>
+    
     </table>
 
     <!-- Trip Details -->
@@ -122,35 +131,66 @@ export const SaleConfirmationTemplate = (quote) => {
         </tr>
       </table>
 
-      <div class="row">
-        <div class="cell"><strong>Departure Transport:</strong><br>NA</div>
-        <div class="cell"><strong>Arrival Transport:</strong><br>NA</div>
+    <div class="row">
+        <div class="cell">
+          <strong>Arrival Transport:</strong><br>
+          Category: ${item?.travel?.category || 'NA'}<br>
+          Type: ${item?.travel?.type || 'NA'}<br>
+          Seating Capacity: ${item?.travel?.seatingCapacity || 'NA'}<br>
+          Vehicle Choice: ${item?.travel?.vehicleChoice || 'NA'}<br>
+          Drop At: ${item?.travel?.dropAt || 'NA'}
+        </div>
+       
       </div>
 
-      <div class="row">
-        <div class="cell"><strong>Ground Handler (Departure):</strong><br>Mr Pavan<br><a href="tel:+91 74287 97910">+91 74287 97910</a></div>
-        <div class="cell"><strong>Ground Handler (Arrival):</strong><br>Mr Lakshman Raju<br><a href="tel:+91 9533901100">+91 9533901100</a></div>
+     <div class="row">
+        <div class="cell">
+          <strong>Ground Handler (Departure):</strong><br>
+          ${item?.source?.groundHandlersInfo
+            ?.map(
+              (handler) =>
+                `${handler.fullName || 'NA'}<br><a href="tel:${handler.contactNumber || ''}">${handler.contactNumber || 'NA'}</a>`,
+            )
+            .join('<br>')}
+        </div>
+        <div class="cell">
+          <strong>Ground Handler (Arrival):</strong><br>
+          ${item?.destination?.groundHandlersInfo
+            ?.map(
+              (handler) =>
+                `${handler.fullName || 'NA'}<br><a href="tel:${handler.contactNumber || ''}">${handler.contactNumber || 'NA'}</a>`,
+            )
+            .join('<br>')}
+        </div>
       </div>
 
-      <div class="box">
+     <div class="box">
         <strong>Passengers:</strong>
         <ul>
-          <li> Mr. C V Rao </li>
-          <li>Mr. Gowrinath</li>
-          
+        ${item?.passengers
+          ?.map(
+            (pax) =>
+              `<li><strong>Name:</strong> ${pax.name}, <strong>Gender:</strong> ${pax.gender}, <strong>Age:</strong> ${pax.age}, <strong>Aadhar ID:</strong> ${pax?.aadharId}</li>`,
+          )
+          .join('')}
         </ul>
       </div>
 
-      <div class="box">
-        <strong>Crew:</strong>
+     
+         <div class="box">
+        <div class="box"><strong>Flight Catering:</strong> As Instructed</div>
         <ul>
-          <li>Capt. Srinath - <a href="+91 9629743360">+91 9629743360</a></li>
-          <li>Capt Sagar Kumar Singh - <a href="+91 9629743360">+91 9629743360</a></li>
-          <li>Ms Kajal Mishra - <a href="+91 9629743360">+91 9629743360</a></li>
+        ${item?.meals
+          .map(
+            (meal) =>
+              `<li><strong>Category:</strong> ${meal.category}, <strong>Type:</strong> ${meal.type}, <strong>Portions:</strong> ${meal.portions}, <strong>Item:</strong> ${meal.item}, <strong>Instructions:</strong> ${meal.instructions}</li>`,
+          )
+          .join('')}
         </ul>
       </div>
 
-      <div class="box"><strong>Flight Catering:</strong> As Instructed</div>
+
+      
 
         `,
       )}

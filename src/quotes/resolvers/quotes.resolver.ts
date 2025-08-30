@@ -48,6 +48,11 @@ export class QuotesResolver {
     return await this.quotesService.saleConfirmation(args);
   }
 
+  @Query(() => String)
+  async previewSalesConfirmation(@Args('quotationNo') quotationNo: string) {
+    return await this.quotesService.previewSalesConfirmation(quotationNo);
+  }
+
   @Query(() => [CalenderData])
   async flightSegmentsForCalendar(
     @Args('startDate') startDate: Date,

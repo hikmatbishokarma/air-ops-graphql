@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { NestjsQueryGraphQLModule } from '@app/query-graphql';
@@ -13,9 +13,11 @@ import {
 import { PassengerDetailDto } from './dto/passenger-detail.dto';
 import { PassengerDetailService } from './services/passenger-detail.service';
 import { PassengerDetailResolver } from './resolvers/passenger-detail.resolver';
+import { QuotesModule } from 'src/quotes/quotes.module';
 
 @Module({
   imports: [
+    forwardRef(() => QuotesModule),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         NestjsQueryMongooseModule.forFeature([

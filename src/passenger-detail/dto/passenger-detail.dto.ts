@@ -57,7 +57,7 @@ export class TravelDto {
 @InputType('sector')
 export class SectorDto {
   @Field({ nullable: true })
-  id: number;
+  sectorNo: number;
   @Field()
   source: string;
   @Field()
@@ -74,11 +74,11 @@ export class SectorDto {
   pax: number;
   @Field()
   flightTime: string;
-  @Field(() => [PassengerDto])
+  @Field(() => [PassengerDto], { nullable: true })
   passengers: PassengerDto[];
-  @Field(() => [MealDto])
+  @Field(() => [MealDto], { nullable: true })
   meals: MealDto[];
-  @Field(() => TravelDto)
+  @Field(() => TravelDto, { nullable: true })
   travel: TravelDto;
 }
 
@@ -96,14 +96,6 @@ export class PassengerDetailDto extends BaseDTO {
   quotationNo: string;
   @Field(() => [SectorDto], { defaultValue: [] })
   sectors: SectorDto[];
-  // @Field(() => [PassengerDto])
-  // passengers: PassengerDto[];
-  // @Field(() => [MealDto])
-  // meals: MealDto[];
-  // @Field(() => TravelDto)
-  // travel: TravelDto;
-  // @Field(() => GraphQLJSONObject)
-  // meta: object;
 
   @FilterableField({ nullable: true })
   operatorId: string;

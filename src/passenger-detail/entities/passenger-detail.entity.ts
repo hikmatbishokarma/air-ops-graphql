@@ -60,7 +60,7 @@ const TravelSchema = SchemaFactory.createForClass(TravelEntity);
 @Schema()
 export class SectorEntity {
   @Prop()
-  id: number;
+  sectorNo: number;
   @Prop()
   source: string;
 
@@ -97,10 +97,15 @@ export class SectorEntity {
 const SectorSchema = SchemaFactory.createForClass(SectorEntity);
 @Schema({ collection: 'passenger-details', timestamps: true })
 export class PassengerDetailEntity extends BaseEntity {
-  @Prop({ ref: 'QuotesEntity', type: SchemaTypes.ObjectId, required: true })
+  @Prop({
+    ref: 'QuotesEntity',
+    type: SchemaTypes.ObjectId,
+    required: true,
+    unique: true,
+  })
   quotation: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   quotationNo: string;
 
   @Prop({ type: [SectorEntity], default: [] })
