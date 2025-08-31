@@ -8,12 +8,15 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import moment from 'moment';
+import { QuotesService } from 'src/quotes/services/quotes.service';
+import { QuoteStatus } from 'src/app-constants/enums';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
   constructor(
     @InjectModel(TripDetailEntity.name)
     private readonly model: Model<TripDetailEntity>,
+    private readonly quotesService: QuotesService,
   ) {
     super(model);
   }
@@ -88,6 +91,9 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
         );
       }
 
+      await this.quotesService.updateOne(tripDetail.quotation.toString(), {
+        status: QuoteStatus.TRIP_GENERATED,
+      });
       return updatedTripDetail;
     } catch (error) {
       console.error('Failed to update trip details:', error);

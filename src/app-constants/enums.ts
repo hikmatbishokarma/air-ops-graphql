@@ -65,6 +65,7 @@ export enum QuoteStatus {
   PAX_ADDED = 'Pax Added',
   'DEPRECATED' = 'Deprecated',
   SALE_CONFIRMED = 'Sale Confirmed',
+  TRIP_GENERATED = 'Trip Generated',
 }
 
 registerEnumType(QuoteStatus, {

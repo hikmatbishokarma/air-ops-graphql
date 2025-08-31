@@ -2464,14 +2464,14 @@ input DepartmentTypeFilterComparison {
 }
 
 type DocumentDto {
-  externalLink: String!
-  fileUrl: String!
+  externalLink: String
+  fileUrl: String
   type: String!
 }
 
 input DocumentInput {
-  externalLink: String!
-  fileUrl: String!
+  externalLink: String
+  fileUrl: String
   type: String!
 }
 
@@ -2481,23 +2481,23 @@ type ForgotPasswordDto {
 }
 
 type FuelRecordDto {
-  designation: String!
-  fuelGauge: String!
-  fuelLoaded: String!
-  fuelOnArrival: String!
-  fuelStation: String!
-  handledBy: String!
-  uploadedDate: DateTime!
+  designation: String
+  fuelGauge: String
+  fuelLoaded: String
+  fuelOnArrival: String
+  fuelStation: String
+  handledBy: String
+  uploadedDate: DateTime
 }
 
 input FuelRecordInput {
-  designation: String!
-  fuelGauge: String!
-  fuelLoaded: String!
-  fuelOnArrival: String!
-  fuelStation: String!
-  handledBy: String!
-  uploadedDate: DateTime!
+  designation: String
+  fuelGauge: String
+  fuelLoaded: String
+  fuelOnArrival: String
+  fuelStation: String
+  handledBy: String
+  uploadedDate: DateTime
 }
 
 enum Gender {
@@ -4178,6 +4178,7 @@ enum QuoteStatus {
   QUOTE
   SALE_CONFIRMED
   TAX_INVOICE
+  TRIP_GENERATED
 }
 
 input QuoteStatusFilterComparison {
@@ -6254,7 +6255,7 @@ input UpdateTripDetailDataInput {
 }
 
 input UpdateTripDetailWhereInput {
-  tripId: String!
+  _id: ID!
 }
 
 input UpdateUser {

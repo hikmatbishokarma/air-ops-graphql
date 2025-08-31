@@ -13,9 +13,11 @@ import {
   TripDetailSchema,
 } from './entities/trip-detail.entity';
 import { TripDetailDto } from './dto/trip-detail.dto';
+import { QuotesModule } from 'src/quotes/quotes.module';
 
 @Module({
   imports: [
+    QuotesModule,
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         TripDetailModule,

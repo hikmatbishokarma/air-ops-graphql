@@ -28,35 +28,35 @@ export class DocumentDto {
   @Field()
   type: string;
 
-  @Field()
+  @Field({ nullable: true })
   externalLink: string;
 
-  @Field()
+  @Field({ nullable: true })
   fileUrl: string;
 }
 
 @ObjectType()
 @InputType('FuelRecordInput')
 export class FuelRecordDto {
-  @Field()
+  @Field({ nullable: true })
   fuelStation: string;
 
-  @Field()
+  @Field({ nullable: true })
   uploadedDate: Date;
 
-  @Field()
+  @Field({ nullable: true })
   fuelOnArrival: string;
 
-  @Field()
+  @Field({ nullable: true })
   fuelLoaded: string;
 
-  @Field()
+  @Field({ nullable: true })
   fuelGauge: string;
 
-  @Field()
+  @Field({ nullable: true })
   handledBy: string;
 
-  @Field()
+  @Field({ nullable: true })
   designation: string;
 }
 
