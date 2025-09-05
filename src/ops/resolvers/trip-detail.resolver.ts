@@ -5,6 +5,7 @@ import {
   UpdateTripDetailDataInput,
   UpdateTripDetailWhereInput,
 } from '../inputs/update-trip-detail.input';
+import { CreateTripInput } from '../inputs/create-trip.input';
 
 @Resolver()
 export class TripDetailResolver {
@@ -16,5 +17,10 @@ export class TripDetailResolver {
     @Args('data') data: UpdateTripDetailDataInput,
   ) {
     return await this.tripDetailService.updateTripDetail({ where, data });
+  }
+
+  @Mutation(() => TripDetailDto)
+  async createTrip(@Args('input') input: CreateTripInput) {
+    return await this.tripDetailService.createTrip(input);
   }
 }

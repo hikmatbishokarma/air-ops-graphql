@@ -100,4 +100,32 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       throw new InternalServerErrorException('Failed to update trip details.');
     }
   }
+
+  async createTrip(input) {
+    try {
+      const { operatorId, ...rest } = input.tripDetail;
+
+      const tripId = await this.generateTripId(operatorId);
+
+      rest.sectors = rest.sectors.map((sector, idx) => ({
+        ...sector,
+        sectorNo: idx + 1,
+      }));
+
+      rest.tripId = tripId;
+
+      const result = await this.createOne({ ...rest, operatorId });
+      if (!result) {
+        throw new Error(`Failed to create trip`);
+      }
+
+      await this.quotesService.updateOne(result.quotation.toString(), {
+        status: QuoteStatus.TRIP_GENERATED,
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }

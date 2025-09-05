@@ -1973,6 +1973,10 @@ input CreateTripDetail {
   updatedBy: String
 }
 
+input CreateTripInput {
+  tripDetail: TripDetailDto!
+}
+
 input CreateUser {
   address: String
   city: String
@@ -3116,6 +3120,7 @@ type Mutation {
   createOneTripDetail(input: CreateOneTripDetailInput!): TripDetail!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
+  createTrip(input: CreateTripInput!): TripDetail!
   deleteManyAccessRequests(input: DeleteManyAccessRequestsInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAircraftDetails(input: DeleteManyAircraftDetailsInput!): DeleteManyResponse!
@@ -5027,6 +5032,13 @@ type TripDetailDeleteResponse {
   updatedBy: String
 }
 
+input TripDetailDto {
+  operatorId: String
+  quotation: String!
+  quotationNo: String!
+  sectors: [TripSector!]!
+}
+
 input TripDetailFilter {
   and: [TripDetailFilter!]
   createdAt: DateFieldComparison
@@ -6003,7 +6015,7 @@ input UpdatePassengerDetailDataInput {
 }
 
 input UpdatePassengerDetailWhereInput {
-  quotation: ID!
+  quotation: ID
   quotationNo: String!
 }
 

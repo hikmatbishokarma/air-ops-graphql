@@ -493,4 +493,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     // return { calenderData: calenderData };
     return calenderData;
   }
+
+  async updateQuote(where, data) {
+    await this.Model.findOneAndUpdate(where, { $set: data }, { new: true });
+  }
 }

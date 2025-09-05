@@ -6,7 +6,7 @@ export class UpdatePassengerDetailWhereInput {
   @Field()
   quotationNo: string;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   quotation: string;
 }
 

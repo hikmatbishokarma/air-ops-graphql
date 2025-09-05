@@ -100,9 +100,12 @@ export class PassengerDetailService extends MongooseQueryService<PassengerDetail
         );
       }
 
-      await this.quotesService.updateOne(where.quotation, {
-        status: QuoteStatus.PAX_ADDED,
-      });
+      await this.quotesService.updateQuote(
+        { quotationNo: where.quotationNo },
+        {
+          status: QuoteStatus.PAX_ADDED,
+        },
+      );
 
       return updatedPassengerDetail;
     } catch (error) {
