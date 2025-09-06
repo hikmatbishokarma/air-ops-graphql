@@ -46,6 +46,51 @@ export class FuelRecordEntity {
   designation: string;
 }
 
+@Schema({ _id: false })
+export class BaReportEntity {
+  @Prop()
+  name: string;
+
+  @Prop()
+  reading: string;
+
+  @Prop()
+  conductedDate: Date;
+
+  @Prop()
+  record: string;
+
+  @Prop()
+  video?: string;
+}
+
+@Schema({ _id: false }) // embedded schema, not a standalone collection
+export class BaPersonEntity {
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  gender: string;
+
+  @Prop({ required: true })
+  age: string;
+
+  @Prop({ required: true })
+  certNo: string;
+}
+
+@Schema({ _id: false })
+export class BaInfoEntity {
+  @Prop()
+  baMachine: string;
+
+  @Prop({ type: [BaPersonEntity], default: undefined })
+  baPersons: BaPersonEntity[];
+
+  @Prop({ type: [BaReportEntity], default: undefined })
+  baReports: BaReportEntity[];
+}
+
 @Schema()
 export class TripSectorEntity {
   @Prop()
@@ -82,6 +127,9 @@ export class TripSectorEntity {
 
   @Prop({ type: FuelRecordEntity })
   fuelRecord: FuelRecordEntity;
+
+  @Prop({ type: BaInfoEntity })
+  baInfo: BaInfoEntity;
 }
 
 const SectorSchema = SchemaFactory.createForClass(TripSectorEntity);

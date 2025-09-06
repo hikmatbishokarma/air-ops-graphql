@@ -789,6 +789,48 @@ type AssignedCrewDto {
   designation: String!
 }
 
+input BaInfo {
+  baMachine: String
+  baPersons: [BaPerson!]
+  baReports: [BaReport!]
+}
+
+type BaInfoDto {
+  baMachine: String
+  baPersons: [BaPersonDto!]
+  baReports: [BaReportDto!]
+}
+
+input BaPerson {
+  age: String!
+  certNo: String!
+  gender: String!
+  name: String!
+}
+
+type BaPersonDto {
+  age: String!
+  certNo: String!
+  gender: String!
+  name: String!
+}
+
+input BaReport {
+  conductedDate: DateTime!
+  name: String!
+  reading: String!
+  record: String!
+  video: String
+}
+
+type BaReportDto {
+  conductedDate: DateTime!
+  name: String!
+  reading: String!
+  record: String!
+  video: String
+}
+
 type BankDetailDto {
   accountNumber: String
   accountPayee: String
@@ -5228,6 +5270,7 @@ input TripSector {
   arrivalDate: DateTime!
   arrivalTime: String!
   assignedCrews: [assignedCrewInput!]
+  baInfo: BaInfo
   depatureDate: DateTime!
   depatureTime: String!
   destination: String!
@@ -5244,6 +5287,7 @@ type TripSectorDto {
   arrivalDate: DateTime!
   arrivalTime: String!
   assignedCrews: [AssignedCrewDto!]
+  baInfo: BaInfoDto
   depatureDate: DateTime!
   depatureTime: String!
   destination: String!

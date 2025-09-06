@@ -61,6 +61,45 @@ export class FuelRecordDto {
 }
 
 @ObjectType()
+@InputType('BaReport')
+export class BaReportDto {
+  @Field()
+  name: string;
+  @Field()
+  reading: string;
+  @Field()
+  conductedDate: Date;
+  @Field()
+  record: string;
+  @Field({ nullable: true })
+  video: string;
+}
+
+@ObjectType()
+@InputType('BaPerson')
+export class BaPersonDto {
+  @Field()
+  name: string;
+  @Field()
+  gender: string;
+  @Field()
+  age: string;
+  @Field()
+  certNo: string;
+}
+
+@ObjectType()
+@InputType('BaInfo')
+export class BaInfoDto {
+  @Field({ nullable: true })
+  baMachine: string;
+  @Field(() => [BaPersonDto], { nullable: true })
+  baPersons: BaPersonDto[];
+  @Field(() => [BaReportDto], { nullable: true })
+  baReports: BaReportDto[];
+}
+
+@ObjectType()
 @InputType('TripSector')
 export class TripSectorDto {
   @Field({ nullable: true })
@@ -87,6 +126,9 @@ export class TripSectorDto {
   assignedCrews: AssignedCrewDto[];
   @Field(() => FuelRecordDto, { nullable: true })
   fuelRecord: FuelRecordDto;
+
+  @Field(() => BaInfoDto, { nullable: true })
+  baInfo: BaInfoDto;
   @FilterableField(() => TripSectorStatus, {
     defaultValue: TripSectorStatus.IN_PROGRESS,
   })
