@@ -5,7 +5,7 @@ import { CrewDetailDto } from 'src/crew-details/dto/crew-detail.dto';
 // @ObjectType({ isAbstract: true })
 @ObjectType()
 export abstract class BaseDTO {
-  @Field(() => ID)
+  @FilterableField(() => ID)
   id!: string;
 
   @FilterableField({
