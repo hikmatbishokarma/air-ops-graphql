@@ -8,6 +8,11 @@ import { QuotesService } from 'src/quotes/services/quotes.service';
 import { InvoiceTemplate } from '../templates/invoice.template';
 import { SaleConfirmationTemplate } from '../templates/sale-confirmation';
 import { InvoiceService } from 'src/quotes/services/invoice.service';
+import {
+  createPDF,
+  createPDFBuffer,
+  inlineImagesParallel,
+} from 'src/common/helper';
 
 @Injectable()
 export class MailerService {
@@ -86,84 +91,165 @@ export class MailerService {
   //   return filePath;
   // }
 
-  async createPDF(filePath: string, htmlContent: string): Promise<string> {
-    const isLocal = process.env.NODE_ENV !== 'production'; // <--- Auto detect!
+  // async createPDF(filePath: string, htmlContent: string): Promise<string> {
+  //   const isLocal = process.env.NODE_ENV !== 'production'; // <--- Auto detect!
 
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: isLocal
-        ? []
-        : [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--single-process',
-          ],
-    });
+  //   const browser = await puppeteer.launch({
+  //     headless: true,
+  //     args: isLocal
+  //       ? []
+  //       : [
+  //           '--no-sandbox',
+  //           '--disable-setuid-sandbox',
+  //           '--disable-dev-shm-usage',
+  //           '--disable-gpu',
+  //           '--single-process',
+  //         ],
+  //   });
 
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); // better
-    await page.pdf({ path: filePath, format: 'A4' });
+  //   const page = await browser.newPage();
+  //   await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); // better
+  //   await page.pdf({ path: filePath, format: 'A4' });
 
-    await browser.close();
-    return filePath;
-  }
+  //   await browser.close();
+  //   return filePath;
+  // }
 
-  async sendAcknowledgement(args) {
+  // async sendAcknowledgement(args) {
+  //   const { quotationNo, email, documentType } = args;
+  //   if (!documentType)
+  //     throw new BadRequestException('documentType is required');
+
+  //   const quote = await this.quoteService.getQuoteById(quotationNo);
+  //   if (!quote) throw new BadRequestException('No Quote Found');
+
+  //   let htmlContent;
+
+  //   let filePath = 'salesDoc.pdf',
+  //     subject = '',
+  //     text = '';
+
+  //   const to = email || quote?.client?.email;
+
+  //   if (documentType == SalesDocumentType.QUOTATION) {
+  //     htmlContent = QuotePdfTemplate(quote);
+  //     filePath = 'quote.pdf';
+
+  //     subject = `Your Flight Quote - Reference No. ${quote?.revisedQuotationNo || quote?.quotationNo} `;
+  //     text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
+  //   }
+
+  //   if (
+  //     documentType == SalesDocumentType.PROFORMA_INVOICE ||
+  //     documentType == SalesDocumentType.TAX_INVOICE
+  //   ) {
+  //     // htmlContent = InvoiceTemplate(quote);
+  //     const [invoice] = await this.invoiceService.query({
+  //       filter: {
+  //         quotationNo: { eq: quotationNo },
+  //         type: { eq: documentType },
+  //       },
+  //     });
+  //     if (!invoice) throw new BadRequestException('No Invoice Found');
+  //     const referenceNo =
+  //       documentType == SalesDocumentType.PROFORMA_INVOICE
+  //         ? invoice?.proformaInvoiceNo
+  //         : invoice?.taxInvoiceNo;
+  //     htmlContent = invoice.template;
+  //     subject = `Your Flight Invoice - Reference No. ${referenceNo} `;
+  //     filePath = 'invoice.pdf';
+  //   }
+  //   if (documentType == SalesDocumentType.SALE_CONFIRMATION) {
+  //     htmlContent = SaleConfirmationTemplate(quote);
+  //     subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo} `;
+  //     filePath = 'invoice.pdf';
+  //   }
+
+  //   const pdfPath = await createPDF(filePath, htmlContent);
+
+  //   const attachments = [{ filename: 'document.pdf', path: pdfPath }];
+
+  //   await this.sendEmail(to, subject, text, null, attachments);
+
+  //   return 'PDF sent successfully!';
+  // }
+
+  async sendAcknowledgement(args: {
+    quotationNo: string;
+    email?: string;
+    documentType: SalesDocumentType;
+  }) {
     const { quotationNo, email, documentType } = args;
+
     if (!documentType)
       throw new BadRequestException('documentType is required');
 
-    const quote = await this.quoteService.getQuoteById(quotationNo);
+    const quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    let htmlContent;
-
-    let filePath = 'salesDoc.pdf',
-      subject = '',
-      text = '';
-
     const to = email || quote?.client?.email;
+    if (!to) throw new BadRequestException('Recipient email not found');
 
-    if (documentType == SalesDocumentType.QUOTATION) {
-      htmlContent = QuotePdfTemplate(quote);
-      filePath = 'quote.pdf';
+    let htmlContent: string;
+    let subject = '';
+    let text = '';
+    let defaultFileName = 'document.pdf';
 
-      subject = `Your Flight Quote - Reference No. ${quote?.revisedQuotationNo || quote?.quotationNo} `;
-      text = `We are Pleased to offer to you the ${quote?.aircraftDetail?.name}`;
+    // Determine content based on documentType
+    switch (documentType) {
+      case SalesDocumentType.QUOTATION:
+        htmlContent = QuotePdfTemplate(quote);
+        subject = `Your Flight Quote - Reference No. ${quote.revisedQuotationNo || quote.quotationNo}`;
+        text = `We are pleased to offer you the ${quote.aircraftDetail?.name}`;
+        defaultFileName = `quote-${quote.quotationNo}.pdf`;
+        break;
+
+      case SalesDocumentType.PROFORMA_INVOICE:
+      case SalesDocumentType.TAX_INVOICE: {
+        const [invoice] = await this.invoiceService.query({
+          filter: {
+            quotationNo: { eq: quotationNo },
+            type: { eq: documentType },
+          },
+        });
+        if (!invoice) throw new BadRequestException('No Invoice Found');
+
+        const referenceNo =
+          documentType === SalesDocumentType.PROFORMA_INVOICE
+            ? invoice.proformaInvoiceNo
+            : invoice.taxInvoiceNo;
+
+        htmlContent = invoice.template;
+        subject = `Your Flight Invoice - Reference No. ${referenceNo}`;
+        defaultFileName = `invoice-${referenceNo}.pdf`;
+        break;
+      }
+
+      case SalesDocumentType.SALE_CONFIRMATION:
+        htmlContent = SaleConfirmationTemplate(quote);
+        subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo}`;
+        defaultFileName = `sales-confirmation-${quotationNo}.pdf`;
+        break;
+
+      default:
+        throw new BadRequestException('Unsupported document type');
     }
 
-    if (
-      documentType == SalesDocumentType.PROFORMA_INVOICE ||
-      documentType == SalesDocumentType.TAX_INVOICE
-    ) {
-      // htmlContent = InvoiceTemplate(quote);
-      const [invoice] = await this.invoiceService.query({
-        filter: {
-          quotationNo: { eq: quotationNo },
-          type: { eq: documentType },
-        },
-      });
-      if (!invoice) throw new BadRequestException('No Invoice Found');
-      const referenceNo =
-        documentType == SalesDocumentType.PROFORMA_INVOICE
-          ? invoice?.proformaInvoiceNo
-          : invoice?.taxInvoiceNo;
-      htmlContent = invoice.template;
-      subject = `Your Flight Invoice - Reference No. ${referenceNo} `;
-      filePath = 'invoice.pdf';
-    }
-    if (documentType == SalesDocumentType.SALE_CONFIRMATION) {
-      htmlContent = SaleConfirmationTemplate(quote);
-      subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo} `;
-      filePath = 'invoice.pdf';
-    }
+    // ✅ Inline images in parallel for faster PDF generation
+    htmlContent = await inlineImagesParallel(htmlContent);
 
-    const pdfPath = await this.createPDF(filePath, htmlContent);
+    // ✅ Generate PDF as Buffer (includes inline images)
+    const pdfBuffer = await createPDFBuffer(htmlContent);
 
-    const attachments = [{ filename: 'document.pdf', path: pdfPath }];
+    // ✅ Prepare attachments (Buffer instead of path)
+    const attachments = [
+      {
+        filename: defaultFileName,
+        content: pdfBuffer, // 👈 Nodemailer accepts Buffer here
+      },
+    ];
 
+    // ✅ Send email
     await this.sendEmail(to, subject, text, null, attachments);
 
     return 'PDF sent successfully!';

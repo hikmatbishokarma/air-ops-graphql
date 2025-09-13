@@ -19,6 +19,10 @@ import { InvoiceResolver } from './resolvers/invoice.resolver';
 import { InvoiceEntity, InvoiceSchema } from './entities/invoice.entity';
 import { InvoiceDto } from './dto/invoice.dto';
 import { PassengerDetailModule } from 'src/passenger-detail/passenger-detail.module';
+import {
+  CrewDetailEntity,
+  CrewDetailSchema,
+} from 'src/crew-details/entities/crew-detail.entity';
 
 @Module({
   imports: [
@@ -28,6 +32,9 @@ import { PassengerDetailModule } from 'src/passenger-detail/passenger-detail.mod
     MongooseModule.forFeature([{ name: Counter.name, schema: CounterSchema }]),
     MongooseModule.forFeature([
       { name: QuotationTemplateEntity.name, schema: QuotationTemplateSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: CrewDetailEntity.name, schema: CrewDetailSchema },
     ]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [

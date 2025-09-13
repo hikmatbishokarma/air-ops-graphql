@@ -27,7 +27,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   async generateInvoice(args) {
     const { id, quotationNo, proformaInvoiceNo, type } = args;
 
-    const quote = await this.quoteService.getQuoteById(quotationNo);
+    const quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const logoUrl = quote?.operator
@@ -67,7 +67,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
 
-      await this.quoteService.updateOne(quote.id, {
+      await this.quoteService.updateOne(quote._id, {
         status: QuoteStatus.PROFOMA_INVOICE,
       });
 
@@ -107,7 +107,9 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
           `Proforma Invoice is not generated For this Quote:${invoice.quotationNo}`,
         );
 
-      const quote = await this.quoteService.getQuoteById(invoice?.quotationNo);
+      const quote = await this.quoteService.getQuoteByQuotatioNo(
+        invoice?.quotationNo,
+      );
       if (!quote) throw new BadRequestException('No Quote Found');
 
       if (quote.status !== QuoteStatus.SALE_CONFIRMED)
@@ -137,7 +139,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
       if (!created)
         throw new InternalServerErrorException('Error in creating invoice');
 
-      await this.quoteService.updateOne(quote.id, {
+      await this.quoteService.updateOne(quote._id, {
         status: QuoteStatus.TAX_INVOICE,
       });
 

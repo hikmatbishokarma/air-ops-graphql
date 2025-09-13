@@ -29,6 +29,11 @@ import e from 'express';
 import { ConfigService } from '@nestjs/config';
 import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 
+import { join } from 'path';
+import * as puppeteer from 'puppeteer';
+import { readFile } from 'fs/promises';
+import { CrewDetailEntity } from 'src/crew-details/entities/crew-detail.entity';
+
 const { QUOTE, TAX_INVOICE, PROFOMA_INVOICE, CANCELLED } = QuoteStatus;
 const quotationWorkflowTransition = {
   Quote: [CANCELLED, TAX_INVOICE, PROFOMA_INVOICE],
@@ -47,6 +52,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     private readonly config: ConfigService,
     @Inject(forwardRef(() => PassengerDetailService))
     private readonly passengerDetailService: PassengerDetailService,
+    @InjectModel(CrewDetailEntity.name)
+    private crewDetailModel: Model<CrewDetailEntity>,
   ) {
     super(model);
     this.baseUrl = this.config.get<string>('site_url');
@@ -146,7 +153,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     return quotationWorkflowTransition[currentState].includes(newState);
   }
 
-  async getQuoteById(quotationNo = null) {
+  async getQuoteByQuotatioNo(quotationNo = null) {
     //const [quote] = await this.query({ filter: { id: { eq: id } } });
 
     const [quote] = await this.Model.aggregate([
@@ -244,6 +251,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       segment.apxFlyTime = duration;
     });
 
+    const crew = await this.crewDetailModel.findOne(
+      { operatorId: quote?.operator?._id },
+      { bankDetails: 1, location: 1, userName: 1 },
+    );
+
     /** calculate price  */
     quote['gstAmount'] = Number((quote.grandTotal * 0.18).toFixed(2)); //18%GST
 
@@ -251,7 +263,12 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       (quote.grandTotal + quote.gstAmount).toFixed(2),
     );
 
-    return quote;
+    //activate bankdetails
+    crew['activeBankdetail'] = crew.bankDetails.find((item) => item.isDefault);
+
+    console.log('crew:::', crew);
+
+    return { ...quote, id: quote._id, crew };
   }
 
   async preview(quotationNo) {
@@ -263,7 +280,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     if (quotationTemp) {
       return quotationTemp.template;
     } else {
-      const quote = await this.getQuoteById(quotationNo);
+      const quote = await this.getQuoteByQuotatioNo(quotationNo);
 
       const logoUrl = quote?.operator
         ? `${this.baseUrl}${quote?.operator?.companyLogo}`
@@ -292,7 +309,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   async generateInvoice(args) {
     const { id, quotationNo, isRevised } = args;
 
-    const quote = await this.getQuoteById(quotationNo);
+    const quote = await this.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
     let htmlContent = InvoiceTemplate(quote);
@@ -362,7 +379,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   async saleConfirmation(args) {
     const { quotationNo } = args;
 
-    const quote = await this.getQuoteById(quotationNo);
+    const quote = await this.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const [passengerInfo] = await this.passengerDetailService.query({
@@ -392,7 +409,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   }
 
   async previewSalesConfirmation(quotationNo) {
-    const quote = await this.getQuoteById(quotationNo);
+    const quote = await this.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const [passengerInfo] = await this.passengerDetailService.query({

@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { hash, compare } from 'bcrypt';
 import { extname } from 'path';
+import puppeteer, { Browser } from 'puppeteer';
 
 export function getSchemaKey(key: string): string {
   return key === 'id' ? '_id' : key;
@@ -157,3 +158,176 @@ export const getDuration = (start: string, end: string) => {
   const m = durationMins % 60;
   return `${h}h ${m}m`;
 };
+
+export async function createPDF(
+  filePath: string,
+  htmlContent: string,
+): Promise<string> {
+  const isLocal = process.env.NODE_ENV !== 'production'; // <--- Auto detect!
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: isLocal
+      ? []
+      : [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--single-process',
+        ],
+  });
+
+  const page = await browser.newPage();
+  // await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); // better
+  // Increase the timeout to 60 seconds
+  await page.setContent(htmlContent, {
+    waitUntil: 'networkidle0',
+    timeout: 60000,
+  });
+  await page.pdf({ path: filePath, format: 'A4' });
+
+  await browser.close();
+  return filePath;
+}
+
+// // Replace all <img src="http..."> with base64 before sending to Puppeteer
+async function inlineImages(html: string): Promise<string> {
+  const regex = /<img[^>]+src="([^">]+)"/g;
+  let match;
+
+  while ((match = regex.exec(html)) !== null) {
+    const url = match[1];
+    if (/^https?:\/\//.test(url)) {
+      try {
+        const res = await fetch(url); // ✅ native fetch in Node 18+
+        const buffer = await res.arrayBuffer();
+        const base64 = Buffer.from(buffer).toString('base64');
+        const contentType = res.headers.get('content-type') || 'image/png';
+        const dataUri = `data:${contentType};base64,${base64}`;
+        html = html.replace(url, dataUri);
+      } catch (err) {
+        console.error(`⚠️ Failed to fetch image: ${url}`, err);
+      }
+    }
+  }
+
+  return html;
+}
+
+// export async function createPDFv1(processedHtml: string): Promise<Buffer> {
+//   // // Inline images before rendering
+//   const html = await inlineImages(processedHtml);
+
+//   const browser = await puppeteer.launch({ headless: true });
+//   const page = await browser.newPage();
+
+//   await page.setContent(html, { waitUntil: 'domcontentloaded' });
+
+//   const pdfBuffer = await page.pdf({
+//     format: 'A4',
+//     printBackground: true,
+//   });
+
+//   await browser.close();
+
+//   return Buffer.from(pdfBuffer);
+// }
+
+export async function createPDFv1(html: string): Promise<Buffer> {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.setContent(html, { waitUntil: 'domcontentloaded' });
+
+  const pdfBuffer = await page.pdf({
+    format: 'A4',
+    printBackground: true,
+  });
+
+  await browser.close();
+
+  return Buffer.from(pdfBuffer);
+}
+
+const imageCache = new Map<string, string>(); // ✅ simple in-memory cache
+
+async function fetchImageBase64(url: string): Promise<string> {
+  if (imageCache.has(url)) return imageCache.get(url)!;
+
+  try {
+    const res = await fetch(url);
+    const buffer = await res.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString('base64');
+    const contentType = res.headers.get('content-type') || 'image/png';
+    const dataUri = `data:${contentType};base64,${base64}`;
+    imageCache.set(url, dataUri);
+    return dataUri;
+  } catch (err) {
+    console.error(`⚠️ Failed to fetch image: ${url}`, err);
+    return url; // fallback to original URL
+  }
+}
+
+export async function inlineImagesParallel(html: string): Promise<string> {
+  // const regex = /<img[^>]+src="([^">]+)"/g;
+
+  const regex = /<img[^>]+src=['"]([^'">]+)['"]/g;
+  const urls: string[] = [];
+  let match;
+
+  while ((match = regex.exec(html)) !== null) {
+    const url = match[1];
+    if (/^https?:\/\//.test(url)) urls.push(url);
+  }
+
+  const results = await Promise.all(urls.map(fetchImageBase64));
+  results.forEach((dataUri, index) => {
+    html = html.replaceAll(urls[index], dataUri);
+  });
+
+  return html;
+}
+
+let browser: Browser | null = null;
+
+async function getBrowser(): Promise<Browser> {
+  if (!browser) {
+    browser = await puppeteer.launch({
+      headless: true,
+      args:
+        process.env.NODE_ENV === 'production'
+          ? [
+              '--no-sandbox',
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--disable-gpu',
+              '--single-process',
+            ]
+          : [],
+    });
+  }
+  return browser;
+}
+
+export async function createPDFBuffer(htmlContent: string): Promise<Buffer> {
+  const browser = await getBrowser();
+  const page = await browser.newPage();
+
+  // ✅ Inline images first
+  // const processedHtml = await inlineImagesParallel(htmlContent);
+
+  const html = await inlineImages(htmlContent);
+
+  await page.setContent(html, {
+    waitUntil: 'networkidle0',
+    timeout: 60000,
+  });
+
+  // Puppeteer gives Uint8Array → wrap into Buffer
+  const pdfUint8 = await page.pdf({ format: 'A4' });
+  const buffer = Buffer.from(pdfUint8); // ✅ convert
+
+  await page.close();
+  return buffer;
+}
