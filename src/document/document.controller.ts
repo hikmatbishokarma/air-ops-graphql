@@ -16,6 +16,7 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { InvoiceService } from 'src/quotes/services/invoice.service';
 import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confirmation';
+import { SalesDocumentType } from 'src/app-constants/enums';
 
 @Controller('api/document')
 export class DocumentController {
@@ -105,7 +106,7 @@ export class DocumentController {
   @Get('quote/download')
   async downloadDocument(
     @Query('quotationNo') quotationNo: string,
-    @Query('documentType') documentType: string, // e.g., 'QUOTE', 'PROFORMA_INVOICE'
+    @Query('documentType') documentType: SalesDocumentType, // e.g., 'QUOTE', 'PROFORMA_INVOICE'
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
     if (!quotationNo) throw new BadRequestException('quotationNo is required');
@@ -124,13 +125,13 @@ export class DocumentController {
 
     // Decide template and file name based on documentType
     switch (documentType) {
-      case 'QUOTE':
+      case SalesDocumentType.QUOTATION:
         htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
         defaultFileName = `quote-${quotationNo.replace(/\//g, '-')}.pdf`;
         break;
 
-      case 'PROFORMA_INVOICE':
-      case 'TAX_INVOICE': {
+      case SalesDocumentType.PROFORMA_INVOICE:
+      case SalesDocumentType.TAX_INVOICE: {
         const [invoice] = await this.invoiceService.query({
           filter: {
             quotationNo: { eq: quotationNo },
@@ -140,14 +141,14 @@ export class DocumentController {
         if (!invoice) throw new BadRequestException('No Invoice Found');
         htmlContent = invoice.template;
         const referenceNo =
-          documentType === 'PROFORMA_INVOICE'
+          documentType === SalesDocumentType.PROFORMA_INVOICE
             ? invoice.proformaInvoiceNo
             : invoice.taxInvoiceNo;
         defaultFileName = `invoice-${referenceNo}.pdf`;
         break;
       }
 
-      case 'SALE_CONFIRMATION':
+      case SalesDocumentType.SALE_CONFIRMATION:
         htmlContent = SaleConfirmationTemplate(quote);
         defaultFileName = `sales-confirmation-${quotationNo.replace(/\//g, '-')}.pdf`;
         break;
