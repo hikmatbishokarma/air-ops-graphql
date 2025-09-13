@@ -264,9 +264,9 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     );
 
     //activate bankdetails
-    crew['activeBankdetail'] = crew.bankDetails.find((item) => item.isDefault);
-
-    console.log('crew:::', crew);
+    crew['activeBankdetail'] = crew?.bankDetails?.find(
+      (item) => item?.isDefault,
+    );
 
     return { ...quote, id: quote._id, crew };
   }
