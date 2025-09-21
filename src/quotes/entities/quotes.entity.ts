@@ -28,7 +28,52 @@ export class ItineraryEntity {
   paxNumber: number;
 }
 
-const ItinerarySchema = SchemaFactory.createForClass(ItineraryEntity);
+@Schema({ _id: false })
+export class sectorLocationEntity {
+  @Prop({ required: true })
+  iata_code?: string; // e.g. HYD, BLR (optional)
+
+  @Prop({ required: true })
+  name: string; // Airport name or custom name
+
+  @Prop()
+  city?: string;
+
+  @Prop()
+  country?: string;
+
+  @Prop()
+  lat?: number;
+
+  @Prop()
+  long?: number;
+}
+
+@Schema({ _id: false })
+export class SectorEntity {
+  @Prop({ type: sectorLocationEntity, required: true })
+  source: sectorLocationEntity;
+
+  @Prop({ type: sectorLocationEntity, required: true })
+  destination: sectorLocationEntity;
+
+  @Prop({ type: Date, required: true })
+  depatureDate: Date;
+
+  @Prop({ required: true })
+  depatureTime: string;
+
+  @Prop({ type: Date, required: true })
+  arrivalDate: Date;
+
+  @Prop({ required: true })
+  arrivalTime: string;
+
+  @Prop({ required: true })
+  paxNumber: number;
+}
+
+const SectorSchema = SchemaFactory.createForClass(SectorEntity);
 
 @Schema({ collection: 'quotes', timestamps: true })
 export class QuotesEntity extends BaseEntity {
@@ -66,8 +111,11 @@ export class QuotesEntity extends BaseEntity {
   // @Prop({ type: [Object], required: true })
   // itinerary: Object[];
 
-  @Prop({ type: [ItineraryEntity], required: true })
+  @Prop({ type: [ItineraryEntity], required: false })
   itinerary: ItineraryEntity[];
+
+  @Prop({ type: [SectorEntity], required: false })
+  sectors: SectorEntity[];
 
   @Prop({ type: String, enum: QuoteStatus, default: QuoteStatus.QUOTE })
   status: QuoteStatus;

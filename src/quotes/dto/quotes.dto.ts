@@ -5,7 +5,7 @@ import {
   QueryOptions,
   Relation,
 } from '@app/query-graphql';
-import { Field, Float, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
 import { Category, QuoteStatus } from 'src/app-constants/enums';
@@ -16,6 +16,53 @@ import { PriceInputDto } from 'src/price/dto/price.dto';
 import { AircraftDetailDto } from 'src/aircraft-detail/dto/aircraft-detail.dto';
 import { RepresentativeDto } from 'src/representative/dto/representative.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
+
+@ObjectType()
+@InputType('sectorLocationInput')
+export class SectorLocationInputDto {
+  @Field()
+  iata_code: string; // e.g. HYD, BLR (optional)
+
+  @Field()
+  name: string; // Airport name or custom name
+
+  @Field({ nullable: true })
+  city?: string;
+
+  @Field({ nullable: true })
+  country?: string;
+
+  @Field({ nullable: true })
+  lat?: number;
+
+  @Field({ nullable: true })
+  long?: number;
+}
+
+@ObjectType()
+@InputType('sectorInput')
+export class SectorInputDto {
+  @Field(() => SectorLocationInputDto)
+  source: SectorLocationInputDto;
+
+  @Field(() => SectorLocationInputDto)
+  destination: SectorLocationInputDto;
+
+  @Field()
+  depatureDate: Date;
+
+  @Field()
+  depatureTime: string;
+
+  @Field()
+  arrivalDate: Date;
+
+  @Field()
+  arrivalTime: string;
+
+  @Field()
+  paxNumber: number;
+}
 
 @ObjectType('Quote', { description: 'Quotes' })
 @QueryOptions({
@@ -59,6 +106,10 @@ export class QuotesDto extends BaseDTO {
   // revisedQuotationNo: string;
   @Field(() => [GraphQLJSONObject])
   itinerary: Object[];
+
+  @Field(() => [SectorInputDto])
+  sectors: SectorInputDto[];
+
   @FilterableField(() => QuoteStatus, { defaultValue: QuoteStatus.QUOTE })
   status: QuoteStatus;
   @Field(() => [PriceInputDto], { nullable: true, defaultValue: [] })

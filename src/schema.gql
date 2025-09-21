@@ -1883,6 +1883,7 @@ input CreateQuote {
   representative: String
   requestedBy: String
   revision: Int = 0
+  sectors: [sectorInput!]
   status: QuoteStatus = QUOTE
 
   """The date when the record was last updated"""
@@ -4127,6 +4128,7 @@ type Quote {
   representative: representative
   requestedBy: client
   revision: Int!
+  sectors: [SectorInputDto!]!
   status: QuoteStatus!
 
   """The date when the record was last updated"""
@@ -4227,6 +4229,7 @@ type QuoteDeleteResponse {
   representative: String
   requestedBy: String
   revision: Int
+  sectors: [SectorInputDto!]
   status: QuoteStatus
 
   """The date when the record was last updated"""
@@ -4662,6 +4665,25 @@ type SectorDto {
   sectorNo: Int
   source: String!
   travel: TravelDto
+}
+
+type SectorInputDto {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: SectorLocationInputDto!
+  paxNumber: Int!
+  source: SectorLocationInputDto!
+}
+
+type SectorLocationInputDto {
+  city: String
+  country: String
+  iata_code: String!
+  lat: Int
+  long: Int
+  name: String!
 }
 
 type SecurityConnection {
@@ -6223,6 +6245,7 @@ input UpdateQuote {
   representative: String
   requestedBy: String
   revision: Int = 0
+  sectors: [sectorInput!]
   status: QuoteStatus = QUOTE
 
   """The date when the record was last updated"""
@@ -8057,6 +8080,25 @@ input sector {
   sectorNo: Int
   source: String!
   travel: travelInput
+}
+
+input sectorInput {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: sectorLocationInput!
+  paxNumber: Int!
+  source: sectorLocationInput!
+}
+
+input sectorLocationInput {
+  city: String
+  country: String
+  iata_code: String!
+  lat: Int
+  long: Int
+  name: String!
 }
 
 """Security"""
