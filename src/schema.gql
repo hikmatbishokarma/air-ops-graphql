@@ -4679,10 +4679,11 @@ type SectorInputDto {
 
 type SectorLocationInputDto {
   city: String
+  code: String!
   country: String
-  iata_code: String!
-  lat: Int
-  long: Int
+  iata_code: String
+  lat: String
+  long: String
   name: String!
 }
 
@@ -8094,10 +8095,11 @@ input sectorInput {
 
 input sectorLocationInput {
   city: String
+  code: String!
   country: String
-  iata_code: String!
-  lat: Int
-  long: Int
+  iata_code: String
+  lat: String
+  long: String
   name: String!
 }
 

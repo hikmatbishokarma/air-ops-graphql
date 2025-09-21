@@ -20,8 +20,11 @@ import { OperatorDto } from 'src/operator/dto/operator.dto';
 @ObjectType()
 @InputType('sectorLocationInput')
 export class SectorLocationInputDto {
-  @Field()
+  @Field({ nullable: true })
   iata_code: string; // e.g. HYD, BLR (optional)
+
+  @Field({})
+  code: string;
 
   @Field()
   name: string; // Airport name or custom name
@@ -33,10 +36,10 @@ export class SectorLocationInputDto {
   country?: string;
 
   @Field({ nullable: true })
-  lat?: number;
+  lat?: string;
 
   @Field({ nullable: true })
-  long?: number;
+  long?: string;
 }
 
 @ObjectType()

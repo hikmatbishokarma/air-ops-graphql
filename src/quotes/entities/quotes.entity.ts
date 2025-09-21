@@ -30,8 +30,11 @@ export class ItineraryEntity {
 
 @Schema({ _id: false })
 export class sectorLocationEntity {
-  @Prop({ required: true })
+  @Prop()
   iata_code?: string; // e.g. HYD, BLR (optional)
+
+  @Prop({ required: true })
+  code: string;
 
   @Prop({ required: true })
   name: string; // Airport name or custom name
@@ -43,10 +46,10 @@ export class sectorLocationEntity {
   country?: string;
 
   @Prop()
-  lat?: number;
+  lat?: string;
 
   @Prop()
-  long?: number;
+  long?: string;
 }
 
 @Schema({ _id: false })
