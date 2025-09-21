@@ -6238,6 +6238,7 @@ input UpdateQuoteDTO {
   category: Category!
   grandTotal: Float! = 0
   itinerary: [JSONObject!]!
+  operatorId: String
   prices: [priceInput!]!
   providerType: String!
   representative: String

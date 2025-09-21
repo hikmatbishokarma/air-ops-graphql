@@ -24,6 +24,9 @@ export class UpdateQuoteDTO {
   prices: PriceInputDto[];
   @Field(() => Float, { defaultValue: 0 })
   grandTotal: number;
+
+  @Field({ nullable: true })
+  operatorId: string;
 }
 
 @InputType()
