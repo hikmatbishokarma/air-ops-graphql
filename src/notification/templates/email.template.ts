@@ -325,6 +325,7 @@ export const QuotePdfTemplate = (quote) => {
     logoUrl,
     operator,
     crew,
+    sectors,
   } = quote;
 
   const priceRows = prices
@@ -517,13 +518,13 @@ export const QuotePdfTemplate = (quote) => {
         </tr>
       </thead>
       <tbody>
-        ${itinerary
+        ${sectors
           .map(
             (item) => `
               <tr>
                 <td>${moment(item.depatureDate).format('DD-MM-YYYY')}</td>
-                <td>${item?.source?.city}</td>
-                <td>${item?.destination?.city}</td>
+                <td>${item?.source?.city || item?.source?.name}</td>
+                <td>${item?.destination?.city || item?.destination?.name}</td>
                 <td>${item?.apxFlyTime}</td>
                 <td>${item.paxNumber} pax</td>
               </tr>

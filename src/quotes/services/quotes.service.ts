@@ -215,35 +215,44 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           prices: 1,
           grandTotal: 1,
           createdAt: 1,
+          sectors: 1,
         },
       },
     ]);
 
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    const airportcodes: any = Array.from(
-      new Set(
-        quote.itinerary.flatMap((segment: any) => [
-          segment.source,
-          segment.destination,
-        ]),
-      ),
-    );
+    // const airportcodes: any = Array.from(
+    //   new Set(
+    //     quote.itinerary.flatMap((segment: any) => [
+    //       segment.source,
+    //       segment.destination,
+    //     ]),
+    //   ),
+    // );
 
-    const quoteSegments = await this.airportService.query({
-      filter: { iata_code: { in: airportcodes } },
-      projection: { _id: 0, createdAt: 0, updatedAt: 0, isActive: 0 },
-    });
+    // const quoteSegments = await this.airportService.query({
+    //   filter: { iata_code: { in: airportcodes } },
+    //   projection: { _id: 0, createdAt: 0, updatedAt: 0, isActive: 0 },
+    // });
 
-    quote.itinerary.forEach((segment: any) => {
-      const source = quoteSegments.find(
-        (s: any) => s.iata_code === segment.source,
-      );
-      const destination = quoteSegments.find(
-        (s: any) => s.iata_code === segment.destination,
-      );
-      segment.source = source;
-      segment.destination = destination;
+    // quote.itinerary.forEach((segment: any) => {
+    //   const source = quoteSegments.find(
+    //     (s: any) => s.iata_code === segment.source,
+    //   );
+    //   const destination = quoteSegments.find(
+    //     (s: any) => s.iata_code === segment.destination,
+    //   );
+    //   segment.source = source;
+    //   segment.destination = destination;
+    //   const duration = calculateDuration(
+    //     segment.depatureTime,
+    //     segment.arrivalTime,
+    //   );
+    //   segment.apxFlyTime = duration;
+    // });
+
+    quote?.sectors?.forEach((segment: any) => {
       const duration = calculateDuration(
         segment.depatureTime,
         segment.arrivalTime,
