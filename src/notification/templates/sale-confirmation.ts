@@ -15,9 +15,10 @@ export const SaleConfirmationTemplate = (quote) => {
     logoUrl,
     operator,
     passengerInfo,
+    sectors,
   } = quote;
 
-  itinerary.forEach((sector, index) => {
+  sectors.forEach((sector, index) => {
     const paxIfno = passengerInfo?.sectors?.find(
       (pax) => pax.sectorNo == index + 1,
     );
@@ -114,7 +115,7 @@ export const SaleConfirmationTemplate = (quote) => {
     <!-- Trip Details -->
 
       <div class="section-title">✈️ Flight Details</div>
-      ${itinerary.map(
+      ${sectors.map(
         (item, index) => `
         
       Trip ${index + 1}
@@ -126,8 +127,8 @@ export const SaleConfirmationTemplate = (quote) => {
           <td><strong>Aircraft:</strong> ${aircraftDetail?.name}</td>
         </tr>
         <tr>
-          <td><strong>Departure Airport:</strong><br>${item?.source?.name},${item?.source?.city}<br>${item.depatureTime}</td>
-          <td><strong>Arrival Airport:</strong><br>${item?.destination?.name},${item?.destination?.city}<br>${item.arrivalTime}</td>
+          <td><strong>Departure Airport:</strong><br>${item?.source?.name},${item?.source?.city || ''}<br>${item.depatureTime}</td>
+          <td><strong>Arrival Airport:</strong><br>${item?.destination?.name},${item?.destination?.city || ''}<br>${item.arrivalTime}</td>
         </tr>
       </table>
 

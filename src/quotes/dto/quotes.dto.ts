@@ -63,7 +63,7 @@ export class SectorInputDto {
   @Field()
   arrivalTime: string;
 
-  @Field()
+  @Field({ defaultValue: 0 })
   paxNumber: number;
 }
 

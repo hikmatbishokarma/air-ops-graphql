@@ -8089,7 +8089,7 @@ input sectorInput {
   depatureDate: DateTime!
   depatureTime: String!
   destination: sectorLocationInput!
-  paxNumber: Int!
+  paxNumber: Int! = 0
   source: sectorLocationInput!
 }
 
