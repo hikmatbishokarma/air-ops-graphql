@@ -23,9 +23,9 @@ export const SaleConfirmationTemplate = (quote) => {
       (pax) => pax.sectorNo == index + 1,
     );
     if (paxIfno) {
-      sector.passengers = paxIfno.passengers;
-      sector.meals = paxIfno.meals;
-      sector.travel = paxIfno.travel;
+      sector.passengers = paxIfno.passengers || [];
+      sector.meals = paxIfno.meals || [];
+      sector.travel = paxIfno.travel || {};
     }
   });
 
@@ -115,7 +115,7 @@ export const SaleConfirmationTemplate = (quote) => {
     <!-- Trip Details -->
 
       <div class="section-title">✈️ Flight Details</div>
-      ${sectors.map(
+      ${sectors?.map(
         (item, index) => `
         
       Trip ${index + 1}

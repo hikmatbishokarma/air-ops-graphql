@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { SchemaTypes, Types } from 'mongoose';
 
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { sectorLocationEntity } from 'src/quotes/entities/quotes.entity';
 
 // Define the schema for a single meal
 @Schema({ _id: false })
@@ -61,11 +62,15 @@ const TravelSchema = SchemaFactory.createForClass(TravelEntity);
 export class SectorEntity {
   @Prop()
   sectorNo: number;
-  @Prop()
-  source: string;
 
-  @Prop()
-  destination: string;
+  // @Prop()
+  // source: string;
+
+  @Prop({ type: sectorLocationEntity, required: true })
+  source: sectorLocationEntity;
+
+  @Prop({ type: sectorLocationEntity, required: true })
+  destination: sectorLocationEntity;
 
   @Prop({ type: Date, required: true })
   depatureDate: Date;

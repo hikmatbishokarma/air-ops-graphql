@@ -3178,11 +3178,11 @@ input MarkAsReadInput {
 }
 
 type MealDto {
-  category: String!
-  instructions: String!
-  item: String!
-  portions: Int!
-  type: String!
+  category: String
+  instructions: String
+  item: String
+  portions: Int
+  type: String
 }
 
 type Mutation {
@@ -4657,13 +4657,13 @@ type SectorDto {
   arrivalTime: String!
   depatureDate: DateTime!
   depatureTime: String!
-  destination: String!
+  destination: SectorLocationInputDto!
   flightTime: String!
   meals: [MealDto!]
   passengers: [PassengerDto!]
   pax: Int!
   sectorNo: Int
-  source: String!
+  source: SectorLocationInputDto!
   travel: TravelDto
 }
 
@@ -5086,11 +5086,11 @@ input SystemNotificationWhereInput {
 }
 
 type TravelDto {
-  category: String!
-  dropAt: String!
-  seatingCapacity: Int!
-  type: String!
-  vehicleChoice: String!
+  category: String
+  dropAt: String
+  seatingCapacity: Int
+  type: String
+  vehicleChoice: String
 }
 
 """Trip Detail """
@@ -7365,11 +7365,11 @@ input manualUpdateFilter {
 }
 
 input mealInput {
-  category: String!
-  instructions: String!
-  item: String!
-  portions: Int!
-  type: String!
+  category: String
+  instructions: String
+  item: String
+  portions: Int
+  type: String
 }
 
 input nomineeInput {
@@ -8074,13 +8074,13 @@ input sector {
   arrivalTime: String!
   depatureDate: DateTime!
   depatureTime: String!
-  destination: String!
+  destination: sectorLocationInput!
   flightTime: String!
   meals: [mealInput!]
   passengers: [passengerInput!]
   pax: Int!
   sectorNo: Int
-  source: String!
+  source: sectorLocationInput!
   travel: travelInput
 }
 
@@ -8221,11 +8221,11 @@ input securityUpdateFilter {
 }
 
 input travelInput {
-  category: String!
-  dropAt: String!
-  seatingCapacity: Int!
-  type: String!
-  vehicleChoice: String!
+  category: String
+  dropAt: String
+  seatingCapacity: Int
+  type: String
+  vehicleChoice: String
 }
 
 enum type {

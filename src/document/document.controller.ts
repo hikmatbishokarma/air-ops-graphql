@@ -17,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
 import { InvoiceService } from 'src/quotes/services/invoice.service';
 import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confirmation';
 import { SalesDocumentType } from 'src/app-constants/enums';
+import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 
 @Controller('api/document')
 export class DocumentController {
@@ -25,6 +26,7 @@ export class DocumentController {
     private readonly quotesService: QuotesService,
     private readonly config: ConfigService,
     private readonly invoiceService: InvoiceService,
+    private readonly passengerDetailService: PassengerDetailService,
   ) {
     this.baseUrl = this.config.get<string>('site_url');
   }
@@ -149,7 +151,14 @@ export class DocumentController {
       }
 
       case SalesDocumentType.SALE_CONFIRMATION:
-        htmlContent = SaleConfirmationTemplate(quote);
+        const [passengerInfo] = await this.passengerDetailService.query({
+          filter: {
+            quotation: { eq: quote._id },
+            quotationNo: { eq: quote.quotationNo },
+          },
+        });
+
+        htmlContent = SaleConfirmationTemplate({ ...quote, passengerInfo });
         defaultFileName = `sales-confirmation-${quotationNo.replace(/\//g, '-')}.pdf`;
         break;
 

@@ -8,20 +8,20 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
-import { QuotesDto } from 'src/quotes/dto/quotes.dto';
+import { QuotesDto, SectorLocationInputDto } from 'src/quotes/dto/quotes.dto';
 
 @ObjectType()
 @InputType('mealInput')
 export class MealDto {
-  @Field()
+  @Field({ nullable: true })
   category: string;
-  @Field()
+  @Field({ nullable: true })
   type: string;
-  @Field()
+  @Field({ nullable: true })
   portions: number;
-  @Field()
+  @Field({ nullable: true })
   item: string;
-  @Field()
+  @Field({ nullable: true })
   instructions: string;
 }
 
@@ -41,15 +41,15 @@ export class PassengerDto {
 @ObjectType()
 @InputType('travelInput')
 export class TravelDto {
-  @Field()
+  @Field({ nullable: true })
   category: string;
-  @Field()
+  @Field({ nullable: true })
   type: string;
-  @Field()
+  @Field({ nullable: true })
   seatingCapacity: number;
-  @Field()
+  @Field({ nullable: true })
   vehicleChoice: string;
-  @Field()
+  @Field({ nullable: true })
   dropAt: string;
 }
 
@@ -58,10 +58,12 @@ export class TravelDto {
 export class SectorDto {
   @Field({ nullable: true })
   sectorNo: number;
-  @Field()
-  source: string;
-  @Field()
-  destination: string;
+  // @Field()
+  // source: string;
+  @Field(() => SectorLocationInputDto)
+  source: SectorLocationInputDto;
+  @Field(() => SectorLocationInputDto)
+  destination: SectorLocationInputDto;
   @Field()
   depatureDate: Date;
   @Field()
