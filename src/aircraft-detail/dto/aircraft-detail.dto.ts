@@ -32,16 +32,16 @@ export class AircraftDetailDto extends BaseDTO {
   code: string;
   // @FilterableField()
   // category: string;
-  @Field()
-  description: string;
-  @Field(() => [GraphQLJSONObject])
+  // @Field()
+  // description: string;
+  @Field(() => [GraphQLJSONObject], { nullable: true })
   specifications: specificationsDTO[];
   @Field({ description: 'Flights/Helicoptor Terms and Conditions' })
   termsAndConditions: string;
   @Field({ nullable: true })
   noteText: string;
-  @Field({ nullable: true })
-  warningText: string;
+  // @Field({ nullable: true })
+  // warningText: string;
   @Field({ nullable: true })
   warningImage: string;
   @Field(() => [String], { nullable: true })
@@ -52,4 +52,6 @@ export class AircraftDetailDto extends BaseDTO {
   rangeMapImage: string;
   @FilterableField({ nullable: true })
   operatorId: string;
+  @Field(() => [String], { nullable: true })
+  flightInteriorImages: string[];
 }

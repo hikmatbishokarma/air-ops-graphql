@@ -8,23 +8,20 @@ export class AircraftDetailEntity extends BaseEntity {
   name: string;
   @Prop({ type: String, required: true })
   code: string;
-  // @Prop({
-  //   ref: 'AircraftCategoriesEntity',
-  //   type: SchemaTypes.ObjectId,
-  //   required: true,
-  // })
-  // category: Types.ObjectId;
+
   @Prop()
   description: string;
 
   @Prop({ type: [Object] })
   specifications: Object[];
+
   @Prop()
   termsAndConditions: string;
+
   @Prop()
   noteText: string;
-  @Prop()
-  warningText: string;
+  // @Prop()
+  // warningText: string;
   @Prop()
   warningImage: string;
   @Prop()
@@ -33,6 +30,9 @@ export class AircraftDetailEntity extends BaseEntity {
   seatLayoutImage: string;
   @Prop()
   rangeMapImage: string;
+
+  @Prop()
+  flightInteriorImages: [string];
 
   @Prop({
     type: SchemaTypes.ObjectId,

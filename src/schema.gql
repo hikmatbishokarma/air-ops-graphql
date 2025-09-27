@@ -382,8 +382,8 @@ type AircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  description: String!
   flightImages: [String!]
+  flightInteriorImages: [String!]
   id: ID!
   isActive: Boolean!
   name: String!
@@ -392,7 +392,7 @@ type AircraftDetail {
   operatorId: String
   rangeMapImage: String
   seatLayoutImage: String
-  specifications: [JSONObject!]!
+  specifications: [JSONObject!]
 
   """Flights/Helicoptor Terms and Conditions"""
   termsAndConditions: String!
@@ -403,7 +403,6 @@ type AircraftDetail {
   """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
-  warningText: String
 }
 
 type AircraftDetailAggregateGroupBy {
@@ -460,8 +459,8 @@ type AircraftDetailDeleteResponse {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  description: String
   flightImages: [String!]
+  flightInteriorImages: [String!]
   id: ID
   isActive: Boolean
   name: String
@@ -480,7 +479,6 @@ type AircraftDetailDeleteResponse {
   """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
-  warningText: String
 }
 
 input AircraftDetailFilter {
@@ -1212,8 +1210,8 @@ input CreateAircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  description: String
   flightImages: [String!]
+  flightInteriorImages: [String!]
   id: ID
   isActive: Boolean = true
   name: String
@@ -1232,7 +1230,6 @@ input CreateAircraftDetail {
   """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
-  warningText: String
 }
 
 input CreateAirport {
@@ -5413,8 +5410,8 @@ input UpdateAircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  description: String
   flightImages: [String!]
+  flightInteriorImages: [String!]
   id: ID
   isActive: Boolean = true
   name: String
@@ -5433,7 +5430,6 @@ input UpdateAircraftDetail {
   """The id of the user who last updated the record"""
   updatedBy: String
   warningImage: String
-  warningText: String
 }
 
 input UpdateAirport {
