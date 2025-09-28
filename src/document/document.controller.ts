@@ -128,7 +128,11 @@ export class DocumentController {
     // Decide template and file name based on documentType
     switch (documentType) {
       case SalesDocumentType.QUOTATION:
-        htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
+        htmlContent = QuotePdfTemplate({
+          ...quote,
+          logoUrl,
+          baseUrl: this.baseUrl,
+        });
         defaultFileName = `quote-${quotationNo.replace(/\//g, '-')}.pdf`;
         break;
 

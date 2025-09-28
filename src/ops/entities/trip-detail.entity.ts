@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types } from 'mongoose';
 import { BaseEntity } from 'src/common/entities/base.entity';
+import { sectorLocationEntity } from 'src/quotes/entities/quotes.entity';
 
 @Schema({ _id: false })
 export class AssignmentCrewEntity {
@@ -96,11 +97,19 @@ export class TripSectorEntity {
   @Prop()
   sectorNo: number;
 
-  @Prop()
-  source: string;
+  // @Prop()
+  // source: string;
 
-  @Prop()
-  destination: string;
+  // @Prop()
+  // destination: string;
+
+  // source: string;
+
+  @Prop({ type: sectorLocationEntity, required: true })
+  source: sectorLocationEntity;
+
+  @Prop({ type: sectorLocationEntity, required: true })
+  destination: sectorLocationEntity;
 
   @Prop({ type: Date, required: true })
   depatureDate: Date;

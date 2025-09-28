@@ -9,7 +9,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
-import { QuotesDto } from 'src/quotes/dto/quotes.dto';
+import { QuotesDto, SectorLocationInputDto } from 'src/quotes/dto/quotes.dto';
 import { CreateTripDetailHook } from '../hooks/create-trip-detail.hook';
 import { TripDetailStatus, TripSectorStatus } from 'src/app-constants/enums';
 
@@ -104,10 +104,16 @@ export class BaInfoDto {
 export class TripSectorDto {
   @Field({ nullable: true })
   sectorNo: number;
-  @Field()
-  source: string;
-  @Field()
-  destination: string;
+  // @Field()
+  // source: string;
+  // @Field()
+  // destination: string;
+
+  @Field(() => SectorLocationInputDto, { nullable: true })
+  source: SectorLocationInputDto;
+  @Field(() => SectorLocationInputDto, { nullable: true })
+  destination: SectorLocationInputDto;
+
   @Field()
   depatureDate: Date;
   @Field()

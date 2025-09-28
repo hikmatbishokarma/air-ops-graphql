@@ -5293,13 +5293,13 @@ input TripSector {
   baInfo: BaInfo
   depatureDate: DateTime!
   depatureTime: String!
-  destination: String!
+  destination: sectorLocationInput
   documents: [DocumentInput!]
   flightTime: String!
   fuelRecord: FuelRecordInput
   pax: Int!
   sectorNo: Int
-  source: String!
+  source: sectorLocationInput
   status: TripSectorStatus! = IN_PROGRESS
 }
 
@@ -5310,13 +5310,13 @@ type TripSectorDto {
   baInfo: BaInfoDto
   depatureDate: DateTime!
   depatureTime: String!
-  destination: String!
+  destination: SectorLocationInputDto
   documents: [DocumentDto!]
   flightTime: String!
   fuelRecord: FuelRecordDto
   pax: Int!
   sectorNo: Int
-  source: String!
+  source: SectorLocationInputDto
   status: TripSectorStatus!
 }
 

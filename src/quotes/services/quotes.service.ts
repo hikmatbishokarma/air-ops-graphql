@@ -297,7 +297,11 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
       if (!quote) throw new BadRequestException('No Quote Found');
 
-      const htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
+      const htmlContent = QuotePdfTemplate({
+        ...quote,
+        logoUrl,
+        baseUrl: this.baseUrl,
+      });
       return htmlContent;
     }
   }
