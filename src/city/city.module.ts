@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { CityEntity, CitySchema } from './entities/city.entity';
 import { CityDto } from './dto/city.dto';
 import { CityService } from './services/city.service';
+import { CityResolver } from './resolvers/city.resolver';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { CityService } from './services/city.service';
       ],
     }),
   ],
-  providers: [CityService],
+  providers: [CityService, CityResolver],
 })
 export class CityModule {}

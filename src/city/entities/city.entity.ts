@@ -7,6 +7,18 @@ export class CityEntity extends BaseEntity {
   name: string;
   @Prop()
   state: string;
+
+  @Prop({ required: true })
+  countryCode: string;
+
+  @Prop({ required: true })
+  stateCode: string;
+
+  @Prop({ required: false, type: String })
+  latitude?: string;
+
+  @Prop({ required: false, type: String })
+  longitude?: string;
 }
 
 export const CitySchema = SchemaFactory.createForClass(CityEntity);

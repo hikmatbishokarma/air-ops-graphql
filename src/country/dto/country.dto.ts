@@ -6,27 +6,36 @@ import {
 import { ObjectType } from '@nestjs/graphql';
 import { BaseDTO } from 'src/common/dtos/base.dto';
 
-@ObjectType('City', { description: 'City' })
+@ObjectType('Country', { description: 'Country' })
 @QueryOptions({
   enableTotalCount: true,
   pagingStrategy: PagingStrategies.OFFSET,
 })
-export class CityDto extends BaseDTO {
+export class CountryDto extends BaseDTO {
   @FilterableField()
   name: string;
 
   @FilterableField()
-  state: string;
+  isoCode: string;
 
   @FilterableField()
-  countryCode: string;
+  dialCode: string;
 
   @FilterableField()
-  stateCode: string;
+  emoji?: string;
 
-  @FilterableField({ nullable: true })
+  @FilterableField()
+  flagUrl?: string;
+
+  @FilterableField()
+  currency?: string;
+
+  @FilterableField()
   latitude?: string;
 
-  @FilterableField({ nullable: true })
+  @FilterableField()
   longitude?: string;
+
+  @FilterableField()
+  timezone?: string;
 }

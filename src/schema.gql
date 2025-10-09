@@ -938,6 +938,8 @@ type CertificationResponse {
 
 """City"""
 type City {
+  countryCode: String!
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -951,8 +953,11 @@ type City {
   deletedBy: String
   id: ID!
   isActive: Boolean!
+  latitude: String
+  longitude: String
   name: String!
   state: String!
+  stateCode: String!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -962,11 +967,15 @@ type City {
 }
 
 type CityAggregateGroupBy {
+  countryCode: String
   createdAt: DateTime
   id: ID
   isActive: Boolean
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 }
 
 type CityConnection {
@@ -981,24 +990,34 @@ type CityConnection {
 }
 
 type CityCountAggregate {
+  countryCode: Int
   createdAt: Int
   id: Int
   isActive: Int
+  latitude: Int
+  longitude: Int
   name: Int
   state: Int
+  stateCode: Int
 }
 
 input CityDeleteFilter {
   and: [CityDeleteFilter!]
+  countryCode: StringFieldComparison
   createdAt: DateFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   or: [CityDeleteFilter!]
   state: StringFieldComparison
+  stateCode: StringFieldComparison
 }
 
 type CityDeleteResponse {
+  countryCode: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -1012,8 +1031,11 @@ type CityDeleteResponse {
   deletedBy: String
   id: ID
   isActive: Boolean
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1024,26 +1046,38 @@ type CityDeleteResponse {
 
 input CityFilter {
   and: [CityFilter!]
+  countryCode: StringFieldComparison
   createdAt: DateFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   or: [CityFilter!]
   state: StringFieldComparison
+  stateCode: StringFieldComparison
 }
 
 type CityMaxAggregate {
+  countryCode: String
   createdAt: DateTime
   id: ID
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 }
 
 type CityMinAggregate {
+  countryCode: String
   createdAt: DateTime
   id: ID
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 }
 
 input CitySort {
@@ -1053,21 +1087,29 @@ input CitySort {
 }
 
 enum CitySortFields {
+  countryCode
   createdAt
   id
   isActive
+  latitude
+  longitude
   name
   state
+  stateCode
 }
 
 input CityUpdateFilter {
   and: [CityUpdateFilter!]
+  countryCode: StringFieldComparison
   createdAt: DateFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   or: [CityUpdateFilter!]
   state: StringFieldComparison
+  stateCode: StringFieldComparison
 }
 
 type ClientConnection {
@@ -1141,6 +1183,210 @@ input ClientTypeFilterComparison {
 
 """Cursor for paging through collections"""
 scalar ConnectionCursor
+
+"""Country"""
+type Country {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+  currency: String!
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  dialCode: String!
+  emoji: String!
+  flagUrl: String!
+  id: ID!
+  isActive: Boolean!
+  isoCode: String!
+  latitude: String!
+  longitude: String!
+  name: String!
+  timezone: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type CountryAggregateGroupBy {
+  createdAt: DateTime
+  currency: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isActive: Boolean
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
+}
+
+type CountryConnection {
+  """Array of nodes."""
+  nodes: [Country!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type CountryCountAggregate {
+  createdAt: Int
+  currency: Int
+  dialCode: Int
+  emoji: Int
+  flagUrl: Int
+  id: Int
+  isActive: Int
+  isoCode: Int
+  latitude: Int
+  longitude: Int
+  name: Int
+  timezone: Int
+}
+
+input CountryDeleteFilter {
+  and: [CountryDeleteFilter!]
+  createdAt: DateFieldComparison
+  currency: StringFieldComparison
+  dialCode: StringFieldComparison
+  emoji: StringFieldComparison
+  flagUrl: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [CountryDeleteFilter!]
+  timezone: StringFieldComparison
+}
+
+type CountryDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+  currency: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isActive: Boolean
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CountryFilter {
+  and: [CountryFilter!]
+  createdAt: DateFieldComparison
+  currency: StringFieldComparison
+  dialCode: StringFieldComparison
+  emoji: StringFieldComparison
+  flagUrl: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [CountryFilter!]
+  timezone: StringFieldComparison
+}
+
+type CountryMaxAggregate {
+  createdAt: DateTime
+  currency: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
+}
+
+type CountryMinAggregate {
+  createdAt: DateTime
+  currency: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
+}
+
+input CountrySort {
+  direction: SortDirection!
+  field: CountrySortFields!
+  nulls: SortNulls
+}
+
+enum CountrySortFields {
+  createdAt
+  currency
+  dialCode
+  emoji
+  flagUrl
+  id
+  isActive
+  isoCode
+  latitude
+  longitude
+  name
+  timezone
+}
+
+input CountryUpdateFilter {
+  and: [CountryUpdateFilter!]
+  createdAt: DateFieldComparison
+  currency: StringFieldComparison
+  dialCode: StringFieldComparison
+  emoji: StringFieldComparison
+  flagUrl: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [CountryUpdateFilter!]
+  timezone: StringFieldComparison
+}
 
 input CreateAccessRequest {
   """The date when the record was created"""
@@ -1270,6 +1516,8 @@ input CreateAirport {
 }
 
 input CreateCity {
+  countryCode: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -1283,8 +1531,11 @@ input CreateCity {
   deletedBy: String
   id: ID
   isActive: Boolean = true
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1320,6 +1571,37 @@ input CreateClient {
   panNo: String
   phone: String
   type: ClientType = PERSON
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateCountry {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+  currency: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isActive: Boolean = true
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1534,6 +1816,11 @@ input CreateManyClientsInput {
   clients: [CreateClient!]!
 }
 
+input CreateManyCountriesInput {
+  """Array of records to create"""
+  countries: [CreateCountry!]!
+}
+
 input CreateManyCrewDetailsInput {
   """Array of records to create"""
   crewDetails: [CreateCrewDetail!]!
@@ -1678,6 +1965,11 @@ input CreateOneCityInput {
 input CreateOneClientInput {
   """The record to create"""
   client: CreateClient!
+}
+
+input CreateOneCountryInput {
+  """The record to create"""
+  country: CreateCountry!
 }
 
 input CreateOneCrewDetailInput {
@@ -2311,6 +2603,11 @@ input DeleteManyClientsInput {
   filter: clientDeleteFilter!
 }
 
+input DeleteManyCountriesInput {
+  """Filter to find records to delete"""
+  filter: CountryDeleteFilter!
+}
+
 input DeleteManyCrewDetailsInput {
   """Filter to find records to delete"""
   filter: crewDetailDeleteFilter!
@@ -2427,6 +2724,11 @@ input DeleteOneCityInput {
 }
 
 input DeleteOneClientInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneCountryInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -3192,6 +3494,7 @@ type Mutation {
   createManyAirports(input: CreateManyAirportsInput!): [Airport!]!
   createManyCities(input: CreateManyCitiesInput!): [City!]!
   createManyClients(input: CreateManyClientsInput!): [client!]!
+  createManyCountries(input: CreateManyCountriesInput!): [Country!]!
   createManyCrewDetails(input: CreateManyCrewDetailsInput!): [crewDetail!]!
   createManyInvoices(input: CreateManyInvoicesInput!): [Invoice!]!
   createManyLeaves(input: CreateManyLeavesInput!): [Leave!]!
@@ -3215,6 +3518,7 @@ type Mutation {
   createOneAirport(input: CreateOneAirportInput!): Airport!
   createOneCity(input: CreateOneCityInput!): City!
   createOneClient(input: CreateOneClientInput!): client!
+  createOneCountry(input: CreateOneCountryInput!): Country!
   createOneCrewDetail(input: CreateOneCrewDetailInput!): crewDetail!
   createOneInvoice(input: CreateOneInvoiceInput!): Invoice!
   createOneLeave(input: CreateOneLeaveInput!): Leave!
@@ -3240,6 +3544,7 @@ type Mutation {
   deleteManyAirports(input: DeleteManyAirportsInput!): DeleteManyResponse!
   deleteManyCities(input: DeleteManyCitiesInput!): DeleteManyResponse!
   deleteManyClients(input: DeleteManyClientsInput!): DeleteManyResponse!
+  deleteManyCountries(input: DeleteManyCountriesInput!): DeleteManyResponse!
   deleteManyCrewDetails(input: DeleteManyCrewDetailsInput!): DeleteManyResponse!
   deleteManyInvoices(input: DeleteManyInvoicesInput!): DeleteManyResponse!
   deleteManyLeaves(input: DeleteManyLeavesInput!): DeleteManyResponse!
@@ -3263,6 +3568,7 @@ type Mutation {
   deleteOneAirport(input: DeleteOneAirportInput!): AirportDeleteResponse!
   deleteOneCity(input: DeleteOneCityInput!): CityDeleteResponse!
   deleteOneClient(input: DeleteOneClientInput!): ClientDeleteResponse!
+  deleteOneCountry(input: DeleteOneCountryInput!): CountryDeleteResponse!
   deleteOneCrewDetail(input: DeleteOneCrewDetailInput!): CrewDetailDeleteResponse!
   deleteOneInvoice(input: DeleteOneInvoiceInput!): InvoiceDeleteResponse!
   deleteOneLeave(input: DeleteOneLeaveInput!): LeaveDeleteResponse!
@@ -3320,6 +3626,9 @@ type Mutation {
   setUpdatedByOnManual(input: SetUpdatedByOnManualInput!): manual!
   setUpdatedByOnSecurity(input: SetUpdatedByOnSecurityInput!): security!
   signUp(input: SignUpInput!): User!
+  syncCitiesByCountry(countryCode: String!): JSONObject!
+  syncCitiesByStateCode(countryCode: String!, stateCode: String!): JSONObject!
+  syncCountries: JSONObject!
   updateAccessRequestStatus(notificationId: String!, status: AccessRequestStatus!): AccessRequest!
   updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
   updateManyAccessRequests(input: UpdateManyAccessRequestsInput!): UpdateManyResponse!
@@ -3328,6 +3637,7 @@ type Mutation {
   updateManyAirports(input: UpdateManyAirportsInput!): UpdateManyResponse!
   updateManyCities(input: UpdateManyCitiesInput!): UpdateManyResponse!
   updateManyClients(input: UpdateManyClientsInput!): UpdateManyResponse!
+  updateManyCountries(input: UpdateManyCountriesInput!): UpdateManyResponse!
   updateManyCrewDetails(input: UpdateManyCrewDetailsInput!): UpdateManyResponse!
   updateManyInvoices(input: UpdateManyInvoicesInput!): UpdateManyResponse!
   updateManyLeaves(input: UpdateManyLeavesInput!): UpdateManyResponse!
@@ -3351,6 +3661,7 @@ type Mutation {
   updateOneAirport(input: UpdateOneAirportInput!): Airport!
   updateOneCity(input: UpdateOneCityInput!): City!
   updateOneClient(input: UpdateOneClientInput!): client!
+  updateOneCountry(input: UpdateOneCountryInput!): Country!
   updateOneCrewDetail(input: UpdateOneCrewDetailInput!): crewDetail!
   updateOneInvoice(input: UpdateOneInvoiceInput!): Invoice!
   updateOneLeave(input: UpdateOneLeaveInput!): Leave!
@@ -3847,6 +4158,20 @@ type Query {
     """Specify to sort results."""
     sorting: [clientSort!]! = []
   ): ClientConnection!
+  countries(
+    """Specify to filter the records returned."""
+    filter: CountryFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [CountrySort!]! = []
+  ): CountryConnection!
+  country(
+    """The id of the record to find."""
+    id: ID!
+  ): Country
   crewDetail(
     """The id of the record to find."""
     id: ID!
@@ -5470,6 +5795,8 @@ input UpdateAirport {
 }
 
 input UpdateCity {
+  countryCode: String
+
   """The date when the record was created"""
   createdAt: DateTime
 
@@ -5483,8 +5810,11 @@ input UpdateCity {
   deletedBy: String
   id: ID
   isActive: Boolean = true
+  latitude: String
+  longitude: String
   name: String
   state: String
+  stateCode: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -5520,6 +5850,37 @@ input UpdateClient {
   panNo: String
   phone: String
   type: ClientType = PERSON
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateCountry {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+  currency: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  dialCode: String
+  emoji: String
+  flagUrl: String
+  id: ID
+  isActive: Boolean = true
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+  timezone: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -5757,6 +6118,14 @@ input UpdateManyClientsInput {
   update: UpdateClient!
 }
 
+input UpdateManyCountriesInput {
+  """Filter used to find fields to update"""
+  filter: CountryUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateCountry!
+}
+
 input UpdateManyCrewDetailsInput {
   """Filter used to find fields to update"""
   filter: crewDetailUpdateFilter!
@@ -5975,6 +6344,14 @@ input UpdateOneClientInput {
 
   """The update to apply."""
   update: UpdateClient!
+}
+
+input UpdateOneCountryInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateCountry!
 }
 
 input UpdateOneCrewDetailInput {
