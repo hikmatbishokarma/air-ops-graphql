@@ -25,7 +25,7 @@ export class AircraftDetailEntity extends BaseEntity {
   @Prop()
   warningImage: string;
   @Prop()
-  flightImages: [string];
+  flightImage: string;
   @Prop()
   seatLayoutImage: string;
   @Prop()

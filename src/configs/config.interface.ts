@@ -7,6 +7,7 @@ export interface Config {
   site_url: string;
   email: EmailConfig;
   multer_dest?: any;
+  s3: any;
 }
 export interface GraphqlConfig {
   playgroundEnabled: boolean;

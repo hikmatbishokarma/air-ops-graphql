@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { hash, compare } from 'bcrypt';
-import { extname } from 'path';
+import path, { extname } from 'path';
 import puppeteer, { Browser } from 'puppeteer';
 
 export function getSchemaKey(key: string): string {
@@ -331,3 +331,24 @@ export async function createPDFBuffer(htmlContent: string): Promise<Buffer> {
   await page.close();
   return buffer;
 }
+
+export const sanitizeFilename = (filename: string): string => {
+  // 1. Separate extension
+  const ext = path.extname(filename);
+  let base = path.basename(filename, ext);
+
+  // 2. Aggressively sanitize the base name: remove all non-safe characters
+  //    (Keep only letters, numbers, and replace all others with a hyphen)
+  //    This specifically targets characters that might appear as ' ' or '?' or other symbols.
+  let safeName = base
+    .normalize('NFD') // Normalize unicode characters
+    .replace(/[\u0300-\u036f]/g, '') // Remove accents
+    .replace(/[^\w\d\-\.]/g, '-') // Replace non-alphanumeric (and not dot/hyphen) with a hyphen
+    .replace(/[\s\_]+/g, '-') // Replace spaces/underscores with a hyphen
+    .replace(/-+/g, '-') // Collapse multiple hyphens
+    .replace(/^-+|-+$/g, ''); // Trim leading/trailing hyphens;
+
+  // 3. Recombine
+  if (!safeName) return `untitled${ext}`; // Handle case where name is empty
+  return `${safeName}${ext}`;
+};

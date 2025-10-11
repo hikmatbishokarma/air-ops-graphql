@@ -28,7 +28,8 @@ import {
   imports: [
     forwardRef(() => PassengerDetailModule),
     AirportsModule,
-    AircraftDetailModule,
+    forwardRef(() => AircraftDetailModule),
+
     MongooseModule.forFeature([{ name: Counter.name, schema: CounterSchema }]),
     MongooseModule.forFeature([
       { name: QuotationTemplateEntity.name, schema: QuotationTemplateSchema },

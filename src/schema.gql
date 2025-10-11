@@ -382,7 +382,7 @@ type AircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  flightImages: [String!]
+  flightImage: String
   flightInteriorImages: [String!]
   id: ID!
   isActive: Boolean!
@@ -459,7 +459,7 @@ type AircraftDetailDeleteResponse {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  flightImages: [String!]
+  flightImage: String
   flightInteriorImages: [String!]
   id: ID
   isActive: Boolean
@@ -1456,7 +1456,7 @@ input CreateAircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  flightImages: [String!]
+  flightImage: String
   flightInteriorImages: [String!]
   id: ID
   isActive: Boolean = true
@@ -5735,7 +5735,7 @@ input UpdateAircraftDetail {
 
   """The id of the user who deleted the record"""
   deletedBy: String
-  flightImages: [String!]
+  flightImage: String
   flightInteriorImages: [String!]
   id: ID
   isActive: Boolean = true

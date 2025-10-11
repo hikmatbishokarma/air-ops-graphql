@@ -35,6 +35,7 @@ import { PassengerDetailModule } from './passenger-detail/passenger-detail.modul
 import { TripDetailModule } from './ops/operation.module';
 import { DocumentModule } from './document/document.module';
 import { CountryModule } from './country/country.module';
+import { S3Module } from './aws-s3/s3.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { CountryModule } from './country/country.module';
     TripDetailModule,
     DocumentModule,
     CountryModule,
+    S3Module,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),

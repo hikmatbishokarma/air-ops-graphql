@@ -1,4 +1,5 @@
 import {
+  BeforeDeleteOne,
   FilterableField,
   PagingStrategies,
   QueryOptions,
@@ -9,6 +10,7 @@ import { GraphQLJSONObject } from 'graphql-type-json';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { AircraftCategoriesDto } from 'src/aircraft-categories/dto/aircraft-categories.dto';
 import { BaseDTO } from 'src/common/dtos/base.dto';
+import { DeleteAircarftDetailHook } from '../hooks/delete-aircraft-detail.hook';
 
 @ObjectType()
 export class specificationsDTO {
@@ -25,6 +27,7 @@ export class specificationsDTO {
 })
 // @Relation('category', () => AircraftCategoriesDto, { disableRemove: true })
 @Relation('operator', () => OperatorDto, { disableRemove: true })
+@BeforeDeleteOne(DeleteAircarftDetailHook)
 export class AircraftDetailDto extends BaseDTO {
   @FilterableField()
   name: string;
@@ -44,8 +47,8 @@ export class AircraftDetailDto extends BaseDTO {
   // warningText: string;
   @Field({ nullable: true })
   warningImage: string;
-  @Field(() => [String], { nullable: true })
-  flightImages: string[];
+  @Field({ nullable: true })
+  flightImage: string;
   @Field({ nullable: true })
   seatLayoutImage: string;
   @Field({ nullable: true })

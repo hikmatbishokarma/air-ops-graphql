@@ -361,7 +361,7 @@ export const QuotePdfTemplate = (quote) => {
     .join('');
 
   // Helper to safely access aircraftDetail properties
-  const flightImages = aircraftDetail?.flightImages || [];
+  const flightImage = aircraftDetail?.flightImage || '';
   const interiorImages = aircraftDetail?.flightInteriorImages || [];
   const specifications = aircraftDetail?.specifications || [];
 
@@ -653,8 +653,8 @@ export const QuotePdfTemplate = (quote) => {
     <div class="page-break"></div>
     
     ${
-      flightImages?.[0]
-        ? `<img src="${baseUrl}${flightImages[0]}" class="image-full" alt="Aircraft"/>`
+      flightImage
+        ? `<img src="${baseUrl}${flightImage}" class="image-full" alt="Aircraft"/>`
         : ''
     }
 
