@@ -49,12 +49,16 @@ export class AirportsDto extends BaseDTO {
   iata_code: string;
   @FilterableField()
   icao_code: string;
-  @Field(() => Float, { nullable: true })
-  latitude: number;
-  @Field(() => Float, { nullable: true })
-  longitude: number;
+  // @Field(() => Float, { nullable: true })
+  @FilterableField()
+  latitude: string;
+  // @Field(() => Float, { nullable: true })
+  @FilterableField()
+  longitude: string;
   @FilterableField()
   city: string;
+  @FilterableField()
+  state: string;
   @FilterableField({ nullable: true })
   country: string;
   @FilterableField({ nullable: true })
@@ -69,6 +73,27 @@ export class AirportsDto extends BaseDTO {
   groundHandlersInfo: groundHandlersInfoDTO;
   @Field(() => [fuelSupplierDTO])
   fuelSuppliers: fuelSupplierDTO;
-  @FilterableField(() => AirportType, { defaultValue: AirportType.CIVIL })
-  type: AirportType;
+  // @FilterableField(() => AirportType, { defaultValue: AirportType.CIVIL })
+  // type: AirportType;
+  @FilterableField({ nullable: true })
+  type: string;
+
+  @Field({ nullable: true })
+  elevation: number;
+  @Field({ nullable: true })
+  approaches: string;
+  @Field({ nullable: true })
+  longestPrimaryRunway: string;
+  @Field({ nullable: true })
+  runwaySurface: string;
+  @Field({ nullable: true })
+  airportLightIntensity: string;
+  @Field({ nullable: true })
+  airportOfEntry: string;
+  @Field({ nullable: true })
+  fireCategory: number;
+  @Field({ nullable: true })
+  slotsRequired: string;
+  @Field({ nullable: true })
+  handlingMandatory: string;
 }

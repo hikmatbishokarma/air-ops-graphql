@@ -536,6 +536,9 @@ input AircraftDetailUpdateFilter {
 
 """Airport"""
 type Airport {
+  airportLightIntensity: String
+  airportOfEntry: String
+  approaches: String
   city: String!
   closeHrs: String
   contactNumber: String
@@ -552,18 +555,25 @@ type Airport {
 
   """The id of the user who deleted the record"""
   deletedBy: String
+  elevation: Int
   email: String
+  fireCategory: Int
   fuelSuppliers: [fuelSupplierDTO!]!
   groundHandlersInfo: [groundHandlersInfoDTO!]!
+  handlingMandatory: String
   iata_code: String!
   icao_code: String!
   id: ID!
   isActive: Boolean!
-  latitude: Float
-  longitude: Float
+  latitude: String!
+  longestPrimaryRunway: String
+  longitude: String!
   name: String!
   openHrs: String
-  type: AirportType!
+  runwaySurface: String
+  slotsRequired: String
+  state: String!
+  type: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -583,9 +593,12 @@ type AirportAggregateGroupBy {
   icao_code: String
   id: ID
   isActive: Boolean
+  latitude: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType
+  state: String
+  type: String
 }
 
 type AirportConnection {
@@ -610,8 +623,11 @@ type AirportCountAggregate {
   icao_code: Int
   id: Int
   isActive: Int
+  latitude: Int
+  longitude: Int
   name: Int
   openHrs: Int
+  state: Int
   type: Int
 }
 
@@ -627,13 +643,19 @@ input AirportDeleteFilter {
   icao_code: StringFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   openHrs: StringFieldComparison
   or: [AirportDeleteFilter!]
-  type: AirportTypeFilterComparison
+  state: StringFieldComparison
+  type: StringFieldComparison
 }
 
 type AirportDeleteResponse {
+  airportLightIntensity: String
+  airportOfEntry: String
+  approaches: String
   city: String
   closeHrs: String
   contactNumber: String
@@ -650,18 +672,25 @@ type AirportDeleteResponse {
 
   """The id of the user who deleted the record"""
   deletedBy: String
+  elevation: Int
   email: String
+  fireCategory: Int
   fuelSuppliers: [fuelSupplierDTO!]
   groundHandlersInfo: [groundHandlersInfoDTO!]
+  handlingMandatory: String
   iata_code: String
   icao_code: String
   id: ID
   isActive: Boolean
-  latitude: Float
-  longitude: Float
+  latitude: String
+  longestPrimaryRunway: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType
+  runwaySurface: String
+  slotsRequired: String
+  state: String
+  type: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -682,10 +711,13 @@ input AirportFilter {
   icao_code: StringFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   openHrs: StringFieldComparison
   or: [AirportFilter!]
-  type: AirportTypeFilterComparison
+  state: StringFieldComparison
+  type: StringFieldComparison
 }
 
 type AirportMaxAggregate {
@@ -698,9 +730,12 @@ type AirportMaxAggregate {
   iata_code: String
   icao_code: String
   id: ID
+  latitude: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType
+  state: String
+  type: String
 }
 
 type AirportMinAggregate {
@@ -713,9 +748,12 @@ type AirportMinAggregate {
   iata_code: String
   icao_code: String
   id: ID
+  latitude: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType
+  state: String
+  type: String
 }
 
 input AirportSort {
@@ -735,33 +773,12 @@ enum AirportSortFields {
   icao_code
   id
   isActive
+  latitude
+  longitude
   name
   openHrs
+  state
   type
-}
-
-enum AirportType {
-  AIR_STRIP
-  CIVIL
-  DEFENCE
-  HELIPORT
-}
-
-input AirportTypeFilterComparison {
-  eq: AirportType
-  gt: AirportType
-  gte: AirportType
-  iLike: AirportType
-  in: [AirportType!]
-  is: Boolean
-  isNot: Boolean
-  like: AirportType
-  lt: AirportType
-  lte: AirportType
-  neq: AirportType
-  notILike: AirportType
-  notIn: [AirportType!]
-  notLike: AirportType
 }
 
 input AirportUpdateFilter {
@@ -776,10 +793,13 @@ input AirportUpdateFilter {
   icao_code: StringFieldComparison
   id: IDFilterComparison
   isActive: BooleanFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
   name: StringFieldComparison
   openHrs: StringFieldComparison
   or: [AirportUpdateFilter!]
-  type: AirportTypeFilterComparison
+  state: StringFieldComparison
+  type: StringFieldComparison
 }
 
 type AssignedCrewDto {
@@ -1479,6 +1499,9 @@ input CreateAircraftDetail {
 }
 
 input CreateAirport {
+  airportLightIntensity: String
+  airportOfEntry: String
+  approaches: String
   city: String
   closeHrs: String
   contactNumber: String
@@ -1495,18 +1518,25 @@ input CreateAirport {
 
   """The id of the user who deleted the record"""
   deletedBy: String
+  elevation: Int
   email: String
+  fireCategory: Int
   fuelSuppliers: [fuelSupplier!]
   groundHandlersInfo: [groundHandlersInfo!]
+  handlingMandatory: String
   iata_code: String
   icao_code: String
   id: ID
   isActive: Boolean = true
-  latitude: Float
-  longitude: Float
+  latitude: String
+  longestPrimaryRunway: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType = CIVIL
+  runwaySurface: String
+  slotsRequired: String
+  state: String
+  type: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -1896,6 +1926,11 @@ input CreateManySecuritiesInput {
   securities: [CreateSecurity!]!
 }
 
+input CreateManyStatesInput {
+  """Array of records to create"""
+  states: [CreateState!]!
+}
+
 input CreateManyTripDetailsInput {
   """Array of records to create"""
   tripDetails: [CreateTripDetail!]!
@@ -2045,6 +2080,11 @@ input CreateOneRolePermissionInput {
 input CreateOneSecurityInput {
   """The record to create"""
   security: CreateSecurity!
+}
+
+input CreateOneStateInput {
+  """The record to create"""
+  state: CreateState!
 }
 
 input CreateOneTripDetailInput {
@@ -2309,6 +2349,34 @@ input CreateSecurity {
   name: String
   operatorId: String
   type: SecurityDocType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateState {
+  countryCode: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2688,6 +2756,11 @@ input DeleteManySecuritiesInput {
   filter: securityDeleteFilter!
 }
 
+input DeleteManyStatesInput {
+  """Filter to find records to delete"""
+  filter: StateDeleteFilter!
+}
+
 input DeleteManyTripDetailsInput {
   """Filter to find records to delete"""
   filter: TripDetailDeleteFilter!
@@ -2804,6 +2877,11 @@ input DeleteOneRolePermissionInput {
 }
 
 input DeleteOneSecurityInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneStateInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -3510,6 +3588,7 @@ type Mutation {
   createManyRolePermissions(input: CreateManyRolePermissionsInput!): [RolePermission!]!
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManySecurities(input: CreateManySecuritiesInput!): [security!]!
+  createManyStates(input: CreateManyStatesInput!): [State!]!
   createManyTripDetails(input: CreateManyTripDetailsInput!): [TripDetail!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAccessRequest(input: CreateOneAccessRequestInput!): AccessRequest!
@@ -3534,6 +3613,7 @@ type Mutation {
   createOneRole(input: CreateOneRoleInput!): role!
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneSecurity(input: CreateOneSecurityInput!): security!
+  createOneState(input: CreateOneStateInput!): State!
   createOneTripDetail(input: CreateOneTripDetailInput!): TripDetail!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
@@ -3560,6 +3640,7 @@ type Mutation {
   deleteManyRolePermissions(input: DeleteManyRolePermissionsInput!): DeleteManyResponse!
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManySecurities(input: DeleteManySecuritiesInput!): DeleteManyResponse!
+  deleteManyStates(input: DeleteManyStatesInput!): DeleteManyResponse!
   deleteManyTripDetails(input: DeleteManyTripDetailsInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAccessRequest(input: DeleteOneAccessRequestInput!): AccessRequestDeleteResponse!
@@ -3584,6 +3665,7 @@ type Mutation {
   deleteOneRole(input: DeleteOneRoleInput!): RoleDeleteResponse!
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneSecurity(input: DeleteOneSecurityInput!): SecurityDeleteResponse!
+  deleteOneState(input: DeleteOneStateInput!): StateDeleteResponse!
   deleteOneTripDetail(input: DeleteOneTripDetailInput!): TripDetailDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
@@ -3629,6 +3711,7 @@ type Mutation {
   syncCitiesByCountry(countryCode: String!): JSONObject!
   syncCitiesByStateCode(countryCode: String!, stateCode: String!): JSONObject!
   syncCountries: JSONObject!
+  syncStatesByCountry(countryCode: String!): JSONObject!
   updateAccessRequestStatus(notificationId: String!, status: AccessRequestStatus!): AccessRequest!
   updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
   updateManyAccessRequests(input: UpdateManyAccessRequestsInput!): UpdateManyResponse!
@@ -3653,6 +3736,7 @@ type Mutation {
   updateManyRolePermissions(input: UpdateManyRolePermissionsInput!): UpdateManyResponse!
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManySecurities(input: UpdateManySecuritiesInput!): UpdateManyResponse!
+  updateManyStates(input: UpdateManyStatesInput!): UpdateManyResponse!
   updateManyTripDetails(input: UpdateManyTripDetailsInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAccessRequest(input: UpdateOneAccessRequestInput!): AccessRequest!
@@ -3679,6 +3763,7 @@ type Mutation {
   updateOneRole(input: UpdateOneRoleInput!): role!
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneSecurity(input: UpdateOneSecurityInput!): security!
+  updateOneState(input: UpdateOneStateInput!): State!
   updateOneTripDetail(input: UpdateOneTripDetailInput!): TripDetail!
   updateOneUser(input: UpdateOneUserInput!): User!
   updatePassengerDetail(data: UpdatePassengerDetailDataInput!, where: UpdatePassengerDetailWhereInput!): PassengerDetail!
@@ -4388,6 +4473,20 @@ type Query {
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   staffCertificates(args: StaffCertificationInput): CertificationResponse!
+  state(
+    """The id of the record to find."""
+    id: ID!
+  ): State
+  states(
+    """Specify to filter the records returned."""
+    filter: StateFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [StateSort!]! = []
+  ): StateConnection!
   systemNotifications(where: SystemNotificationWhereInput): [notification!]!
   tripDetail(
     """The id of the record to find."""
@@ -5361,6 +5460,172 @@ input StaffCertificationWhereInput {
   validTillBefore: DateTime
 }
 
+"""State"""
+type State {
+  countryCode: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID!
+  isActive: Boolean!
+  isoCode: String!
+  latitude: String!
+  longitude: String!
+  name: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type StateAggregateGroupBy {
+  countryCode: String
+  createdAt: DateTime
+  id: ID
+  isActive: Boolean
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+}
+
+type StateConnection {
+  """Array of nodes."""
+  nodes: [State!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type StateCountAggregate {
+  countryCode: Int
+  createdAt: Int
+  id: Int
+  isActive: Int
+  isoCode: Int
+  latitude: Int
+  longitude: Int
+  name: Int
+}
+
+input StateDeleteFilter {
+  and: [StateDeleteFilter!]
+  countryCode: StringFieldComparison
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [StateDeleteFilter!]
+}
+
+type StateDeleteResponse {
+  countryCode: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input StateFilter {
+  and: [StateFilter!]
+  countryCode: StringFieldComparison
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [StateFilter!]
+}
+
+type StateMaxAggregate {
+  countryCode: String
+  createdAt: DateTime
+  id: ID
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+}
+
+type StateMinAggregate {
+  countryCode: String
+  createdAt: DateTime
+  id: ID
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
+}
+
+input StateSort {
+  direction: SortDirection!
+  field: StateSortFields!
+  nulls: SortNulls
+}
+
+enum StateSortFields {
+  countryCode
+  createdAt
+  id
+  isActive
+  isoCode
+  latitude
+  longitude
+  name
+}
+
+input StateUpdateFilter {
+  and: [StateUpdateFilter!]
+  countryCode: StringFieldComparison
+  createdAt: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  isoCode: StringFieldComparison
+  latitude: StringFieldComparison
+  longitude: StringFieldComparison
+  name: StringFieldComparison
+  or: [StateUpdateFilter!]
+}
+
 input StringFieldComparison {
   eq: String
   gt: String
@@ -5758,6 +6023,9 @@ input UpdateAircraftDetail {
 }
 
 input UpdateAirport {
+  airportLightIntensity: String
+  airportOfEntry: String
+  approaches: String
   city: String
   closeHrs: String
   contactNumber: String
@@ -5774,18 +6042,25 @@ input UpdateAirport {
 
   """The id of the user who deleted the record"""
   deletedBy: String
+  elevation: Int
   email: String
+  fireCategory: Int
   fuelSuppliers: [fuelSupplier!]
   groundHandlersInfo: [groundHandlersInfo!]
+  handlingMandatory: String
   iata_code: String
   icao_code: String
   id: ID
   isActive: Boolean = true
-  latitude: Float
-  longitude: Float
+  latitude: String
+  longestPrimaryRunway: String
+  longitude: String
   name: String
   openHrs: String
-  type: AirportType = CIVIL
+  runwaySurface: String
+  slotsRequired: String
+  state: String
+  type: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6251,6 +6526,14 @@ input UpdateManySecuritiesInput {
   update: UpdateSecurity!
 }
 
+input UpdateManyStatesInput {
+  """Filter used to find fields to update"""
+  filter: StateUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateState!
+}
+
 input UpdateManyTripDetailsInput {
   """Filter used to find fields to update"""
   filter: TripDetailUpdateFilter!
@@ -6472,6 +6755,14 @@ input UpdateOneSecurityInput {
 
   """The update to apply."""
   update: UpdateSecurity!
+}
+
+input UpdateOneStateInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateState!
 }
 
 input UpdateOneTripDetailInput {
@@ -6773,6 +7064,34 @@ input UpdateSecurity {
   name: String
   operatorId: String
   type: SecurityDocType
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input UpdateState {
+  countryCode: String
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  id: ID
+  isActive: Boolean = true
+  isoCode: String
+  latitude: String
+  longitude: String
+  name: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime

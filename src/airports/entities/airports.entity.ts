@@ -37,11 +37,13 @@ export class AirportsEntity extends BaseEntity {
   @Prop()
   icao_code: string;
   @Prop()
-  latitude: number;
+  latitude: string;
   @Prop()
-  longitude: number;
+  longitude: string;
   @Prop()
   city: string;
+  @Prop()
+  state: string;
   @Prop()
   country: string;
   @Prop()
@@ -58,8 +60,29 @@ export class AirportsEntity extends BaseEntity {
   @Prop({ type: [fuelSupplierEntity] })
   fuelSuppliers: fuelSupplierEntity[];
 
-  @Prop({ type: String, enum: AirportType, default: AirportType.CIVIL })
-  type: AirportType;
+  // @Prop({ type: String, enum: AirportType, default: AirportType.CIVIL })
+  // type: AirportType;
+  @Prop()
+  type: string;
+
+  @Prop()
+  elevation: number;
+  @Prop()
+  approaches: string;
+  @Prop()
+  longestPrimaryRunway: string;
+  @Prop()
+  runwaySurface: string;
+  @Prop()
+  airportLightIntensity: string;
+  @Prop()
+  airportOfEntry: string;
+  @Prop()
+  fireCategory: number;
+  @Prop()
+  slotsRequired: string;
+  @Prop()
+  handlingMandatory: string;
 }
 
 export const AirportsSchema = SchemaFactory.createForClass(AirportsEntity);
