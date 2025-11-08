@@ -300,3 +300,22 @@ export enum TripSectorStatus {
 registerEnumType(TripSectorStatus, {
   name: 'TripSectorStatus',
 });
+
+export enum CrewTripUploadDocType {
+  preFlight = 'preFlight',
+  postFlight = 'postFlight',
+}
+
+registerEnumType(CrewTripUploadDocType, {
+  name: 'CrewTripUploadDocType',
+});
+
+export enum TripFilterForCrewType {
+  upcoming = 'upcoming',
+  active = 'active',
+  past = 'past',
+}
+
+registerEnumType(TripFilterForCrewType, {
+  name: 'TripFilterForCrewType',
+});

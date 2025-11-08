@@ -90,6 +90,7 @@ export class SectorInputDto {
   nullable: true,
 })
 @BeforeCreateOne(CreateQuoteHook)
+@InputType()
 export class QuotesDto extends BaseDTO {
   @Field(() => ID)
   id!: string;

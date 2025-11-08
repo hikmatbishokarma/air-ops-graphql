@@ -11,7 +11,33 @@ import { BaseDTO } from 'src/common/dtos/base.dto';
 import { OperatorDto } from 'src/operator/dto/operator.dto';
 import { QuotesDto, SectorLocationInputDto } from 'src/quotes/dto/quotes.dto';
 import { CreateTripDetailHook } from '../hooks/create-trip-detail.hook';
-import { TripDetailStatus, TripSectorStatus } from 'src/app-constants/enums';
+import {
+  CrewTripUploadDocType,
+  TripDetailStatus,
+  TripSectorStatus,
+} from 'src/app-constants/enums';
+import { CrewDetailDto } from 'src/crew-details/dto/crew-detail.dto';
+
+@ObjectType()
+@InputType('tripDocByCrewInput')
+export class TripDocByCrewDto {
+  @Field({ nullable: true })
+  name: string;
+
+  @Field()
+  url: string;
+
+  @Field(() => CrewTripUploadDocType, {
+    nullable: true,
+  })
+  type: CrewTripUploadDocType;
+
+  @Field()
+  crew: string; // store ObjectId here from DB
+
+  @Field(() => CrewDetailDto, { name: 'crewDetails' })
+  crewDetails?: CrewDetailDto;
+}
 
 @ObjectType()
 @InputType('assignedCrewInput')
@@ -139,6 +165,9 @@ export class TripSectorDto {
     defaultValue: TripSectorStatus.IN_PROGRESS,
   })
   status: TripSectorStatus;
+
+  @Field(() => [TripDocByCrewDto], { nullable: true })
+  tripDocByCrew: TripDocByCrewDto[];
 }
 
 @ObjectType('TripDetail', { description: 'Trip Detail ' })

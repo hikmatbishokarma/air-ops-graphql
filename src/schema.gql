@@ -807,6 +807,11 @@ type AssignedCrewDto {
   designation: String!
 }
 
+type AssignedCrewGroup {
+  crews: [crewDetail!]!
+  designation: String!
+}
+
 input BaInfo {
   baMachine: String
   baPersons: [BaPerson!]
@@ -2594,6 +2599,11 @@ input CrewInput {
   roles: [String!]!
 }
 
+enum CrewTripUploadDocType {
+  postFlight
+  preFlight
+}
+
 input CursorPaging {
   """Paginate after opaque cursor"""
   after: ConnectionCursor
@@ -3770,6 +3780,7 @@ type Mutation {
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
   updateTripDetail(data: UpdateTripDetailDataInput!, where: UpdateTripDetailWhereInput!): TripDetail!
   upgradeQuote(code: String!): Quote!
+  uploadTripDocByCrew(data: tripDocByCrewInput!, where: TripDocByCrewWhereInput!): TripDetail!
 }
 
 type NomineeDto {
@@ -3930,6 +3941,11 @@ type PageInfo {
 
   """The cursor of the first returned record."""
   startCursor: ConnectionCursor
+}
+
+input PagingInput {
+  limit: Int! = 10
+  offset: Int! = 0
 }
 
 """ Passenger Details"""
@@ -4488,6 +4504,7 @@ type Query {
     sorting: [StateSort!]! = []
   ): StateConnection!
   systemNotifications(where: SystemNotificationWhereInput): [notification!]!
+  tripAssignedForCrew(filter: TripFilterForCrewInput!, paging: PagingInput!, sort: SortInput): TripAssignedForCrewResult!
   tripDetail(
     """The id of the record to find."""
     id: ID!
@@ -4773,6 +4790,27 @@ input QuoteUpdateFilter {
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
+}
+
+input QuotesDto {
+  aircraft: String!
+  category: Category!
+  code: String!
+  confirmationTemplate: String
+  grandTotal: Float! = 0
+  id: ID!
+  isLatest: Boolean! = true
+  itinerary: [JSONObject!]!
+  operatorId: String
+  prices: [priceInput!] = []
+  providerType: String = "airops"
+  quotationNo: String!
+  representative: String
+  requestedBy: String
+  revision: Int! = 0
+  sectors: [sectorInput!]!
+  status: QuoteStatus! = QUOTE
+  version: Int! = 1
 }
 
 type RepresentativeConnection {
@@ -5444,6 +5482,11 @@ enum SortDirection {
   DESC
 }
 
+input SortInput {
+  createdAt: String
+  updatedAt: String
+}
+
 """Sort Nulls Options"""
 enum SortNulls {
   NULLS_FIRST
@@ -5680,6 +5723,20 @@ type TravelDto {
   vehicleChoice: String
 }
 
+type TripAssignedForCrew {
+  arrivalDateTime: DateTime!
+  departureDateTime: DateTime!
+  quotation: Quote
+  quotationNo: String!
+  sector: TripSectorForCrewDto!
+  tripId: String!
+}
+
+type TripAssignedForCrewResult {
+  result: [TripAssignedForCrew!]!
+  totalCount: Int!
+}
+
 """Trip Detail """
 type TripDetail {
   """The date when the record was created"""
@@ -5876,6 +5933,31 @@ input TripDetailUpdateFilter {
   tripId: StringFieldComparison
 }
 
+type TripDocByCrewDto {
+  crew: String!
+  crewDetails: crewDetail!
+  name: String
+  type: CrewTripUploadDocType
+  url: String!
+}
+
+input TripDocByCrewWhereInput {
+  sectorNo: Int!
+  tripId: String!
+}
+
+input TripFilterForCrewInput {
+  crewId: ID!
+  search: String
+  type: TripFilterForCrewType! = upcoming
+}
+
+enum TripFilterForCrewType {
+  active
+  past
+  upcoming
+}
+
 input TripSector {
   arrivalDate: DateTime!
   arrivalTime: String!
@@ -5891,6 +5973,7 @@ input TripSector {
   sectorNo: Int
   source: sectorLocationInput
   status: TripSectorStatus! = IN_PROGRESS
+  tripDocByCrew: [tripDocByCrewInput!]
 }
 
 type TripSectorDto {
@@ -5908,6 +5991,26 @@ type TripSectorDto {
   sectorNo: Int
   source: SectorLocationInputDto
   status: TripSectorStatus!
+  tripDocByCrew: [TripDocByCrewDto!]
+}
+
+type TripSectorForCrewDto {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  assignedCrews: [AssignedCrewDto!]
+  baInfo: BaInfoDto
+  crewGroup: [AssignedCrewGroup!]!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: SectorLocationInputDto
+  documents: [DocumentDto!]
+  flightTime: String!
+  fuelRecord: FuelRecordDto
+  pax: Int!
+  sectorNo: Int
+  source: SectorLocationInputDto
+  status: TripSectorStatus!
+  tripDocByCrew: [TripDocByCrewDto!]
 }
 
 enum TripSectorStatus {
@@ -7472,6 +7575,11 @@ input acknowledgementInput {
   quotationNo: String!
 }
 
+input assignedCrewGroupInput {
+  crews: [CrewDetailDto!]!
+  designation: String!
+}
+
 input assignedCrewInput {
   crews: [String!]!
   designation: String!
@@ -7712,6 +7820,7 @@ type crewDetail {
 type crewDetailAggregateGroupBy {
   createdAt: DateTime
   crewId: String
+  designation: String
   displayName: String
   fullName: String
   id: ID
@@ -7723,6 +7832,7 @@ type crewDetailAggregateGroupBy {
 type crewDetailCountAggregate {
   createdAt: Int
   crewId: Int
+  designation: Int
   displayName: Int
   fullName: Int
   id: Int
@@ -7735,6 +7845,7 @@ input crewDetailDeleteFilter {
   and: [crewDetailDeleteFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
+  designation: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   id: IDFilterComparison
@@ -7748,6 +7859,7 @@ input crewDetailFilter {
   and: [crewDetailFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
+  designation: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   id: IDFilterComparison
@@ -7760,6 +7872,7 @@ input crewDetailFilter {
 type crewDetailMaxAggregate {
   createdAt: DateTime
   crewId: String
+  designation: String
   displayName: String
   fullName: String
   id: ID
@@ -7770,6 +7883,7 @@ type crewDetailMaxAggregate {
 type crewDetailMinAggregate {
   createdAt: DateTime
   crewId: String
+  designation: String
   displayName: String
   fullName: String
   id: ID
@@ -7786,6 +7900,7 @@ input crewDetailSort {
 enum crewDetailSortFields {
   createdAt
   crewId
+  designation
   displayName
   fullName
   id
@@ -7798,6 +7913,7 @@ input crewDetailUpdateFilter {
   and: [crewDetailUpdateFilter!]
   createdAt: DateFieldComparison
   crewId: StringFieldComparison
+  designation: StringFieldComparison
   displayName: StringFieldComparison
   fullName: StringFieldComparison
   id: IDFilterComparison
@@ -8918,6 +9034,42 @@ input travelInput {
   seatingCapacity: Int
   type: String
   vehicleChoice: String
+}
+
+input tripAssignedForCrewInput {
+  arrivalDateTime: DateTime!
+  departureDateTime: DateTime!
+  quotation: QuotesDto
+  quotationNo: String!
+  sector: tripSectorForCrewInput!
+  tripId: String!
+}
+
+input tripDocByCrewInput {
+  crew: String!
+  crewDetails: CrewDetailDto!
+  name: String
+  type: CrewTripUploadDocType
+  url: String!
+}
+
+input tripSectorForCrewInput {
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  assignedCrews: [assignedCrewInput!]
+  baInfo: BaInfo
+  crewGroup: [assignedCrewGroupInput!]!
+  depatureDate: DateTime!
+  depatureTime: String!
+  destination: sectorLocationInput
+  documents: [DocumentInput!]
+  flightTime: String!
+  fuelRecord: FuelRecordInput
+  pax: Int!
+  sectorNo: Int
+  source: sectorLocationInput
+  status: TripSectorStatus! = IN_PROGRESS
+  tripDocByCrew: [tripDocByCrewInput!]
 }
 
 enum type {

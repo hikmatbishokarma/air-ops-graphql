@@ -9,7 +9,11 @@ import {
 } from '@nestjs/common';
 import moment from 'moment';
 import { QuotesService } from 'src/quotes/services/quotes.service';
-import { QuoteStatus } from 'src/app-constants/enums';
+import { QuoteStatus, TripFilterForCrewType } from 'src/app-constants/enums';
+import { TripFilterForCrewInput } from '../inputs/crew-assigned-trip.input';
+import { PagingInput } from 'src/common/inputs/paging.input';
+import { SortInput } from 'src/common/inputs/sorting.input';
+import { toObjectId } from 'src/common/helper';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
@@ -127,5 +131,351 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  async assignedSectorsForCrew(
+    filter: TripFilterForCrewInput,
+    paging: PagingInput,
+    sort?: SortInput,
+  ) {
+    const now = new Date();
+
+    const { crewId, type, search } = filter;
+
+    const crewObjId = toObjectId(filter.crewId);
+
+    console.log('crewObjId:::', crewObjId);
+    const { limit, offset } = paging;
+
+    const matchSearch = search
+      ? {
+          $or: [
+            { 'sectors.source.code': { $regex: search, $options: 'i' } },
+            { 'sectors.source.city': { $regex: search, $options: 'i' } },
+            { 'sectors.destination.code': { $regex: search, $options: 'i' } },
+            { 'sectors.destination.city': { $regex: search, $options: 'i' } },
+          ],
+        }
+      : {};
+
+    const sortStage = sort
+      ? {
+          $sort: {
+            ...(sort.createdAt
+              ? { createdAt: sort.createdAt === 'asc' ? 1 : -1 }
+              : {}),
+            ...(sort.updatedAt
+              ? { updatedAt: sort.updatedAt === 'asc' ? 1 : -1 }
+              : {}),
+          },
+        }
+      : { $sort: { departureDateTime: 1 } };
+
+    // const pipeline: any[] = [
+    //   { $match: { 'sectors.assignedCrews.crews': userId } },
+    //   { $unwind: '$sectors' },
+    //   { $match: { 'sectors.assignedCrews.crews': userId } },
+    //   { $match: matchSearch },
+
+    //   {
+    //     $addFields: {
+    //       departureDateTime: {
+    //         $dateFromString: {
+    //           dateString: {
+    //             $concat: [
+    //               {
+    //                 $dateToString: {
+    //                   date: '$sectors.depatureDate',
+    //                   format: '%Y-%m-%d',
+    //                 },
+    //               },
+    //               'T',
+    //               '$sectors.depatureTime',
+    //               ':00',
+    //             ],
+    //           },
+    //         },
+    //       },
+    //       arrivalDateTime: {
+    //         $dateFromString: {
+    //           dateString: {
+    //             $concat: [
+    //               {
+    //                 $dateToString: {
+    //                   date: '$sectors.arrivalDate',
+    //                   format: '%Y-%m-%d',
+    //                 },
+    //               },
+    //               'T',
+    //               '$sectors.arrivalTime',
+    //               ':00',
+    //             ],
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+
+    //   {
+    //     $match:
+    //       type === 'upcoming'
+    //         ? { departureDateTime: { $gt: now } }
+    //         : type === 'active'
+    //           ? {
+    //               departureDateTime: { $lte: now },
+    //               arrivalDateTime: { $gte: now },
+    //             }
+    //           : { arrivalDateTime: { $lt: now } },
+    //   },
+
+    //   {
+    //     $lookup: {
+    //       from: 'crewdetails',
+    //       localField: 'sectors.assignedCrews.crews',
+    //       foreignField: '_id',
+    //       as: 'crewInfo',
+    //     },
+    //   },
+
+    //   {
+    //     $addFields: {
+    //       'sectors.assignedCrews': {
+    //         $map: {
+    //           input: '$sectors.assignedCrews',
+    //           as: 'group',
+    //           in: {
+    //             designation: '$$group.designation',
+    //             crews: {
+    //               $filter: {
+    //                 input: '$crewInfo',
+    //                 as: 'ci',
+    //                 cond: { $in: ['$$ci._id', '$$group.crews'] },
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+
+    //   {
+    //     $project: {
+    //       tripId: 1,
+    //       quotation: 1,
+    //       quotationNo: 1,
+    //       sector: '$sectors',
+    //       departureDateTime: 1,
+    //       arrivalDateTime: 1,
+    //       createdAt: 1,
+    //       updatedAt: 1,
+    //     },
+    //   },
+
+    //   // ✅ Pagination + Count in one go
+    //   {
+    //     $facet: {
+    //       result: [sortStage, { $skip: offset }, { $limit: limit }],
+    //       totalCount: [{ $count: 'count' }],
+    //     },
+    //   },
+
+    //   {
+    //     $project: {
+    //       result: 1,
+    //       totalCount: {
+    //         $ifNull: [{ $arrayElemAt: ['$totalCount.count', 0] }, 0],
+    //       },
+    //     },
+    //   },
+    // ];
+
+    const pipeline: any[] = [
+      { $match: { 'sectors.assignedCrews.crews': crewObjId } },
+      { $unwind: '$sectors' },
+      { $match: { 'sectors.assignedCrews.crews': crewObjId } },
+      { $match: matchSearch },
+      {
+        $addFields: {
+          departureDateTime: {
+            $dateFromString: {
+              dateString: {
+                $concat: [
+                  {
+                    $dateToString: {
+                      date: '$sectors.depatureDate',
+                      format: '%Y-%m-%d',
+                    },
+                  },
+                  'T',
+                  '$sectors.depatureTime',
+                  ':00',
+                ],
+              },
+            },
+          },
+          arrivalDateTime: {
+            $dateFromString: {
+              dateString: {
+                $concat: [
+                  {
+                    $dateToString: {
+                      date: '$sectors.arrivalDate',
+                      format: '%Y-%m-%d',
+                    },
+                  },
+                  'T',
+                  '$sectors.arrivalTime',
+                  ':00',
+                ],
+              },
+            },
+          },
+        },
+      },
+
+      {
+        $match:
+          type === 'upcoming'
+            ? { departureDateTime: { $gt: now } }
+            : type === 'active'
+              ? {
+                  departureDateTime: { $lte: now },
+                  arrivalDateTime: { $gte: now },
+                }
+              : { arrivalDateTime: { $lt: now } },
+      },
+
+      // ✅ Populate assigned crew full details
+      {
+        $lookup: {
+          from: 'crew-details', // ensure correct
+          localField: 'sectors.assignedCrews.crews',
+          foreignField: '_id',
+          as: 'crewInfo',
+        },
+      },
+      {
+        $addFields: {
+          'sectors.crewGroup': {
+            $map: {
+              input: '$sectors.assignedCrews',
+              as: 'group',
+              in: {
+                designation: '$$group.designation',
+                crews: {
+                  $map: {
+                    input: {
+                      $filter: {
+                        input: '$crewInfo',
+                        as: 'ci',
+                        cond: { $in: ['$$ci._id', '$$group.crews'] },
+                      },
+                    },
+                    as: 'member',
+                    in: {
+                      id: { $toString: '$$member._id' },
+                      fullName: '$$member.fullName',
+                      displayName: '$$member.fullName',
+                      designation: '$$member.designation',
+                      phone: '$$member.phone',
+                      email: '$$member.email',
+                      profile: '$$member.profile',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+
+      // ✅ NEW: Lookup & hydrate quotation object
+      {
+        $lookup: {
+          from: 'quotes', // confirm correct name
+          localField: 'quotation',
+          foreignField: '_id',
+          as: 'quotationData',
+        },
+      },
+      {
+        $addFields: {
+          quotation: {
+            $let: {
+              vars: { q: { $arrayElemAt: ['$quotationData', 0] } },
+              in: {
+                id: { $toString: '$$q._id' },
+                category: '$$q.category',
+                quotationNo: '$$q.quotationNo',
+                aircraft: '$$q.aircraft', // or lookup aircraft later if needed
+              },
+            },
+          },
+        },
+      },
+      { $unset: 'quotationData' },
+
+      {
+        $project: {
+          tripId: 1,
+          quotation: 1, // Now hydrated object ✅
+          quotationNo: 1,
+          sector: '$sectors',
+          departureDateTime: 1,
+          arrivalDateTime: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      },
+
+      // ✅ Pagination + Count
+      {
+        $facet: {
+          result: [sortStage, { $skip: 0 }, { $limit: 10 }],
+          totalCount: [{ $count: 'count' }],
+        },
+      },
+      {
+        $project: {
+          result: 1,
+          totalCount: {
+            $ifNull: [{ $arrayElemAt: ['$totalCount.count', 0] }, 0],
+          },
+        },
+      },
+    ];
+
+    const [data] = await this.Model.aggregate(pipeline);
+
+    return data;
+  }
+
+  async uploadCrewTripDocument(args) {
+    const { tripId, sectorNo } = args.where;
+
+    const updatedTrip = await this.Model.findOneAndUpdate(
+      {
+        tripId,
+      },
+      {
+        $push: {
+          'sectors.$[sec].crewDocuments': {
+            ...args.data,
+            uploadedAt: new Date(),
+          },
+        },
+      },
+      {
+        arrayFilters: [{ 'sec.sectorNo': sectorNo }],
+        returnDocument: 'after', // <— return updated doc
+        lean: true,
+      },
+    );
+
+    if (!updatedTrip) {
+      throw new Error(`Failed to upload document`);
+    }
+
+    return updatedTrip;
   }
 }

@@ -94,7 +94,7 @@ export class CrewDetailDto extends BaseDTO {
   @Field({ nullable: true })
   location: string;
 
-  @Field({ nullable: true })
+  @FilterableField({ nullable: true })
   designation: string;
 
   @FilterableField()

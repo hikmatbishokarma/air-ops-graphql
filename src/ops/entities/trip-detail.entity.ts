@@ -4,11 +4,27 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 import { sectorLocationEntity } from 'src/quotes/entities/quotes.entity';
 
 @Schema({ _id: false })
+export class crewTripUploadedDocEntity {
+  @Prop()
+  name: string;
+
+  @Prop()
+  url: string;
+
+  @Prop()
+  type: string;
+
+  @Prop({ ref: 'CrewDetailEntity', type: SchemaTypes.ObjectId, required: true })
+  crew: Types.ObjectId;
+}
+
+@Schema({ _id: false })
 export class AssignmentCrewEntity {
   @Prop()
   designation: string;
-  @Prop()
-  crews: string[];
+
+  @Prop({ type: [SchemaTypes.ObjectId], ref: 'CrewDetailEntity', default: [] })
+  crews: Types.ObjectId[];
 }
 
 @Schema({ _id: false })
@@ -167,6 +183,9 @@ export class TripDetailEntity extends BaseEntity {
     default: undefined,
   })
   operatorId: Types.ObjectId;
+
+  @Prop({ type: [crewTripUploadedDocEntity], default: [] })
+  crewTripUploadedDoc: crewTripUploadedDocEntity[];
 }
 
 export const TripDetailSchema = SchemaFactory.createForClass(TripDetailEntity);

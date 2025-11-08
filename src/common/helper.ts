@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { hash, compare } from 'bcrypt';
+import { Types } from 'mongoose';
 import path, { extname } from 'path';
 import puppeteer, { Browser } from 'puppeteer';
 
@@ -352,3 +353,21 @@ export const sanitizeFilename = (filename: string): string => {
   if (!safeName) return `untitled${ext}`; // Handle case where name is empty
   return `${safeName}${ext}`;
 };
+
+export function toObjectId(id: any): Types.ObjectId {
+  if (!id) return null;
+
+  // Already ObjectId → return as is
+  if (id instanceof Types.ObjectId) return id;
+
+  // If id is string and valid
+  if (typeof id === 'string' && Types.ObjectId.isValid(id)) {
+    return new Types.ObjectId(id);
+  }
+
+  throw new Error(`Invalid ObjectId value: ${id}`);
+}
+
+export function toObjectIdArray(list: any[]): Types.ObjectId[] {
+  return Array.isArray(list) ? list.map((item) => toObjectId(item)) : [];
+}
