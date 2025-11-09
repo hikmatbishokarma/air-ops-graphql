@@ -108,8 +108,8 @@ export class QuotesDto extends BaseDTO {
   quotationNo: string;
   // @FilterableField({ nullable: true })
   // revisedQuotationNo: string;
-  @Field(() => [GraphQLJSONObject])
-  itinerary: Object[];
+  // @Field(() => [GraphQLJSONObject])
+  // itinerary: Object[];
 
   @Field(() => [SectorInputDto])
   sectors: SectorInputDto[];

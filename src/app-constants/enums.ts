@@ -10,6 +10,7 @@ export enum RoleType {
   ENGINEERING = 'ENGINEERING',
   AUDIT = 'AUDIT',
   ACCOUNTING = 'ACCOUNTING',
+  SITE_USER = 'SITE_USER',
 }
 
 registerEnumType(RoleType, {

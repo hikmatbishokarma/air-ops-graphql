@@ -36,7 +36,7 @@ export class RoleDTO extends BaseDTO {
   @FilterableField(() => RoleType)
   type: RoleType;
   @IsString()
-  @FilterableField()
+  @FilterableField({ nullable: true })
   name: string;
   @IsString()
   @Field({ nullable: true })

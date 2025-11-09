@@ -1,5 +1,5 @@
 import { Field, Float, InputType, Int } from '@nestjs/graphql';
-import { QuotesDto } from '../dto/quotes.dto';
+import { QuotesDto, SectorInputDto } from '../dto/quotes.dto';
 import { UpdateOneInputType } from '@app/query-graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Category, QuoteStatus } from 'src/app-constants/enums';
@@ -17,10 +17,13 @@ export class UpdateQuoteDTO {
   aircraft: string;
   @Field()
   providerType: string;
-  @Field(() => [GraphQLJSONObject])
-  itinerary: Object[];
+  // @Field(() => [GraphQLJSONObject])
+  // itinerary: Object[];
 
-  @Field(() => [PriceInputDto])
+  @Field(() => [SectorInputDto])
+  sectors: SectorInputDto[];
+
+  @Field(() => [PriceInputDto], { nullable: true, defaultValue: [] })
   prices: PriceInputDto[];
   @Field(() => Float, { defaultValue: 0 })
   grandTotal: number;

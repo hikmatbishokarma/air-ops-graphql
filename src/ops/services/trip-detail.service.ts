@@ -14,6 +14,7 @@ import { TripFilterForCrewInput } from '../inputs/crew-assigned-trip.input';
 import { PagingInput } from 'src/common/inputs/paging.input';
 import { SortInput } from 'src/common/inputs/sorting.input';
 import { toObjectId } from 'src/common/helper';
+import { skip } from 'node:test';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
@@ -144,7 +145,6 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
 
     const crewObjId = toObjectId(filter.crewId);
 
-    console.log('crewObjId:::', crewObjId);
     const { limit, offset } = paging;
 
     const matchSearch = search
@@ -431,7 +431,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       // ✅ Pagination + Count
       {
         $facet: {
-          result: [sortStage, { $skip: 0 }, { $limit: 10 }],
+          result: [sortStage, { $skip: offset || 0 }, { $limit: limit || 0 }],
           totalCount: [{ $count: 'count' }],
         },
       },

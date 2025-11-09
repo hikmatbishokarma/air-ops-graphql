@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ArgsType, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TripDetailService } from '../services/trip-detail.service';
 import { TripDetailDto, TripDocByCrewDto } from '../dto/trip-detail.dto';
 import {
@@ -14,6 +14,11 @@ import {
 import { PagingInput } from 'src/common/inputs/paging.input';
 import { SortInput } from 'src/common/inputs/sorting.input';
 import { TripAssignedForCrewResult } from '../dto/crew-assigned-trip.dto';
+import { QueryArgsType } from '@app/query-graphql';
+import _ from 'lodash';
+@ArgsType()
+export class TripDetailQuery extends QueryArgsType(TripDetailDto) {}
+export const TripDetailConnection = TripDetailQuery.ConnectionType;
 
 @Resolver()
 export class TripDetailResolver {
@@ -52,5 +57,51 @@ export class TripDetailResolver {
     @Args('data') data: TripDocByCrewDto,
   ) {
     return await this.tripDetailService.uploadCrewTripDocument({ where, data });
+  }
+
+  @Query(() => TripDetailConnection, { name: 'tripDetailsWithCrewDocuments' })
+  async tripDetailsWithCrewDocuments(
+    @Args() query: TripDetailQuery,
+  ): Promise<any> {
+    return TripDetailConnection.createFromPromise(
+      (q: any) => this.handleTripDocsQuery(q) as any,
+      { ...query, ...query.filter },
+      (q: any) => this.handleTripDocsCount(q),
+    );
+  }
+  async handleTripDocsQuery(q: any) {
+    const qCopy = _.cloneDeep(q);
+    const baseFilter = qCopy.filter || {};
+
+    const finalFilter = {
+      ...baseFilter,
+      sectors: {
+        $elemMatch: {
+          crewTripUploadedDoc: { $exists: true, $ne: [] },
+        },
+      },
+    };
+
+    const records = await this.tripDetailService.Model.find(finalFilter)
+      .sort(qCopy.sort || {})
+      .skip(qCopy.paging?.skip ?? 0)
+      .limit(qCopy.paging?.limit ?? 20);
+
+    return records;
+  }
+
+  async handleTripDocsCount(q: any) {
+    const baseFilter = q.filter || {};
+
+    const finalFilter = {
+      ...baseFilter,
+      sectors: {
+        $elemMatch: {
+          crewTripUploadedDoc: { $exists: true, $ne: [] },
+        },
+      },
+    };
+
+    return this.tripDetailService.Model.countDocuments(finalFilter);
   }
 }

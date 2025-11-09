@@ -44,7 +44,7 @@ export class TripDocByCrewDto {
 export class AssignedCrewDto {
   @Field()
   designation: string;
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   crews: string[];
 }
 
@@ -89,13 +89,13 @@ export class FuelRecordDto {
 @ObjectType()
 @InputType('BaReport')
 export class BaReportDto {
-  @Field()
+  @Field({ nullable: true })
   name: string;
-  @Field()
+  @Field({ nullable: true })
   reading: string;
-  @Field()
+  @Field({ nullable: true })
   conductedDate: Date;
-  @Field()
+  @Field({ nullable: true })
   record: string;
   @Field({ nullable: true })
   video: string;
@@ -104,13 +104,13 @@ export class BaReportDto {
 @ObjectType()
 @InputType('BaPerson')
 export class BaPersonDto {
-  @Field()
+  @Field({ nullable: true })
   name: string;
-  @Field()
+  @Field({ nullable: true })
   gender: string;
-  @Field()
+  @Field({ nullable: true })
   age: string;
-  @Field()
+  @Field({ nullable: true })
   certNo: string;
 }
 

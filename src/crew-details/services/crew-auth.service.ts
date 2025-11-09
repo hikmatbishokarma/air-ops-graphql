@@ -152,7 +152,7 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
        * notify user with random password
        */
       const subject = 'Welcome to Airops – Your Account Details';
-      const text = `Dear ${crew.name},\n\nWelcome to Airops! Here are your login details:\n\nEmail: ${crew.email}\nTemporary Password: ${tempPassword}\n\nPlease log in and change your password immediately.\n\n Login Here:${this.url}sign-in.\n\nBest regards,\nAirops\nSupport Team`;
+      const text = `Dear ${crew.fullName},\n\nWelcome to Airops! Here are your login details:\n\nEmail: ${crew.email}\nTemporary Password: ${tempPassword}\n\nPlease log in and change your password immediately.\n\n Login Here:${this.url}login.\n\nBest regards,\nAirops\nSupport Team`;
 
       this.mailerService.sendEmail(crew.email, subject, text);
       return result;
