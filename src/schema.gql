@@ -2958,6 +2958,7 @@ type FuelRecordDto {
   fuelGauge: String
   fuelLoaded: String
   fuelOnArrival: String
+  fuelReceipt: String
   fuelStation: String
   handledBy: String
   uploadedDate: DateTime
@@ -2968,6 +2969,7 @@ input FuelRecordInput {
   fuelGauge: String
   fuelLoaded: String
   fuelOnArrival: String
+  fuelReceipt: String
   fuelStation: String
   handledBy: String
   uploadedDate: DateTime

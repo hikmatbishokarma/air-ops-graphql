@@ -469,7 +469,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     // });
 
     const segments: any = await this.Model.find({
-      itinerary: {
+      sectors: {
         $elemMatch: {
           depatureDate: {
             $gte: startDate,
@@ -478,7 +478,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
         },
       },
       ...(operatorId && { operatorId }),
-    }).select({ itinerary: 1, aircraft: 1 });
+    }).select({ sectors: 1, aircraft: 1 });
 
     const aircraftIds = segments.map((item) => item.aircraft);
 
@@ -498,14 +498,14 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     for (const segment of segments) {
       const aircraftDetails = aircraftMap[segment.aircraft.toString()];
 
-      for (const leg of segment.itinerary) {
+      for (const leg of segment?.sectors) {
         const dep = new Date(leg.depatureDate);
         if (dep >= startDate && dep <= endDate) {
           calenderData.push({
             id: segment.id,
-            title: `${leg.source} → ${leg.destination}`,
-            source: leg.source,
-            destination: leg.destination,
+            title: `${leg?.source?.code} → ${leg?.destination?.code}`,
+            source: leg?.source?.code,
+            destination: leg?.destination?.code,
             // start: leg.depatureDate,
             start: new Date(
               `${moment(leg.depatureDate).format('YYYY-MM-DD')}T${leg.depatureTime}:00Z`,
