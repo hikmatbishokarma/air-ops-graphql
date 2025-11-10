@@ -22,6 +22,7 @@ import { PassengerDetailService } from 'src/passenger-detail/services/passenger-
 @Controller('api/document')
 export class DocumentController {
   private apiUrl: string;
+  private airOpsLogo: string;
   constructor(
     private readonly quotesService: QuotesService,
     private readonly config: ConfigService,
@@ -29,6 +30,7 @@ export class DocumentController {
     private readonly passengerDetailService: PassengerDetailService,
   ) {
     this.apiUrl = this.config.get<string>('api_url');
+    this.airOpsLogo = this.config.get<string>('logo');
   }
 
   //   @Get('quote/downloadv1/:quotationNo')
@@ -120,7 +122,7 @@ export class DocumentController {
 
     const logoUrl = quote?.operator
       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
-      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      : this.airOpsLogo;
 
     let htmlContent: string;
     let defaultFileName = '';

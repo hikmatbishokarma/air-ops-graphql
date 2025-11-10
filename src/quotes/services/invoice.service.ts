@@ -14,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
 
 export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   private apiUrl: string;
+  private airOpsLogo: string;
   constructor(
     @InjectModel(InvoiceEntity.name) model: Model<InvoiceEntity>,
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
@@ -22,6 +23,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   ) {
     super(model);
     this.apiUrl = this.config.get<string>('api_url');
+    this.airOpsLogo = this.config.get<string>('logo');
   }
 
   async generateInvoice(args) {
@@ -32,7 +34,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
 
     const logoUrl = quote?.operator
       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
-      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      : this.airOpsLogo;
 
     if (type === InvoiceType.PROFORMA_INVOICE) {
       const invoice = await this.query({

@@ -75,4 +75,5 @@ export default (): Config => ({
     aws_bucket_name: process.env.AWS_BUCKET_NAME,
     aws_cloudfront_base_url: process.env.AWS_CLOUDFRONT_BASE_URL,
   },
+  logo: process.env.LOGO_URL,
 });

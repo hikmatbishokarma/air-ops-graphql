@@ -8,6 +8,7 @@ export interface Config {
   email: EmailConfig;
   multer_dest?: any;
   s3: any;
+  logo: string;
 }
 export interface GraphqlConfig {
   playgroundEnabled: boolean;

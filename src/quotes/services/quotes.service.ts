@@ -42,6 +42,7 @@ const quotationWorkflowTransition = {
 @Injectable()
 export class QuotesService extends MongooseQueryService<QuotesEntity> {
   private apiUrl: string;
+  private airOpsLogo: string;
   constructor(
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
@@ -57,6 +58,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
   ) {
     super(model);
     this.apiUrl = this.config.get<string>('api_url');
+    this.airOpsLogo = this.config.get<string>('logo');
   }
 
   async RequestedQuoteList() {
@@ -293,7 +295,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
       const logoUrl = quote?.operator
         ? `${this.apiUrl}${quote?.operator?.companyLogo}`
-        : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+        : this.airOpsLogo;
 
       if (!quote) throw new BadRequestException('No Quote Found');
 
@@ -404,7 +406,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     const logoUrl = quote?.operator
       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
-      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      : this.airOpsLogo;
 
     const htmlContent = SaleConfirmationTemplate({
       ...quote,
@@ -434,7 +436,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
 
     const logoUrl = quote?.operator
       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
-      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      : this.airOpsLogo;
 
     const htmlContent = SaleConfirmationTemplate({
       ...quote,
