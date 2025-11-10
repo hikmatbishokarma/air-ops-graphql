@@ -57,6 +57,9 @@ export class FuelRecordEntity {
   fuelGauge: string;
 
   @Prop()
+  fuelReceipt: string;
+
+  @Prop()
   handledBy: string;
 
   @Prop()

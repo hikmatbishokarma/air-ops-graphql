@@ -80,6 +80,9 @@ export class FuelRecordDto {
   fuelGauge: string;
 
   @Field({ nullable: true })
+  fuelReceipt: string;
+
+  @Field({ nullable: true })
   handledBy: string;
 
   @Field({ nullable: true })
