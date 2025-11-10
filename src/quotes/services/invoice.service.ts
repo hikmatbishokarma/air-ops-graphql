@@ -13,7 +13,7 @@ import { CounterType, InvoiceType, QuoteStatus } from 'src/app-constants/enums';
 import { ConfigService } from '@nestjs/config';
 
 export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
-  private baseUrl: string;
+  private apiUrl: string;
   constructor(
     @InjectModel(InvoiceEntity.name) model: Model<InvoiceEntity>,
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
@@ -21,7 +21,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     private readonly config: ConfigService,
   ) {
     super(model);
-    this.baseUrl = this.config.get<string>('site_url');
+    this.apiUrl = this.config.get<string>('api_url');
   }
 
   async generateInvoice(args) {
@@ -31,8 +31,8 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const logoUrl = quote?.operator
-      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
     if (type === InvoiceType.PROFORMA_INVOICE) {
       const invoice = await this.query({

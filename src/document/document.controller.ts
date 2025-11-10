@@ -21,14 +21,14 @@ import { PassengerDetailService } from 'src/passenger-detail/services/passenger-
 
 @Controller('api/document')
 export class DocumentController {
-  private baseUrl: string;
+  private apiUrl: string;
   constructor(
     private readonly quotesService: QuotesService,
     private readonly config: ConfigService,
     private readonly invoiceService: InvoiceService,
     private readonly passengerDetailService: PassengerDetailService,
   ) {
-    this.baseUrl = this.config.get<string>('site_url');
+    this.apiUrl = this.config.get<string>('api_url');
   }
 
   //   @Get('quote/downloadv1/:quotationNo')
@@ -42,8 +42,8 @@ export class DocumentController {
   //     }
 
   //     const logoUrl = quote?.operator
-  //       ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-  //       : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+  //       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+  //       : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
   //     const htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
 
@@ -79,8 +79,8 @@ export class DocumentController {
   //     }
 
   //     const logoUrl = quote?.operator
-  //       ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-  //       : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+  //       ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+  //       : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
   //     let htmlContent = QuotePdfTemplate({ ...quote, logoUrl });
 
@@ -119,8 +119,8 @@ export class DocumentController {
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const logoUrl = quote?.operator
-      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
     let htmlContent: string;
     let defaultFileName = '';
@@ -131,7 +131,7 @@ export class DocumentController {
         htmlContent = QuotePdfTemplate({
           ...quote,
           logoUrl,
-          baseUrl: this.baseUrl,
+          apiUrl: this.apiUrl,
         });
         defaultFileName = `quote-${quotationNo.replace(/\//g, '-')}.pdf`;
         break;

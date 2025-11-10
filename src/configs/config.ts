@@ -67,7 +67,7 @@ export default (): Config => ({
   multer_dest: {
     dest: process.env.MULTER_DEST,
   },
-  site_url: process.env.SITE_BASE_URL, // fine here if ConfigModule is properly initialized
+  api_url: process.env.API_BASE_URL, // fine here if ConfigModule is properly initialized
   s3: {
     aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
     aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,

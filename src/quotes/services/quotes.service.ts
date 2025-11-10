@@ -41,7 +41,7 @@ const quotationWorkflowTransition = {
 
 @Injectable()
 export class QuotesService extends MongooseQueryService<QuotesEntity> {
-  private baseUrl: string;
+  private apiUrl: string;
   constructor(
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
@@ -56,7 +56,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     private crewDetailModel: Model<CrewDetailEntity>,
   ) {
     super(model);
-    this.baseUrl = this.config.get<string>('site_url');
+    this.apiUrl = this.config.get<string>('api_url');
   }
 
   async RequestedQuoteList() {
@@ -292,15 +292,15 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       const quote = await this.getQuoteByQuotatioNo(quotationNo);
 
       const logoUrl = quote?.operator
-        ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-        : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+        ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+        : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
       if (!quote) throw new BadRequestException('No Quote Found');
 
       const htmlContent = QuotePdfTemplate({
         ...quote,
         logoUrl,
-        baseUrl: this.baseUrl,
+        apiUrl: this.apiUrl,
       });
       return htmlContent;
     }
@@ -403,8 +403,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
 
     const logoUrl = quote?.operator
-      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
     const htmlContent = SaleConfirmationTemplate({
       ...quote,
@@ -433,8 +433,8 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
 
     const logoUrl = quote?.operator
-      ? `${this.baseUrl}${quote?.operator?.companyLogo}`
-      : `${this.baseUrl}media/profile/logo_phn-1752924866468-198955892.png`;
+      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      : `${this.apiUrl}media/profile/logo_phn-1752924866468-198955892.png`;
 
     const htmlContent = SaleConfirmationTemplate({
       ...quote,

@@ -4,7 +4,7 @@ export interface Config {
   mongo?: MongoConfig;
   server?: ServerConfig;
   url: string;
-  site_url: string;
+  api_url: string;
   email: EmailConfig;
   multer_dest?: any;
   s3: any;
