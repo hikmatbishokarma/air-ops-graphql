@@ -4,7 +4,7 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 import { sectorLocationEntity } from 'src/quotes/entities/quotes.entity';
 
 @Schema({ _id: false })
-export class crewTripUploadedDocEntity {
+export class tripDocByCrew {
   @Prop()
   name: string;
 
@@ -158,6 +158,9 @@ export class TripSectorEntity {
 
   @Prop({ type: BaInfoEntity })
   baInfo: BaInfoEntity;
+
+  @Prop({ type: [tripDocByCrew], default: [] })
+  tripDocByCrew: tripDocByCrew[];
 }
 
 const SectorSchema = SchemaFactory.createForClass(TripSectorEntity);
@@ -186,9 +189,6 @@ export class TripDetailEntity extends BaseEntity {
     default: undefined,
   })
   operatorId: Types.ObjectId;
-
-  @Prop({ type: [crewTripUploadedDocEntity], default: [] })
-  crewTripUploadedDoc: crewTripUploadedDocEntity[];
 }
 
 export const TripDetailSchema = SchemaFactory.createForClass(TripDetailEntity);

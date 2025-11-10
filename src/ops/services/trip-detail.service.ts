@@ -454,21 +454,19 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     const { tripId, sectorNo } = args.where;
 
     const updatedTrip = await this.Model.findOneAndUpdate(
-      {
-        tripId,
-      },
+      { tripId, 'sectors.sectorNo': sectorNo },
       {
         $push: {
-          'sectors.$[sec].crewDocuments': {
+          'sectors.$.tripDocByCrew': {
             ...args.data,
             uploadedAt: new Date(),
           },
         },
       },
       {
-        arrayFilters: [{ 'sec.sectorNo': sectorNo }],
-        returnDocument: 'after', // <— return updated doc
-        lean: true,
+        new: true, // return updated document
+        lean: true, // return plain object
+        // ❗ no upsert — so NO new trip is created
       },
     );
 
@@ -476,6 +474,6 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       throw new Error(`Failed to upload document`);
     }
 
-    return updatedTrip;
+    return { ...updatedTrip, id: updatedTrip._id };
   }
 }

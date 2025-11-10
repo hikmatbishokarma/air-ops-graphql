@@ -8,6 +8,7 @@ import {
 import { CreateTripInput } from '../inputs/create-trip.input';
 
 import {
+  TripDocByCrewDataInput,
   TripDocByCrewWhereInput,
   TripFilterForCrewInput,
 } from '../inputs/crew-assigned-trip.input';
@@ -54,7 +55,7 @@ export class TripDetailResolver {
   @Mutation(() => TripDetailDto)
   async uploadTripDocByCrew(
     @Args('where') where: TripDocByCrewWhereInput,
-    @Args('data') data: TripDocByCrewDto,
+    @Args('data') data: TripDocByCrewDataInput,
   ) {
     return await this.tripDetailService.uploadCrewTripDocument({ where, data });
   }
@@ -77,7 +78,7 @@ export class TripDetailResolver {
       ...baseFilter,
       sectors: {
         $elemMatch: {
-          crewTripUploadedDoc: { $exists: true, $ne: [] },
+          tripDocByCrew: { $exists: true, $ne: [] },
         },
       },
     };
@@ -97,7 +98,7 @@ export class TripDetailResolver {
       ...baseFilter,
       sectors: {
         $elemMatch: {
-          crewTripUploadedDoc: { $exists: true, $ne: [] },
+          tripDocByCrew: { $exists: true, $ne: [] },
         },
       },
     };

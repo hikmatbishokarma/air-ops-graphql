@@ -3781,7 +3781,7 @@ type Mutation {
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
   updateTripDetail(data: UpdateTripDetailDataInput!, where: UpdateTripDetailWhereInput!): TripDetail!
   upgradeQuote(code: String!): Quote!
-  uploadTripDocByCrew(data: tripDocByCrewInput!, where: TripDocByCrewWhereInput!): TripDetail!
+  uploadTripDocByCrew(data: TripDocByCrewDataInput!, where: TripDocByCrewWhereInput!): TripDetail!
 }
 
 type NomineeDto {
@@ -5951,6 +5951,13 @@ input TripDetailUpdateFilter {
   quotationNo: StringFieldComparison
   status: TripDetailStatusFilterComparison
   tripId: StringFieldComparison
+}
+
+input TripDocByCrewDataInput {
+  crew: String!
+  name: String
+  type: CrewTripUploadDocType
+  url: String!
 }
 
 type TripDocByCrewDto {
