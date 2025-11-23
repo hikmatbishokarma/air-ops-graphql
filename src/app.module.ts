@@ -36,6 +36,8 @@ import { TripDetailModule } from './ops/operation.module';
 import { DocumentModule } from './document/document.module';
 import { CountryModule } from './country/country.module';
 import { S3Module } from './aws-s3/s3.module';
+import { SupportModule } from './support/support.module';
+import { NotamModule } from './notam/notam.module';
 
 @Module({
   imports: [
@@ -67,6 +69,8 @@ import { S3Module } from './aws-s3/s3.module';
     DocumentModule,
     CountryModule,
     S3Module,
+    SupportModule,
+    NotamModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),
@@ -88,4 +92,4 @@ import { S3Module } from './aws-s3/s3.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

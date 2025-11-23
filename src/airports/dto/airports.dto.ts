@@ -45,9 +45,9 @@ export class fuelSupplierDTO {
 export class AirportsDto extends BaseDTO {
   @FilterableField()
   name: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   iata_code: string;
-  @FilterableField()
+  @FilterableField({ nullable: true })
   icao_code: string;
   // @Field(() => Float, { nullable: true })
   @FilterableField()

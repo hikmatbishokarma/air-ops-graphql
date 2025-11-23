@@ -46,3 +46,12 @@ export const AircraftDetailSchema =
   SchemaFactory.createForClass(AircraftDetailEntity);
 
 AircraftDetailSchema.index({ code: 1, operatorId: 1 }, { unique: true });
+
+
+
+AircraftDetailSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

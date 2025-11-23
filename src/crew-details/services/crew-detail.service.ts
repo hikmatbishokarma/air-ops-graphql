@@ -12,13 +12,18 @@ export class CrewDetailService extends MongooseQueryService<CrewDetailEntity> {
   }
 
   async staffCertificates(args) {
-    const { validTillBefore, search, operatorId } = args || {};
+
+
+    const { validTillBefore, search, operatorId } = args.where || {};
     const matchStage = {
       ...(operatorId && { operatorId: { eq: operatorId } }),
     };
 
     if (validTillBefore) {
-      matchStage['certifications.validTill'] = { $lte: validTillBefore };
+      matchStage['certifications.validTill'] = {
+        $lte: validTillBefore,
+        $ne: null  // Exclude certifications where validTill is null or doesn't exist
+      };
     }
 
     if (search) {

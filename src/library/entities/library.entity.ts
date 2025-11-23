@@ -20,3 +20,12 @@ export class LibraryEntity extends BaseEntity {
 }
 
 export const LibrarySchema = SchemaFactory.createForClass(LibraryEntity);
+
+
+
+LibrarySchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

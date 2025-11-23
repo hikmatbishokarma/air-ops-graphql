@@ -42,3 +42,12 @@ export class ClientsEntity extends BaseEntity {
 }
 
 export const ClientsSchema = SchemaFactory.createForClass(ClientsEntity);
+
+
+
+ClientsSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

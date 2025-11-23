@@ -192,3 +192,12 @@ export class TripDetailEntity extends BaseEntity {
 }
 
 export const TripDetailSchema = SchemaFactory.createForClass(TripDetailEntity);
+
+
+
+TripDetailSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

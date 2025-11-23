@@ -20,3 +20,12 @@ export class ManualEntity extends BaseEntity {
 }
 
 export const ManualSchema = SchemaFactory.createForClass(ManualEntity);
+
+
+
+ManualSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

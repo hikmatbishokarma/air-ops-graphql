@@ -20,7 +20,7 @@ export abstract class BaseDTO {
   })
   createdBy?: string;
 
-  @Field({
+  @FilterableField({
     nullable: true,
     description: 'The date when the record was last updated',
   })

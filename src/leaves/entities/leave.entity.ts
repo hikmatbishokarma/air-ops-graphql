@@ -36,3 +36,12 @@ export class LeaveEntity extends BaseEntity {
 }
 
 export const LeaveSchema = SchemaFactory.createForClass(LeaveEntity);
+
+
+
+LeaveSchema.virtual('operator', {
+  ref: 'OperatorEntity',
+  localField: 'operatorId',
+  foreignField: '_id',
+  justOne: true,
+});

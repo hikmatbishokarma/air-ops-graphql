@@ -17,13 +17,14 @@ import { SortInput } from 'src/common/inputs/sorting.input';
 import { TripAssignedForCrewResult } from '../dto/crew-assigned-trip.dto';
 import { QueryArgsType } from '@app/query-graphql';
 import _ from 'lodash';
+import { GeneratePassengerManifestInput } from 'src/notification/inputs/generate-manifest.input';
 @ArgsType()
-export class TripDetailQuery extends QueryArgsType(TripDetailDto) {}
+export class TripDetailQuery extends QueryArgsType(TripDetailDto) { }
 export const TripDetailConnection = TripDetailQuery.ConnectionType;
 
 @Resolver()
 export class TripDetailResolver {
-  constructor(private readonly tripDetailService: TripDetailService) {}
+  constructor(private readonly tripDetailService: TripDetailService) { }
 
   @Mutation(() => TripDetailDto)
   async updateTripDetail(
@@ -70,6 +71,12 @@ export class TripDetailResolver {
       (q: any) => this.handleTripDocsCount(q),
     );
   }
+
+  @Mutation(() => String)
+  async generatePassengerManifest(@Args('input') input: GeneratePassengerManifestInput) {
+    return await this.tripDetailService.generatePassengerManifest(input);
+  }
+
   async handleTripDocsQuery(q: any) {
     const qCopy = _.cloneDeep(q);
     const baseFilter = qCopy.filter || {};

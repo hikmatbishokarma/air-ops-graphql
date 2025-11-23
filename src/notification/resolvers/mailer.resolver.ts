@@ -6,14 +6,13 @@ import { acknowledgementInput } from '../inputs/acknowledgement.input';
 
 @Resolver()
 export class MailerResolver {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private readonly mailerService: MailerService) { }
 
   @Mutation(() => MailerResponseDto)
   async sendEmail(@Args('input') input: MailerInput) {
     const { to, text, subject, html } = input;
     return await this.mailerService.sendEmail(to, subject, text, html);
   }
-
 
   @Mutation(() => String)
   async sendAcknowledgement(@Args('input') input: acknowledgementInput) {

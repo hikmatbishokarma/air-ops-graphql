@@ -15,15 +15,21 @@ import { PagingInput } from 'src/common/inputs/paging.input';
 import { SortInput } from 'src/common/inputs/sorting.input';
 import { toObjectId } from 'src/common/helper';
 import { skip } from 'node:test';
+import { PassengerManifestTemplate } from 'src/notification/templates/passenger-manifest';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
+  private airOpsLogo: string;
   constructor(
     @InjectModel(TripDetailEntity.name)
     private readonly model: Model<TripDetailEntity>,
     private readonly quotesService: QuotesService,
+    private readonly config: ConfigService,
   ) {
+
     super(model);
+    this.airOpsLogo = this.config.get<string>('logo');
   }
 
   async generateTripId(operatorId) {
@@ -149,26 +155,26 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
 
     const matchSearch = search
       ? {
-          $or: [
-            { 'sectors.source.code': { $regex: search, $options: 'i' } },
-            { 'sectors.source.city': { $regex: search, $options: 'i' } },
-            { 'sectors.destination.code': { $regex: search, $options: 'i' } },
-            { 'sectors.destination.city': { $regex: search, $options: 'i' } },
-          ],
-        }
+        $or: [
+          { 'sectors.source.code': { $regex: search, $options: 'i' } },
+          { 'sectors.source.city': { $regex: search, $options: 'i' } },
+          { 'sectors.destination.code': { $regex: search, $options: 'i' } },
+          { 'sectors.destination.city': { $regex: search, $options: 'i' } },
+        ],
+      }
       : {};
 
     const sortStage = sort
       ? {
-          $sort: {
-            ...(sort.createdAt
-              ? { createdAt: sort.createdAt === 'asc' ? 1 : -1 }
-              : {}),
-            ...(sort.updatedAt
-              ? { updatedAt: sort.updatedAt === 'asc' ? 1 : -1 }
-              : {}),
-          },
-        }
+        $sort: {
+          ...(sort.createdAt
+            ? { createdAt: sort.createdAt === 'asc' ? 1 : -1 }
+            : {}),
+          ...(sort.updatedAt
+            ? { updatedAt: sort.updatedAt === 'asc' ? 1 : -1 }
+            : {}),
+        },
+      }
       : { $sort: { departureDateTime: 1 } };
 
     // const pipeline: any[] = [
@@ -339,9 +345,9 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
             ? { departureDateTime: { $gt: now } }
             : type === 'active'
               ? {
-                  departureDateTime: { $lte: now },
-                  arrivalDateTime: { $gte: now },
-                }
+                departureDateTime: { $lte: now },
+                arrivalDateTime: { $gte: now },
+              }
               : { arrivalDateTime: { $lt: now } },
       },
 
@@ -475,5 +481,186 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     }
 
     return { ...updatedTrip, id: updatedTrip._id };
+  }
+
+  async generatePassengerManifest(args: {
+    tripId: string;
+    sectorNo: number;
+  }): Promise<string> {
+    const { tripId, sectorNo } = args;
+
+
+
+    // Optimized aggregation: filter sector first, then lookup only relevant crew
+    const [tripData] = await this.Model.aggregate([
+      { $match: { tripId } },
+      // Filter to get only the specific sector
+      {
+        $addFields: {
+          sector: {
+            $arrayElemAt: [
+              {
+                $filter: {
+                  input: '$sectors',
+                  as: 'sec',
+                  cond: { $eq: ['$$sec.sectorNo', sectorNo] },
+                },
+              },
+              0,
+            ],
+          },
+        },
+      },
+      // Lookup quotation - only needed fields
+      {
+        $lookup: {
+          from: 'quotes',
+          localField: 'quotation',
+          foreignField: '_id',
+          as: 'quotationData',
+          pipeline: [
+            {
+              $project: {
+                aircraft: 1,
+                operatorId: 1,
+                quotationNo: 1,
+                passengerInfo: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: { path: '$quotationData', preserveNullAndEmptyArrays: true } },
+      // Lookup aircraft - only needed fields
+      {
+        $lookup: {
+          from: 'aircrafts',
+          localField: 'quotationData.aircraft',
+          foreignField: '_id',
+          as: 'aircraftData',
+          pipeline: [
+            {
+              $project: {
+                code: 1,
+                name: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: { path: '$aircraftData', preserveNullAndEmptyArrays: true } },
+      // Lookup operator - only needed fields
+      {
+        $lookup: {
+          from: 'operators',
+          localField: 'quotationData.operatorId',
+          foreignField: '_id',
+          as: 'operatorData',
+          pipeline: [
+            {
+              $project: {
+                companyName: 1,
+                companyLogo: 1,
+                address: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: { path: '$operatorData', preserveNullAndEmptyArrays: true } },
+      // Lookup only crew members assigned to THIS sector - only needed fields
+      {
+        $lookup: {
+          from: 'crew-details',
+          localField: 'sector.assignedCrews.crews',
+          foreignField: '_id',
+          as: 'crewData',
+          pipeline: [
+            {
+              $project: {
+                fullName: 1,
+                displayName: 1,
+                weight: 1,
+                nationality: 1,
+              },
+            },
+          ],
+        },
+      },
+      // Project only needed fields from trip
+      {
+        $project: {
+          tripId: 1,
+          quotationNo: 1,
+          sector: 1,
+          quotationData: 1,
+          aircraftData: 1,
+          operatorData: 1,
+          crewData: 1,
+        },
+      },
+    ]);
+
+    if (!tripData) throw new BadRequestException('Trip not found');
+    if (!tripData.sector) throw new BadRequestException('Sector not found');
+
+    const sector = tripData.sector;
+
+    // Get passengers from quotation for this specific sector
+    const sectorPassengers = tripData.quotationData?.passengerInfo?.sectors?.find(
+      (s) => s.sectorNo === sectorNo,
+    );
+    const passengerList = sectorPassengers?.passengers || [];
+
+    // Map crew data
+    const crewList =
+      sector.assignedCrews?.flatMap((group) => {
+        return (
+          group.crews?.map((crewId) => {
+            const crewMember = tripData.crewData?.find(
+              (c) => c._id.toString() === crewId.toString(),
+            );
+            return {
+              name: crewMember?.fullName || crewMember?.displayName || 'N/A',
+              designation: group.designation || 'N/A',
+              weight: crewMember?.weight || '-',
+              baggage: '-',
+              nationality: crewMember?.nationality || 'INDIAN',
+            };
+          }) || []
+        );
+      }) || [];
+
+    // Prepare data for template
+    const manifestData = {
+      operator: tripData.operatorData || {},
+      aircraft: {
+        registration: tripData.aircraftData?.code || 'N/A',
+        type: tripData.aircraftData?.name || 'N/A',
+      },
+      flightNo: tripData.quotationNo || tripData.tripId || 'N/A',
+      dateOfFlight: sector.depatureDate,
+      departureTime: sector.depatureTime || 'N/A',
+      departureStation: sector.source?.name || sector.source?.code || 'N/A',
+      destinationStation:
+        sector.destination?.name || sector.destination?.code || 'N/A',
+      crew: crewList,
+      passengers: passengerList.map((pax) => ({
+        name: pax.name,
+        gender: pax.gender,
+        weight: {
+          pax: pax.weight || '-',
+          bag: '-',
+        },
+        checkedBaggage: 'NIL',
+        nationality: pax.nationality || 'INDIAN',
+      })),
+      logoUrl: tripData.operatorData?.companyLogo || this.airOpsLogo,
+    };
+
+
+    const htmlContent = PassengerManifestTemplate(manifestData);
+
+    return htmlContent;
   }
 }

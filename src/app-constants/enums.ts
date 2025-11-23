@@ -121,6 +121,7 @@ export enum SalesDocumentType {
   PROFORMA_INVOICE = 'Proforma Invoice',
   TAX_INVOICE = 'Tax Invoice',
   SALE_CONFIRMATION = 'Sale Confirmation',
+  MANIFEST = "Manifest",
 }
 
 registerEnumType(SalesDocumentType, {
@@ -320,3 +321,45 @@ export enum TripFilterForCrewType {
 registerEnumType(TripFilterForCrewType, {
   name: 'TripFilterForCrewType',
 });
+
+export enum TicketStatus {
+  OPEN = 'Open',
+  IN_PROGRESS = 'In Progress',
+  RESOLVED = 'Resolved',
+  CLOSED = 'Closed',
+}
+
+registerEnumType(TicketStatus, {
+  name: 'TicketStatus',
+});
+
+export enum TicketPriority {
+  LOW = 'Low',
+  MEDIUM = 'Medium',
+  HIGH = 'High',
+  URGENT = 'Urgent',
+}
+
+registerEnumType(TicketPriority, {
+  name: 'TicketPriority',
+});
+
+
+export enum NotamCategory {
+  DAILY = 'DAILY',
+  WATCH = 'WATCH',
+  PERMANENT = 'PERMANENT',
+}
+
+registerEnumType(NotamCategory, { name: 'NotamCategory' });
+
+
+
+export enum RegionCode {
+  VECF = 'VECF',   // Delhi
+  VIDF = 'VIDF',   // Kolkata
+  VOMF = 'VOMF',   // Chennai
+  VABF = 'VABF',   // Mumbai
+}
+
+registerEnumType(RegionCode, { name: 'RegionCode' });

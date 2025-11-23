@@ -13,6 +13,7 @@ import {
   createPDFBuffer,
   inlineImagesParallel,
 } from 'src/common/helper';
+import { PassengerManifestTemplate } from '../templates/passenger-manifest';
 
 @Injectable()
 export class MailerService {
@@ -38,7 +39,7 @@ export class MailerService {
     private readonly config: ConfigService,
     private readonly quoteService: QuotesService,
     private readonly invoiceService: InvoiceService,
-  ) {}
+  ) { }
 
   async sendEmail(
     to: string,
@@ -230,6 +231,12 @@ export class MailerService {
         subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo}`;
         defaultFileName = `sales-confirmation-${quotationNo}.pdf`;
         break;
+
+      // case SalesDocumentType.MANIFEST:
+      //   htmlContent = PassengerManifestTemplate(quote);
+      //   subject = `Manifest - Reference No. ${quotationNo}`;
+      //   defaultFileName = `manifest-${quotationNo}.pdf`;
+      //   break;
 
       default:
         throw new BadRequestException('Unsupported document type');

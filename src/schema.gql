@@ -47,6 +47,7 @@ type AccessRequestAggregateGroupBy {
   reviewedAt: DateTime
   reviewedBy: String
   status: AccessRequestStatus
+  updatedAt: DateTime
 }
 
 type AccessRequestConnection {
@@ -70,6 +71,7 @@ type AccessRequestCountAggregate {
   reviewedAt: Int
   reviewedBy: Int
   status: Int
+  updatedAt: Int
 }
 
 input AccessRequestDeleteFilter {
@@ -84,6 +86,7 @@ input AccessRequestDeleteFilter {
   reviewedAt: DateFieldComparison
   reviewedBy: StringFieldComparison
   status: AccessRequestStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type AccessRequestDeleteResponse {
@@ -127,6 +130,7 @@ input AccessRequestFilter {
   reviewedAt: DateFieldComparison
   reviewedBy: StringFieldComparison
   status: AccessRequestStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type AccessRequestMaxAggregate {
@@ -138,6 +142,7 @@ type AccessRequestMaxAggregate {
   reviewedAt: DateTime
   reviewedBy: String
   status: AccessRequestStatus
+  updatedAt: DateTime
 }
 
 type AccessRequestMinAggregate {
@@ -149,6 +154,7 @@ type AccessRequestMinAggregate {
   reviewedAt: DateTime
   reviewedBy: String
   status: AccessRequestStatus
+  updatedAt: DateTime
 }
 
 input AccessRequestSort {
@@ -167,6 +173,7 @@ enum AccessRequestSortFields {
   reviewedAt
   reviewedBy
   status
+  updatedAt
 }
 
 enum AccessRequestStatus {
@@ -204,6 +211,7 @@ input AccessRequestUpdateFilter {
   reviewedAt: DateFieldComparison
   reviewedBy: StringFieldComparison
   status: AccessRequestStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input AddRolesToCrewDetailInput {
@@ -256,6 +264,7 @@ type AircraftCategoryAggregateGroupBy {
   isActive: Boolean
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type AircraftCategoryConnection {
@@ -276,6 +285,7 @@ type AircraftCategoryCountAggregate {
   isActive: Int
   name: Int
   operatorId: Int
+  updatedAt: Int
 }
 
 input AircraftCategoryDeleteFilter {
@@ -287,6 +297,7 @@ input AircraftCategoryDeleteFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftCategoryDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type AircraftCategoryDeleteResponse {
@@ -323,6 +334,7 @@ input AircraftCategoryFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftCategoryFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type AircraftCategoryMaxAggregate {
@@ -331,6 +343,7 @@ type AircraftCategoryMaxAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type AircraftCategoryMinAggregate {
@@ -339,6 +352,7 @@ type AircraftCategoryMinAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 input AircraftCategorySort {
@@ -354,6 +368,7 @@ enum AircraftCategorySortFields {
   isActive
   name
   operatorId
+  updatedAt
 }
 
 input AircraftCategoryUpdateFilter {
@@ -365,6 +380,7 @@ input AircraftCategoryUpdateFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftCategoryUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 """Aircraft Detail"""
@@ -412,6 +428,7 @@ type AircraftDetailAggregateGroupBy {
   isActive: Boolean
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type AircraftDetailConnection {
@@ -432,6 +449,7 @@ type AircraftDetailCountAggregate {
   isActive: Int
   name: Int
   operatorId: Int
+  updatedAt: Int
 }
 
 input AircraftDetailDeleteFilter {
@@ -443,6 +461,7 @@ input AircraftDetailDeleteFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftDetailDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type AircraftDetailDeleteResponse {
@@ -490,6 +509,7 @@ input AircraftDetailFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftDetailFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type AircraftDetailMaxAggregate {
@@ -498,6 +518,7 @@ type AircraftDetailMaxAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type AircraftDetailMinAggregate {
@@ -506,6 +527,7 @@ type AircraftDetailMinAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 input AircraftDetailSort {
@@ -521,6 +543,7 @@ enum AircraftDetailSortFields {
   isActive
   name
   operatorId
+  updatedAt
 }
 
 input AircraftDetailUpdateFilter {
@@ -532,6 +555,7 @@ input AircraftDetailUpdateFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [AircraftDetailUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 """Airport"""
@@ -561,8 +585,8 @@ type Airport {
   fuelSuppliers: [fuelSupplierDTO!]!
   groundHandlersInfo: [groundHandlersInfoDTO!]!
   handlingMandatory: String
-  iata_code: String!
-  icao_code: String!
+  iata_code: String
+  icao_code: String
   id: ID!
   isActive: Boolean!
   latitude: String!
@@ -599,6 +623,7 @@ type AirportAggregateGroupBy {
   openHrs: String
   state: String
   type: String
+  updatedAt: DateTime
 }
 
 type AirportConnection {
@@ -629,6 +654,7 @@ type AirportCountAggregate {
   openHrs: Int
   state: Int
   type: Int
+  updatedAt: Int
 }
 
 input AirportDeleteFilter {
@@ -650,6 +676,7 @@ input AirportDeleteFilter {
   or: [AirportDeleteFilter!]
   state: StringFieldComparison
   type: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type AirportDeleteResponse {
@@ -718,6 +745,7 @@ input AirportFilter {
   or: [AirportFilter!]
   state: StringFieldComparison
   type: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type AirportMaxAggregate {
@@ -736,6 +764,7 @@ type AirportMaxAggregate {
   openHrs: String
   state: String
   type: String
+  updatedAt: DateTime
 }
 
 type AirportMinAggregate {
@@ -754,6 +783,7 @@ type AirportMinAggregate {
   openHrs: String
   state: String
   type: String
+  updatedAt: DateTime
 }
 
 input AirportSort {
@@ -779,6 +809,7 @@ enum AirportSortFields {
   openHrs
   state
   type
+  updatedAt
 }
 
 input AirportUpdateFilter {
@@ -800,6 +831,7 @@ input AirportUpdateFilter {
   or: [AirportUpdateFilter!]
   state: StringFieldComparison
   type: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type AssignedCrewDto {
@@ -1001,6 +1033,7 @@ type CityAggregateGroupBy {
   name: String
   state: String
   stateCode: String
+  updatedAt: DateTime
 }
 
 type CityConnection {
@@ -1024,6 +1057,7 @@ type CityCountAggregate {
   name: Int
   state: Int
   stateCode: Int
+  updatedAt: Int
 }
 
 input CityDeleteFilter {
@@ -1038,6 +1072,7 @@ input CityDeleteFilter {
   or: [CityDeleteFilter!]
   state: StringFieldComparison
   stateCode: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type CityDeleteResponse {
@@ -1081,6 +1116,7 @@ input CityFilter {
   or: [CityFilter!]
   state: StringFieldComparison
   stateCode: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type CityMaxAggregate {
@@ -1092,6 +1128,7 @@ type CityMaxAggregate {
   name: String
   state: String
   stateCode: String
+  updatedAt: DateTime
 }
 
 type CityMinAggregate {
@@ -1103,6 +1140,7 @@ type CityMinAggregate {
   name: String
   state: String
   stateCode: String
+  updatedAt: DateTime
 }
 
 input CitySort {
@@ -1121,6 +1159,7 @@ enum CitySortFields {
   name
   state
   stateCode
+  updatedAt
 }
 
 input CityUpdateFilter {
@@ -1135,6 +1174,7 @@ input CityUpdateFilter {
   or: [CityUpdateFilter!]
   state: StringFieldComparison
   stateCode: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type ClientConnection {
@@ -1254,6 +1294,7 @@ type CountryAggregateGroupBy {
   longitude: String
   name: String
   timezone: String
+  updatedAt: DateTime
 }
 
 type CountryConnection {
@@ -1280,6 +1321,7 @@ type CountryCountAggregate {
   longitude: Int
   name: Int
   timezone: Int
+  updatedAt: Int
 }
 
 input CountryDeleteFilter {
@@ -1297,6 +1339,7 @@ input CountryDeleteFilter {
   name: StringFieldComparison
   or: [CountryDeleteFilter!]
   timezone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type CountryDeleteResponse {
@@ -1345,6 +1388,7 @@ input CountryFilter {
   name: StringFieldComparison
   or: [CountryFilter!]
   timezone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type CountryMaxAggregate {
@@ -1359,6 +1403,7 @@ type CountryMaxAggregate {
   longitude: String
   name: String
   timezone: String
+  updatedAt: DateTime
 }
 
 type CountryMinAggregate {
@@ -1373,6 +1418,7 @@ type CountryMinAggregate {
   longitude: String
   name: String
   timezone: String
+  updatedAt: DateTime
 }
 
 input CountrySort {
@@ -1394,6 +1440,7 @@ enum CountrySortFields {
   longitude
   name
   timezone
+  updatedAt
 }
 
 input CountryUpdateFilter {
@@ -1411,6 +1458,7 @@ input CountryUpdateFilter {
   name: StringFieldComparison
   or: [CountryUpdateFilter!]
   timezone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 input CreateAccessRequest {
@@ -1881,6 +1929,11 @@ input CreateManyManualsInput {
   manuals: [CreateManual!]!
 }
 
+input CreateManyNotamsInput {
+  """Array of records to create"""
+  notams: [CreateNotam!]!
+}
+
 input CreateManyNotificationsInput {
   """Array of records to create"""
   notifications: [CreateNotification!]!
@@ -1936,6 +1989,11 @@ input CreateManyStatesInput {
   states: [CreateState!]!
 }
 
+input CreateManyTicketsInput {
+  """Array of records to create"""
+  tickets: [CreateTicket!]!
+}
+
 input CreateManyTripDetailsInput {
   """Array of records to create"""
   tripDetails: [CreateTripDetail!]!
@@ -1944,6 +2002,40 @@ input CreateManyTripDetailsInput {
 input CreateManyUsersInput {
   """Array of records to create"""
   users: [CreateUser!]!
+}
+
+input CreateMessageInput {
+  attachments: [String!] = []
+  author: String!
+  message: String!
+  ticketId: String!
+}
+
+input CreateNotam {
+  category: NotamCategory
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  fileName: String
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  region: RegionCode
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
 }
 
 input CreateNotification {
@@ -2037,6 +2129,11 @@ input CreateOneManualInput {
   manual: CreateManual!
 }
 
+input CreateOneNotamInput {
+  """The record to create"""
+  notam: CreateNotam!
+}
+
 input CreateOneNotificationInput {
   """The record to create"""
   notification: CreateNotification!
@@ -2090,6 +2187,11 @@ input CreateOneSecurityInput {
 input CreateOneStateInput {
   """The record to create"""
   state: CreateState!
+}
+
+input CreateOneTicketInput {
+  """The record to create"""
+  ticket: CreateTicket!
 }
 
 input CreateOneTripDetailInput {
@@ -2381,6 +2483,34 @@ input CreateState {
   latitude: String
   longitude: String
   name: String
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateTicket {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  messages: [MessageInput!] = []
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -2710,6 +2840,11 @@ input DeleteManyManualsInput {
   filter: manualDeleteFilter!
 }
 
+input DeleteManyNotamsInput {
+  """Filter to find records to delete"""
+  filter: NotamDeleteFilter!
+}
+
 input DeleteManyNotificationsInput {
   """Filter to find records to delete"""
   filter: notificationDeleteFilter!
@@ -2768,6 +2903,11 @@ input DeleteManySecuritiesInput {
 input DeleteManyStatesInput {
   """Filter to find records to delete"""
   filter: StateDeleteFilter!
+}
+
+input DeleteManyTicketsInput {
+  """Filter to find records to delete"""
+  filter: TicketDeleteFilter!
 }
 
 input DeleteManyTripDetailsInput {
@@ -2840,6 +2980,11 @@ input DeleteOneManualInput {
   id: ID!
 }
 
+input DeleteOneNotamInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneNotificationInput {
   """The id of the record to delete."""
   id: ID!
@@ -2891,6 +3036,11 @@ input DeleteOneSecurityInput {
 }
 
 input DeleteOneStateInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneTicketInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -2989,6 +3139,11 @@ input GenerateInvoiceInput {
   type: InvoiceType! = PROFORMA_INVOICE
 }
 
+input GeneratePassengerManifestInput {
+  sectorNo: Int!
+  tripId: String!
+}
+
 input IDFilterComparison {
   eq: ID
   gt: ID
@@ -3053,6 +3208,7 @@ type InvoiceAggregateGroupBy {
   status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
+  updatedAt: DateTime
 }
 
 type InvoiceConnection {
@@ -3079,6 +3235,7 @@ type InvoiceCountAggregate {
   status: Int
   taxInvoiceNo: Int
   type: Int
+  updatedAt: Int
 }
 
 input InvoiceDeleteFilter {
@@ -3096,6 +3253,7 @@ input InvoiceDeleteFilter {
   status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type InvoiceDeleteResponse {
@@ -3146,6 +3304,7 @@ input InvoiceFilter {
   status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type InvoiceMaxAggregate {
@@ -3159,6 +3318,7 @@ type InvoiceMaxAggregate {
   status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
+  updatedAt: DateTime
 }
 
 type InvoiceMinAggregate {
@@ -3172,6 +3332,7 @@ type InvoiceMinAggregate {
   status: QuoteStatus
   taxInvoiceNo: String
   type: InvoiceType
+  updatedAt: DateTime
 }
 
 input InvoiceSort {
@@ -3193,6 +3354,7 @@ enum InvoiceSortFields {
   status
   taxInvoiceNo
   type
+  updatedAt
 }
 
 enum InvoiceType {
@@ -3232,6 +3394,7 @@ input InvoiceUpdateFilter {
   status: QuoteStatusFilterComparison
   taxInvoiceNo: StringFieldComparison
   type: InvoiceTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 """
@@ -3283,6 +3446,7 @@ type LeaveAggregateGroupBy {
   status: LeaveStatus
   toDate: DateTime
   type: LeaveType
+  updatedAt: DateTime
 }
 
 type LeaveConnection {
@@ -3306,6 +3470,7 @@ type LeaveCountAggregate {
   status: Int
   toDate: Int
   type: Int
+  updatedAt: Int
 }
 
 input LeaveDeleteFilter {
@@ -3320,6 +3485,7 @@ input LeaveDeleteFilter {
   status: LeaveStatusFilterComparison
   toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type LeaveDeleteResponse {
@@ -3366,6 +3532,7 @@ input LeaveFilter {
   status: LeaveStatusFilterComparison
   toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type LeaveMaxAggregate {
@@ -3377,6 +3544,7 @@ type LeaveMaxAggregate {
   status: LeaveStatus
   toDate: DateTime
   type: LeaveType
+  updatedAt: DateTime
 }
 
 type LeaveMinAggregate {
@@ -3388,6 +3556,7 @@ type LeaveMinAggregate {
   status: LeaveStatus
   toDate: DateTime
   type: LeaveType
+  updatedAt: DateTime
 }
 
 input LeaveSort {
@@ -3406,6 +3575,7 @@ enum LeaveSortFields {
   status
   toDate
   type
+  updatedAt
 }
 
 enum LeaveStatus {
@@ -3470,6 +3640,7 @@ input LeaveUpdateFilter {
   status: LeaveStatusFilterComparison
   toDate: DateFieldComparison
   type: LeaveTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type LibraryConnection {
@@ -3573,7 +3744,22 @@ type MealDto {
   type: String
 }
 
+type Message {
+  attachments: [String!]!
+  author: crewDetail!
+  createdAt: DateTime
+  message: String!
+}
+
+input MessageInput {
+  attachments: [String!]! = []
+  author: CrewDetailDto!
+  createdAt: DateTime
+  message: String!
+}
+
 type Mutation {
+  addMessageToTicket(input: CreateMessageInput!): Ticket!
   addRolesToCrewDetail(input: AddRolesToCrewDetailInput!): crewDetail!
   addRolesToUser(input: AddRolesToUserInput!): User!
   createCrew(input: CreateCrewInput!): crewDetail!
@@ -3589,6 +3775,7 @@ type Mutation {
   createManyLeaves(input: CreateManyLeavesInput!): [Leave!]!
   createManyLibraries(input: CreateManyLibrariesInput!): [library!]!
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
+  createManyNotams(input: CreateManyNotamsInput!): [Notam!]!
   createManyNotifications(input: CreateManyNotificationsInput!): [notification!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
   createManyPassengerDetails(input: CreateManyPassengerDetailsInput!): [PassengerDetail!]!
@@ -3600,6 +3787,7 @@ type Mutation {
   createManyRoles(input: CreateManyRolesInput!): [role!]!
   createManySecurities(input: CreateManySecuritiesInput!): [security!]!
   createManyStates(input: CreateManyStatesInput!): [State!]!
+  createManyTickets(input: CreateManyTicketsInput!): [Ticket!]!
   createManyTripDetails(input: CreateManyTripDetailsInput!): [TripDetail!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneAccessRequest(input: CreateOneAccessRequestInput!): AccessRequest!
@@ -3614,6 +3802,7 @@ type Mutation {
   createOneLeave(input: CreateOneLeaveInput!): Leave!
   createOneLibrary(input: CreateOneLibraryInput!): library!
   createOneManual(input: CreateOneManualInput!): manual!
+  createOneNotam(input: CreateOneNotamInput!): Notam!
   createOneNotification(input: CreateOneNotificationInput!): notification!
   createOneOperator(input: CreateOneOperatorInput!): operator!
   createOnePassengerDetail(input: CreateOnePassengerDetailInput!): PassengerDetail!
@@ -3625,6 +3814,7 @@ type Mutation {
   createOneRolePermission(input: CreateOneRolePermissionInput!): RolePermission!
   createOneSecurity(input: CreateOneSecurityInput!): security!
   createOneState(input: CreateOneStateInput!): State!
+  createOneTicket(input: CreateOneTicketInput!): Ticket!
   createOneTripDetail(input: CreateOneTripDetailInput!): TripDetail!
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
@@ -3641,6 +3831,7 @@ type Mutation {
   deleteManyLeaves(input: DeleteManyLeavesInput!): DeleteManyResponse!
   deleteManyLibraries(input: DeleteManyLibrariesInput!): DeleteManyResponse!
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
+  deleteManyNotams(input: DeleteManyNotamsInput!): DeleteManyResponse!
   deleteManyNotifications(input: DeleteManyNotificationsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
   deleteManyPassengerDetails(input: DeleteManyPassengerDetailsInput!): DeleteManyResponse!
@@ -3652,6 +3843,7 @@ type Mutation {
   deleteManyRoles(input: DeleteManyRolesInput!): DeleteManyResponse!
   deleteManySecurities(input: DeleteManySecuritiesInput!): DeleteManyResponse!
   deleteManyStates(input: DeleteManyStatesInput!): DeleteManyResponse!
+  deleteManyTickets(input: DeleteManyTicketsInput!): DeleteManyResponse!
   deleteManyTripDetails(input: DeleteManyTripDetailsInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneAccessRequest(input: DeleteOneAccessRequestInput!): AccessRequestDeleteResponse!
@@ -3666,6 +3858,7 @@ type Mutation {
   deleteOneLeave(input: DeleteOneLeaveInput!): LeaveDeleteResponse!
   deleteOneLibrary(input: DeleteOneLibraryInput!): LibraryDeleteResponse!
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
+  deleteOneNotam(input: DeleteOneNotamInput!): NotamDeleteResponse!
   deleteOneNotification(input: DeleteOneNotificationInput!): NotificationDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
   deleteOnePassengerDetail(input: DeleteOnePassengerDetailInput!): PassengerDetailDeleteResponse!
@@ -3677,10 +3870,12 @@ type Mutation {
   deleteOneRolePermission(input: DeleteOneRolePermissionInput!): RolePermissionDeleteResponse!
   deleteOneSecurity(input: DeleteOneSecurityInput!): SecurityDeleteResponse!
   deleteOneState(input: DeleteOneStateInput!): StateDeleteResponse!
+  deleteOneTicket(input: DeleteOneTicketInput!): TicketDeleteResponse!
   deleteOneTripDetail(input: DeleteOneTripDetailInput!): TripDetailDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
+  generatePassengerManifest(input: GeneratePassengerManifestInput!): String!
   markNotificationsAsRead(input: MarkAsReadInput!): Boolean!
   requestManualAccess(docId: String!): AccessRequest!
   resetPassword(input: ResetPasswordInput!): ResetPasswordDto!
@@ -3692,6 +3887,7 @@ type Mutation {
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
   setCreatedByOnLibrary(input: SetCreatedByOnLibraryInput!): library!
   setCreatedByOnManual(input: SetCreatedByOnManualInput!): manual!
+  setCreatedByOnNotam(input: SetCreatedByOnNotamInput!): Notam!
   setCreatedByOnSecurity(input: SetCreatedByOnSecurityInput!): security!
   setCrewOnLeave(input: SetCrewOnLeaveInput!): Leave!
   setOperatorOnAircraftCategory(input: SetOperatorOnAircraftCategoryInput!): AircraftCategory!
@@ -3701,10 +3897,12 @@ type Mutation {
   setOperatorOnLeave(input: SetOperatorOnLeaveInput!): Leave!
   setOperatorOnLibrary(input: SetOperatorOnLibraryInput!): library!
   setOperatorOnManual(input: SetOperatorOnManualInput!): manual!
+  setOperatorOnNotam(input: SetOperatorOnNotamInput!): Notam!
   setOperatorOnPassengerDetail(input: SetOperatorOnPassengerDetailInput!): PassengerDetail!
   setOperatorOnQuote(input: SetOperatorOnQuoteInput!): Quote!
   setOperatorOnRole(input: SetOperatorOnRoleInput!): role!
   setOperatorOnSecurity(input: SetOperatorOnSecurityInput!): security!
+  setOperatorOnTicket(input: SetOperatorOnTicketInput!): Ticket!
   setOperatorOnTripDetail(input: SetOperatorOnTripDetailInput!): TripDetail!
   setOperatorOnUser(input: SetOperatorOnUserInput!): User!
   setQuotationOnInvoice(input: SetQuotationOnInvoiceInput!): Invoice!
@@ -3712,11 +3910,13 @@ type Mutation {
   setQuotationOnTripDetail(input: SetQuotationOnTripDetailInput!): TripDetail!
   setRepresentativeOnQuote(input: SetRepresentativeOnQuoteInput!): Quote!
   setRequestedByOnQuote(input: SetRequestedByOnQuoteInput!): Quote!
+  setRequesterOnTicket(input: SetRequesterOnTicketInput!): Ticket!
   setRoleOnRolePermission(input: SetRoleOnRolePermissionInput!): RolePermission!
   setRolesOnCrewDetail(input: SetRolesOnCrewDetailInput!): crewDetail!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   setUpdatedByOnLibrary(input: SetUpdatedByOnLibraryInput!): library!
   setUpdatedByOnManual(input: SetUpdatedByOnManualInput!): manual!
+  setUpdatedByOnNotam(input: SetUpdatedByOnNotamInput!): Notam!
   setUpdatedByOnSecurity(input: SetUpdatedByOnSecurityInput!): security!
   signUp(input: SignUpInput!): User!
   syncCitiesByCountry(countryCode: String!): JSONObject!
@@ -3737,6 +3937,7 @@ type Mutation {
   updateManyLeaves(input: UpdateManyLeavesInput!): UpdateManyResponse!
   updateManyLibraries(input: UpdateManyLibrariesInput!): UpdateManyResponse!
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
+  updateManyNotams(input: UpdateManyNotamsInput!): UpdateManyResponse!
   updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
   updateManyPassengerDetails(input: UpdateManyPassengerDetailsInput!): UpdateManyResponse!
@@ -3748,6 +3949,7 @@ type Mutation {
   updateManyRoles(input: UpdateManyRolesInput!): UpdateManyResponse!
   updateManySecurities(input: UpdateManySecuritiesInput!): UpdateManyResponse!
   updateManyStates(input: UpdateManyStatesInput!): UpdateManyResponse!
+  updateManyTickets(input: UpdateManyTicketsInput!): UpdateManyResponse!
   updateManyTripDetails(input: UpdateManyTripDetailsInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneAccessRequest(input: UpdateOneAccessRequestInput!): AccessRequest!
@@ -3762,6 +3964,7 @@ type Mutation {
   updateOneLeave(input: UpdateOneLeaveInput!): Leave!
   updateOneLibrary(input: UpdateOneLibraryInput!): library!
   updateOneManual(input: UpdateOneManualInput!): manual!
+  updateOneNotam(input: UpdateOneNotamInput!): Notam!
   updateOneNotification(input: UpdateOneNotificationInput!): notification!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
   updateOnePassengerDetail(input: UpdateOnePassengerDetailInput!): PassengerDetail!
@@ -3775,6 +3978,7 @@ type Mutation {
   updateOneRolePermission(input: UpdateOneRolePermissionInput!): RolePermission!
   updateOneSecurity(input: UpdateOneSecurityInput!): security!
   updateOneState(input: UpdateOneStateInput!): State!
+  updateOneTicket(input: UpdateOneTicketInput!): Ticket!
   updateOneTripDetail(input: UpdateOneTripDetailInput!): TripDetail!
   updateOneUser(input: UpdateOneUserInput!): User!
   updatePassengerDetail(data: UpdatePassengerDetailDataInput!, where: UpdatePassengerDetailWhereInput!): PassengerDetail!
@@ -3804,6 +4008,197 @@ input NomineeInput {
   insurance: String
   mobileNumber: String
   relation: String
+}
+
+"""Notam """
+type Notam {
+  category: NotamCategory!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+  createdBy: crewDetail
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  fileName: String
+  id: ID!
+  isActive: Boolean!
+  operator: operator
+  operatorId: String
+  region: RegionCode!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+  updatedBy: crewDetail
+}
+
+type NotamAggregateGroupBy {
+  category: NotamCategory
+  createdAt: DateTime
+  fileName: String
+  id: ID
+  isActive: Boolean
+  operatorId: String
+  region: RegionCode
+  updatedAt: DateTime
+}
+
+enum NotamCategory {
+  DAILY
+  PERMANENT
+  WATCH
+}
+
+input NotamCategoryFilterComparison {
+  eq: NotamCategory
+  gt: NotamCategory
+  gte: NotamCategory
+  iLike: NotamCategory
+  in: [NotamCategory!]
+  is: Boolean
+  isNot: Boolean
+  like: NotamCategory
+  lt: NotamCategory
+  lte: NotamCategory
+  neq: NotamCategory
+  notILike: NotamCategory
+  notIn: [NotamCategory!]
+  notLike: NotamCategory
+}
+
+type NotamConnection {
+  """Array of nodes."""
+  nodes: [Notam!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type NotamCountAggregate {
+  category: Int
+  createdAt: Int
+  fileName: Int
+  id: Int
+  isActive: Int
+  operatorId: Int
+  region: Int
+  updatedAt: Int
+}
+
+input NotamDeleteFilter {
+  and: [NotamDeleteFilter!]
+  category: NotamCategoryFilterComparison
+  createdAt: DateFieldComparison
+  fileName: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [NotamDeleteFilter!]
+  region: RegionCodeFilterComparison
+  updatedAt: DateFieldComparison
+}
+
+type NotamDeleteResponse {
+  category: NotamCategory
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  fileName: String
+  id: ID
+  isActive: Boolean
+  operatorId: String
+  region: RegionCode
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input NotamDto {
+  category: NotamCategory!
+  fileName: String
+  operatorId: String
+  region: RegionCode!
+}
+
+input NotamFilter {
+  and: [NotamFilter!]
+  category: NotamCategoryFilterComparison
+  createdAt: DateFieldComparison
+  fileName: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [NotamFilter!]
+  region: RegionCodeFilterComparison
+  updatedAt: DateFieldComparison
+}
+
+type NotamMaxAggregate {
+  category: NotamCategory
+  createdAt: DateTime
+  fileName: String
+  id: ID
+  operatorId: String
+  region: RegionCode
+  updatedAt: DateTime
+}
+
+type NotamMinAggregate {
+  category: NotamCategory
+  createdAt: DateTime
+  fileName: String
+  id: ID
+  operatorId: String
+  region: RegionCode
+  updatedAt: DateTime
+}
+
+input NotamSort {
+  direction: SortDirection!
+  field: NotamSortFields!
+  nulls: SortNulls
+}
+
+enum NotamSortFields {
+  category
+  createdAt
+  fileName
+  id
+  isActive
+  operatorId
+  region
+  updatedAt
+}
+
+input NotamUpdateFilter {
+  and: [NotamUpdateFilter!]
+  category: NotamCategoryFilterComparison
+  createdAt: DateFieldComparison
+  fileName: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [NotamUpdateFilter!]
+  region: RegionCodeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type NotificationConnection {
@@ -3984,6 +4379,7 @@ type PassengerDetailAggregateGroupBy {
   operatorId: String
   quotation: String
   quotationNo: String
+  updatedAt: DateTime
 }
 
 type PassengerDetailConnection {
@@ -4004,6 +4400,7 @@ type PassengerDetailCountAggregate {
   operatorId: Int
   quotation: Int
   quotationNo: Int
+  updatedAt: Int
 }
 
 input PassengerDetailDeleteFilter {
@@ -4015,6 +4412,7 @@ input PassengerDetailDeleteFilter {
   or: [PassengerDetailDeleteFilter!]
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type PassengerDetailDeleteResponse {
@@ -4052,6 +4450,7 @@ input PassengerDetailFilter {
   or: [PassengerDetailFilter!]
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type PassengerDetailMaxAggregate {
@@ -4060,6 +4459,7 @@ type PassengerDetailMaxAggregate {
   operatorId: String
   quotation: String
   quotationNo: String
+  updatedAt: DateTime
 }
 
 type PassengerDetailMinAggregate {
@@ -4068,6 +4468,7 @@ type PassengerDetailMinAggregate {
   operatorId: String
   quotation: String
   quotationNo: String
+  updatedAt: DateTime
 }
 
 input PassengerDetailSort {
@@ -4083,6 +4484,7 @@ enum PassengerDetailSortFields {
   operatorId
   quotation
   quotationNo
+  updatedAt
 }
 
 input PassengerDetailUpdateFilter {
@@ -4094,6 +4496,7 @@ input PassengerDetailUpdateFilter {
   or: [PassengerDetailUpdateFilter!]
   quotation: StringFieldComparison
   quotationNo: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type PassengerDto {
@@ -4346,6 +4749,20 @@ type Query {
     """Specify to sort results."""
     sorting: [manualSort!]! = []
   ): ManualConnection!
+  notam(
+    """The id of the record to find."""
+    id: ID!
+  ): Notam
+  notams(
+    """Specify to filter the records returned."""
+    filter: NotamFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [NotamSort!]! = []
+  ): NotamConnection!
   notification(
     """The id of the record to find."""
     id: ID!
@@ -4505,6 +4922,20 @@ type Query {
     sorting: [StateSort!]! = []
   ): StateConnection!
   systemNotifications(where: SystemNotificationWhereInput): [notification!]!
+  ticket(
+    """The id of the record to find."""
+    id: ID!
+  ): Ticket
+  tickets(
+    """Specify to filter the records returned."""
+    filter: TicketFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [TicketSort!]! = []
+  ): TicketConnection!
   tripAssignedForCrew(filter: TripFilterForCrewInput!, paging: PagingInput!, sort: SortInput): TripAssignedForCrewResult!
   tripDetail(
     """The id of the record to find."""
@@ -4601,6 +5032,7 @@ type QuoteAggregateGroupBy {
   representative: String
   requestedBy: String
   status: QuoteStatus
+  updatedAt: DateTime
 }
 
 type QuoteConnection {
@@ -4628,6 +5060,7 @@ type QuoteCountAggregate {
   representative: Int
   requestedBy: Int
   status: Int
+  updatedAt: Int
 }
 
 input QuoteDeleteFilter {
@@ -4646,6 +5079,7 @@ input QuoteDeleteFilter {
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type QuoteDeleteResponse {
@@ -4703,6 +5137,7 @@ input QuoteFilter {
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type QuoteMaxAggregate {
@@ -4717,6 +5152,7 @@ type QuoteMaxAggregate {
   representative: String
   requestedBy: String
   status: QuoteStatus
+  updatedAt: DateTime
 }
 
 type QuoteMinAggregate {
@@ -4731,6 +5167,7 @@ type QuoteMinAggregate {
   representative: String
   requestedBy: String
   status: QuoteStatus
+  updatedAt: DateTime
 }
 
 input QuoteSort {
@@ -4753,6 +5190,7 @@ enum QuoteSortFields {
   representative
   requestedBy
   status
+  updatedAt
 }
 
 enum QuoteStatus {
@@ -4799,6 +5237,7 @@ input QuoteUpdateFilter {
   representative: StringFieldComparison
   requestedBy: StringFieldComparison
   status: QuoteStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input QuotesDto {
@@ -4819,6 +5258,30 @@ input QuotesDto {
   sectors: [sectorInput!]!
   status: QuoteStatus! = QUOTE
   version: Int! = 1
+}
+
+enum RegionCode {
+  VABF
+  VECF
+  VIDF
+  VOMF
+}
+
+input RegionCodeFilterComparison {
+  eq: RegionCode
+  gt: RegionCode
+  gte: RegionCode
+  iLike: RegionCode
+  in: [RegionCode!]
+  is: Boolean
+  isNot: Boolean
+  like: RegionCode
+  lt: RegionCode
+  lte: RegionCode
+  neq: RegionCode
+  notILike: RegionCode
+  notIn: [RegionCode!]
+  notLike: RegionCode
 }
 
 type RepresentativeConnection {
@@ -4985,6 +5448,7 @@ type RolePermissionAggregateGroupBy {
   id: ID
   isActive: Boolean
   role: String
+  updatedAt: DateTime
 }
 
 type RolePermissionConnection {
@@ -5003,6 +5467,7 @@ type RolePermissionCountAggregate {
   id: Int
   isActive: Int
   role: Int
+  updatedAt: Int
 }
 
 input RolePermissionDeleteFilter {
@@ -5012,6 +5477,7 @@ input RolePermissionDeleteFilter {
   isActive: BooleanFieldComparison
   or: [RolePermissionDeleteFilter!]
   role: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type RolePermissionDeleteResponse {
@@ -5045,18 +5511,21 @@ input RolePermissionFilter {
   isActive: BooleanFieldComparison
   or: [RolePermissionFilter!]
   role: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type RolePermissionMaxAggregate {
   createdAt: DateTime
   id: ID
   role: String
+  updatedAt: DateTime
 }
 
 type RolePermissionMinAggregate {
   createdAt: DateTime
   id: ID
   role: String
+  updatedAt: DateTime
 }
 
 input RolePermissionSort {
@@ -5070,6 +5539,7 @@ enum RolePermissionSortFields {
   id
   isActive
   role
+  updatedAt
 }
 
 input RolePermissionUpdateFilter {
@@ -5079,6 +5549,7 @@ input RolePermissionUpdateFilter {
   isActive: BooleanFieldComparison
   or: [RolePermissionUpdateFilter!]
   role: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 enum RoleType {
@@ -5114,6 +5585,7 @@ input SaleConfirmationInput {
 }
 
 enum SalesDocumentType {
+  MANIFEST
   PROFORMA_INVOICE
   QUOTATION
   SALE_CONFIRMATION
@@ -5266,6 +5738,14 @@ input SetCreatedByOnManualInput {
   relationId: ID!
 }
 
+input SetCreatedByOnNotamInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetCreatedByOnSecurityInput {
   """The id of the record."""
   id: ID!
@@ -5338,6 +5818,14 @@ input SetOperatorOnManualInput {
   relationId: ID!
 }
 
+input SetOperatorOnNotamInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetOperatorOnPassengerDetailInput {
   """The id of the record."""
   id: ID!
@@ -5363,6 +5851,14 @@ input SetOperatorOnRoleInput {
 }
 
 input SetOperatorOnSecurityInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetOperatorOnTicketInput {
   """The id of the record."""
   id: ID!
 
@@ -5426,6 +5922,14 @@ input SetRequestedByOnQuoteInput {
   relationId: ID!
 }
 
+input SetRequesterOnTicketInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetRoleOnRolePermissionInput {
   """The id of the record."""
   id: ID!
@@ -5459,6 +5963,14 @@ input SetUpdatedByOnLibraryInput {
 }
 
 input SetUpdatedByOnManualInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
+input SetUpdatedByOnNotamInput {
   """The id of the record."""
   id: ID!
 
@@ -5550,6 +6062,7 @@ type StateAggregateGroupBy {
   latitude: String
   longitude: String
   name: String
+  updatedAt: DateTime
 }
 
 type StateConnection {
@@ -5572,6 +6085,7 @@ type StateCountAggregate {
   latitude: Int
   longitude: Int
   name: Int
+  updatedAt: Int
 }
 
 input StateDeleteFilter {
@@ -5585,6 +6099,7 @@ input StateDeleteFilter {
   longitude: StringFieldComparison
   name: StringFieldComparison
   or: [StateDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type StateDeleteResponse {
@@ -5626,6 +6141,7 @@ input StateFilter {
   longitude: StringFieldComparison
   name: StringFieldComparison
   or: [StateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type StateMaxAggregate {
@@ -5636,6 +6152,7 @@ type StateMaxAggregate {
   latitude: String
   longitude: String
   name: String
+  updatedAt: DateTime
 }
 
 type StateMinAggregate {
@@ -5646,6 +6163,7 @@ type StateMinAggregate {
   latitude: String
   longitude: String
   name: String
+  updatedAt: DateTime
 }
 
 input StateSort {
@@ -5663,6 +6181,7 @@ enum StateSortFields {
   latitude
   longitude
   name
+  updatedAt
 }
 
 input StateUpdateFilter {
@@ -5676,6 +6195,7 @@ input StateUpdateFilter {
   longitude: StringFieldComparison
   name: StringFieldComparison
   or: [StateUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input StringFieldComparison {
@@ -5722,6 +6242,239 @@ input SystemNotificationWhereInput {
   refId: String
   refType: String
   type: String
+}
+
+"""Support Tickets"""
+type Ticket {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  department: String!
+  id: ID!
+  isActive: Boolean!
+  messages: [Message!]!
+  operator: operator
+  operatorId: String
+  priority: TicketPriority!
+  requester: crewDetail
+  status: TicketStatus!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type TicketAggregateGroupBy {
+  createdAt: DateTime
+  department: String
+  id: ID
+  isActive: Boolean
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+  updatedAt: DateTime
+}
+
+type TicketConnection {
+  """Array of nodes."""
+  nodes: [Ticket!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type TicketCountAggregate {
+  createdAt: Int
+  department: Int
+  id: Int
+  isActive: Int
+  operatorId: Int
+  priority: Int
+  requester: Int
+  status: Int
+  updatedAt: Int
+}
+
+input TicketDeleteFilter {
+  and: [TicketDeleteFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TicketDeleteFilter!]
+  priority: TicketPriorityFilterComparison
+  requester: StringFieldComparison
+  status: TicketStatusFilterComparison
+  updatedAt: DateFieldComparison
+}
+
+type TicketDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean
+  messages: [Message!]
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input TicketDto {
+  department: String!
+  id: ID!
+  messages: [MessageInput!]! = []
+  operatorId: String
+  priority: TicketPriority!
+  requester: String!
+  status: TicketStatus!
+}
+
+input TicketFilter {
+  and: [TicketFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TicketFilter!]
+  priority: TicketPriorityFilterComparison
+  requester: StringFieldComparison
+  status: TicketStatusFilterComparison
+  updatedAt: DateFieldComparison
+}
+
+type TicketMaxAggregate {
+  createdAt: DateTime
+  department: String
+  id: ID
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+  updatedAt: DateTime
+}
+
+type TicketMinAggregate {
+  createdAt: DateTime
+  department: String
+  id: ID
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+  updatedAt: DateTime
+}
+
+enum TicketPriority {
+  HIGH
+  LOW
+  MEDIUM
+  URGENT
+}
+
+input TicketPriorityFilterComparison {
+  eq: TicketPriority
+  gt: TicketPriority
+  gte: TicketPriority
+  iLike: TicketPriority
+  in: [TicketPriority!]
+  is: Boolean
+  isNot: Boolean
+  like: TicketPriority
+  lt: TicketPriority
+  lte: TicketPriority
+  neq: TicketPriority
+  notILike: TicketPriority
+  notIn: [TicketPriority!]
+  notLike: TicketPriority
+}
+
+input TicketSort {
+  direction: SortDirection!
+  field: TicketSortFields!
+  nulls: SortNulls
+}
+
+enum TicketSortFields {
+  createdAt
+  department
+  id
+  isActive
+  operatorId
+  priority
+  requester
+  status
+  updatedAt
+}
+
+enum TicketStatus {
+  CLOSED
+  IN_PROGRESS
+  OPEN
+  RESOLVED
+}
+
+input TicketStatusFilterComparison {
+  eq: TicketStatus
+  gt: TicketStatus
+  gte: TicketStatus
+  iLike: TicketStatus
+  in: [TicketStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: TicketStatus
+  lt: TicketStatus
+  lte: TicketStatus
+  neq: TicketStatus
+  notILike: TicketStatus
+  notIn: [TicketStatus!]
+  notLike: TicketStatus
+}
+
+input TicketUpdateFilter {
+  and: [TicketUpdateFilter!]
+  createdAt: DateFieldComparison
+  department: StringFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  operatorId: StringFieldComparison
+  or: [TicketUpdateFilter!]
+  priority: TicketPriorityFilterComparison
+  requester: StringFieldComparison
+  status: TicketStatusFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type TravelDto {
@@ -5785,6 +6538,7 @@ type TripDetailAggregateGroupBy {
   quotationNo: String
   status: TripDetailStatus
   tripId: String
+  updatedAt: DateTime
 }
 
 type TripDetailConnection {
@@ -5807,6 +6561,7 @@ type TripDetailCountAggregate {
   quotationNo: Int
   status: Int
   tripId: Int
+  updatedAt: Int
 }
 
 input TripDetailDeleteFilter {
@@ -5820,6 +6575,7 @@ input TripDetailDeleteFilter {
   quotationNo: StringFieldComparison
   status: TripDetailStatusFilterComparison
   tripId: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type TripDetailDeleteResponse {
@@ -5868,6 +6624,7 @@ input TripDetailFilter {
   quotationNo: StringFieldComparison
   status: TripDetailStatusFilterComparison
   tripId: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type TripDetailMaxAggregate {
@@ -5878,6 +6635,7 @@ type TripDetailMaxAggregate {
   quotationNo: String
   status: TripDetailStatus
   tripId: String
+  updatedAt: DateTime
 }
 
 type TripDetailMinAggregate {
@@ -5888,6 +6646,7 @@ type TripDetailMinAggregate {
   quotationNo: String
   status: TripDetailStatus
   tripId: String
+  updatedAt: DateTime
 }
 
 type TripDetailOffsetConnection {
@@ -5916,6 +6675,7 @@ enum TripDetailSortFields {
   quotationNo
   status
   tripId
+  updatedAt
 }
 
 enum TripDetailStatus {
@@ -5951,6 +6711,7 @@ input TripDetailUpdateFilter {
   quotationNo: StringFieldComparison
   status: TripDetailStatusFilterComparison
   tripId: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 input TripDocByCrewDataInput {
@@ -6571,6 +7332,14 @@ input UpdateManyManualsInput {
   update: UpdateManual!
 }
 
+input UpdateManyNotamsInput {
+  """Filter used to find fields to update"""
+  filter: NotamUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateNotam!
+}
+
 input UpdateManyNotificationsInput {
   """Filter used to find fields to update"""
   filter: notificationUpdateFilter!
@@ -6664,6 +7433,14 @@ input UpdateManyStatesInput {
   update: UpdateState!
 }
 
+input UpdateManyTicketsInput {
+  """Filter used to find fields to update"""
+  filter: TicketUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateTicket!
+}
+
 input UpdateManyTripDetailsInput {
   """Filter used to find fields to update"""
   filter: TripDetailUpdateFilter!
@@ -6678,6 +7455,33 @@ input UpdateManyUsersInput {
 
   """The update to apply to all records found using the filter"""
   update: UpdateUser!
+}
+
+input UpdateNotam {
+  category: NotamCategory
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  fileName: String
+  id: ID
+  isActive: Boolean = true
+  operatorId: String
+  region: RegionCode
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
 }
 
 input UpdateNotification {
@@ -6807,6 +7611,14 @@ input UpdateOneManualInput {
   update: UpdateManual!
 }
 
+input UpdateOneNotamInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateNotam!
+}
+
 input UpdateOneNotificationInput {
   """The id of the record to update"""
   id: ID!
@@ -6893,6 +7705,14 @@ input UpdateOneStateInput {
 
   """The update to apply."""
   update: UpdateState!
+}
+
+input UpdateOneTicketInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateTicket!
 }
 
 input UpdateOneTripDetailInput {
@@ -7229,6 +8049,34 @@ input UpdateState {
   updatedBy: String
 }
 
+input UpdateTicket {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  department: String
+  id: ID
+  isActive: Boolean = true
+  messages: [MessageInput!] = []
+  operatorId: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateTripDetail {
   """The date when the record was created"""
   createdAt: DateTime
@@ -7357,6 +8205,7 @@ type UserAggregateGroupBy {
   phone: String
   roles: [String!]
   type: type
+  updatedAt: DateTime
 }
 
 type UserConnection {
@@ -7380,6 +8229,7 @@ type UserCountAggregate {
   phone: Int
   roles: Int
   type: Int
+  updatedAt: Int
 }
 
 input UserDTO {
@@ -7411,6 +8261,7 @@ input UserDeleteFilter {
   phone: StringFieldComparison
   roles: UserRolesFilterComparison
   type: TypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type UserDeleteResponse {
@@ -7462,6 +8313,7 @@ input UserFilter {
   phone: StringFieldComparison
   roles: UserRolesFilterComparison
   type: TypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type UserInput {
@@ -7538,6 +8390,7 @@ type UserMaxAggregate {
   phone: String
   roles: [String!]
   type: type
+  updatedAt: DateTime
 }
 
 type UserMinAggregate {
@@ -7549,6 +8402,7 @@ type UserMinAggregate {
   phone: String
   roles: [String!]
   type: type
+  updatedAt: DateTime
 }
 
 input UserRolesFilterComparison {
@@ -7574,6 +8428,7 @@ enum UserSortFields {
   phone
   roles
   type
+  updatedAt
 }
 
 input UserUpdateFilter {
@@ -7588,6 +8443,7 @@ input UserUpdateFilter {
   phone: StringFieldComparison
   roles: UserRolesFilterComparison
   type: TypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input accessPermissionInput {
@@ -7669,6 +8525,7 @@ type clientAggregateGroupBy {
   panNo: String
   phone: String
   type: ClientType
+  updatedAt: DateTime
 }
 
 type clientCountAggregate {
@@ -7684,6 +8541,7 @@ type clientCountAggregate {
   panNo: Int
   phone: Int
   type: Int
+  updatedAt: Int
 }
 
 input clientDeleteFilter {
@@ -7701,6 +8559,7 @@ input clientDeleteFilter {
   panNo: StringFieldComparison
   phone: StringFieldComparison
   type: ClientTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input clientFilter {
@@ -7718,6 +8577,7 @@ input clientFilter {
   panNo: StringFieldComparison
   phone: StringFieldComparison
   type: ClientTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type clientMaxAggregate {
@@ -7730,6 +8590,7 @@ type clientMaxAggregate {
   panNo: String
   phone: String
   type: ClientType
+  updatedAt: DateTime
 }
 
 type clientMinAggregate {
@@ -7742,6 +8603,7 @@ type clientMinAggregate {
   panNo: String
   phone: String
   type: ClientType
+  updatedAt: DateTime
 }
 
 input clientSort {
@@ -7763,6 +8625,7 @@ enum clientSortFields {
   panNo
   phone
   type
+  updatedAt
 }
 
 input clientUpdateFilter {
@@ -7780,6 +8643,7 @@ input clientUpdateFilter {
   panNo: StringFieldComparison
   phone: StringFieldComparison
   type: ClientTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 """Crew Detail"""
@@ -7853,6 +8717,7 @@ type crewDetailAggregateGroupBy {
   isActive: Boolean
   operatorId: String
   roles: [String!]
+  updatedAt: DateTime
 }
 
 type crewDetailCountAggregate {
@@ -7865,6 +8730,7 @@ type crewDetailCountAggregate {
   isActive: Int
   operatorId: Int
   roles: Int
+  updatedAt: Int
 }
 
 input crewDetailDeleteFilter {
@@ -7879,6 +8745,7 @@ input crewDetailDeleteFilter {
   operatorId: StringFieldComparison
   or: [crewDetailDeleteFilter!]
   roles: CrewDetailRolesFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input crewDetailFilter {
@@ -7893,6 +8760,7 @@ input crewDetailFilter {
   operatorId: StringFieldComparison
   or: [crewDetailFilter!]
   roles: CrewDetailRolesFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type crewDetailMaxAggregate {
@@ -7904,6 +8772,7 @@ type crewDetailMaxAggregate {
   id: ID
   operatorId: String
   roles: [String!]
+  updatedAt: DateTime
 }
 
 type crewDetailMinAggregate {
@@ -7915,6 +8784,7 @@ type crewDetailMinAggregate {
   id: ID
   operatorId: String
   roles: [String!]
+  updatedAt: DateTime
 }
 
 input crewDetailSort {
@@ -7933,6 +8803,7 @@ enum crewDetailSortFields {
   isActive
   operatorId
   roles
+  updatedAt
 }
 
 input crewDetailUpdateFilter {
@@ -7947,6 +8818,7 @@ input crewDetailUpdateFilter {
   operatorId: StringFieldComparison
   or: [crewDetailUpdateFilter!]
   roles: CrewDetailRolesFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input fuelSupplier {
@@ -8011,6 +8883,7 @@ type libraryAggregateGroupBy {
   isActive: Boolean
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type libraryCountAggregate {
@@ -8020,6 +8893,7 @@ type libraryCountAggregate {
   isActive: Int
   name: Int
   operatorId: Int
+  updatedAt: Int
 }
 
 input libraryDeleteFilter {
@@ -8031,6 +8905,7 @@ input libraryDeleteFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [libraryDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input libraryFilter {
@@ -8042,6 +8917,7 @@ input libraryFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [libraryFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type libraryMaxAggregate {
@@ -8050,6 +8926,7 @@ type libraryMaxAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type libraryMinAggregate {
@@ -8058,6 +8935,7 @@ type libraryMinAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 input librarySort {
@@ -8073,6 +8951,7 @@ enum librarySortFields {
   isActive
   name
   operatorId
+  updatedAt
 }
 
 input libraryUpdateFilter {
@@ -8084,6 +8963,7 @@ input libraryUpdateFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [libraryUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type loginResponseDto {
@@ -8123,6 +9003,7 @@ type manualAggregateGroupBy {
   isActive: Boolean
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type manualCountAggregate {
@@ -8132,6 +9013,7 @@ type manualCountAggregate {
   isActive: Int
   name: Int
   operatorId: Int
+  updatedAt: Int
 }
 
 input manualDeleteFilter {
@@ -8143,6 +9025,7 @@ input manualDeleteFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [manualDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input manualFilter {
@@ -8154,6 +9037,7 @@ input manualFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [manualFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type manualMaxAggregate {
@@ -8162,6 +9046,7 @@ type manualMaxAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 type manualMinAggregate {
@@ -8170,6 +9055,7 @@ type manualMinAggregate {
   id: ID
   name: String
   operatorId: String
+  updatedAt: DateTime
 }
 
 input manualSort {
@@ -8185,6 +9071,7 @@ enum manualSortFields {
   isActive
   name
   operatorId
+  updatedAt
 }
 
 input manualUpdateFilter {
@@ -8196,6 +9083,7 @@ input manualUpdateFilter {
   name: StringFieldComparison
   operatorId: StringFieldComparison
   or: [manualUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input mealInput {
@@ -8252,12 +9140,14 @@ type notificationAggregateGroupBy {
   createdAt: DateTime
   id: ID
   isActive: Boolean
+  updatedAt: DateTime
 }
 
 type notificationCountAggregate {
   createdAt: Int
   id: Int
   isActive: Int
+  updatedAt: Int
 }
 
 input notificationDeleteFilter {
@@ -8266,6 +9156,7 @@ input notificationDeleteFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [notificationDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type notificationEdge {
@@ -8282,16 +9173,19 @@ input notificationFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [notificationFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type notificationMaxAggregate {
   createdAt: DateTime
   id: ID
+  updatedAt: DateTime
 }
 
 type notificationMinAggregate {
   createdAt: DateTime
   id: ID
+  updatedAt: DateTime
 }
 
 input notificationSort {
@@ -8304,6 +9198,7 @@ enum notificationSortFields {
   createdAt
   id
   isActive
+  updatedAt
 }
 
 input notificationUpdateFilter {
@@ -8312,6 +9207,7 @@ input notificationUpdateFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [notificationUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 """Operator"""
@@ -8364,6 +9260,7 @@ type operatorAggregateGroupBy {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
+  updatedAt: DateTime
 }
 
 type operatorCountAggregate {
@@ -8376,6 +9273,7 @@ type operatorCountAggregate {
   name: Int
   phone: Int
   subscriptionPlan: Int
+  updatedAt: Int
 }
 
 input operatorDeleteFilter {
@@ -8390,6 +9288,7 @@ input operatorDeleteFilter {
   or: [operatorDeleteFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input operatorFilter {
@@ -8404,6 +9303,7 @@ input operatorFilter {
   or: [operatorFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type operatorMaxAggregate {
@@ -8415,6 +9315,7 @@ type operatorMaxAggregate {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
+  updatedAt: DateTime
 }
 
 type operatorMinAggregate {
@@ -8426,6 +9327,7 @@ type operatorMinAggregate {
   name: String
   phone: String
   subscriptionPlan: SubscriptionPlan
+  updatedAt: DateTime
 }
 
 input operatorSort {
@@ -8444,6 +9346,7 @@ enum operatorSortFields {
   name
   phone
   subscriptionPlan
+  updatedAt
 }
 
 input operatorUpdateFilter {
@@ -8458,6 +9361,7 @@ input operatorUpdateFilter {
   or: [operatorUpdateFilter!]
   phone: StringFieldComparison
   subscriptionPlan: SubscriptionPlanFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input passengerInput {
@@ -8499,6 +9403,7 @@ type priceAggregateGroupBy {
   createdAt: DateTime
   id: ID
   isActive: Boolean
+  updatedAt: DateTime
 }
 
 type priceCountAggregate {
@@ -8506,6 +9411,7 @@ type priceCountAggregate {
   createdAt: Int
   id: Int
   isActive: Int
+  updatedAt: Int
 }
 
 input priceDeleteFilter {
@@ -8515,6 +9421,7 @@ input priceDeleteFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [priceDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input priceFilter {
@@ -8524,6 +9431,7 @@ input priceFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [priceFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input priceInput {
@@ -8541,12 +9449,14 @@ type priceMaxAggregate {
   aircraft: String
   createdAt: DateTime
   id: ID
+  updatedAt: DateTime
 }
 
 type priceMinAggregate {
   aircraft: String
   createdAt: DateTime
   id: ID
+  updatedAt: DateTime
 }
 
 input priceSort {
@@ -8560,6 +9470,7 @@ enum priceSortFields {
   createdAt
   id
   isActive
+  updatedAt
 }
 
 input priceUpdateFilter {
@@ -8569,6 +9480,7 @@ input priceUpdateFilter {
   id: IDFilterComparison
   isActive: BooleanFieldComparison
   or: [priceUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 """Representative"""
@@ -8609,6 +9521,7 @@ type representativeAggregateGroupBy {
   isActive: Boolean
   name: String
   phone: String
+  updatedAt: DateTime
 }
 
 type representativeCountAggregate {
@@ -8620,6 +9533,7 @@ type representativeCountAggregate {
   isActive: Int
   name: Int
   phone: Int
+  updatedAt: Int
 }
 
 input representativeDeleteFilter {
@@ -8633,6 +9547,7 @@ input representativeDeleteFilter {
   name: StringFieldComparison
   or: [representativeDeleteFilter!]
   phone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 input representativeFilter {
@@ -8646,6 +9561,7 @@ input representativeFilter {
   name: StringFieldComparison
   or: [representativeFilter!]
   phone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type representativeMaxAggregate {
@@ -8656,6 +9572,7 @@ type representativeMaxAggregate {
   id: ID
   name: String
   phone: String
+  updatedAt: DateTime
 }
 
 type representativeMinAggregate {
@@ -8666,6 +9583,7 @@ type representativeMinAggregate {
   id: ID
   name: String
   phone: String
+  updatedAt: DateTime
 }
 
 input representativeSort {
@@ -8683,6 +9601,7 @@ enum representativeSortFields {
   isActive
   name
   phone
+  updatedAt
 }
 
 input representativeUpdateFilter {
@@ -8696,6 +9615,7 @@ input representativeUpdateFilter {
   name: StringFieldComparison
   or: [representativeUpdateFilter!]
   phone: StringFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 """resource"""
@@ -8730,6 +9650,7 @@ type resourceAggregateGroupBy {
   id: ID
   isActive: Boolean
   menu: String
+  updatedAt: DateTime
 }
 
 type resourceCountAggregate {
@@ -8737,6 +9658,7 @@ type resourceCountAggregate {
   id: Int
   isActive: Int
   menu: Int
+  updatedAt: Int
 }
 
 input resourceDeleteFilter {
@@ -8746,6 +9668,7 @@ input resourceDeleteFilter {
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceDeleteFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input resourceFilter {
@@ -8755,18 +9678,21 @@ input resourceFilter {
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceFilter!]
+  updatedAt: DateFieldComparison
 }
 
 type resourceMaxAggregate {
   createdAt: DateTime
   id: ID
   menu: String
+  updatedAt: DateTime
 }
 
 type resourceMinAggregate {
   createdAt: DateTime
   id: ID
   menu: String
+  updatedAt: DateTime
 }
 
 input resourceSort {
@@ -8780,6 +9706,7 @@ enum resourceSortFields {
   id
   isActive
   menu
+  updatedAt
 }
 
 input resourceUpdateFilter {
@@ -8789,6 +9716,7 @@ input resourceUpdateFilter {
   isActive: BooleanFieldComparison
   menu: StringFieldComparison
   or: [resourceUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 """User Roles"""
@@ -8828,6 +9756,7 @@ type roleAggregateGroupBy {
   name: String
   operatorId: String
   type: RoleType
+  updatedAt: DateTime
 }
 
 type roleCountAggregate {
@@ -8837,6 +9766,7 @@ type roleCountAggregate {
   name: Int
   operatorId: Int
   type: Int
+  updatedAt: Int
 }
 
 input roleDeleteFilter {
@@ -8848,6 +9778,7 @@ input roleDeleteFilter {
   operatorId: StringFieldComparison
   or: [roleDeleteFilter!]
   type: RoleTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input roleFilter {
@@ -8859,6 +9790,7 @@ input roleFilter {
   operatorId: StringFieldComparison
   or: [roleFilter!]
   type: RoleTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type roleMaxAggregate {
@@ -8867,6 +9799,7 @@ type roleMaxAggregate {
   name: String
   operatorId: String
   type: RoleType
+  updatedAt: DateTime
 }
 
 type roleMinAggregate {
@@ -8875,6 +9808,7 @@ type roleMinAggregate {
   name: String
   operatorId: String
   type: RoleType
+  updatedAt: DateTime
 }
 
 input roleSort {
@@ -8890,6 +9824,7 @@ enum roleSortFields {
   name
   operatorId
   type
+  updatedAt
 }
 
 input roleUpdateFilter {
@@ -8901,6 +9836,7 @@ input roleUpdateFilter {
   operatorId: StringFieldComparison
   or: [roleUpdateFilter!]
   type: RoleTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input sector {
@@ -8972,6 +9908,7 @@ type securityAggregateGroupBy {
   name: String
   operatorId: String
   type: SecurityDocType
+  updatedAt: DateTime
 }
 
 type securityCountAggregate {
@@ -8982,6 +9919,7 @@ type securityCountAggregate {
   name: Int
   operatorId: Int
   type: Int
+  updatedAt: Int
 }
 
 input securityDeleteFilter {
@@ -8994,6 +9932,7 @@ input securityDeleteFilter {
   operatorId: StringFieldComparison
   or: [securityDeleteFilter!]
   type: SecurityDocTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input securityFilter {
@@ -9006,6 +9945,7 @@ input securityFilter {
   operatorId: StringFieldComparison
   or: [securityFilter!]
   type: SecurityDocTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 type securityMaxAggregate {
@@ -9015,6 +9955,7 @@ type securityMaxAggregate {
   name: String
   operatorId: String
   type: SecurityDocType
+  updatedAt: DateTime
 }
 
 type securityMinAggregate {
@@ -9024,6 +9965,7 @@ type securityMinAggregate {
   name: String
   operatorId: String
   type: SecurityDocType
+  updatedAt: DateTime
 }
 
 input securitySort {
@@ -9040,6 +9982,7 @@ enum securitySortFields {
   name
   operatorId
   type
+  updatedAt
 }
 
 input securityUpdateFilter {
@@ -9052,6 +9995,7 @@ input securityUpdateFilter {
   operatorId: StringFieldComparison
   or: [securityUpdateFilter!]
   type: SecurityDocTypeFilterComparison
+  updatedAt: DateFieldComparison
 }
 
 input travelInput {

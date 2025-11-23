@@ -13,8 +13,7 @@ type GraphQLContextWithRequest = GqlContextType & {
  */
 @Injectable()
 export class CreatedByHook<T>
-  implements BeforeCreateOneHook<T, GqlContextType>
-{
+  implements BeforeCreateOneHook<T, GqlContextType> {
   async run(
     instance: CreateOneInputType<T>,
     context: GqlContextType,
@@ -29,7 +28,7 @@ export class CreatedByHook<T>
       // @ts-ignore - Bypass type checking, as the DTO will have this field
       instance.input.createdBy = user.sub;
 
-      console.log('instance.input::', instance.input);
+
     }
 
     return instance;
