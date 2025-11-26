@@ -21,7 +21,7 @@ export class MessageResolver {
 
     @ResolveField(() => CrewDetailDto, { name: 'author' })
     async getAuthor(@Parent() message: any) {
-        if (!message.author) return null;
-        return await this.crewService.findById(message.author);
+        if (!message.authorId) return null;
+        return await this.crewService.findById(message.authorId);
     }
 }

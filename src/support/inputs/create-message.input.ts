@@ -9,8 +9,11 @@ export class CreateMessageInput {
     message: string;
 
     @Field()
-    author: string;
+    authorId: string;
 
     @Field(() => [String], { nullable: true, defaultValue: [] })
     attachments?: string[];
+
+    @Field({ nullable: true, defaultValue: () => new Date() })
+    createdAt?: Date;
 }

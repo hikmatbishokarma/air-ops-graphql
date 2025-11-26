@@ -12,7 +12,7 @@ export class SupportService {
     ) { }
 
     async addMessageToTicket(input: CreateMessageInput): Promise<TicketEntity> {
-        const { ticketId, message, author, attachments } = input;
+        const { ticketId, message, authorId, attachments } = input;
 
         const ticket = await this.ticketModel.findByIdAndUpdate(
             ticketId,
@@ -20,7 +20,7 @@ export class SupportService {
                 $push: {
                     messages: {
                         message,
-                        author,
+                        authorId,
                         attachments: attachments || [],
                         createdAt: new Date(),
                     },

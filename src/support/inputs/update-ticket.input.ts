@@ -10,6 +10,9 @@ export class UpdateTicketInput {
     priority?: TicketPriority;
 
     @Field({ nullable: true })
+    subject?: string;
+
+    @Field({ nullable: true })
     department?: string;
 
     @Field({ nullable: true })

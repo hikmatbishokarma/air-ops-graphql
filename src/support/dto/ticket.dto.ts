@@ -17,9 +17,10 @@ export class MessageDto {
     @Field()
     message: string;
 
+    @Field()
+    authorId: string;
 
-
-    @Field(() => CrewDetailDto, { name: 'author' })
+    @Field(() => CrewDetailDto, { name: 'author', nullable: true })
     author?: CrewDetailDto;
 
     @Field(() => [String], { defaultValue: [] })
@@ -54,6 +55,9 @@ export class TicketDto extends BaseDTO {
 
     @FilterableField(() => TicketPriority)
     priority: TicketPriority;
+
+    @FilterableField()
+    subject: string;
 
     @FilterableField()
     department: string;

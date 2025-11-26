@@ -13,7 +13,7 @@ export class MessageEntity {
         type: SchemaTypes.ObjectId,
         required: true,
     })
-    author: Types.ObjectId;
+    authorId: Types.ObjectId;
 
     @Prop({ type: [String], default: [] })
     attachments: string[];
@@ -31,6 +31,9 @@ export class TicketEntity extends BaseEntity {
 
     @Prop({ type: String, enum: TicketPriority, required: true })
     priority: TicketPriority;
+
+    @Prop({ required: true })
+    subject: string;
 
     @Prop({ required: true })
     department: string;
@@ -55,3 +58,9 @@ export class TicketEntity extends BaseEntity {
 }
 
 export const TicketSchema = SchemaFactory.createForClass(TicketEntity);
+TicketSchema.virtual('operator', {
+    ref: 'OperatorEntity',
+    localField: 'operatorId',
+    foreignField: '_id',
+    justOne: true,
+});

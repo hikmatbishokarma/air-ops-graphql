@@ -10,6 +10,9 @@ export class CreateTicketInput {
     priority: TicketPriority;
 
     @Field()
+    subject: string;
+
+    @Field()
     department: string;
 
     @Field()

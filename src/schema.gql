@@ -2006,7 +2006,8 @@ input CreateManyUsersInput {
 
 input CreateMessageInput {
   attachments: [String!] = []
-  author: String!
+  authorId: String!
+  createdAt: DateTime
   message: String!
   ticketId: String!
 }
@@ -2511,6 +2512,7 @@ input CreateTicket {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -3747,13 +3749,15 @@ type MealDto {
 type Message {
   attachments: [String!]!
   author: crewDetail!
+  authorId: String!
   createdAt: DateTime
   message: String!
 }
 
 input MessageInput {
   attachments: [String!]! = []
-  author: CrewDetailDto!
+  author: CrewDetailDto
+  authorId: String!
   createdAt: DateTime
   message: String!
 }
@@ -6266,6 +6270,7 @@ type Ticket {
   priority: TicketPriority!
   requester: crewDetail
   status: TicketStatus!
+  subject: String!
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6283,6 +6288,7 @@ type TicketAggregateGroupBy {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
   updatedAt: DateTime
 }
 
@@ -6306,6 +6312,7 @@ type TicketCountAggregate {
   priority: Int
   requester: Int
   status: Int
+  subject: Int
   updatedAt: Int
 }
 
@@ -6320,6 +6327,7 @@ input TicketDeleteFilter {
   priority: TicketPriorityFilterComparison
   requester: StringFieldComparison
   status: TicketStatusFilterComparison
+  subject: StringFieldComparison
   updatedAt: DateFieldComparison
 }
 
@@ -6343,6 +6351,7 @@ type TicketDeleteResponse {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
@@ -6359,6 +6368,7 @@ input TicketDto {
   priority: TicketPriority!
   requester: String!
   status: TicketStatus!
+  subject: String!
 }
 
 input TicketFilter {
@@ -6372,6 +6382,7 @@ input TicketFilter {
   priority: TicketPriorityFilterComparison
   requester: StringFieldComparison
   status: TicketStatusFilterComparison
+  subject: StringFieldComparison
   updatedAt: DateFieldComparison
 }
 
@@ -6383,6 +6394,7 @@ type TicketMaxAggregate {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
   updatedAt: DateTime
 }
 
@@ -6394,6 +6406,7 @@ type TicketMinAggregate {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
   updatedAt: DateTime
 }
 
@@ -6436,6 +6449,7 @@ enum TicketSortFields {
   priority
   requester
   status
+  subject
   updatedAt
 }
 
@@ -6474,6 +6488,7 @@ input TicketUpdateFilter {
   priority: TicketPriorityFilterComparison
   requester: StringFieldComparison
   status: TicketStatusFilterComparison
+  subject: StringFieldComparison
   updatedAt: DateFieldComparison
 }
 
@@ -8069,6 +8084,7 @@ input UpdateTicket {
   priority: TicketPriority
   requester: String
   status: TicketStatus
+  subject: String
 
   """The date when the record was last updated"""
   updatedAt: DateTime
