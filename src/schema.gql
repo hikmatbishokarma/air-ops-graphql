@@ -5629,6 +5629,7 @@ type SectorLocationInputDto {
   lat: String
   long: String
   name: String!
+  state: String
 }
 
 type SecurityConnection {
@@ -9888,6 +9889,7 @@ input sectorLocationInput {
   lat: String
   long: String
   name: String!
+  state: String
 }
 
 """Security"""

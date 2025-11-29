@@ -53,6 +53,9 @@ export class sectorLocationEntity {
 
   @Prop({ default: 0 })
   paxNumber: number;
+
+  @Prop()
+  state?: string
 }
 
 @Schema({ _id: false })

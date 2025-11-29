@@ -40,6 +40,9 @@ export class SectorLocationInputDto {
 
   @Field({ nullable: true })
   long?: string;
+
+  @Field({ nullable: true })
+  state: string
 }
 
 @ObjectType()
