@@ -166,7 +166,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
        * notify user with random password
        */
       const subject = 'Welcome to Airops – Your Account Details';
-      const text = `Dear ${user.name},\n\nWelcome to Airops! Here are your login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease log in and change your password immediately.\n\n Login Here:${this.url}sign-in.\n\nBest regards,\nAirops\nSupport Team`;
+      const text = `Dear ${user.name},\n\nWelcome to Airops! Here are your login details:\n\nEmail: ${user.email}\nTemporary Password: ${tempPassword}\n\nPlease log in and change your password immediately.\n\n Login Here:${this.url}login.\n\nBest regards,\nAirops\nSupport Team`;
 
       this.mailerService.sendEmail(user.email, subject, text);
       return result;
@@ -191,7 +191,7 @@ export class UsersService extends MongooseQueryService<UserEntity> {
          */
         const subject = 'Your Temporary Password for Login';
 
-        const resetUrl = `${this.url}reset-password`;
+        const resetUrl = `${this.url}login`;
         const emailText = getTempPasswordEmailText(
           user,
           tempPassword,

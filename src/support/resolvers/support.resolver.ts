@@ -4,6 +4,7 @@ import { MessageDto, TicketDto } from '../dto/ticket.dto';
 import { CreateMessageInput } from '../inputs/create-message.input';
 import { CrewDetailService } from 'src/crew-details/services/crew-detail.service';
 import { CrewDetailDto } from 'src/crew-details/dto/crew-detail.dto';
+import { UpdateTicketInput } from '../inputs/update-ticket.input';
 
 @Resolver(() => TicketDto)
 export class SupportResolver {
@@ -12,6 +13,14 @@ export class SupportResolver {
     @Mutation(() => TicketDto)
     async addMessageToTicket(@Args('input') input: CreateMessageInput) {
         return await this.supportService.addMessageToTicket(input);
+    }
+
+    @Mutation(() => TicketDto)
+    async updateTicketMetadata(
+        @Args('ticketId') ticketId: string,
+        @Args('updates') updates: UpdateTicketInput
+    ) {
+        return await this.supportService.updateTicketMetadata(ticketId, updates);
     }
 }
 

@@ -10,7 +10,7 @@ import {
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { createPDFv1, inlineImagesParallel } from 'src/common/helper';
-import { QuotePdfTemplate } from 'src/notification/templates/email.template';
+import { QuotePdfTemplate } from 'src/notification/templates/quote.template';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';

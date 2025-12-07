@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import * as puppeteer from 'puppeteer';
 import { SalesDocumentType } from 'src/app-constants/enums';
-import { QuotePdfTemplate } from '../templates/email.template';
+import { QuotePdfTemplate } from '../templates/quote.template';
 import { QuotesService } from 'src/quotes/services/quotes.service';
 import { InvoiceTemplate } from '../templates/invoice.template';
 import { SaleConfirmationTemplate } from '../templates/sale-confirmation';

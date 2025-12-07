@@ -3987,6 +3987,7 @@ type Mutation {
   updateOneUser(input: UpdateOneUserInput!): User!
   updatePassengerDetail(data: UpdatePassengerDetailDataInput!, where: UpdatePassengerDetailWhereInput!): PassengerDetail!
   updateQuotationStatus(input: UpdateQuoteStatusInput!): Quote!
+  updateTicketMetadata(ticketId: String!, updates: UpdateTicketInput!): Ticket!
   updateTripDetail(data: UpdateTripDetailDataInput!, where: UpdateTripDetailWhereInput!): TripDetail!
   upgradeQuote(code: String!): Quote!
   uploadTripDocByCrew(data: TripDocByCrewDataInput!, where: TripDocByCrewWhereInput!): TripDetail!
@@ -8092,6 +8093,14 @@ input UpdateTicket {
 
   """The id of the user who last updated the record"""
   updatedBy: String
+}
+
+input UpdateTicketInput {
+  department: String
+  priority: TicketPriority
+  requester: String
+  status: TicketStatus
+  subject: String
 }
 
 input UpdateTripDetail {

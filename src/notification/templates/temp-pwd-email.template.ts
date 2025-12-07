@@ -5,11 +5,11 @@ export const getTempPasswordEmailText = (
   tempPassword: string,
   resetUrl: string,
 ) => `
-Dear ${user.name},
+Dear ${user.fullName},
 
 Here are your temporary login details:
 
-Email: ${user.fullName}
+Email: ${user.email}
 Temporary Password: ${tempPassword}
 
 Please use the link below to log in and reset your password immediately:

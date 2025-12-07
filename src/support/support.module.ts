@@ -7,10 +7,14 @@ import { TicketDto } from './dto/ticket.dto';
 import { SupportService } from './services/support.service';
 import { MessageResolver, SupportResolver } from './resolvers/support.resolver';
 import { CrewDetailModule } from 'src/crew-details/crew-detail.module';
+import { NotificationModule } from 'src/notification/notification.module';
+import { RolesModule } from 'src/roles/roles.module';
 
 @Module({
     imports: [
         CrewDetailModule,
+        NotificationModule,
+        RolesModule,
         MongooseModule.forFeature([
             { name: TicketEntity.name, schema: TicketSchema },
         ]),
@@ -23,11 +27,16 @@ import { CrewDetailModule } from 'src/crew-details/crew-detail.module';
                         schema: TicketSchema,
                     },
                 ]),
+                CrewDetailModule,
+                NotificationModule,
+                RolesModule,
             ],
+            services: [SupportService],
             resolvers: [
                 {
                     DTOClass: TicketDto,
                     EntityClass: TicketEntity,
+                    ServiceClass: SupportService,
                 },
             ],
         }),

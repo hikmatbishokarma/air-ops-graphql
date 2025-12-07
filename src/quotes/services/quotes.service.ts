@@ -18,7 +18,7 @@ import {
   TemplateType,
 } from 'src/app-constants/enums';
 import { DeepPartial } from '@app/core';
-import { QuotePdfTemplate } from 'src/notification/templates/email.template';
+import { QuotePdfTemplate } from 'src/notification/templates/quote.template';
 import { Counter } from '../entities/counter.entity';
 import { QuotationTemplateEntity } from '../entities/quote-template.entity';
 import { InvoiceTemplate } from 'src/notification/templates/invoice.template';

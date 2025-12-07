@@ -20,6 +20,7 @@ import {
 import { getTempPasswordEmailText } from 'src/notification/templates/temp-pwd-email.template';
 import { MailerService } from 'src/notification/services/mailer.service';
 import { ConfigService } from '@nestjs/config';
+import { getRegistrationEmailTemplate } from 'src/notification/templates/registration.template';
 
 export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
   private url;
@@ -152,7 +153,12 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
        * notify user with random password
        */
       const subject = 'Welcome to Airops – Your Account Details';
-      const text = `Dear ${crew.fullName},\n\nWelcome to Airops! Here are your login details:\n\nEmail: ${crew.email}\nTemporary Password: ${tempPassword}\n\nPlease log in and change your password immediately.\n\n Login Here:${this.url}login.\n\nBest regards,\nAirops\nSupport Team`;
+      const text = getRegistrationEmailTemplate(
+        crew.fullName,
+        crew.email,
+        tempPassword,
+        this.url,
+      );
 
       this.mailerService.sendEmail(crew.email, subject, text);
       return result;
@@ -177,7 +183,7 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
          */
         const subject = 'Your Temporary Password for Login';
 
-        const resetUrl = `${this.url}reset-password`;
+        const resetUrl = `${this.url}login`;
         const emailText = getTempPasswordEmailText(
           user,
           tempPassword,
