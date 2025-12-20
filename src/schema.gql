@@ -581,7 +581,7 @@ type Airport {
   deletedBy: String
   elevation: Int
   email: String
-  fireCategory: Int
+  fireCategory: String
   fuelSuppliers: [fuelSupplierDTO!]!
   groundHandlersInfo: [groundHandlersInfoDTO!]!
   handlingMandatory: String
@@ -701,7 +701,7 @@ type AirportDeleteResponse {
   deletedBy: String
   elevation: Int
   email: String
-  fireCategory: Int
+  fireCategory: String
   fuelSuppliers: [fuelSupplierDTO!]
   groundHandlersInfo: [groundHandlersInfoDTO!]
   handlingMandatory: String
@@ -1573,7 +1573,7 @@ input CreateAirport {
   deletedBy: String
   elevation: Int
   email: String
-  fireCategory: Int
+  fireCategory: String
   fuelSuppliers: [fuelSupplier!]
   groundHandlersInfo: [groundHandlersInfo!]
   handlingMandatory: String
@@ -4754,6 +4754,8 @@ type Query {
     """Specify to sort results."""
     sorting: [manualSort!]! = []
   ): ManualConnection!
+  migrateAirportCoordinates: String!
+  nearestAirport(lat: String!, long: String!): Airport
   notam(
     """The id of the record to find."""
     id: ID!
@@ -6952,7 +6954,7 @@ input UpdateAirport {
   deletedBy: String
   elevation: Int
   email: String
-  fireCategory: Int
+  fireCategory: String
   fuelSuppliers: [fuelSupplier!]
   groundHandlersInfo: [groundHandlersInfo!]
   handlingMandatory: String

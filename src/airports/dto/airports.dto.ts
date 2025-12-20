@@ -91,7 +91,7 @@ export class AirportsDto extends BaseDTO {
   @Field({ nullable: true })
   airportOfEntry: string;
   @Field({ nullable: true })
-  fireCategory: number;
+  fireCategory: string;
   @Field({ nullable: true })
   slotsRequired: string;
   @Field({ nullable: true })

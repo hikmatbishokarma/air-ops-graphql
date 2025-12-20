@@ -5,6 +5,8 @@ import { AirportsEntity, AirportsSchema } from './entities/airports.entity';
 import { AirportsDto } from './dto/airports.dto';
 import { AirportsService } from './services/airports.service';
 
+import { AirportsResolver } from './resolvers/airports.resolver';
+
 @Module({
   imports: [
     NestjsQueryGraphQLModule.forFeature({
@@ -25,7 +27,7 @@ import { AirportsService } from './services/airports.service';
       ],
     }),
   ],
-  providers: [AirportsService],
+  providers: [AirportsService, AirportsResolver],
   exports: [AirportsService],
 })
-export class AirportsModule {}
+export class AirportsModule { }

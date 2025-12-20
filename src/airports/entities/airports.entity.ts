@@ -28,19 +28,33 @@ export class fuelSupplierEntity {
   email: string;
 }
 
+
+@Schema({ _id: false, timestamps: false })
+export class LocationEntity {
+  @Prop({ type: String, enum: ['Point'], default: 'Point' })
+  type: string;
+
+  @Prop({ type: [Number], index: '2dsphere' })
+  coordinates: number[]; // [longitude, latitude]
+}
+
 @Schema({ collection: 'airports', timestamps: true })
 export class AirportsEntity extends BaseEntity {
-  @Prop()
+  @Prop({ index: true })
   name: string;
-  @Prop()
+  @Prop({ index: true })
   iata_code: string;
-  @Prop()
+  @Prop({ index: true })
   icao_code: string;
   @Prop()
   latitude: string;
   @Prop()
   longitude: string;
-  @Prop()
+
+  @Prop({ type: LocationEntity, index: '2dsphere' })
+  location: LocationEntity;
+
+  @Prop({ index: true })
   city: string;
   @Prop()
   state: string;
@@ -78,7 +92,7 @@ export class AirportsEntity extends BaseEntity {
   @Prop()
   airportOfEntry: string;
   @Prop()
-  fireCategory: number;
+  fireCategory: string;
   @Prop()
   slotsRequired: string;
   @Prop()
@@ -86,3 +100,51 @@ export class AirportsEntity extends BaseEntity {
 }
 
 export const AirportsSchema = SchemaFactory.createForClass(AirportsEntity);
+
+AirportsSchema.index({ location: '2dsphere' });
+
+const parseCoordinate = (coord: string | number | undefined): number | null => {
+  if (typeof coord === 'number') return coord;
+  if (!coord) return null;
+
+  const trimmed = coord.trim();
+
+  const regexLegacy = /^([NSEW])(\d+)-([\d.]+)$/i;
+  const matchLegacy = trimmed.match(regexLegacy);
+  if (matchLegacy) {
+    const [, dir, deg, min] = matchLegacy;
+    let decimal = parseInt(deg, 10) + parseFloat(min) / 60;
+    if (dir.toUpperCase() === 'S' || dir.toUpperCase() === 'W') {
+      decimal *= -1;
+    }
+    return decimal;
+  }
+
+  const regexSuffix = /^([\d.]+)[°º]?\s*([NSEW])$/i;
+  const matchSuffix = trimmed.match(regexSuffix);
+  if (matchSuffix) {
+    const [, val, dir] = matchSuffix;
+    let decimal = parseFloat(val);
+    if (dir.toUpperCase() === 'S' || dir.toUpperCase() === 'W') {
+      decimal *= -1;
+    }
+    return decimal;
+  }
+
+  const simple = parseFloat(trimmed);
+  return isNaN(simple) ? null : simple;
+};
+
+AirportsSchema.pre('save', function (next) {
+  if (this.latitude && this.longitude) {
+    const lat = parseCoordinate(this.latitude);
+    const long = parseCoordinate(this.longitude);
+    if (lat !== null && long !== null) {
+      this.location = {
+        type: 'Point',
+        coordinates: [long, lat],
+      };
+    }
+  }
+  next();
+});
