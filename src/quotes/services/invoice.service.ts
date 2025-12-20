@@ -27,7 +27,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   }
 
   async generateInvoice(args) {
-    const { id, quotationNo, proformaInvoiceNo, type } = args;
+    const { id, quotationNo, proformaInvoiceNo, type, operatorId } = args;
 
     const quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
@@ -38,7 +38,12 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
 
     if (type === InvoiceType.PROFORMA_INVOICE) {
       const invoice = await this.query({
-        filter: { quotationNo: { eq: quotationNo } },
+        filter: {
+          quotationNo: { eq: quotationNo },
+          ...(operatorId && {
+            operatorId: { eq: operatorId },
+          }),
+        },
       });
 
       if (invoice.length)
@@ -64,6 +69,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         type: InvoiceType.PROFORMA_INVOICE,
         template: htmlContent,
         status: QuoteStatus.PROFOMA_INVOICE,
+        operatorId,
       });
 
       if (!created)

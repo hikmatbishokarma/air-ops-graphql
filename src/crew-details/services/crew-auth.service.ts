@@ -250,10 +250,13 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
     // Auto-merge role, password and any future props in `args`
     const payload = {
       fullName: args.name,
+      displayName: args.name,
       email: args.email,
       phone: args.phone,
       operatorId: args.operatorId,
       currentAddress: args.address,
+      permanentAddress: args.address,
+      designation: "MANAGING_DIRECTOR",
       //   city: args.city,
       //   state: args.state,
       //   pinCode: args.pinCode,
