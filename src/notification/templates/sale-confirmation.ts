@@ -460,11 +460,11 @@ export const SaleConfirmationTemplate = (quote) => {
                         <div class="detail-group">
                             <div class="detail-item">
                                 <span class="detail-label">DEPARTURE HANDLER (${item?.source?.code || 'N/A'})</span>
-                                ${formatHandlerDetails(item?.source?.groundHandlersInfo)}
+                                ${item?.source?.groundHandlersInfo ? formatHandlerDetails(item?.source?.groundHandlersInfo) : 'N/A'}
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">ARRIVAL HANDLER (${item?.destination?.code || 'N/A'})</span>
-                                ${formatHandlerDetails(item?.destination?.groundHandlersInfo)}
+                                ${item?.destination?.groundHandlersInfo ? formatHandlerDetails(item?.destination?.groundHandlersInfo) : 'N/A'}
                             </div>
                         </div>
                     </div>

@@ -35,11 +35,16 @@ export class MailerService {
     },
   });
 
+  private readonly airOpsLogo: string;
+  private readonly cloudFrontUrl: string;
   constructor(
     private readonly config: ConfigService,
     private readonly quoteService: QuotesService,
     private readonly invoiceService: InvoiceService,
-  ) { }
+  ) {
+    this.airOpsLogo = this.config.get<string>('logo');
+    this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
+  }
 
   async sendEmail(
     to: string,
@@ -191,6 +196,10 @@ export class MailerService {
     const to = email || quote?.client?.email;
     if (!to) throw new BadRequestException('Recipient email not found');
 
+    const logoUrl = quote?.operator
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
+      : this.airOpsLogo;
+
     let htmlContent: string;
     let subject = '';
     let text = '';
@@ -199,7 +208,7 @@ export class MailerService {
     // Determine content based on documentType
     switch (documentType) {
       case SalesDocumentType.QUOTATION:
-        htmlContent = QuotePdfTemplate(quote);
+        htmlContent = QuotePdfTemplate({ ...quote, logoUrl, cloudFrontUrl: this.cloudFrontUrl });
         subject = `Your Flight Quote - Reference No. ${quote.revisedQuotationNo || quote.quotationNo}`;
         text = `We are pleased to offer you the ${quote.aircraftDetail?.name}`;
         defaultFileName = `quote-${quote.quotationNo}.pdf`;
@@ -227,7 +236,7 @@ export class MailerService {
       }
 
       case SalesDocumentType.SALE_CONFIRMATION:
-        htmlContent = SaleConfirmationTemplate(quote);
+        htmlContent = SaleConfirmationTemplate({ ...quote, logoUrl });
         subject = `Your Flight Sales Confirmation - Reference No. ${quotationNo}`;
         defaultFileName = `sales-confirmation-${quotationNo}.pdf`;
         break;

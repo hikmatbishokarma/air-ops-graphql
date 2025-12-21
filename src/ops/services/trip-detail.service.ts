@@ -21,6 +21,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
   private airOpsLogo: string;
+  private cloudFrontUrl: string;
   constructor(
     @InjectModel(TripDetailEntity.name)
     private readonly model: Model<TripDetailEntity>,
@@ -30,6 +31,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
 
     super(model);
     this.airOpsLogo = this.config.get<string>('logo');
+    this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
   }
 
   async generateTripId(operatorId) {
@@ -655,7 +657,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
         checkedBaggage: 'NIL',
         nationality: pax.nationality || 'INDIAN',
       })),
-      logoUrl: tripData.operatorData?.companyLogo || this.airOpsLogo,
+      logoUrl: tripData.operatorData?.companyLogo ? `${this.cloudFrontUrl}${tripData.operatorData?.companyLogo}` : this.airOpsLogo,
     };
 
 

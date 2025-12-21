@@ -43,6 +43,7 @@ const quotationWorkflowTransition = {
 export class QuotesService extends MongooseQueryService<QuotesEntity> {
   private apiUrl: string;
   private airOpsLogo: string;
+  private cloudFrontUrl: string;
   constructor(
     @InjectModel(QuotesEntity.name) model: Model<QuotesEntity>,
     private readonly airportService: AirportsService,
@@ -59,6 +60,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     super(model);
     this.apiUrl = this.config.get<string>('api_url');
     this.airOpsLogo = this.config.get<string>('logo');
+    this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
   }
 
   async RequestedQuoteList() {
@@ -294,7 +296,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
       const quote = await this.getQuoteByQuotatioNo(quotationNo);
 
       const logoUrl = quote?.operator
-        ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+        ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
         : this.airOpsLogo;
 
       if (!quote) throw new BadRequestException('No Quote Found');
@@ -303,6 +305,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
         ...quote,
         logoUrl,
         apiUrl: this.apiUrl,
+        cloudFrontUrl: this.cloudFrontUrl,
       });
       return htmlContent;
     }
@@ -327,7 +330,15 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     const quote = await this.getQuoteByQuotatioNo(quotationNo);
     if (!quote) throw new BadRequestException('No Quote Found');
 
-    let htmlContent = InvoiceTemplate(quote);
+    const logoUrl = quote?.operator
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
+      : this.airOpsLogo;
+
+    let htmlContent = InvoiceTemplate({
+      ...quote,
+      logoUrl,
+      cloudFrontUrl: this.cloudFrontUrl,
+    });
     if (!htmlContent) throw new BadRequestException('No Content Found');
 
     let proformaInvoiceNo = quote.proformaInvoiceNo ?? '';
@@ -405,7 +416,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
 
     const logoUrl = quote?.operator
-      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
       : this.airOpsLogo;
 
     const htmlContent = SaleConfirmationTemplate({
@@ -435,7 +446,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
     });
 
     const logoUrl = quote?.operator
-      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
       : this.airOpsLogo;
 
     const htmlContent = SaleConfirmationTemplate({

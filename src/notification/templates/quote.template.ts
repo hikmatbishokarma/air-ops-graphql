@@ -18,6 +18,7 @@ export const QuotePdfTemplate = (quote) => {
     crew,
     sectors,
     apiUrl,
+    cloudFrontUrl,
   } = quote;
 
   const priceRows = prices
@@ -40,7 +41,7 @@ export const QuotePdfTemplate = (quote) => {
   const interiorImageGallery = interiorImages.length
     ? `<div class="image-gallery-4">
         ${interiorImages
-      .map((img) => `<img src="${apiUrl}${img}" alt="Interior"/>`)
+      .map((img) => `<img src="${cloudFrontUrl}${img}" alt="Interior"/>`)
       .join('')}
       </div>`
     : '';
@@ -76,7 +77,7 @@ export const QuotePdfTemplate = (quote) => {
       <h4>⚠️ Important Notes</h4>
       <p>${aircraftDetail?.warningText || ''}</p>
       ${aircraftDetail?.warningImage
-      ? `<img src="${apiUrl}${aircraftDetail.warningImage}" alt="Warning"/>`
+      ? `<img src="${cloudFrontUrl}${aircraftDetail.warningImage}" alt="Warning"/>`
       : ''
     }
     </div>
@@ -320,14 +321,14 @@ export const QuotePdfTemplate = (quote) => {
     <div class="page-break"></div>
     
     ${flightImage
-      ? `<img src="${apiUrl}${flightImage}" class="image-full" alt="Aircraft"/>`
+      ? `<img src="${cloudFrontUrl}${flightImage}" class="image-full" alt="Aircraft"/>`
       : ''
     }
 
     ${interiorImageGallery}
 
     ${aircraftDetail?.seatLayoutImage
-      ? `<img src="${apiUrl}${aircraftDetail.seatLayoutImage}" class="image-full" alt="Seat Layout" style="border:1px solid #eee;"/>`
+      ? `<img src="${cloudFrontUrl}${aircraftDetail.seatLayoutImage}" class="image-full" alt="Seat Layout" style="border:1px solid #eee;"/>`
       : ''
     }
 

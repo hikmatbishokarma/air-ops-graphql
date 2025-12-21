@@ -16,6 +16,7 @@ export const InvoiceTemplate = (quote) => {
     type: invoiceType,
     operator,
     logoUrl,
+    cloudFrontUrl,
   } = quote;
 
   return `

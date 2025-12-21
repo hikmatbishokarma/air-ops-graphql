@@ -15,6 +15,7 @@ import { ConfigService } from '@nestjs/config';
 export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
   private apiUrl: string;
   private airOpsLogo: string;
+  private cloudFrontUrl: string;
   constructor(
     @InjectModel(InvoiceEntity.name) model: Model<InvoiceEntity>,
     @InjectModel(Counter.name) private counterModel: Model<Counter>,
@@ -24,6 +25,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     super(model);
     this.apiUrl = this.config.get<string>('api_url');
     this.airOpsLogo = this.config.get<string>('logo');
+    this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
   }
 
   async generateInvoice(args) {
@@ -33,7 +35,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     if (!quote) throw new BadRequestException('No Quote Found');
 
     const logoUrl = quote?.operator
-      ? `${this.apiUrl}${quote?.operator?.companyLogo}`
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
       : this.airOpsLogo;
 
     if (type === InvoiceType.PROFORMA_INVOICE) {
@@ -58,6 +60,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         invoiceNo,
         type: InvoiceType.PROFORMA_INVOICE,
         logoUrl,
+        cloudFrontUrl: this.cloudFrontUrl,
       });
       if (!htmlContent) throw new BadRequestException('No Content Found');
 
@@ -130,6 +133,7 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
         invoiceNo,
         type: InvoiceType.TAX_INVOICE,
         logoUrl,
+        cloudFrontUrl: this.cloudFrontUrl,
       });
       if (!htmlContent)
         throw new BadRequestException('Failed to generate invoice');
