@@ -993,6 +993,17 @@ type CertificationResponse {
   totalCount: Int!
 }
 
+type ChecklistItemDto {
+  name: String!
+  status: Boolean!
+}
+
+type ChecklistLocationDto {
+  city: String!
+  code: String!
+  name: String!
+}
+
 """City"""
 type City {
   countryCode: String!
@@ -4330,6 +4341,13 @@ input OperatorDto {
   websiteUrl: String
 }
 
+type OpsDashboardDto {
+  crewTripsDoc: Int!
+  reports: Int!
+  saleConfirmations: Int!
+  tripDetails: Int!
+}
+
 type PageInfo {
   """The cursor of the last returned record."""
   endCursor: ConnectionCursor
@@ -4798,6 +4816,7 @@ type Query {
     """Specify to sort results."""
     sorting: [operatorSort!]! = []
   ): OperatorConnection!
+  opsDashboardSummary(operatorId: String): OpsDashboardDto!
   passengerDetail(
     """The id of the record to find."""
     id: ID!
@@ -4944,6 +4963,7 @@ type Query {
     sorting: [TicketSort!]! = []
   ): TicketConnection!
   tripAssignedForCrew(filter: TripFilterForCrewInput!, paging: PagingInput!, sort: SortInput): TripAssignedForCrewResult!
+  tripChecklist(tripId: String!): TripChecklistDto!
   tripDetail(
     """The id of the record to find."""
     id: ID!
@@ -5597,6 +5617,13 @@ enum SalesDocumentType {
   QUOTATION
   SALE_CONFIRMATION
   TAX_INVOICE
+}
+
+type SectorChecklistDto {
+  checklist: [ChecklistItemDto!]!
+  destination: ChecklistLocationDto!
+  sectorNo: Int!
+  source: ChecklistLocationDto!
 }
 
 type SectorDto {
@@ -6516,6 +6543,10 @@ type TripAssignedForCrew {
 type TripAssignedForCrewResult {
   result: [TripAssignedForCrew!]!
   totalCount: Int!
+}
+
+type TripChecklistDto {
+  sectors: [SectorChecklistDto!]!
 }
 
 """Trip Detail """

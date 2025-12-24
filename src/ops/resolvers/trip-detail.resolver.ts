@@ -1,6 +1,7 @@
 import { Args, ArgsType, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { TripDetailService } from '../services/trip-detail.service';
 import { TripDetailDto, TripDocByCrewDto } from '../dto/trip-detail.dto';
+import { TripChecklistDto } from '../dto/trip-checklist.dto';
 import {
   UpdateTripDetailDataInput,
   UpdateTripDetailWhereInput,
@@ -75,6 +76,11 @@ export class TripDetailResolver {
   @Mutation(() => String)
   async generatePassengerManifest(@Args('input') input: GeneratePassengerManifestInput) {
     return await this.tripDetailService.generatePassengerManifest(input);
+  }
+
+  @Query(() => TripChecklistDto)
+  async tripChecklist(@Args('tripId') tripId: string) {
+    return await this.tripDetailService.getTripChecklist(tripId);
   }
 
   async handleTripDocsQuery(q: any) {

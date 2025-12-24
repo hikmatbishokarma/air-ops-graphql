@@ -17,6 +17,7 @@ import { toObjectId } from 'src/common/helper';
 import { skip } from 'node:test';
 import { PassengerManifestTemplate } from 'src/notification/templates/passenger-manifest';
 import { ConfigService } from '@nestjs/config';
+import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
@@ -27,6 +28,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     private readonly model: Model<TripDetailEntity>,
     private readonly quotesService: QuotesService,
     private readonly config: ConfigService,
+    private readonly passengerDetailService: PassengerDetailService,
   ) {
 
     super(model);
@@ -664,5 +666,117 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     const htmlContent = PassengerManifestTemplate(manifestData);
 
     return htmlContent;
+  }
+
+  async getTripChecklist(tripId: string) {
+    const trip = await this.model.findById(tripId).lean();
+    if (!trip) throw new Error('Trip not found');
+
+    const checklistData = [];
+
+    // Optimize: Fetch passenger details once if quotationNo is available
+    let passengerDetail = null;
+    if (trip.quotationNo) {
+      passengerDetail = await this.passengerDetailService.Model.findOne({
+        quotationNo: trip.quotationNo,
+      }).lean();
+    }
+
+    for (const sector of trip.sectors) {
+      const sectorNo = sector.sectorNo;
+      const checklist = [];
+
+      // 1. Timelines
+      const hasTimelines = !!(
+        sector.depatureDate &&
+        sector.depatureTime &&
+        sector.arrivalDate &&
+        sector.arrivalTime
+      );
+      checklist.push({ name: 'Timelines', status: hasTimelines });
+
+      // Find corresponding sector in PassengerDetail
+      const paxSector = passengerDetail?.sectors?.find(
+        (s) => s.sectorNo === sectorNo,
+      );
+
+      // 2. Pax
+      const hasPax = paxSector?.passengers?.length > 0;
+      checklist.push({ name: 'Pax', status: hasPax });
+
+      // 3. Catering (Meals in Pax Detail)
+      const hasCatering = paxSector?.meals?.length > 0;
+      checklist.push({ name: 'Catering', status: hasCatering });
+
+      // 4. Travels (Travel in Pax Detail)
+      const hasTravels = !!paxSector?.travel;
+      checklist.push({ name: 'Travels', status: hasTravels });
+
+      // 5. Boarding Pass (Hardcoded False for now)
+      checklist.push({ name: 'Boarding Pass', status: false });
+
+      // 6. Ground Handler (Hardcoded False for now)
+      checklist.push({ name: 'Ground Handler', status: false });
+
+      // 7. Intimation Letters (Hardcoded False for now)
+      const intimationLetters = [
+        'Intimation Letter to APD',
+        'Intimation Letter to ATC',
+        'Intimation Letter to Terminal',
+        'Intimation Letter to Re Fuel',
+        'Intimation Letter to CISF',
+        'Intimation Letter to Airport Operator',
+        'Intimation Letter to Ground Handler',
+      ];
+      intimationLetters.forEach((letter) => {
+        checklist.push({ name: letter, status: false });
+      });
+
+      // 8. CREW
+      const hasCrew = sector.assignedCrews?.length > 0;
+      checklist.push({ name: 'CREW', status: hasCrew });
+
+      // 9. BA Reports (In Trip Detail Sector)
+      const hasBaReports = sector.baInfo?.baReports?.length > 0;
+      checklist.push({ name: 'BA Reports', status: hasBaReports });
+
+      // 10. FUEL Reports (In Trip Detail Sector)
+      const hasFuelReports = !!sector.fuelRecord;
+      checklist.push({ name: 'FUEL Reports', status: hasFuelReports });
+
+      // 11. Documents
+      const documentTypes = [
+        'Flight Plan',
+        'Weight & Balance (CG)',
+        'Tripkit',
+        'Manifest',
+        'Weather Briefing',
+        'NOTAMS',
+        'Helipad Permission',
+        'DGCA Permission',
+      ];
+
+      documentTypes.forEach((docType) => {
+        const hasDoc = sector.documents?.some((d) => d.type === docType);
+        checklist.push({ name: docType, status: hasDoc });
+      });
+
+      checklistData.push({
+        sectorNo: sectorNo,
+        source: {
+          name: sector.source?.name,
+          code: sector.source?.code,
+          city: sector.source?.city,
+        },
+        destination: {
+          name: sector.destination?.name,
+          code: sector.destination?.code,
+          city: sector.destination?.city,
+        },
+        checklist: checklist,
+      });
+    }
+
+    return { sectors: checklistData };
   }
 }

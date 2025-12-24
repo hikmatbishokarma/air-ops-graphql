@@ -14,13 +14,22 @@ import {
 } from './entities/trip-detail.entity';
 import { TripDetailDto } from './dto/trip-detail.dto';
 import { QuotesModule } from 'src/quotes/quotes.module';
+import { QuotesEntity, QuotesSchema } from 'src/quotes/entities/quotes.entity'; // Import this
 import { CrewDetailModule } from 'src/crew-details/crew-detail.module';
 import { CrewTripUploadedDocResolver } from './resolvers/crew-trip.resolver';
+import { PassengerDetailModule } from 'src/passenger-detail/passenger-detail.module';
+
+import { OpsDashboardService } from './services/ops-dashboard.service';
+import { OpsDashboardResolver } from './resolvers/ops-dashboard.resolver';
 
 @Module({
   imports: [
     QuotesModule,
     CrewDetailModule,
+    PassengerDetailModule,
+    MongooseModule.forFeature([
+      { name: QuotesEntity.name, schema: QuotesSchema },
+    ]),
     NestjsQueryGraphQLModule.forFeature({
       imports: [
         TripDetailModule,
@@ -45,7 +54,9 @@ import { CrewTripUploadedDocResolver } from './resolvers/crew-trip.resolver';
     TripDetailService,
     TripDetailResolver,
     CrewTripUploadedDocResolver,
+    OpsDashboardService,
+    OpsDashboardResolver,
   ],
-  exports: [TripDetailService],
+  exports: [TripDetailService, OpsDashboardService],
 })
-export class TripDetailModule {}
+export class TripDetailModule { }

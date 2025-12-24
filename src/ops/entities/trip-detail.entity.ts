@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { SchemaTypes, Types } from 'mongoose';
+import { TripDetailStatus, TripSectorStatus } from 'src/app-constants/enums';
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { sectorLocationEntity } from 'src/quotes/entities/quotes.entity';
 
@@ -161,6 +162,9 @@ export class TripSectorEntity {
 
   @Prop({ type: [tripDocByCrew], default: [] })
   tripDocByCrew: tripDocByCrew[];
+
+  @Prop({ type: String, enum: TripSectorStatus, default: TripSectorStatus.IN_PROGRESS })
+  status: TripSectorStatus;
 }
 
 const SectorSchema = SchemaFactory.createForClass(TripSectorEntity);
@@ -189,6 +193,9 @@ export class TripDetailEntity extends BaseEntity {
     default: undefined,
   })
   operatorId: Types.ObjectId;
+
+  @Prop({ type: String, enum: TripDetailStatus, default: TripDetailStatus.DRAFT })
+  status: TripDetailStatus;
 }
 
 export const TripDetailSchema = SchemaFactory.createForClass(TripDetailEntity);
