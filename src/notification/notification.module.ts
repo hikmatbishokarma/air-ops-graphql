@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MailerService } from './services/mailer.service';
 import { MailerResolver } from './resolvers/mailer.resolver';
 import { QuotesModule } from 'src/quotes/quotes.module';
+import { TripDetailModule } from 'src/ops/operation.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   NotificationEntity,
@@ -18,6 +19,7 @@ import { SystemNotificationDto } from './dto/system.dto';
 @Module({
   imports: [
     QuotesModule,
+    forwardRef(() => TripDetailModule),
     MongooseModule.forFeature([
       { name: NotificationEntity.name, schema: NotificationSchema },
     ]),
@@ -50,4 +52,4 @@ import { SystemNotificationDto } from './dto/system.dto';
   controllers: [NotificationController],
   exports: [MailerService, SystemNotificationService],
 })
-export class NotificationModule {}
+export class NotificationModule { }

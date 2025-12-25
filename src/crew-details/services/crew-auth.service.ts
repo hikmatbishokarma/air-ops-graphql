@@ -256,7 +256,7 @@ export class CrewAuthService extends MongooseQueryService<CrewDetailEntity> {
       operatorId: args.operatorId,
       currentAddress: args.address,
       permanentAddress: args.address,
-      designation: "MANAGING_DIRECTOR",
+      designation: "ACCOUNTS_MANAGER",
       //   city: args.city,
       //   state: args.state,
       //   pinCode: args.pinCode,

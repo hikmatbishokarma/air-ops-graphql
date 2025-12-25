@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import {  SalesDocumentType } from 'src/app-constants/enums';
+import { SalesDocumentType } from 'src/app-constants/enums';
 
 @InputType()
 export class acknowledgementInput {
@@ -9,4 +9,10 @@ export class acknowledgementInput {
   email: string;
   @Field(() => SalesDocumentType)
   documentType: SalesDocumentType;
+
+  @Field({ nullable: true })
+  tripId?: string;
+
+  @Field({ nullable: true })
+  sectorNo?: number;
 }

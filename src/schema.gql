@@ -929,6 +929,58 @@ input BillingCycleFilterComparison {
   notLike: BillingCycle
 }
 
+type BoardingPass {
+  boardingPassId: String!
+
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  flight: BoardingPassFlightDto!
+  groundHandlers: GroundHandlersDto
+  id: ID!
+  isActive: Boolean!
+  operationType: String!
+  passenger: BoardingPassPassengerDto!
+  quotationNo: String!
+  sectorNo: Int!
+  status: String!
+  tripId: String!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type BoardingPassFlightDto {
+  aircraft: JSONObject!
+  arrivalDate: DateTime!
+  arrivalTime: String!
+  departureDate: DateTime!
+  departureTime: String!
+  flightTime: String
+  fromCity: String!
+  fromCode: String!
+  toCity: String!
+  toCode: String!
+}
+
+type BoardingPassPassengerDto {
+  age: String
+  gender: String
+  govtId: String
+  name: String!
+}
+
 input BooleanFieldComparison {
   is: Boolean
   isNot: Boolean
@@ -1759,6 +1811,16 @@ input CreateCrewDetail {
 
 input CreateCrewInput {
   crew: CrewInput!
+}
+
+input CreateIntimationInput {
+  attachmentUrl: String
+  note: String
+  recipientType: String!
+  sectorNo: Int!
+  subject: String!
+  toEmail: String!
+  tripId: String!
 }
 
 input CreateInvoice {
@@ -3144,6 +3206,11 @@ enum Gender {
   OTHER
 }
 
+input GenerateBoardingPassInput {
+  sectorNo: Int!
+  tripId: String!
+}
+
 input GenerateInvoiceInput {
   id: String
   operatorId: String
@@ -3155,6 +3222,18 @@ input GenerateInvoiceInput {
 input GeneratePassengerManifestInput {
   sectorNo: Int!
   tripId: String!
+}
+
+type GroundHandlerInfoDto {
+  airportCode: String!
+  email: String!
+  name: String!
+  phone: String!
+}
+
+type GroundHandlersDto {
+  destination: GroundHandlerInfoDto
+  source: GroundHandlerInfoDto
 }
 
 input IDFilterComparison {
@@ -3172,6 +3251,23 @@ input IDFilterComparison {
   notILike: ID
   notIn: [ID!]
   notLike: ID
+}
+
+type IntimationDto {
+  _id: String!
+  attachmentUrl: String
+  createdAt: DateTime!
+  errorMessage: String
+  note: String
+  recipientType: String!
+  sectorNo: Int!
+  sentAt: DateTime
+  sentBy: String
+  status: String!
+  subject: String!
+  toEmail: String!
+  tripId: String!
+  updatedAt: DateTime!
 }
 
 """Invoice"""
@@ -3778,6 +3874,7 @@ type Mutation {
   addRolesToCrewDetail(input: AddRolesToCrewDetailInput!): crewDetail!
   addRolesToUser(input: AddRolesToUserInput!): User!
   createCrew(input: CreateCrewInput!): crewDetail!
+  createIntimation(input: CreateIntimationInput!): IntimationDto!
   createManyAccessRequests(input: CreateManyAccessRequestsInput!): [AccessRequest!]!
   createManyAircraftCategories(input: CreateManyAircraftCategoriesInput!): [AircraftCategory!]!
   createManyAircraftDetails(input: CreateManyAircraftDetailsInput!): [AircraftDetail!]!
@@ -3834,6 +3931,7 @@ type Mutation {
   createOneUser(input: CreateUserInput!): User!
   createOperator(operator: OperatorDto!): operator!
   createTrip(input: CreateTripInput!): TripDetail!
+  deleteIntimation(id: String!): Boolean!
   deleteManyAccessRequests(input: DeleteManyAccessRequestsInput!): DeleteManyResponse!
   deleteManyAircraftCategories(input: DeleteManyAircraftCategoriesInput!): DeleteManyResponse!
   deleteManyAircraftDetails(input: DeleteManyAircraftDetailsInput!): DeleteManyResponse!
@@ -3889,6 +3987,7 @@ type Mutation {
   deleteOneTripDetail(input: DeleteOneTripDetailInput!): TripDetailDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   forgotPassword(email: String!): ForgotPasswordDto!
+  generateBoardingPass(input: GenerateBoardingPassInput!): [BoardingPass!]!
   generateInvoice(args: GenerateInvoiceInput!): Invoice!
   generatePassengerManifest(input: GeneratePassengerManifestInput!): String!
   markNotificationsAsRead(input: MarkAsReadInput!): Boolean!
@@ -3897,6 +3996,7 @@ type Mutation {
   saleConfirmation(args: SaleConfirmationInput!): Quote!
   sendAcknowledgement(input: acknowledgementInput!): String!
   sendEmail(input: MailerInput!): MailerResponseDto!
+  sendIntimation(input: SendIntimationInput!): IntimationDto!
   setAircraftOnPrice(input: SetAircraftOnPriceInput!): price!
   setAircraftOnQuote(input: SetAircraftOnQuoteInput!): Quote!
   setClientOnRepresentative(input: SetClientOnRepresentativeInput!): representative!
@@ -3939,6 +4039,7 @@ type Mutation {
   syncCountries: JSONObject!
   syncStatesByCountry(countryCode: String!): JSONObject!
   updateAccessRequestStatus(notificationId: String!, status: AccessRequestStatus!): AccessRequest!
+  updateIntimation(id: String!, input: UpdateIntimationInput!): IntimationDto!
   updateLeaveRequest(data: UpdateLeaveRequestDataInput!, where: UpdateLeaveRequestWhereInput!): Leave!
   updateManyAccessRequests(input: UpdateManyAccessRequestsInput!): UpdateManyResponse!
   updateManyAircraftCategories(input: UpdateManyAircraftCategoriesInput!): UpdateManyResponse!
@@ -4715,6 +4816,9 @@ type Query {
     sorting: [crewDetailSort!]! = []
   ): CrewDetailConnection!
   flightSegmentsForCalendar(endDate: DateTime!, operatorId: String, startDate: DateTime!): [CalenderData!]!
+  getBoardingPasses(sectorNo: Int!, tripId: String!): [BoardingPass!]!
+  getIntimationsBySector(sectorNo: Int!, tripId: String!): [IntimationDto!]!
+  getIntimationsByTrip(tripId: String!): [IntimationDto!]!
   getSalesDashboardData(endDate: String, operatorId: String, range: DateRange! = today, startDate: String): JSONObject!
   invoice(
     """The id of the record to find."""
@@ -5612,6 +5716,7 @@ input SaleConfirmationInput {
 }
 
 enum SalesDocumentType {
+  BOARDING_PASS
   MANIFEST
   PROFORMA_INVOICE
   QUOTATION
@@ -5731,6 +5836,10 @@ input SecurityDocTypeFilterComparison {
   notILike: SecurityDocType
   notIn: [SecurityDocType!]
   notLike: SecurityDocType
+}
+
+input SendIntimationInput {
+  intimationId: String!
 }
 
 input SetAircraftOnPriceInput {
@@ -7158,6 +7267,13 @@ input UpdateCrewDetail {
   updatedBy: String
 }
 
+input UpdateIntimationInput {
+  attachmentUrl: String
+  note: String
+  subject: String
+  toEmail: String
+}
+
 input UpdateInvoice {
   """The date when the record was created"""
   createdAt: DateTime
@@ -8514,6 +8630,8 @@ input acknowledgementInput {
   documentType: SalesDocumentType!
   email: String!
   quotationNo: String!
+  sectorNo: Int
+  tripId: String
 }
 
 input assignedCrewGroupInput {

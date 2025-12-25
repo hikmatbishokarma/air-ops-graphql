@@ -122,6 +122,7 @@ export enum SalesDocumentType {
   TAX_INVOICE = 'Tax Invoice',
   SALE_CONFIRMATION = 'Sale Confirmation',
   MANIFEST = "Manifest",
+  BOARDING_PASS = "Boarding Pass",
 }
 
 registerEnumType(SalesDocumentType, {

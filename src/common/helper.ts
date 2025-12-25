@@ -171,12 +171,12 @@ export async function createPDF(
     args: isLocal
       ? []
       : [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--single-process',
-        ],
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--single-process',
+      ],
   });
 
   const page = await browser.newPage();
@@ -235,7 +235,7 @@ async function inlineImages(html: string): Promise<string> {
 //   return Buffer.from(pdfBuffer);
 // }
 
-export async function createPDFv1(html: string): Promise<Buffer> {
+export async function createPDFv1(html: string, options?: any): Promise<Buffer> {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
@@ -244,6 +244,7 @@ export async function createPDFv1(html: string): Promise<Buffer> {
   const pdfBuffer = await page.pdf({
     format: 'A4',
     printBackground: true,
+    ...options
   });
 
   await browser.close();
@@ -299,19 +300,19 @@ async function getBrowser(): Promise<Browser> {
       args:
         process.env.NODE_ENV === 'production'
           ? [
-              '--no-sandbox',
-              '--disable-setuid-sandbox',
-              '--disable-dev-shm-usage',
-              '--disable-gpu',
-              '--single-process',
-            ]
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--single-process',
+          ]
           : [],
     });
   }
   return browser;
 }
 
-export async function createPDFBuffer(htmlContent: string): Promise<Buffer> {
+export async function createPDFBuffer(htmlContent: string, options?: any): Promise<Buffer> {
   const browser = await getBrowser();
   const page = await browser.newPage();
 
@@ -326,7 +327,11 @@ export async function createPDFBuffer(htmlContent: string): Promise<Buffer> {
   });
 
   // Puppeteer gives Uint8Array → wrap into Buffer
-  const pdfUint8 = await page.pdf({ format: 'A4' });
+  const pdfUint8 = await page.pdf({
+    format: 'A4',
+    printBackground: true,
+    ...options
+  });
   const buffer = Buffer.from(pdfUint8); // ✅ convert
 
   await page.close();

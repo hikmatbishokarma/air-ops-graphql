@@ -16,7 +16,7 @@ import { CrewAuthService } from './services/crew-auth.service';
 
 @Module({
   imports: [
-    NotificationModule,
+    forwardRef(() => NotificationModule),
     forwardRef(() => OperatorModule),
     RolesModule,
     MongooseModule.forFeature([
@@ -44,4 +44,4 @@ import { CrewAuthService } from './services/crew-auth.service';
   providers: [CrewDetailService, CrewDetailResolver, CrewAuthService],
   exports: [CrewDetailService, CrewAuthService],
 })
-export class CrewDetailModule {}
+export class CrewDetailModule { }

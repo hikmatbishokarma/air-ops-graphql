@@ -19,6 +19,7 @@ import { SaleConfirmationTemplate } from 'src/notification/templates/sale-confir
 import { SalesDocumentType } from 'src/app-constants/enums';
 import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 import { TripDetailService } from 'src/ops/services/trip-detail.service';
+import { BoardingPassService } from 'src/ops/services/boarding-pass.service';
 
 @Controller('api/document')
 export class DocumentController {
@@ -31,6 +32,7 @@ export class DocumentController {
     private readonly invoiceService: InvoiceService,
     private readonly passengerDetailService: PassengerDetailService,
     private readonly tripDetailService: TripDetailService,
+    private readonly boardingPassService: BoardingPassService,
   ) {
     this.apiUrl = this.config.get<string>('api_url');
     this.airOpsLogo = this.config.get<string>('logo');
@@ -160,5 +162,32 @@ export class DocumentController {
     return new StreamableFile(pdfBuffer);
   }
 
+  @Get('boarding-pass/download')
+  async downloadBoardingPass(
+    @Query('tripId') tripId: string,
+    @Query('sectorNo') sectorNo: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    if (!tripId) throw new BadRequestException('tripId is required');
+    if (!sectorNo) throw new BadRequestException('sectorNo is required');
 
+    const htmlContent = await this.boardingPassService.generateBoardingPassHtml(tripId, Number(sectorNo));
+    const pdfBuffer = await createPDFv1(htmlContent, {
+      landscape: true,
+      printBackground: true,
+      margin: {
+        top: '20mm',
+        bottom: '20mm',
+        left: '10mm',
+        right: '10mm'
+      }
+    });
+
+    res.header({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="boarding-passes-${tripId}-sector-${sectorNo}.pdf"`,
+    });
+
+    return new StreamableFile(pdfBuffer);
+  }
 }

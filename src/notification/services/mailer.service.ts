@@ -15,6 +15,8 @@ import {
 } from 'src/common/helper';
 import { PassengerManifestTemplate } from '../templates/passenger-manifest';
 
+import { BoardingPassService } from 'src/ops/services/boarding-pass.service';
+
 @Injectable()
 export class MailerService {
   private transporter = nodemailer.createTransport({
@@ -41,6 +43,7 @@ export class MailerService {
     private readonly config: ConfigService,
     private readonly quoteService: QuotesService,
     private readonly invoiceService: InvoiceService,
+    private readonly boardingPassService: BoardingPassService,
   ) {
     this.airOpsLogo = this.config.get<string>('logo');
     this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
@@ -184,6 +187,8 @@ export class MailerService {
     quotationNo: string;
     email?: string;
     documentType: SalesDocumentType;
+    tripId?: string;
+    sectorNo?: number;
   }) {
     const { quotationNo, email, documentType } = args;
 
@@ -241,11 +246,14 @@ export class MailerService {
         defaultFileName = `sales-confirmation-${quotationNo}.pdf`;
         break;
 
-      // case SalesDocumentType.MANIFEST:
-      //   htmlContent = PassengerManifestTemplate(quote);
-      //   subject = `Manifest - Reference No. ${quotationNo}`;
-      //   defaultFileName = `manifest-${quotationNo}.pdf`;
-      //   break;
+      case SalesDocumentType.BOARDING_PASS:
+        if (!args.tripId || !args.sectorNo) {
+          throw new BadRequestException('tripId and sectorNo are required for Boarding Pass');
+        }
+        htmlContent = await this.boardingPassService.generateBoardingPassHtml(args.tripId, Number(args.sectorNo));
+        subject = `Boarding Passes - Trip ${args.tripId} Sector ${args.sectorNo}`;
+        defaultFileName = `boarding-passes-${args.tripId}-${args.sectorNo}.pdf`;
+        break;
 
       default:
         throw new BadRequestException('Unsupported document type');
@@ -254,8 +262,20 @@ export class MailerService {
     // ✅ Inline images in parallel for faster PDF generation
     htmlContent = await inlineImagesParallel(htmlContent);
 
+    const pdfOptions: any = {};
+    if (documentType === SalesDocumentType.BOARDING_PASS) {
+      pdfOptions.landscape = true;
+      pdfOptions.printBackground = true;
+      pdfOptions.margin = {
+        top: '20mm',
+        bottom: '20mm',
+        left: '10mm',
+        right: '10mm'
+      };
+    }
+
     // ✅ Generate PDF as Buffer (includes inline images)
-    const pdfBuffer = await createPDFBuffer(htmlContent);
+    const pdfBuffer = await createPDFBuffer(htmlContent, pdfOptions);
 
     // ✅ Prepare attachments (Buffer instead of path)
     const attachments = [
