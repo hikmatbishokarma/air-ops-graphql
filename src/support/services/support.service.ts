@@ -143,11 +143,10 @@ export class SupportService extends MongooseQueryService<TicketEntity> {
             }
 
             // Get the author's roles
-            const authorRoles = await this.rolesService.query({
-                filter: {
-                    _id: { in: author.roles.map(r => r.toString()) }
-                }
-            });
+            const roleIds = author.roles.map(r => new Types.ObjectId(r.toString()));
+            const authorRoles = await this.rolesService['model'].find({
+                _id: { $in: roleIds }
+            }).exec();
 
             // Check if author has ADMIN, SUPER_ADMIN, or other support roles
             const isAdminOrSupport = authorRoles.some(role =>

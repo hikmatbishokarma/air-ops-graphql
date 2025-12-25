@@ -71,7 +71,6 @@ export class SystemNotificationService extends MongooseQueryService<Notification
           {
             $addToSet: { isReadBy: userId },
           },
-          { new: true },
         )
         .exec();
 
