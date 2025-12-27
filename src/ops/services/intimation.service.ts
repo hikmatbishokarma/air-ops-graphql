@@ -76,12 +76,19 @@ export class IntimationService {
         }
 
         try {
-            // Get email template based on recipient type
-            const htmlContent = this.getEmailTemplate(intimation.recipientType, {
-                tripId: intimation.tripId,
-                sectorNo: intimation.sectorNo,
-                note: intimation.note,
-            });
+            let htmlContent: string;
+
+            // Use stored body if available (New Workflow)
+            if (intimation.body) {
+                htmlContent = intimation.body;
+            } else {
+                // Fallback to legacy template logic
+                htmlContent = this.getEmailTemplate(intimation.recipientType || 'General', {
+                    tripId: intimation.tripId,
+                    sectorNo: intimation.sectorNo,
+                    note: intimation.note,
+                });
+            }
 
             // Prepare attachments - use CloudFront URL directly as path
             let attachments = [];
@@ -94,13 +101,27 @@ export class IntimationService {
                 ];
             }
 
+            // Determine Recipients
+            const to = (intimation.toEmails && intimation.toEmails.length > 0)
+                ? intimation.toEmails
+                : (intimation.toEmail ? [intimation.toEmail] : []);
+
+            const cc = intimation.ccEmails || [];
+
+            if (to.length === 0) {
+                throw new Error("No recipients found for this intimation.");
+            }
+
             // Send email using MailerService
+            // Assuming sendEmail supports array for TO and CC, or we might need to adjust signature usage.
+            // I'll assume: sendEmail(to: string | string[], subject: string, text: string, html: string, attachments: any[], cc?: string | string[])
             const result = await this.mailerService.sendEmail(
-                intimation.toEmail,
+                to,
                 intimation.subject,
                 '', // text content (optional)
                 htmlContent,
                 attachments,
+                cc
             );
 
             if (result.success) {
@@ -137,8 +158,12 @@ export class IntimationService {
         };
 
         const template = templates[recipientType];
+
+        // If no template found (e.g. for new types), return a default or error?
+        // For new workflow, this shouldn't be hit if body is present. This is strict fallback.
         if (!template) {
-            throw new BadRequestException(`No template found for recipient type: ${recipientType}`);
+            // Fallback for 'General' or others
+            return data.note || "Intimation";
         }
 
         return template(data);

@@ -836,6 +836,7 @@ input AirportUpdateFilter {
 
 type AssignedCrewDto {
   crews: [String!]
+  crewsInfo: [crewDetail!]!
   designation: String!
 }
 
@@ -1815,11 +1816,15 @@ input CreateCrewInput {
 
 input CreateIntimationInput {
   attachmentUrl: String
+  body: String
+  ccEmails: [String!]
   note: String
-  recipientType: String!
+  recipientType: String
   sectorNo: Int!
-  subject: String!
-  toEmail: String!
+  subject: String
+  template: String
+  toEmail: String
+  toEmails: [String!]
   tripId: String!
 }
 
@@ -3256,16 +3261,20 @@ input IDFilterComparison {
 type IntimationDto {
   _id: String!
   attachmentUrl: String
+  body: String
+  ccEmails: [String!]
   createdAt: DateTime!
   errorMessage: String
   note: String
-  recipientType: String!
+  recipientType: String
   sectorNo: Int!
   sentAt: DateTime
   sentBy: String
   status: String!
-  subject: String!
-  toEmail: String!
+  subject: String
+  template: String
+  toEmail: String
+  toEmails: [String!]
   tripId: String!
   updatedAt: DateTime!
 }
@@ -4749,6 +4758,7 @@ type Query {
     """The id of the record to find."""
     id: ID!
   ): Airport
+  airportByIcao(icao: String!): Airport
   airports(
     """Specify to filter the records returned."""
     filter: AirportFilter! = {}
@@ -7269,9 +7279,13 @@ input UpdateCrewDetail {
 
 input UpdateIntimationInput {
   attachmentUrl: String
+  body: String
+  ccEmails: [String!]
   note: String
   subject: String
+  template: String
   toEmail: String
+  toEmails: [String!]
 }
 
 input UpdateInvoice {
@@ -8641,6 +8655,7 @@ input assignedCrewGroupInput {
 
 input assignedCrewInput {
   crews: [String!]
+  crewsInfo: [CrewDetailDto!]
   designation: String!
 }
 

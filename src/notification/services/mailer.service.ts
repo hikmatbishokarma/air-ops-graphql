@@ -50,16 +50,18 @@ export class MailerService {
   }
 
   async sendEmail(
-    to: string,
+    to: string | string[],
     subject: string,
     text: string,
     html?: string,
     attachments?: any,
+    cc?: string | string[],
   ) {
     try {
       const result = await this.transporter.sendMail({
         from: `"Airops" <${process.env.EMAIL_USER}>`, // Custom sender name
         to,
+        cc,
         subject,
         text,
         html,

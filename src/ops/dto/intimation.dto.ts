@@ -11,14 +11,26 @@ export class IntimationDto {
     @Field(() => Int)
     sectorNo: number;
 
-    @Field()
-    recipientType: string;
+    @Field({ nullable: true })
+    recipientType?: string;
 
-    @Field()
-    toEmail: string;
+    @Field({ nullable: true })
+    toEmail?: string;
 
-    @Field()
-    subject: string;
+    @Field(() => [String], { nullable: true })
+    toEmails?: string[];
+
+    @Field(() => [String], { nullable: true })
+    ccEmails?: string[];
+
+    @Field({ nullable: true })
+    subject?: string;
+
+    @Field({ nullable: true })
+    template?: string;
+
+    @Field({ nullable: true })
+    body?: string;
 
     @Field({ nullable: true })
     note?: string;
@@ -53,14 +65,26 @@ export class CreateIntimationInput {
     @Field(() => Int)
     sectorNo: number;
 
-    @Field()
-    recipientType: string;
+    @Field({ nullable: true })
+    recipientType?: string;
 
-    @Field()
-    toEmail: string;
+    @Field({ nullable: true })
+    toEmail?: string;
 
-    @Field()
-    subject: string;
+    @Field(() => [String], { nullable: true })
+    toEmails?: string[];
+
+    @Field(() => [String], { nullable: true })
+    ccEmails?: string[];
+
+    @Field({ nullable: true })
+    subject?: string;
+
+    @Field({ nullable: true })
+    template?: string;
+
+    @Field({ nullable: true })
+    body?: string;
 
     @Field({ nullable: true })
     note?: string;
@@ -74,8 +98,20 @@ export class UpdateIntimationInput {
     @Field({ nullable: true })
     toEmail?: string;
 
+    @Field(() => [String], { nullable: true })
+    toEmails?: string[];
+
+    @Field(() => [String], { nullable: true })
+    ccEmails?: string[];
+
     @Field({ nullable: true })
     subject?: string;
+
+    @Field({ nullable: true })
+    template?: string;
+
+    @Field({ nullable: true })
+    body?: string;
 
     @Field({ nullable: true })
     note?: string;

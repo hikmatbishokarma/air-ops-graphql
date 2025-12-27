@@ -78,6 +78,10 @@ export class AirportsService extends MongooseQueryService<AirportsEntity> {
     return nearest;
   }
 
+  async findByIcao(icao: string): Promise<AirportsEntity | null> {
+    return this.model.findOne({ icao_code: icao }).exec();
+  }
+
   // ONE-TIME MIGRATION HELPER
   async migrateAllCoordinates(): Promise<string> {
     // Only fetch airports where 'location' field is missing or null

@@ -20,4 +20,10 @@ export class AirportsResolver {
     async migrateCoordinates(): Promise<string> {
         return await this.service.migrateAllCoordinates();
     }
+    @Query(() => AirportsDto, { nullable: true, name: 'airportByIcao' })
+    async findByIcao(
+        @Args('icao', { type: () => String }) icao: string,
+    ): Promise<AirportsDto | null> {
+        return (await this.service.findByIcao(icao)) as any;
+    }
 }

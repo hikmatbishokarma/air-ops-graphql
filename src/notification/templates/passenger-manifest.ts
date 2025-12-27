@@ -25,6 +25,9 @@ export const PassengerManifestTemplate = (data) => {
         return sum + weight;
     }, 0);
 
+
+    console.log("passengers:::", passengers)
+
     // Calculate total passenger weight
     const totalPassengerWeight = passengers.reduce((sum, pax) => {
         const paxWeight = parseInt(pax.weight?.pax) || 0;
@@ -320,60 +323,11 @@ export const PassengerManifestTemplate = (data) => {
                     <td>${pax.nationality || 'INDIAN'}</td>
                 </tr>
                 `).join('') : `
-                <tr>
-                    <td>1</td>
-                    <td>Mr. Y.S. Jagan Mohan Reddy</td>
-                    <td>M</td>
-                    <td>72</td>
-                    <td>-</td>
-                    <td>NIL</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Mr. Perni Nani</td>
-                    <td>M</td>
-                    <td>81</td>
-                    <td>-</td>
-                    <td>NIL</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mr. K. Nageswara Rao</td>
-                    <td>M</td>
-                    <td>87</td>
-                    <td>-</td>
-                    <td>NIL</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Mr. George</td>
-                    <td>M</td>
-                    <td>76</td>
-                    <td>-</td>
-                    <td>NIL</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+              
+               
+               
+              
+               
                 `}
             </tbody>
         </table>

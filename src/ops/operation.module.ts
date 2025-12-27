@@ -16,7 +16,7 @@ import { TripDetailDto } from './dto/trip-detail.dto';
 import { QuotesModule } from 'src/quotes/quotes.module';
 import { QuotesEntity, QuotesSchema } from 'src/quotes/entities/quotes.entity'; // Import this
 import { CrewDetailModule } from 'src/crew-details/crew-detail.module';
-import { CrewTripUploadedDocResolver } from './resolvers/crew-trip.resolver';
+import { AssignedCrewResolver, CrewTripUploadedDocResolver } from './resolvers/crew-trip.resolver';
 import { PassengerDetailModule } from 'src/passenger-detail/passenger-detail.module';
 import { PassengerDetailEntity, PassengerDetailSchema } from 'src/passenger-detail/entities/passenger-detail.entity';
 
@@ -30,6 +30,9 @@ import { IntimationEntity, IntimationSchema } from './entities/intimation.entity
 import { IntimationService } from './services/intimation.service';
 import { IntimationResolver } from './resolvers/intimation.resolver';
 import { NotificationModule } from 'src/notification/notification.module';
+
+import { TripReportController } from './controllers/trip-report.controller';
+import { TripReportService } from './services/trip-report.service';
 
 @Module({
   imports: [
@@ -64,6 +67,7 @@ import { NotificationModule } from 'src/notification/notification.module';
       ],
     }),
   ],
+  controllers: [TripReportController],
   providers: [
     TripDetailService,
     TripDetailResolver,
@@ -74,7 +78,9 @@ import { NotificationModule } from 'src/notification/notification.module';
     BoardingPassResolver,
     IntimationService,
     IntimationResolver,
+    AssignedCrewResolver,
+    TripReportService,
   ],
-  exports: [TripDetailService, OpsDashboardService, BoardingPassService],
+  exports: [TripDetailService, OpsDashboardService, BoardingPassService, TripReportService],
 })
 export class TripDetailModule { }

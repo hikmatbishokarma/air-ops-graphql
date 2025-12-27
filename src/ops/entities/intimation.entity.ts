@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type IntimationDocument = IntimationEntity & Document;
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'intimations', timestamps: true })
 export class IntimationEntity {
     @Prop({ required: true })
     tripId: string;
@@ -13,16 +13,27 @@ export class IntimationEntity {
 
     @Prop({
         type: String,
-        enum: ['APD', 'ATC', 'Terminal', 'Re Fuel', 'CISF', 'Airport Operator', 'Ground Handler'],
-        required: true
+        required: false
     })
-    recipientType: string;
+    recipientType?: string;
 
-    @Prop({ required: true })
-    toEmail: string;
+    @Prop({ required: false })
+    toEmail?: string;
 
-    @Prop({ required: true })
-    subject: string;
+    @Prop({ type: [String], default: [] })
+    toEmails: string[];
+
+    @Prop({ type: [String], default: [] })
+    ccEmails: string[];
+
+    @Prop({ required: false })
+    subject?: string;
+
+    @Prop({ required: false })
+    template?: string;
+
+    @Prop({ required: false })
+    body?: string;
 
     @Prop({ required: false })
     note?: string;

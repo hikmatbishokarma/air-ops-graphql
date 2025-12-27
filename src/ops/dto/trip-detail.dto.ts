@@ -46,6 +46,9 @@ export class AssignedCrewDto {
   designation: string;
   @Field(() => [String], { nullable: true })
   crews: string[];
+
+  @Field(() => [CrewDetailDto], { nullable: true })
+  crewsInfo?: CrewDetailDto[];
 }
 
 @ObjectType()

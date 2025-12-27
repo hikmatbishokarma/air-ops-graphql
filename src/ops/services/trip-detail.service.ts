@@ -538,7 +538,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       // Lookup aircraft - only needed fields
       {
         $lookup: {
-          from: 'aircrafts',
+          from: 'aircraft-details',
           localField: 'quotationData.aircraft',
           foreignField: '_id',
           as: 'aircraftData',
@@ -591,6 +591,22 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
           ],
         },
       },
+      // Lookup Passenger Details
+      {
+        $lookup: {
+          from: 'passenger-details',
+          localField: 'quotationNo',
+          foreignField: 'quotationNo',
+          as: 'passengerDetailsData',
+          pipeline: [{ $project: { sectors: 1 } }],
+        },
+      },
+      {
+        $unwind: {
+          path: '$passengerDetailsData',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
       // Project only needed fields from trip
       {
         $project: {
@@ -601,6 +617,8 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
           aircraftData: 1,
           operatorData: 1,
           crewData: 1,
+          // passengerInfo is usually in quotation, but we are fetching from passenger-details now
+          passengerDetailsData: 1,
         },
       },
     ]);
@@ -611,8 +629,9 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     const sector = tripData.sector;
 
     // Get passengers from quotation for this specific sector
-    const sectorPassengers = tripData.quotationData?.passengerInfo?.sectors?.find(
-      (s) => s.sectorNo === sectorNo,
+    // Get passengers from fetched passenger details for this specific sector
+    const sectorPassengers = tripData.passengerDetailsData?.sectors?.find(
+      (s: any) => s.sectorNo === sectorNo,
     );
     const passengerList = sectorPassengers?.passengers || [];
 
@@ -718,19 +737,8 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       // 6. Ground Handler (Hardcoded False for now)
       checklist.push({ name: 'Ground Handler', status: false });
 
-      // 7. Intimation Letters (Hardcoded False for now)
-      const intimationLetters = [
-        'Intimation Letter to APD',
-        'Intimation Letter to ATC',
-        'Intimation Letter to Terminal',
-        'Intimation Letter to Re Fuel',
-        'Intimation Letter to CISF',
-        'Intimation Letter to Airport Operator',
-        'Intimation Letter to Ground Handler',
-      ];
-      intimationLetters.forEach((letter) => {
-        checklist.push({ name: letter, status: false });
-      });
+      // 7. Intimation Letters
+      checklist.push({ name: 'IntimationSend', status: false });
 
       // 8. CREW
       const hasCrew = sector.assignedCrews?.length > 0;
