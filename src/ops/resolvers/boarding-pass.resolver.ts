@@ -13,7 +13,7 @@ export class BoardingPassResolver {
     async generateBoardingPass(
         @Args('input') input: GenerateBoardingPassInput,
     ): Promise<BoardingPassDto[]> {
-        console.log("input::::", input)
+
         return this.boardingPassService.generateBoardingPass(input) as any;
     }
 

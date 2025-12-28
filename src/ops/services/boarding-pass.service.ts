@@ -39,7 +39,6 @@ export class BoardingPassService {
 
         }
 
-        console.log("ssjhsjshjdjhsd", trip.quotation)
 
         const aircraft = {
             code: (trip.quotation as any)?.aircraft?.code || '',

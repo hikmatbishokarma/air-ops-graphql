@@ -18,6 +18,7 @@ import { skip } from 'node:test';
 import { PassengerManifestTemplate } from 'src/notification/templates/passenger-manifest';
 import { ConfigService } from '@nestjs/config';
 import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
+import { TripConfirmationTemplate } from 'src/notification/templates/trip-confirmation';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
@@ -786,5 +787,80 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     }
 
     return { sectors: checklistData };
+  }
+
+  async tripConfirmationPreview(tripId: string) {
+    const [trip] = await this.model.aggregate([
+      { $match: { _id: toObjectId(tripId) } },
+      {
+        $lookup: {
+          from: 'quotes',
+          localField: 'quotation',
+          foreignField: '_id',
+          as: 'quote',
+        },
+      },
+      { $unwind: { path: '$quote', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'operators',
+          localField: 'operatorId',
+          foreignField: '_id', // Fixed: was using 'id' in some places, but _id is standard for lookups unless id is explicit
+          as: 'operator',
+        },
+      },
+      { $unwind: { path: '$operator', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'aircraft-details',
+          localField: 'quote.aircraft',
+          foreignField: '_id',
+          as: 'aircraftDetail',
+        },
+      },
+      { $unwind: { path: '$aircraftDetail', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'clients',
+          localField: 'quote.requestedBy',
+          foreignField: '_id',
+          as: 'client',
+        },
+      },
+      { $unwind: { path: '$client', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'passenger-details',
+          localField: 'quote.quotationNo',
+          foreignField: 'quotationNo',
+          as: 'passengerInfo',
+        },
+      },
+      { $unwind: { path: '$passengerInfo', preserveNullAndEmptyArrays: true } },
+    ]);
+
+    if (!trip) throw new BadRequestException('Trip not found');
+
+    const logoUrl = trip.operator
+      ? `${this.cloudFrontUrl}${trip.operator.companyLogo}`
+      : this.airOpsLogo;
+
+    // Construct the object expected by the template
+    // The template expects: aircraftDetail, client, quotationNo, revisedQuotationNo, createdAt, logoUrl, operator, sectors, passengerInfo
+
+    // Merge quote data into the top level for the template
+    const templateData = {
+      ...trip, // contains raw trip data
+      ...trip.quote, // merged quote data (quotationNo, etc)
+      aircraftDetail: trip.aircraftDetail,
+      client: trip.client,
+      operator: trip.operator,
+      logoUrl: logoUrl,
+      passengerInfo: trip.passengerInfo,
+      // Ensure sectors are directly accessible as they are in trip
+      sectors: trip.sectors
+    };
+
+    return TripConfirmationTemplate(templateData);
   }
 }

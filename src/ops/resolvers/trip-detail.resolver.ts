@@ -83,6 +83,11 @@ export class TripDetailResolver {
     return await this.tripDetailService.getTripChecklist(tripId);
   }
 
+  @Query(() => String)
+  async tripConfirmationPreview(@Args('tripId') tripId: string) {
+    return await this.tripDetailService.tripConfirmationPreview(tripId);
+  }
+
   async handleTripDocsQuery(q: any) {
     const qCopy = _.cloneDeep(q);
     const baseFilter = qCopy.filter || {};

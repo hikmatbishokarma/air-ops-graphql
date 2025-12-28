@@ -9,7 +9,7 @@ export function auditPlugin(schema: Schema) {
 
   // This hook handles 'save' for new documents
   schema.pre('save', function (next) {
-    console.log('plugin:::::', this);
+
     // Check if the document is new
     if (this.isNew) {
       // @ts-ignore

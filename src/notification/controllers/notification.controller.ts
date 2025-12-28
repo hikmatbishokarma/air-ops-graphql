@@ -16,7 +16,7 @@ import { NotificationGateway } from '../services/notification.gateway';
  */
 @Controller('test') // Base route for this controller will be /test
 export class NotificationController {
-  constructor(private readonly notificationGateway: NotificationGateway) {}
+  constructor(private readonly notificationGateway: NotificationGateway) { }
 
   /**
    * Handles GET requests to /test/broadcast-notification.
@@ -37,16 +37,16 @@ export class NotificationController {
     // Parse roles from comma-separated string to an array
     const recipientRoles = roles
       ? roles
-          .split(',')
-          .map((role) => role.trim())
-          .filter(Boolean)
+        .split(',')
+        .map((role) => role.trim())
+        .filter(Boolean)
       : ['admin', 'test-room-role'];
     // Parse IDs from comma-separated string to an array
     const recipientIds = ids
       ? ids
-          .split(',')
-          .map((id) => id.trim())
-          .filter(Boolean)
+        .split(',')
+        .map((id) => id.trim())
+        .filter(Boolean)
       : ['123', 'test-user-id'];
 
     const testNotification = {
@@ -60,10 +60,7 @@ export class NotificationController {
       },
     };
 
-    console.log(
-      `[TestController] Broadcasting test notification:`,
-      testNotification,
-    );
+
     this.notificationGateway.broadcastNotification(testNotification);
 
     return `Test notification sent! Message: "${testNotification.message}", Roles: [${recipientRoles.join(', ')}], IDs: [${recipientIds.join(', ')}]`;

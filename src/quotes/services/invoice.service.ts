@@ -8,7 +8,10 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { InvoiceTemplate } from 'src/notification/templates/invoice.template';
+import {
+  InvoiceTemplate,
+  TaxInvoiceTemplateV2,
+} from 'src/notification/templates/invoice.template';
 import { CounterType, InvoiceType, QuoteStatus } from 'src/app-constants/enums';
 import { ConfigService } from '@nestjs/config';
 

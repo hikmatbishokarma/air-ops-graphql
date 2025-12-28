@@ -262,7 +262,7 @@ export class SupportService extends MongooseQueryService<TicketEntity> {
                 html
             );
 
-            console.log(`[SupportService] Email sent to ${requester.email} for ticket ${ticket._id}`);
+
         } catch (error) {
             console.error('[SupportService] Error sending reply email:', error);
             // Don't throw - email failure shouldn't break the notification flow

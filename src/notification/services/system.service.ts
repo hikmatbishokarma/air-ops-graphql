@@ -47,7 +47,7 @@ export class SystemNotificationService extends MongooseQueryService<Notification
   }
 
   async systemNotifications(where, currentUser) {
-    console.log('where:::', where);
+
     const result = await this.query({});
 
     return result;

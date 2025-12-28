@@ -5078,6 +5078,7 @@ type Query {
   ): TicketConnection!
   tripAssignedForCrew(filter: TripFilterForCrewInput!, paging: PagingInput!, sort: SortInput): TripAssignedForCrewResult!
   tripChecklist(tripId: String!): TripChecklistDto!
+  tripConfirmationPreview(tripId: String!): String!
   tripDetail(
     """The id of the record to find."""
     id: ID!
@@ -5732,6 +5733,7 @@ enum SalesDocumentType {
   QUOTATION
   SALE_CONFIRMATION
   TAX_INVOICE
+  TRIP_CONFIRMATION
 }
 
 type SectorChecklistDto {

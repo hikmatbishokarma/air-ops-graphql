@@ -123,6 +123,7 @@ export enum SalesDocumentType {
   SALE_CONFIRMATION = 'Sale Confirmation',
   MANIFEST = "Manifest",
   BOARDING_PASS = "Boarding Pass",
+  TRIP_CONFIRMATION = 'Trip Confirmation',
 }
 
 registerEnumType(SalesDocumentType, {

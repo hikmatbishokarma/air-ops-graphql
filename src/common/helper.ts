@@ -376,3 +376,84 @@ export function toObjectId(id: any): Types.ObjectId {
 export function toObjectIdArray(list: any[]): Types.ObjectId[] {
   return Array.isArray(list) ? list.map((item) => toObjectId(item)) : [];
 }
+
+export function numberToWords(num: number): string {
+  if (num === 0) return 'Zero';
+
+  const a = [
+    '',
+    'One ',
+    'Two ',
+    'Three ',
+    'Four ',
+    'Five ',
+    'Six ',
+    'Seven ',
+    'Eight ',
+    'Nine ',
+    'Ten ',
+    'Eleven ',
+    'Twelve ',
+    'Thirteen ',
+    'Fourteen ',
+    'Fifteen ',
+    'Sixteen ',
+    'Seventeen ',
+    'Eighteen ',
+    'Nineteen ',
+  ];
+  const b = [
+    '',
+    '',
+    'Twenty',
+    'Thirty',
+    'Forty',
+    'Fifty',
+    'Sixty',
+    'Seventy',
+    'Eighty',
+    'Ninety',
+  ];
+
+  const format = (n: number, suffix: string) => {
+    if (n === 0) return '';
+    if (n > 19) {
+      const ten = Math.floor(n / 10);
+      const unit = n % 10;
+      return b[ten] + (unit !== 0 ? '-' + a[unit] : ' ') + suffix;
+    }
+    return a[n] + suffix;
+  };
+
+  let str = '';
+  str += format(Math.floor(num / 10000000), 'Crore ');
+  str += format(Math.floor((num / 100000) % 100), 'Lakh ');
+  str += format(Math.floor((num / 1000) % 100), 'Thousand ');
+  str += format(Math.floor((num / 100) % 10), 'Hundred ');
+
+  if (num > 100 && num % 100 !== 0) {
+    str += 'and ';
+  }
+
+  const lastTwo = Math.floor(num % 100);
+  if (lastTwo > 0) {
+    if (lastTwo < 20) {
+      str += a[lastTwo];
+    } else {
+      str += b[Math.floor(lastTwo / 10)] + (lastTwo % 10 !== 0 ? '-' + a[lastTwo % 10] : ' ');
+    }
+  }
+
+  return str.trim();
+}
+
+export function numberToWordsINR(num: number): string {
+  const whole = Math.floor(num);
+  const fraction = Math.round((num - whole) * 100);
+
+  let res = 'INR ' + numberToWords(whole) + ' Only';
+  if (fraction > 0) {
+    res = 'INR ' + numberToWords(whole) + ' and ' + numberToWords(fraction) + ' Paise Only';
+  }
+  return res;
+}

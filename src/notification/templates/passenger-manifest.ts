@@ -26,7 +26,6 @@ export const PassengerManifestTemplate = (data) => {
     }, 0);
 
 
-    console.log("passengers:::", passengers)
 
     // Calculate total passenger weight
     const totalPassengerWeight = passengers.reduce((sum, pax) => {

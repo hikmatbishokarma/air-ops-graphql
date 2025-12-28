@@ -14,8 +14,8 @@ import {
   inlineImagesParallel,
 } from 'src/common/helper';
 import { PassengerManifestTemplate } from '../templates/passenger-manifest';
-
 import { BoardingPassService } from 'src/ops/services/boarding-pass.service';
+import { TripDetailService } from 'src/ops/services/trip-detail.service';
 
 @Injectable()
 export class MailerService {
@@ -44,6 +44,7 @@ export class MailerService {
     private readonly quoteService: QuotesService,
     private readonly invoiceService: InvoiceService,
     private readonly boardingPassService: BoardingPassService,
+    private readonly tripDetailService: TripDetailService,
   ) {
     this.airOpsLogo = this.config.get<string>('logo');
     this.cloudFrontUrl = this.config.get<string>('s3.aws_cloudfront_base_url');
@@ -197,11 +198,13 @@ export class MailerService {
     if (!documentType)
       throw new BadRequestException('documentType is required');
 
-    const quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
-    if (!quote) throw new BadRequestException('No Quote Found');
+    let quote: any;
+    if (quotationNo && quotationNo !== 'undefined' && quotationNo !== '' && documentType != SalesDocumentType.TRIP_CONFIRMATION) {
+      quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
+    }
 
     const to = email || quote?.client?.email;
-    if (!to) throw new BadRequestException('Recipient email not found');
+    // if (!to) throw new BadRequestException('Recipient email not found'); // Move this down as we might get email from trip
 
     const logoUrl = quote?.operator
       ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
@@ -252,9 +255,25 @@ export class MailerService {
         if (!args.tripId || !args.sectorNo) {
           throw new BadRequestException('tripId and sectorNo are required for Boarding Pass');
         }
+        if (!to) throw new BadRequestException('Recipient email not found');
         htmlContent = await this.boardingPassService.generateBoardingPassHtml(args.tripId, Number(args.sectorNo));
         subject = `Boarding Passes - Trip ${args.tripId} Sector ${args.sectorNo}`;
         defaultFileName = `boarding-passes-${args.tripId}-${args.sectorNo}.pdf`;
+        break;
+
+      case SalesDocumentType.TRIP_CONFIRMATION:
+        if (!args.tripId) {
+          throw new BadRequestException('tripId is required for Trip Confirmation');
+        }
+        htmlContent = await this.tripDetailService.tripConfirmationPreview(args.tripId);
+        if (!htmlContent) throw new BadRequestException('No Trip Confirmation Found');
+        subject = `Trip Confirmation - Trip ${args.tripId}`;
+        defaultFileName = `trip-confirmation-${args.tripId.replace(/\//g, '-')}.pdf`;
+        if (!to) {
+          // If no email provided, we might want to get it from the trip/quote if possible
+          // But for now, let's keep it required or try to find it
+          throw new BadRequestException('Recipient email is required for Trip Confirmation');
+        }
         break;
 
       default:

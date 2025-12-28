@@ -190,4 +190,25 @@ export class DocumentController {
 
     return new StreamableFile(pdfBuffer);
   }
+
+  @Get('trip-confirmation/download')
+  async downloadTripConfirmation(
+    @Query('tripId') tripId: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    if (!tripId) throw new BadRequestException('tripId is required');
+
+    const htmlContent = await this.tripDetailService.tripConfirmationPreview(tripId);
+    if (!htmlContent) throw new BadRequestException('No Trip Confirmation Found');
+
+    const inlinedHtml = await inlineImagesParallel(htmlContent);
+    const pdfBuffer = await createPDFv1(inlinedHtml);
+
+    res.header({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="trip-confirmation-${tripId.replace(/\//g, '-')}.pdf"`,
+    });
+
+    return new StreamableFile(pdfBuffer);
+  }
 }
