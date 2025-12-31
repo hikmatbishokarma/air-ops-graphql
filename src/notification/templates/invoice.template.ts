@@ -2,7 +2,7 @@ import moment from 'moment';
 import { InvoiceType } from 'src/app-constants/enums';
 import { numberToWordsINR } from 'src/common/helper';
 
-export const InvoiceTemplate = (quote) => {
+export const InvoiceTemplateOld = (quote) => {
   const {
     itinerary,
     prices,
@@ -117,7 +117,7 @@ export const InvoiceTemplate = (quote) => {
     `;
 };
 
-export const TaxInvoiceTemplateV2 = (quote) => {
+export const InvoiceTemplate = (quote) => {
   const {
     prices,
     grandTotal,
@@ -129,7 +129,10 @@ export const TaxInvoiceTemplateV2 = (quote) => {
     type: invoiceType,
     operator,
     logoUrl,
+    createdAt,
   } = quote;
+
+  const date = moment(createdAt).format('DD-MMM-YY')
 
   return `
     <!DOCTYPE html>
@@ -138,185 +141,214 @@ export const TaxInvoiceTemplateV2 = (quote) => {
   <meta charset="utf-8" />
   <title>${invoiceType}</title>
   <style>
-    body { font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding: 20px; color: #333; }
-    .invoice-container { max-width: 800px; margin: auto; border: 1px solid #000; padding: 20px; position: relative; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    th, td { border: 1px solid #000; padding: 8px; text-align: left; vertical-align: top; }
-    .header-table td { border: 1px solid #000; width: 50%; }
+    body { font-family: Arial, sans-serif; font-size: 9px; margin: 0; padding: 20px; color: #000; line-height: 1.2; }
+    .invoice-container { max-width: 850px; margin: auto; border: 1px solid #000; padding: 0; position: relative; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 0; table-layout: fixed; }
+    th, td { border: 1px solid #000; padding: 2px 4px; text-align: left; vertical-align: top; word-wrap: break-word; }
     .no-border { border: none !important; }
     .text-center { text-align: center; }
     .text-right { text-align: right; }
     .bold { font-weight: bold; }
-    .logo { max-width: 150px; margin-bottom: 10px; }
-    .section-title { background: #f2f2f2; font-weight: bold; text-align: center; border: 1px solid #000; padding: 5px; margin-top: -1px; }
-    .amount-words { font-style: italic; margin-top: 10px; }
-    .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; }
-    .bank-details { width: 60%; margin-top: 20px; }
-    .bank-details td { border: none; padding: 2px; }
-    .signature-area { width: 100%; margin-top: 40px; }
-    .signature-box { border-top: 1px solid #000; width: 200px; padding-top: 5px; text-align: center; float: right; }
-    .clear { clear: both; }
+    .logo { max-width: 150px; margin-bottom: 5px; display: block; }
+    .section-header { text-align: center; font-weight: bold; border-bottom: 1px solid #000; padding: 2px 0; }
+    .signature-area { display: flex; justify-content: space-between; align-items: flex-end; padding: 10px; border-top: 1px solid #000; min-height: 100px; }
+    .header-info-table td { border-top: none; border-left: none; border-right: none; }
+    .header-info-table tr:last-child td { border-bottom: none; }
+    th { background: none; font-weight: normal; text-align: center; }
   </style>
 </head>
 <body>
-  <div class="invoice-container">
-    <div class="text-center"><h2 style="margin: 0;">${invoiceType}</h2></div>
+  <div style="max-width: 850px; margin: auto;">
+    <img src="${logoUrl}" class="logo" alt="Company Logo"/>
     
-    <table class="header-table" style="margin-top: 10px;">
-      <tr>
-        <td>
-          <img src="${logoUrl}" class="logo" alt="Logo"/><br/>
-          <span class="bold">${operator?.companyName || 'Airops'}</span><br/>
-          ${operator?.address || ''}<br/>
-          <span class="bold">GSTIN/UIN:</span> ${operator?.gstNo || 'N/A'}<br/>
-          <span class="bold">State Name:</span> ${operator?.state || 'N/A'}, <span class="bold">Code:</span> ${operator?.stateCode || 'N/A'}<br/>
-          <span class="bold">E-Mail:</span> ${operator?.email || 'N/A'}
-        </td>
-        <td>
-          <table style="width: 100%; border: none; margin: 0;">
-            <tr class="no-border"><td class="no-border"><span class="bold">Invoice No.</span><br/>${invoiceNo}</td><td class="no-border"><span class="bold">Dated</span><br/>${moment().format('DD-MMM-YY')}</td></tr>
-            <tr class="no-border" style="border-top: 1px solid #000 !important;"><td class="no-border" colspan="2"><span class="bold">Reference No. & Date</span><br/>${quotationNo}</td></tr>
-            <tr class="no-border" style="border-top: 1px solid #000 !important;"><td class="no-border" colspan="2"><span class="bold">Buyer's Order No.</span><br/>${quotationNo}</td></tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="bold">Consignee (Ship to)</span><br/>
-          <span class="bold">${client?.name || 'N/A'}</span><br/>
-          ${client?.address || 'N/A'}<br/>
-          <span class="bold">GSTIN/UIN:</span> ${client?.gstNo || 'N/A'}<br/>
-          <span class="bold">State Name:</span> ${client?.state || 'N/A'}
-        </td>
-        <td>
-          <span class="bold">Buyer (Bill to)</span><br/>
-          <span class="bold">${client?.name || 'N/A'}</span><br/>
-          ${client?.address || 'N/A'}<br/>
-          <span class="bold">GSTIN/UIN:</span> ${client?.gstNo || 'N/A'}<br/>
-          <span class="bold">State Name:</span> ${client?.state || 'N/A'}
-        </td>
-      </tr>
-    </table>
+    <div class="invoice-container">
+      <div class="section-header">${invoiceType}</div>
+      
+      <table style="border: none;">
+        <tr>
+          <td style="width: 50%; border-left: none; border-top: none;">
+            <span class="bold" style="text-transform: uppercase;">${operator?.companyName || 'Airops'}</span><br/>
+            ${operator?.address || ''}<br/>
+            GSTIN/UIN: ${operator?.gstNo || 'N/A'}<br/>
+            State Name: ${operator?.state || 'N/A'}, Code: ${operator?.stateCode || 'N/A'}<br/>
+            E-Mail: ${operator?.email || 'N/A'}
+          </td>
+          <td style="width: 50%; padding: 0; border-top: none; border-right: none;">
+            <table class="header-info-table" style="height: 100%;">
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Invoice No.<br/><span class="bold">${invoiceNo}</span></td>
+                <td>Dated<br/><span class="bold">${date}</span></td>
+              </tr>
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Delivery Note</td>
+                <td>Mode/Terms of Payment</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Reference No. & Date.<br/><span class="bold">${quotationNo}</span><br/>dt.${date}</td>
+                <td>Other References</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000; border-bottom: none;">Buyer's Order No.</td>
+                <td style="border-bottom: none;">Dated</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; border-left: none;">
+            Consignee (Ship to)<br/>
+            <span class="bold">${client?.name || 'N/A'}</span><br/>
+            ${client?.address || 'N/A'}<br/>
+            GSTIN/UIN: ${client?.gstNo || 'N/A'}<br/>
+            State Name: ${client?.state || 'N/A'}, Code: ${client?.stateCode || 'N/A'}
+          </td>
+          <td style="width: 50%; padding: 0; border-right: none;">
+             <table class="header-info-table" style="height: 100%;">
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Dispatch Doc No.</td>
+                <td>Delivery Note Date</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Dispatched through<br/><span>Non Schedule- Air Transport</span></td>
+                <td>Destination</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; border-right: 1px solid #000;">Mul or Lading A ran No:<br/><span>dt.${date}</span></td>
+                <td>Destination</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="border-bottom: none;">Terms of Delivery</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 50%; border-left: none; border-bottom: none;">
+            Buyer (Bill to)<br/>
+            <span class="bold">${client?.name || 'N/A'}</span><br/>
+            ${client?.address || 'N/A'}<br/>
+            GSTIN/UIN: ${client?.gstNo || 'N/A'}<br/>
+            State Name: ${client?.state || 'N/A'}, Code: ${client?.stateCode || 'N/A'}
+          </td>
+          <td style="width: 50%; border-right: none; border-bottom: none;"></td>
+        </tr>
+      </table>
 
-    <table>
+    <table style="border-left: none; border-right: none;">
       <thead>
         <tr>
-          <th>Sl No.</th>
-          <th>Particulars</th>
-          <th>HSN/SAC</th>
-          <th>GST Rate</th>
-          <th>Quantity</th>
-          <th>Rate</th>
-          <th>per</th>
-          <th>Amount</th>
+          <th style="width: 5%; border-left: none;">Sl No.</th>
+          <th style="width: 50%;">Particulars</th>
+          <th style="width: 10%;">HSN/SAC</th>
+          <th style="width: 10%;">GST Rate</th>
+          <th style="width: 5%;">Quantity</th>
+          <th style="width: 10%;">Rate</th>
+          <th style="width: 5%;">per</th>
+          <th style="width: 10%; border-right: none;">Amount</th>
         </tr>
       </thead>
       <tbody>
         ${prices.map((item, index) => `
           <tr>
-            <td>${index + 1}</td>
+            <td class="text-center" style="border-left: none;">${index + 1}</td>
             <td>
               <span class="bold">${item.label}</span><br/>
-              <span style="font-size: 10px;">${item.description || ''}</span>
+              <span>${item.description || ''}</span>
             </td>
-            <td>996426</td>
-            <td>18%</td>
-            <td>1</td>
+            <td class="text-center">996426</td>
+            <td class="text-center">18%</td>
+            <td class="text-center">1</td>
             <td class="text-right">${Number(item.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-            <td>Unit</td>
-            <td class="text-right">${Number(item.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td class="text-center">Unit</td>
+            <td class="text-right" style="border-right: none;">${Number(item.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           </tr>
         `).join('')}
+        <tr style="height: 100px;"><td style="border-left: none;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td style="border-right: none;"></td></tr>
         <tr>
-          <td colspan="7" class="text-right bold">Total</td>
-          <td class="text-right bold">${Number(grandTotal).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td colspan="7" class="text-right">Total</td>
+          <td class="text-right bold" style="border-right: none;">${Number(grandTotal).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
         </tr>
       </tbody>
     </table>
 
-    <table style="margin-top: -21px;">
-       <tr>
-          <td class="bold">Amount Chargeable (in words)</td>
-       </tr>
-       <tr>
-          <td>${numberToWordsINR(Number(totalPrice))}</td>
-       </tr>
-    </table>
+    <div style="padding: 10px; border-bottom: 1px solid #000;">
+      Amount Chargeable (in words)<br/>
+      <span class="bold">INR ${numberToWordsINR(Number(grandTotal))}</span>
+    </div>
 
-    <table style="font-size: 10px;">
+    <table style="border: none; border-bottom: 1px solid #000;">
       <thead>
         <tr>
-          <th rowspan="2">HSN/SAC</th>
-          <th rowspan="2">Taxable Value</th>
-          <th colspan="2" class="text-center">CGST</th>
-          <th colspan="2" class="text-center">SGST/UTGST</th>
-          <th rowspan="2">Total Tax Amount</th>
+          <th rowspan="2" style="border-left: none; border-top: none;">HSN/SAC</th>
+          <th rowspan="2" style="border-top: none;">Taxable Value</th>
+          <th colspan="2" style="border-top: none;">Central Tax</th>
+          <th colspan="2" style="border-top: none;">State Tax</th>
+          <th rowspan="2" style="border-right: none; border-top: none;">Total Tax Amount</th>
         </tr>
         <tr>
-          <th class="text-center">Rate</th>
-          <th class="text-center">Amount</th>
-          <th class="text-center">Rate</th>
-          <th class="text-center">Amount</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>Rate</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>996426</td>
+          <td class="text-center" style="border-left: none;">996426</td>
           <td class="text-right">${Number(grandTotal).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td class="text-center">9%</td>
           <td class="text-right">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td class="text-center">9%</td>
           <td class="text-right">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-          <td class="text-right">${Number(gstAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td class="text-right" style="border-right: none;">${Number(gstAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
         </tr>
-        <tr class="bold">
-          <td class="text-right">Total</td>
-          <td class="text-right">${Number(grandTotal).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+        <tr>
+          <td class="text-right bold" style="border-left: none;">Total</td>
+          <td class="text-right bold">${Number(grandTotal).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td></td>
-          <td class="text-right">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td class="text-right bold">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
           <td></td>
-          <td class="text-right">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-          <td class="text-right">${Number(gstAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td class="text-right bold">${(Number(gstAmount) / 2).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+          <td class="text-right bold" style="border-right: none;">${Number(gstAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
         </tr>
       </tbody>
     </table>
 
-    <div style="font-size: 11px;">
-      <span class="bold">Tax Amount (in words):</span> ${numberToWordsINR(Number(gstAmount))}<br/><br/>
-      <div style="display: flex; justify-content: space-between;">
-        <div style="width: 50%;">
-          <span class="bold">Remarks:</span><br/>
-          Being Flying charges for ${quotationNo}
-        </div>
-        <div style="width: 45%;">
-          <span class="bold">Company's Bank Details</span><br/>
-          Bank Name: ${operator?.bankName || 'N/A'}<br/>
-          A/c No.: ${operator?.accountNo || 'N/A'}<br/>
-          Branch & IFS Code: ${operator?.ifscCode || 'N/A'}<br/>
-          Account Holder Name: ${operator?.accountHolderName || operator?.companyName || 'N/A'}
-        </div>
+    <div style="padding: 10px; font-size: 10px;">
+      Tax Amount (in words): <span class="bold">INR ${numberToWordsINR(Number(gstAmount))}</span>
+    </div>
+
+    <div style="display: flex; border-top: 1px solid #000;">
+      <div style="width: 50%; padding: 10px; border-right: 1px solid #000;">
+        <span>Remarks:</span><br/>
+        Being Flying charges for ${quotationNo}<br/><br/>
+        <span>Declaration:</span><br/>
+        We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.
       </div>
-      <br/>
-      <div class="bold" style="border-top: 1px solid #000; padding-top: 10px;">Declaration</div>
-      We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.
-      
-      <div class="signature-area">
-        <div style="float: right; text-align: center;">
-          <span class="bold">for ${operator?.companyName || 'Airops'}</span>
-          <br/><br/><br/><br/>
-          Authorised Signatory
-        </div>
-      </div>
-      <div class="clear"></div>
-      <br/>
-      <div class="text-center" style="margin-top: 20px;">
-        SUBJECT TO HYDERABAD JURISDICTION<br/>
-        This is a Computer Generated Invoice
+      <div style="width: 50%; padding: 10px;">
+        <span>Company's Bank Details:</span><br/>
+        Bank Name: ${operator?.bankName || 'N/A'}<br/>
+        A/c No.: <span class="bold">${operator?.accountNo || 'N/A'}</span><br/>
+        Branch & IFS Code: <span class="bold">${operator?.ifscCode || 'N/A'}</span><br/>
+        Account Holder Name: <span class="bold">${operator?.accountHolderName || operator?.companyName || 'N/A'}</span>
       </div>
     </div>
 
+    <div class="signature-area">
+      <div style="width: 50%;">Customer's Seal and Signature</div>
+      <div style="width: 50%; text-align: right;">
+        for <span class="bold">${operator?.companyName || 'Airops'}</span><br/><br/><br/>
+        Authorised Signatory
+      </div>
+    </div>
   </div>
+  
+  <div class="text-center" style="margin-top: 10px;">
+    SUBJECT TO HYDERABAD JURISDICTION<br/>
+    This is a Computer Generated Invoice
+  </div>
+</div>
 </body>
 </html>
- `;
+ `
 };

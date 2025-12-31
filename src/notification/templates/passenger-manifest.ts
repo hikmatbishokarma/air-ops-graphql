@@ -29,10 +29,11 @@ export const PassengerManifestTemplate = (data) => {
 
     // Calculate total passenger weight
     const totalPassengerWeight = passengers.reduce((sum, pax) => {
-        const paxWeight = parseInt(pax.weight?.pax) || 0;
-        const bagWeight = parseInt(pax.weight?.bag) || 0;
+        const paxWeight = parseInt(pax.weight) || 0;
+        const bagWeight = parseInt(pax.baggageWeight) || 0;
         return sum + paxWeight + bagWeight;
     }, 0);
+
 
     return `
 <!DOCTYPE html>
@@ -230,6 +231,7 @@ export const PassengerManifestTemplate = (data) => {
         </table>
 
         <!-- Crew Table -->
+        ${crew.length > 0 ? `
         <table class="crew-table">
             <thead>
                 <tr>
@@ -242,57 +244,24 @@ export const PassengerManifestTemplate = (data) => {
                 </tr>
             </thead>
             <tbody>
-                ${crew.length > 0 ? crew.map((member, index) => `
+                ${crew.map((member, index) => `
                 <tr>
                     <td>${String(index + 1).padStart(2, '0')}</td>
                     <td>${member.name || 'N/A'}</td>
                     <td>${member.designation || 'PILOT'}</td>
                     <td>${member.weight || '-'}</td>
-                    <td>${member.baggage || '-'}</td>
+                    <td>${member.baggageWeight || '-'}</td>
                     <td>${member.nationality || 'INDIAN'}</td>
                 </tr>
-                `).join('') : `
-                <tr>
-                    <td>01</td>
-                    <td>Capt. Milind M Kulkarni</td>
-                    <td>PILOT</td>
-                    <td>78 + 3 (Bag)</td>
-                    <td>-</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>02</td>
-                    <td>Capt. Deepak Kulkarni</td>
-                    <td>PILOT</td>
-                    <td>91</td>
-                    <td>-</td>
-                    <td>INDIAN</td>
-                </tr>
-                <tr>
-                    <td>03</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>04</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                `}
+                `).join('')}
                 <tr class="total-row">
                     <td colspan="3">TOTAL</td>
-                    <td>${totalCrewWeight || '172'}</td>
+                    <td>${totalCrewWeight || ''}</td>
                     <td></td>
                     <td></td>
                 </tr>
             </tbody>
-        </table>
+        </table>` : ''}
 
         <!-- Passenger Table -->
         <table class="passenger-table">
@@ -316,9 +285,9 @@ export const PassengerManifestTemplate = (data) => {
                     <td>${index + 1}</td>
                     <td>${pax.name || 'N/A'}</td>
                     <td>${pax.gender || 'M'}</td>
-                    <td>${pax.weight?.pax || '-'}</td>
-                    <td>${pax.weight?.bag || '-'}</td>
-                    <td>${pax.checkedBaggage || 'NIL'}</td>
+                    <td>${pax.weight || '-'}</td>
+                    <td>${pax.baggageWeight || '-'}</td>
+                    <td>${pax.baggageCount || 'NIL'}</td>
                     <td>${pax.nationality || 'INDIAN'}</td>
                 </tr>
                 `).join('') : `

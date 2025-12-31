@@ -662,7 +662,8 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
         registration: tripData.aircraftData?.code || 'N/A',
         type: tripData.aircraftData?.name || 'N/A',
       },
-      flightNo: tripData.quotationNo || tripData.tripId || 'N/A',
+      // flightNo: tripData.quotationNo || tripData.tripId || 'N/A',
+      flightNo: tripData.aircraftData?.code || '-',
       dateOfFlight: sector.depatureDate,
       departureTime: sector.depatureTime || 'N/A',
       departureStation: sector.source?.name || sector.source?.code || 'N/A',
@@ -672,10 +673,13 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       passengers: passengerList.map((pax) => ({
         name: pax.name,
         gender: pax.gender,
-        weight: {
-          pax: pax.weight || '-',
-          bag: '-',
-        },
+        // weight: {
+        //   pax: pax.weight || '-',
+        //   bag: '-',
+        // },
+        baggageWeight: pax.baggageWeight || '-',
+        baggageCount: pax.baggageCount || '-',
+        weight: pax.weight || '-',
         checkedBaggage: 'NIL',
         nationality: pax.nationality || 'INDIAN',
       })),

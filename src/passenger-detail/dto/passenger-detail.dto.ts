@@ -36,6 +36,14 @@ export class PassengerDto {
   age: number;
   @Field()
   aadharId: string;
+  @Field({ nullable: true })
+  weight: number;
+  @Field({ nullable: true })
+  nationality: string;
+  @Field({ nullable: true })
+  baggageCount: number;
+  @Field({ nullable: true })
+  baggageWeight: number;
 }
 
 @ObjectType()

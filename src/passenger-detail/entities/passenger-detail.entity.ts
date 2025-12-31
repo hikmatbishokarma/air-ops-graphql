@@ -37,6 +37,18 @@ export class PassengerEntity {
 
   @Prop()
   aadharId?: string;
+
+  @Prop()
+  weight?: number;
+
+  @Prop()
+  nationality?: string;
+
+  @Prop()
+  baggageCount?: number;
+
+  @Prop()
+  baggageWeight?: number;
 }
 const PassengerSchema = SchemaFactory.createForClass(PassengerEntity);
 

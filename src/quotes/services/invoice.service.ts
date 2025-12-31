@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import {
   InvoiceTemplate,
-  TaxInvoiceTemplateV2,
 } from 'src/notification/templates/invoice.template';
 import { CounterType, InvoiceType, QuoteStatus } from 'src/app-constants/enums';
 import { ConfigService } from '@nestjs/config';
@@ -203,22 +202,42 @@ export class InvoiceService extends MongooseQueryService<InvoiceEntity> {
     return `AO${fyStart}-${fyEnd}/INV/${serialNumber}`;
   }
 
-  // async previewInvoice(args) {
-  //   const { id, invoiceNo, type } = args;
+  async previewInvoice(args) {
+    const { invoiceNo, invoiceType } = args;
 
-  //   const invoice = await this.query({
-  //     filter: { invoiceNo: invoiceNo, type: type },
-  //   });
+    console.log("DFDF", invoiceNo, invoiceType);
 
-  //   if (!invoice.length) throw new BadRequestException('No Invoice Found');
+    const invoice = await this.query({
+      filter: {
+        or: [
+          { proformaInvoiceNo: { eq: invoiceNo } },
+          { taxInvoiceNo: { eq: invoiceNo } },
+        ],
+        type: { eq: invoiceType },
+      },
+    });
 
-  //   const quote = await this.quoteService.getQuoteById(
-  //     invoice?.[0]?.quotationNo,
-  //   );
-  //   if (!quote) throw new BadRequestException('No Quote Found');
+    if (!invoice.length) throw new BadRequestException('No Invoice Found');
 
-  //   let htmlContent = InvoiceTemplate(quote);
-  //   if (!htmlContent) throw new BadRequestException('No Content Found');
-  //   return htmlContent;
-  // }
+    const quote = await this.quoteService.getQuoteByQuotatioNo(
+      invoice?.[0]?.quotationNo,
+    );
+    if (!quote) throw new BadRequestException('No Quote Found');
+
+    const logoUrl = quote?.operator
+      ? `${this.cloudFrontUrl}${quote?.operator?.companyLogo}`
+      : this.airOpsLogo;
+
+    let htmlContent = InvoiceTemplate({
+      ...quote,
+      invoiceNo,
+      type: invoiceType,
+      logoUrl,
+      cloudFrontUrl: this.cloudFrontUrl,
+    });
+    if (!htmlContent) throw new BadRequestException('No Content Found');
+
+
+    return htmlContent;
+  }
 }

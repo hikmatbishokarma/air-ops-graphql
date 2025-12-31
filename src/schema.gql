@@ -4635,8 +4635,12 @@ input PassengerDetailUpdateFilter {
 type PassengerDto {
   aadharId: String!
   age: Int!
+  baggageCount: Int
+  baggageWeight: Int
   gender: String!
   name: String!
+  nationality: String
+  weight: Int
 }
 
 enum PaymentStatus {
@@ -5044,6 +5048,7 @@ type Query {
     """The id of the record to find."""
     id: ID!
   ): security
+  showInvoicePreview(invoiceNo: String!, invoiceType: InvoiceType!): String!
   showPreview(quotationNo: String!): String!
   signIn(input: SignInInput!): loginResponseDto!
   staffCertificates(args: StaffCertificationInput): CertificationResponse!
@@ -9561,8 +9566,12 @@ input operatorUpdateFilter {
 input passengerInput {
   aadharId: String!
   age: Int!
+  baggageCount: Int
+  baggageWeight: Int
   gender: String!
   name: String!
+  nationality: String
+  weight: Int
 }
 
 """price"""
