@@ -488,6 +488,7 @@ export class QuotesService extends MongooseQueryService<QuotesEntity> {
           },
         },
       },
+      status: QuoteStatus.TRIP_GENERATED,
       ...(operatorId && { operatorId }),
     }).select({ sectors: 1, aircraft: 1 });
 

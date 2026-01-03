@@ -199,7 +199,8 @@ export class MailerService {
       throw new BadRequestException('documentType is required');
 
     let quote: any;
-    if (quotationNo && quotationNo !== 'undefined' && quotationNo !== '' && documentType != SalesDocumentType.TRIP_CONFIRMATION) {
+    if (quotationNo && quotationNo !== 'undefined' && quotationNo !== '' && documentType !== SalesDocumentType.TRIP_CONFIRMATION &&
+      documentType !== SalesDocumentType.MANIFEST) {
       quote = await this.quoteService.getQuoteByQuotatioNo(quotationNo);
     }
 
@@ -269,6 +270,35 @@ export class MailerService {
         if (!htmlContent) throw new BadRequestException('No Trip Confirmation Found');
         subject = `Trip Confirmation - Trip ${args.tripId}`;
         defaultFileName = `trip-confirmation-${args.tripId.replace(/\//g, '-')}.pdf`;
+        if (!to) {
+          // If no email provided, we might want to get it from the trip/quote if possible
+          // But for now, let's keep it required or try to find it
+          throw new BadRequestException('Recipient email is required for Trip Confirmation');
+        }
+        break;
+
+      case SalesDocumentType.MANIFEST:
+        if (!args.tripId) {
+          throw new BadRequestException('tripId is required for Trip Confirmation');
+        }
+        if (!args.sectorNo) throw new BadRequestException('sectorNo is required');
+
+        // Convert sectorNo from string to number
+
+        if (isNaN(args.sectorNo)) {
+          throw new BadRequestException('sectorNo must be a valid number');
+        }
+
+        const passengerManifest = await this.tripDetailService.generatePassengerManifest({
+          tripId: args.tripId,
+          sectorNo: args.sectorNo
+        });
+        if (!passengerManifest) throw new BadRequestException('No Passenger Manifest Found');
+
+
+        htmlContent = passengerManifest;
+        subject = `Passenger Manifest - Trip ${args.tripId}`;
+        defaultFileName = `passenger-manifest-${args.tripId.replace(/\//g, '-')}.pdf`;
         if (!to) {
           // If no email provided, we might want to get it from the trip/quote if possible
           // But for now, let's keep it required or try to find it

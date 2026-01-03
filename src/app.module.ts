@@ -38,6 +38,7 @@ import { CountryModule } from './country/country.module';
 import { S3Module } from './aws-s3/s3.module';
 import { SupportModule } from './support/support.module';
 import { NotamModule } from './notam/notam.module';
+import { NoticeBoardModule } from './notice-board/notice-board.module';
 
 @Module({
   imports: [
@@ -70,7 +71,9 @@ import { NotamModule } from './notam/notam.module';
     CountryModule,
     S3Module,
     SupportModule,
+    SupportModule,
     NotamModule,
+    NoticeBoardModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(__dirname, '..', '.env'),

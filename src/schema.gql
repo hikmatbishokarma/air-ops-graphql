@@ -2012,6 +2012,11 @@ input CreateManyNotamsInput {
   notams: [CreateNotam!]!
 }
 
+input CreateManyNoticeBoardsInput {
+  """Array of records to create"""
+  noticeBoards: [CreateNoticeBoard!]!
+}
+
 input CreateManyNotificationsInput {
   """Array of records to create"""
   notifications: [CreateNotification!]!
@@ -2117,6 +2122,38 @@ input CreateNotam {
   updatedBy: String
 }
 
+input CreateNoticeBoard {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  endDate: DateTime
+  id: ID
+  isActive: Boolean = true
+  message: String
+  startDate: DateTime
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+input CreateNoticeBoardInput {
+  endDate: DateTime!
+  isActive: Boolean
+  message: String!
+  startDate: DateTime!
+}
+
 input CreateNotification {
   """The date when the record was created"""
   createdAt: DateTime
@@ -2211,6 +2248,11 @@ input CreateOneManualInput {
 input CreateOneNotamInput {
   """The record to create"""
   notam: CreateNotam!
+}
+
+input CreateOneNoticeBoardInput {
+  """The record to create"""
+  noticeBoard: CreateNoticeBoard!
 }
 
 input CreateOneNotificationInput {
@@ -2925,6 +2967,11 @@ input DeleteManyNotamsInput {
   filter: NotamDeleteFilter!
 }
 
+input DeleteManyNoticeBoardsInput {
+  """Filter to find records to delete"""
+  filter: noticeBoardDeleteFilter!
+}
+
 input DeleteManyNotificationsInput {
   """Filter to find records to delete"""
   filter: notificationDeleteFilter!
@@ -3061,6 +3108,11 @@ input DeleteOneManualInput {
 }
 
 input DeleteOneNotamInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneNoticeBoardInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -3897,6 +3949,7 @@ type Mutation {
   createManyLibraries(input: CreateManyLibrariesInput!): [library!]!
   createManyManuals(input: CreateManyManualsInput!): [manual!]!
   createManyNotams(input: CreateManyNotamsInput!): [Notam!]!
+  createManyNoticeBoards(input: CreateManyNoticeBoardsInput!): [noticeBoard!]!
   createManyNotifications(input: CreateManyNotificationsInput!): [notification!]!
   createManyOperators(input: CreateManyOperatorsInput!): [operator!]!
   createManyPassengerDetails(input: CreateManyPassengerDetailsInput!): [PassengerDetail!]!
@@ -3911,6 +3964,7 @@ type Mutation {
   createManyTickets(input: CreateManyTicketsInput!): [Ticket!]!
   createManyTripDetails(input: CreateManyTripDetailsInput!): [TripDetail!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
+  createNoticeBoard(createNoticeBoardInput: CreateNoticeBoardInput!): noticeBoard!
   createOneAccessRequest(input: CreateOneAccessRequestInput!): AccessRequest!
   createOneAircraftCategory(input: CreateOneAircraftCategoryInput!): AircraftCategory!
   createOneAircraftDetail(input: CreateOneAircraftDetailInput!): AircraftDetail!
@@ -3924,6 +3978,7 @@ type Mutation {
   createOneLibrary(input: CreateOneLibraryInput!): library!
   createOneManual(input: CreateOneManualInput!): manual!
   createOneNotam(input: CreateOneNotamInput!): Notam!
+  createOneNoticeBoard(input: CreateOneNoticeBoardInput!): noticeBoard!
   createOneNotification(input: CreateOneNotificationInput!): notification!
   createOneOperator(input: CreateOneOperatorInput!): operator!
   createOnePassengerDetail(input: CreateOnePassengerDetailInput!): PassengerDetail!
@@ -3954,6 +4009,7 @@ type Mutation {
   deleteManyLibraries(input: DeleteManyLibrariesInput!): DeleteManyResponse!
   deleteManyManuals(input: DeleteManyManualsInput!): DeleteManyResponse!
   deleteManyNotams(input: DeleteManyNotamsInput!): DeleteManyResponse!
+  deleteManyNoticeBoards(input: DeleteManyNoticeBoardsInput!): DeleteManyResponse!
   deleteManyNotifications(input: DeleteManyNotificationsInput!): DeleteManyResponse!
   deleteManyOperators(input: DeleteManyOperatorsInput!): DeleteManyResponse!
   deleteManyPassengerDetails(input: DeleteManyPassengerDetailsInput!): DeleteManyResponse!
@@ -3981,6 +4037,7 @@ type Mutation {
   deleteOneLibrary(input: DeleteOneLibraryInput!): LibraryDeleteResponse!
   deleteOneManual(input: DeleteOneManualInput!): ManualDeleteResponse!
   deleteOneNotam(input: DeleteOneNotamInput!): NotamDeleteResponse!
+  deleteOneNoticeBoard(input: DeleteOneNoticeBoardInput!): NoticeBoardDeleteResponse!
   deleteOneNotification(input: DeleteOneNotificationInput!): NotificationDeleteResponse!
   deleteOneOperator(input: DeleteOneOperatorInput!): OperatorDeleteResponse!
   deleteOnePassengerDetail(input: DeleteOnePassengerDetailInput!): PassengerDetailDeleteResponse!
@@ -4063,6 +4120,7 @@ type Mutation {
   updateManyLibraries(input: UpdateManyLibrariesInput!): UpdateManyResponse!
   updateManyManuals(input: UpdateManyManualsInput!): UpdateManyResponse!
   updateManyNotams(input: UpdateManyNotamsInput!): UpdateManyResponse!
+  updateManyNoticeBoards(input: UpdateManyNoticeBoardsInput!): UpdateManyResponse!
   updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
   updateManyOperators(input: UpdateManyOperatorsInput!): UpdateManyResponse!
   updateManyPassengerDetails(input: UpdateManyPassengerDetailsInput!): UpdateManyResponse!
@@ -4090,6 +4148,7 @@ type Mutation {
   updateOneLibrary(input: UpdateOneLibraryInput!): library!
   updateOneManual(input: UpdateOneManualInput!): manual!
   updateOneNotam(input: UpdateOneNotamInput!): Notam!
+  updateOneNoticeBoard(input: UpdateOneNoticeBoardInput!): noticeBoard!
   updateOneNotification(input: UpdateOneNotificationInput!): notification!
   updateOneOperator(input: UpdateOneOperatorInput!): operator!
   updateOnePassengerDetail(input: UpdateOnePassengerDetailInput!): PassengerDetail!
@@ -4325,6 +4384,42 @@ input NotamUpdateFilter {
   or: [NotamUpdateFilter!]
   region: RegionCodeFilterComparison
   updatedAt: DateFieldComparison
+}
+
+type NoticeBoardConnection {
+  """Array of nodes."""
+  nodes: [noticeBoard!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type NoticeBoardDeleteResponse {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  endDate: DateTime
+  id: ID
+  isActive: Boolean
+  message: String
+  startDate: DateTime
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
 }
 
 type NotificationConnection {
@@ -4730,6 +4825,7 @@ type Query {
     """Specify to sort results."""
     sorting: [AccessRequestSort!]! = []
   ): AccessRequestConnection!
+  activeNoticeBoard: noticeBoard
   aircraftCategories(
     """Specify to filter the records returned."""
     filter: AircraftCategoryFilter! = {}
@@ -4906,6 +5002,20 @@ type Query {
     """Specify to sort results."""
     sorting: [NotamSort!]! = []
   ): NotamConnection!
+  noticeBoard(
+    """The id of the record to find."""
+    id: ID!
+  ): noticeBoard
+  noticeBoards(
+    """Specify to filter the records returned."""
+    filter: noticeBoardFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [noticeBoardSort!]! = []
+  ): NoticeBoardConnection!
   notification(
     """The id of the record to find."""
     id: ID!
@@ -7527,6 +7637,14 @@ input UpdateManyNotamsInput {
   update: UpdateNotam!
 }
 
+input UpdateManyNoticeBoardsInput {
+  """Filter used to find fields to update"""
+  filter: noticeBoardUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateNoticeBoard!
+}
+
 input UpdateManyNotificationsInput {
   """Filter used to find fields to update"""
   filter: notificationUpdateFilter!
@@ -7671,6 +7789,31 @@ input UpdateNotam {
   updatedBy: String
 }
 
+input UpdateNoticeBoard {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  endDate: DateTime
+  id: ID
+  isActive: Boolean = true
+  message: String
+  startDate: DateTime
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
 input UpdateNotification {
   """The date when the record was created"""
   createdAt: DateTime
@@ -7804,6 +7947,14 @@ input UpdateOneNotamInput {
 
   """The update to apply."""
   update: UpdateNotam!
+}
+
+input UpdateOneNoticeBoardInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateNoticeBoard!
 }
 
 input UpdateOneNotificationInput {
@@ -9302,6 +9453,121 @@ input nomineeInput {
   insurance: String
   mobileNumber: String
   relation: String
+}
+
+type noticeBoard {
+  """The date when the record was created"""
+  createdAt: DateTime
+
+  """The id of the user who created the record"""
+  createdBy: String
+
+  """The date when the record was deleted"""
+  deletedAt: DateTime
+
+  """The id of the user who deleted the record"""
+  deletedBy: String
+  endDate: DateTime!
+  id: ID!
+  isActive: Boolean!
+  message: String!
+  startDate: DateTime!
+
+  """The date when the record was last updated"""
+  updatedAt: DateTime
+
+  """The id of the user who last updated the record"""
+  updatedBy: String
+}
+
+type noticeBoardAggregateGroupBy {
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID
+  isActive: Boolean
+  message: String
+  startDate: DateTime
+  updatedAt: DateTime
+}
+
+type noticeBoardCountAggregate {
+  createdAt: Int
+  endDate: Int
+  id: Int
+  isActive: Int
+  message: Int
+  startDate: Int
+  updatedAt: Int
+}
+
+input noticeBoardDeleteFilter {
+  and: [noticeBoardDeleteFilter!]
+  createdAt: DateFieldComparison
+  endDate: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  message: StringFieldComparison
+  or: [noticeBoardDeleteFilter!]
+  startDate: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input noticeBoardFilter {
+  and: [noticeBoardFilter!]
+  createdAt: DateFieldComparison
+  endDate: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  message: StringFieldComparison
+  or: [noticeBoardFilter!]
+  startDate: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type noticeBoardMaxAggregate {
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID
+  message: String
+  startDate: DateTime
+  updatedAt: DateTime
+}
+
+type noticeBoardMinAggregate {
+  createdAt: DateTime
+  endDate: DateTime
+  id: ID
+  message: String
+  startDate: DateTime
+  updatedAt: DateTime
+}
+
+input noticeBoardSort {
+  direction: SortDirection!
+  field: noticeBoardSortFields!
+  nulls: SortNulls
+}
+
+enum noticeBoardSortFields {
+  createdAt
+  endDate
+  id
+  isActive
+  message
+  startDate
+  updatedAt
+}
+
+input noticeBoardUpdateFilter {
+  and: [noticeBoardUpdateFilter!]
+  createdAt: DateFieldComparison
+  endDate: DateFieldComparison
+  id: IDFilterComparison
+  isActive: BooleanFieldComparison
+  message: StringFieldComparison
+  or: [noticeBoardUpdateFilter!]
+  startDate: DateFieldComparison
+  updatedAt: DateFieldComparison
 }
 
 type notification {
