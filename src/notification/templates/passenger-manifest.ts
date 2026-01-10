@@ -19,13 +19,13 @@ export const PassengerManifestTemplate = (data) => {
         logoUrl,
     } = data;
 
+    const pilotCrew = crew.filter((member) => member.designation === "PILOT");
+
     // Calculate total crew weight
-    const totalCrewWeight = crew.reduce((sum, member) => {
+    const totalCrewWeight = pilotCrew.reduce((sum, member) => {
         const weight = parseInt(member.weight) || 0;
         return sum + weight;
     }, 0);
-
-
 
     // Calculate total passenger weight
     const totalPassengerWeight = passengers.reduce((sum, pax) => {
@@ -231,7 +231,7 @@ export const PassengerManifestTemplate = (data) => {
         </table>
 
         <!-- Crew Table -->
-        ${crew.length > 0 ? `
+        ${pilotCrew.length > 0 ? `
         <table class="crew-table">
             <thead>
                 <tr>
@@ -244,7 +244,7 @@ export const PassengerManifestTemplate = (data) => {
                 </tr>
             </thead>
             <tbody>
-                ${crew.map((member, index) => `
+                ${pilotCrew.map((member, index) => `
                 <tr>
                     <td>${String(index + 1).padStart(2, '0')}</td>
                     <td>${member.name || 'N/A'}</td>

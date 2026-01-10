@@ -257,7 +257,7 @@ export const InvoiceTemplate = (quote) => {
             </td>
             <td class="text-center">996426</td>
             <td class="text-center">18%</td>
-            <td class="text-center">1</td>
+            <td class="text-center"></td>
             <td class="text-right">${Number(item.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
             <td class="text-center">Unit</td>
             <td class="text-right" style="border-right: none;">${Number(item.total).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
@@ -273,7 +273,7 @@ export const InvoiceTemplate = (quote) => {
 
     <div style="padding: 10px; border-bottom: 1px solid #000;">
       Amount Chargeable (in words)<br/>
-      <span class="bold">INR ${numberToWordsINR(Number(grandTotal))}</span>
+      <span class="bold">${numberToWordsINR(Number(grandTotal))}</span>
     </div>
 
     <table style="border: none; border-bottom: 1px solid #000;">
@@ -315,7 +315,7 @@ export const InvoiceTemplate = (quote) => {
     </table>
 
     <div style="padding: 10px; font-size: 10px;">
-      Tax Amount (in words): <span class="bold">INR ${numberToWordsINR(Number(gstAmount))}</span>
+      Tax Amount (in words): <span class="bold">${numberToWordsINR(Number(gstAmount))}</span>
     </div>
 
     <div style="display: flex; border-top: 1px solid #000;">

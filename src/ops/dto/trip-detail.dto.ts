@@ -40,6 +40,19 @@ export class TripDocByCrewDto {
 }
 
 @ObjectType()
+@InputType('crewAssignmentDetailsInput')
+export class CrewAssignmentDetailsDto {
+  @Field()
+  crewId: string;
+
+  @Field({ nullable: true })
+  weight: string;
+
+  @Field({ nullable: true })
+  baggage: string;
+}
+
+@ObjectType()
 @InputType('assignedCrewInput')
 export class AssignedCrewDto {
   @Field()
@@ -49,6 +62,9 @@ export class AssignedCrewDto {
 
   @Field(() => [CrewDetailDto], { nullable: true })
   crewsInfo?: CrewDetailDto[];
+
+  @Field(() => [CrewAssignmentDetailsDto], { nullable: true })
+  crewAssignmentDetails?: CrewAssignmentDetailsDto[];
 }
 
 @ObjectType()

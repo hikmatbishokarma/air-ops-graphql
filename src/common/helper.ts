@@ -3,6 +3,7 @@ import { hash, compare } from 'bcrypt';
 import { Types } from 'mongoose';
 import path, { extname } from 'path';
 import puppeteer, { Browser } from 'puppeteer';
+import moment from 'moment';
 
 export function getSchemaKey(key: string): string {
   return key === 'id' ? '_id' : key;
@@ -158,6 +159,37 @@ export const getDuration = (start: string, end: string) => {
   const h = Math.floor(durationMins / 60);
   const m = durationMins % 60;
   return `${h}h ${m}m`;
+};
+
+export const calculateFlightTime = (depDate, depTime, arrDate, arrTime) => {
+  // Ensure we have all necessary components
+  if (!depDate || !depTime || !arrDate || !arrTime) return "";
+
+  // Formatting date parsing:
+  // depDate might be an ISO string (e.g. 2026-01-14T00:00:00.000Z) or YYYY-MM-DD
+  // We extract strictly the YYYY-MM-DD part first.
+  const depDateStr = moment(depDate).format("YYYY-MM-DD");
+  const arrDateStr = moment(arrDate).format("YYYY-MM-DD");
+
+  const depDateTime = moment(
+    `${depDateStr} ${depTime}`,
+    "YYYY-MM-DD HH:mm"
+  );
+  const arrDateTime = moment(
+    `${arrDateStr} ${arrTime}`,
+    "YYYY-MM-DD HH:mm"
+  );
+
+  if (depDateTime.isValid() && arrDateTime.isValid()) {
+    const totalMinutes = arrDateTime.diff(depDateTime, "minutes");
+    if (totalMinutes >= 0) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${hours}h ${minutes}m`;
+    }
+  }
+
+  return "";
 };
 
 export async function createPDF(

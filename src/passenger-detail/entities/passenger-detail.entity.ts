@@ -70,19 +70,41 @@ export class TravelEntity {
   dropAt?: string;
 }
 const TravelSchema = SchemaFactory.createForClass(TravelEntity);
+@Schema({ _id: false })
+export class GroundHandlerEntity {
+  @Prop()
+  fullName: string;
+
+  @Prop()
+  companyName: string;
+
+  @Prop()
+  contactNumber: string;
+
+  @Prop()
+  alternateContactNumber: string;
+
+  @Prop()
+  email: string;
+}
+const GroundHandlerSchema = SchemaFactory.createForClass(GroundHandlerEntity);
+
 @Schema()
 export class SectorEntity {
   @Prop()
   sectorNo: number;
-
-  // @Prop()
-  // source: string;
 
   @Prop({ type: sectorLocationEntity, required: true })
   source: sectorLocationEntity;
 
   @Prop({ type: sectorLocationEntity, required: true })
   destination: sectorLocationEntity;
+
+  @Prop({ type: GroundHandlerEntity })
+  sourceGroundHandler: GroundHandlerEntity;
+
+  @Prop({ type: GroundHandlerEntity })
+  destinationGroundHandler: GroundHandlerEntity;
 
   @Prop({ type: Date, required: true })
   depatureDate: Date;

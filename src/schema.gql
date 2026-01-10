@@ -835,6 +835,7 @@ input AirportUpdateFilter {
 }
 
 type AssignedCrewDto {
+  crewAssignmentDetails: [CrewAssignmentDetailsDto!]
   crews: [String!]
   crewsInfo: [crewDetail!]!
   designation: String!
@@ -1052,9 +1053,9 @@ type ChecklistItemDto {
 }
 
 type ChecklistLocationDto {
-  city: String!
-  code: String!
-  name: String!
+  city: String
+  code: String
+  name: String
 }
 
 """City"""
@@ -2714,6 +2715,12 @@ input CreateUserInput {
   user: UserInputDto!
 }
 
+type CrewAssignmentDetailsDto {
+  baggage: String
+  crewId: String!
+  weight: String
+}
+
 type CrewDetailConnection {
   """Array of nodes."""
   nodes: [crewDetail!]!
@@ -3279,6 +3286,14 @@ input GenerateInvoiceInput {
 input GeneratePassengerManifestInput {
   sectorNo: Int!
   tripId: String!
+}
+
+type GroundHandlerDto {
+  alternateContactNumber: String
+  companyName: String
+  contactNumber: String
+  email: String
+  fullName: String
 }
 
 type GroundHandlerInfoDto {
@@ -5852,10 +5867,10 @@ enum SalesDocumentType {
 }
 
 type SectorChecklistDto {
-  checklist: [ChecklistItemDto!]!
-  destination: ChecklistLocationDto!
+  checklist: [ChecklistItemDto!]
+  destination: ChecklistLocationDto
   sectorNo: Int!
-  source: ChecklistLocationDto!
+  source: ChecklistLocationDto
 }
 
 type SectorDto {
@@ -5864,12 +5879,14 @@ type SectorDto {
   depatureDate: DateTime!
   depatureTime: String!
   destination: SectorLocationInputDto!
+  destinationGroundHandler: GroundHandlerDto
   flightTime: String!
   meals: [MealDto!]
   passengers: [PassengerDto!]
   pax: Int!
   sectorNo: Int
   source: SectorLocationInputDto!
+  sourceGroundHandler: GroundHandlerDto
   travel: TravelDto
 }
 
@@ -8812,6 +8829,7 @@ input assignedCrewGroupInput {
 }
 
 input assignedCrewInput {
+  crewAssignmentDetails: [crewAssignmentDetailsInput!]
   crews: [String!]
   crewsInfo: [CrewDetailDto!]
   designation: String!
@@ -8994,6 +9012,12 @@ input clientUpdateFilter {
   phone: StringFieldComparison
   type: ClientTypeFilterComparison
   updatedAt: DateFieldComparison
+}
+
+input crewAssignmentDetailsInput {
+  baggage: String
+  crewId: String!
+  weight: String
 }
 
 """Crew Detail"""
@@ -9183,6 +9207,14 @@ type fuelSupplierDTO {
   companyName: String!
   contactNumber: String!
   email: String!
+}
+
+input groundHandlerInput {
+  alternateContactNumber: String
+  companyName: String
+  contactNumber: String
+  email: String
+  fullName: String
 }
 
 input groundHandlersInfo {
@@ -10314,12 +10346,14 @@ input sector {
   depatureDate: DateTime!
   depatureTime: String!
   destination: sectorLocationInput!
+  destinationGroundHandler: groundHandlerInput
   flightTime: String!
   meals: [mealInput!]
   passengers: [passengerInput!]
   pax: Int!
   sectorNo: Int
   source: sectorLocationInput!
+  sourceGroundHandler: groundHandlerInput
   travel: travelInput
 }
 

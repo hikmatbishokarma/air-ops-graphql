@@ -62,6 +62,21 @@ export class TravelDto {
 }
 
 @ObjectType()
+@InputType('groundHandlerInput')
+export class GroundHandlerDto {
+  @Field({ nullable: true })
+  fullName: string;
+  @Field({ nullable: true })
+  companyName: string;
+  @Field({ nullable: true })
+  contactNumber: string;
+  @Field({ nullable: true })
+  alternateContactNumber: string;
+  @Field({ nullable: true })
+  email: string;
+}
+
+@ObjectType()
 @InputType('sector')
 export class SectorDto {
   @Field({ nullable: true })
@@ -72,6 +87,13 @@ export class SectorDto {
   source: SectorLocationInputDto;
   @Field(() => SectorLocationInputDto)
   destination: SectorLocationInputDto;
+
+  @Field(() => GroundHandlerDto, { nullable: true })
+  sourceGroundHandler: GroundHandlerDto;
+
+  @Field(() => GroundHandlerDto, { nullable: true })
+  destinationGroundHandler: GroundHandlerDto;
+
   @Field()
   depatureDate: Date;
   @Field()

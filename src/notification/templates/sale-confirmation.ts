@@ -1,6 +1,7 @@
 
 
 import moment from 'moment';
+import { calculateFlightTime } from 'src/common/helper';
 
 /**
  * Generates the complete, styled HTML content for the Sales Confirmation document.
@@ -29,7 +30,17 @@ export const SaleConfirmationTemplate = (quote) => {
             sector.passengers = paxIfno.passengers || [];
             sector.meals = paxIfno.meals || [];
             sector.travel = paxIfno.travel || {};
+            sector.sourceGroundHandler = paxIfno.sourceGroundHandler;
+            sector.destinationGroundHandler = paxIfno.destinationGroundHandler;
         }
+
+        sector["flightTime"] = calculateFlightTime(
+            sector.depatureDate,
+            sector.depatureTime,
+            sector.arrivalDate,
+            sector.arrivalTime,
+        );
+
     });
 
     // Helper to format ID details
@@ -316,7 +327,7 @@ export const SaleConfirmationTemplate = (quote) => {
                 <div class="flight-card-details">
                     <div class="flex justify-between items-center">
                         <p class="flight-card-info">${moment(item.depatureDate).format('dddd, DD MMMM, YYYY')}</p>
-                        <p class="flight-card-duration">Flight Duration: <span class="table-content-text">TBD</span></p>
+                        <p class="flight-card-duration">Flight Duration: <span class="table-content-text">${item.flightTime || ''}</span></p>
                     </div>
                     <p class="flight-card-duration" style="margin-top: 4px;">Aircraft: <span class="table-content-text">${aircraftDetail?.name || 'N/A'} (${aircraftDetail?.code || 'N/A'})</span></p>
                 </div>
@@ -460,11 +471,11 @@ export const SaleConfirmationTemplate = (quote) => {
                         <div class="detail-group">
                             <div class="detail-item">
                                 <span class="detail-label">DEPARTURE HANDLER (${item?.source?.code || 'N/A'})</span>
-                                ${item?.source?.groundHandlersInfo ? formatHandlerDetails(item?.source?.groundHandlersInfo) : 'N/A'}
+                                ${item.sourceGroundHandler ? formatHandlerDetails([item.sourceGroundHandler]) : (item?.source?.groundHandlersInfo ? formatHandlerDetails(item?.source?.groundHandlersInfo) : 'N/A')}
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">ARRIVAL HANDLER (${item?.destination?.code || 'N/A'})</span>
-                                ${item?.destination?.groundHandlersInfo ? formatHandlerDetails(item?.destination?.groundHandlersInfo) : 'N/A'}
+                                ${item.destinationGroundHandler ? formatHandlerDetails([item.destinationGroundHandler]) : (item?.destination?.groundHandlersInfo ? formatHandlerDetails(item?.destination?.groundHandlersInfo) : 'N/A')}
                             </div>
                         </div>
                     </div>

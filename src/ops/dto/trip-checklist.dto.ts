@@ -11,13 +11,13 @@ export class ChecklistItemDto {
 
 @ObjectType()
 export class ChecklistLocationDto {
-    @Field()
+    @Field({ nullable: true })
     name: string;
 
-    @Field()
+    @Field({ nullable: true })
     code: string;
 
-    @Field()
+    @Field({ nullable: true })
     city: string;
 }
 
@@ -26,13 +26,13 @@ export class SectorChecklistDto {
     @Field(() => Int)
     sectorNo: number;
 
-    @Field(() => ChecklistLocationDto)
+    @Field(() => ChecklistLocationDto, { nullable: true })
     source: ChecklistLocationDto;
 
-    @Field(() => ChecklistLocationDto)
+    @Field(() => ChecklistLocationDto, { nullable: true })
     destination: ChecklistLocationDto;
 
-    @Field(() => [ChecklistItemDto])
+    @Field(() => [ChecklistItemDto], { nullable: true })
     checklist: ChecklistItemDto[];
 }
 

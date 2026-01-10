@@ -644,11 +644,22 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
             const crewMember = tripData.crewData?.find(
               (c) => c._id.toString() === crewId.toString(),
             );
+
+            // Check if there are specific details for this crew in this assignment
+            const assignmentDetail = group.crewAssignmentDetails?.find(
+              (d) => d.crewId.toString() === crewId.toString(),
+            );
+
+            // Use specific weight/baggage if available, otherwise fall back to crew profile default
+            const displayWeight =
+              assignmentDetail?.weight || crewMember?.weight || '-';
+            const displayBaggage = assignmentDetail?.baggage || '-';
+
             return {
               name: crewMember?.fullName || crewMember?.displayName || 'N/A',
               designation: group.designation || 'N/A',
-              weight: crewMember?.weight || '-',
-              baggage: '-',
+              weight: displayWeight,
+              baggageWeight: displayBaggage,
               nationality: crewMember?.nationality || 'INDIAN',
             };
           }) || []

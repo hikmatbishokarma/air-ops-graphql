@@ -20,12 +20,27 @@ export class tripDocByCrew {
 }
 
 @Schema({ _id: false })
+export class CrewAssignmentDetailsEntity {
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'CrewDetailEntity', required: true })
+  crewId: Types.ObjectId;
+
+  @Prop()
+  weight: string;
+
+  @Prop()
+  baggage: string;
+}
+
+@Schema({ _id: false })
 export class AssignmentCrewEntity {
   @Prop()
   designation: string;
 
   @Prop({ type: [SchemaTypes.ObjectId], ref: 'CrewDetailEntity', default: [] })
   crews: Types.ObjectId[];
+
+  @Prop({ type: [CrewAssignmentDetailsEntity], default: [] })
+  crewAssignmentDetails: CrewAssignmentDetailsEntity[];
 }
 
 @Schema({ _id: false })
