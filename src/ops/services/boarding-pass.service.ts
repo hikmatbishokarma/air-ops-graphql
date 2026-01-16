@@ -273,4 +273,8 @@ export class BoardingPassService {
 
         return BoardingPassPdfWrapper(passesHtml);
     }
+
+    async findBoardingPass(tripId: string, sectorNo: number): Promise<BoardingPassEntity> {
+        return this.boardingPassModel.findOne({ tripId, sectorNo }).exec();
+    }
 }

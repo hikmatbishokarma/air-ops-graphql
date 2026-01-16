@@ -19,6 +19,7 @@ import { PassengerManifestTemplate } from 'src/notification/templates/passenger-
 import { ConfigService } from '@nestjs/config';
 import { PassengerDetailService } from 'src/passenger-detail/services/passenger-detail.service';
 import { TripConfirmationTemplate } from 'src/notification/templates/trip-confirmation';
+import { BoardingPassService } from './boarding-pass.service';
 
 @Injectable()
 export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
@@ -30,6 +31,7 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     private readonly quotesService: QuotesService,
     private readonly config: ConfigService,
     private readonly passengerDetailService: PassengerDetailService,
+    private readonly boardingPassService: BoardingPassService,
   ) {
 
     super(model);
@@ -721,6 +723,8 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       const sectorNo = sector.sectorNo;
       const checklist = [];
 
+      const boardingPass = await this.boardingPassService.findBoardingPass(trip.tripId, sectorNo);
+
       // 1. Timelines
       const hasTimelines = !!(
         sector.depatureDate &&
@@ -748,10 +752,10 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
       checklist.push({ name: 'Travels', status: hasTravels });
 
       // 5. Boarding Pass (Hardcoded False for now)
-      checklist.push({ name: 'Boarding Pass', status: false });
+      checklist.push({ name: 'Boarding Pass', status: !!boardingPass });
 
-      // 6. Ground Handler (Hardcoded False for now)
-      checklist.push({ name: 'Ground Handler', status: false });
+      const hasGroundHandler = !!paxSector?.sourceGroundHandler || !!paxSector?.destinationGroundHandler;
+      checklist.push({ name: 'Ground Handler', status: hasGroundHandler });
 
       // 7. Intimation Letters
       checklist.push({ name: 'IntimationSend', status: false });
@@ -779,10 +783,14 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
         'Helipad Permission',
         'DGCA Permission',
       ];
-
       documentTypes.forEach((docType) => {
-        const hasDoc = sector.documents?.some((d) => d.type === docType);
-        checklist.push({ name: docType, status: hasDoc });
+        const hasDoc = sector.documents?.some(
+          (d) =>
+            d.type === docType &&
+            (Boolean(d.externalLink?.trim()) || Boolean(d.fileUrl?.trim()))
+        );
+
+        checklist.push({ name: docType, status: Boolean(hasDoc) });
       });
 
       checklistData.push({
