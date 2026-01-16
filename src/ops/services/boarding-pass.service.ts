@@ -96,68 +96,133 @@ export class BoardingPassService {
 
         const generatedPasses: BoardingPassEntity[] = [];
 
-        // 3. Generate Boarding Pass for each passenger
-        for (const pax of paxSector.passengers) {
-            // Check if BP already exists (Idempotency)
-            const existingBp = await this.boardingPassModel.findOne({
-                tripId: tripId,
-                sectorNo: sectorNo,
-                'passenger.name': pax.name, // Assuming name is unique enough for this scope, or combined with other fields? 
-                // Ideally we'd have a PAX ID, but schematic shows just name/age/gender. 
-                // We will use name + gender + age combination to be safer, or just name if strict.
-                // Let's use name. 
-            }).exec();
+        // // 3. Generate Boarding Pass for each passenger
+        // for (const pax of paxSector.passengers) {
+        //     // Check if BP already exists (Idempotency)
+        //     const existingBp = await this.boardingPassModel.findOne({
+        //         tripId: tripId,
+        //         sectorNo: sectorNo,
+        //         'passenger.name': pax.name, // Assuming name is unique enough for this scope, or combined with other fields? 
+        //         // Ideally we'd have a PAX ID, but schematic shows just name/age/gender. 
+        //         // We will use name + gender + age combination to be safer, or just name if strict.
+        //         // Let's use name. 
+        //     }).exec();
 
-            if (existingBp) {
-                generatedPasses.push(existingBp);
-                continue;
-            }
+        //     if (existingBp) {
+        //         generatedPasses.push(existingBp);
+        //         continue;
+        //     }
+
+        //     // Mask Govt ID
+        //     let maskedId = 'N/A';
+        //     if (pax.aadharId) { // using aadharId from PassengerEntity as Govt ID
+        //         const len = pax.aadharId.length;
+        //         if (len > 4) {
+        //             maskedId = 'X'.repeat(len - 4) + pax.aadharId.slice(-4);
+        //         } else {
+        //             maskedId = pax.aadharId;
+        //         }
+        //     }
+
+        //     // Create new Boarding Pass
+        //     const newBp = new this.boardingPassModel({
+        //         boardingPassId: `BP-${trip.quotationNo}-${sectorNo}-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        //         tripId: tripId,
+        //         tripObjectId: trip._id,
+        //         quotationNo: trip.quotationNo,
+        //         sectorNo: sectorNo,
+        //         passenger: {
+        //             name: pax.name,
+        //             gender: pax.gender,
+        //             age: pax.age.toString(),
+        //             govtId: maskedId,
+        //         },
+        //         flight: {
+        //             fromCode: tripSector.source.code,
+        //             fromCity: tripSector.source.city || tripSector.source.name,
+        //             toCode: tripSector.destination.code,
+        //             toCity: tripSector.destination.city || tripSector.destination.name,
+        //             departureDate: tripSector.depatureDate,
+        //             departureTime: tripSector.depatureTime,
+        //             arrivalDate: tripSector.arrivalDate,
+        //             arrivalTime: tripSector.arrivalTime,
+        //             flightTime: tripSector.flightTime,
+        //             aircraft: aircraft,
+        //         },
+        //         groundHandlers: {
+        //             source: paxSector.sourceGroundHandler || sourceGroundHandler,
+        //             destination: paxSector.destinationGroundHandler || destGroundHandler,
+        //         },
+        //         operationType: 'NON-SCHEDULED',
+        //         status: 'Issued',
+        //     });
+
+        //     console.log("newBp", newBp);
+
+        //     const savedBp = await newBp.save();
+        //     generatedPasses.push(savedBp);
+        // }
+
+        for (const pax of paxSector.passengers) {
 
             // Mask Govt ID
             let maskedId = 'N/A';
-            if (pax.aadharId) { // using aadharId from PassengerEntity as Govt ID
+            if (pax.aadharId) {
                 const len = pax.aadharId.length;
-                if (len > 4) {
-                    maskedId = 'X'.repeat(len - 4) + pax.aadharId.slice(-4);
-                } else {
-                    maskedId = pax.aadharId;
-                }
+                maskedId = len > 4
+                    ? 'X'.repeat(len - 4) + pax.aadharId.slice(-4)
+                    : pax.aadharId;
             }
 
-            // Create new Boarding Pass
-            const newBp = new this.boardingPassModel({
-                boardingPassId: `BP-${trip.quotationNo}-${sectorNo}-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            const filter = {
                 tripId: tripId,
-                tripObjectId: trip._id,
-                quotationNo: trip.quotationNo,
                 sectorNo: sectorNo,
-                passenger: {
-                    name: pax.name,
-                    gender: pax.gender,
-                    age: pax.age.toString(),
-                    govtId: maskedId,
-                },
-                flight: {
-                    fromCode: tripSector.source.code,
-                    fromCity: tripSector.source.city || tripSector.source.name,
-                    toCode: tripSector.destination.code,
-                    toCity: tripSector.destination.city || tripSector.destination.name,
-                    departureDate: tripSector.depatureDate,
-                    departureTime: tripSector.depatureTime,
-                    arrivalDate: tripSector.arrivalDate,
-                    arrivalTime: tripSector.arrivalTime,
-                    flightTime: tripSector.flightTime,
-                    aircraft: aircraft,
-                },
-                groundHandlers: {
-                    source: sourceGroundHandler,
-                    destination: destGroundHandler,
-                },
-                operationType: 'NON-SCHEDULED',
-                status: 'Issued',
-            });
+                'passenger.name': pax.name,
+                'passenger.gender': pax.gender,
+                'passenger.age': pax.age.toString(),
+            };
 
-            const savedBp = await newBp.save();
+            const update = {
+                $set: {
+                    boardingPassId: `BP-${trip.quotationNo}-${sectorNo}-${Date.now()}`,
+                    tripObjectId: trip._id,
+                    quotationNo: trip.quotationNo,
+                    passenger: {
+                        name: pax.name,
+                        gender: pax.gender,
+                        age: pax.age.toString(),
+                        govtId: maskedId,
+                    },
+                    flight: {
+                        fromCode: tripSector.source.code,
+                        fromCity: tripSector.source.city || tripSector.source.name,
+                        toCode: tripSector.destination.code,
+                        toCity: tripSector.destination.city || tripSector.destination.name,
+                        departureDate: tripSector.depatureDate,
+                        departureTime: tripSector.depatureTime,
+                        arrivalDate: tripSector.arrivalDate,
+                        arrivalTime: tripSector.arrivalTime,
+                        flightTime: tripSector.flightTime,
+                        aircraft: aircraft,
+                    },
+                    groundHandlers: {
+                        source: paxSector.sourceGroundHandler || sourceGroundHandler,
+                        destination: paxSector.destinationGroundHandler || destGroundHandler,
+                    },
+                    operationType: 'NON-SCHEDULED',
+                    status: 'Issued',
+                }
+            };
+
+            const savedBp = await this.boardingPassModel.findOneAndUpdate(
+                filter,
+                update,
+                {
+                    upsert: true, // create if not exists
+                    new: true,    // return updated doc
+                }
+            ).exec();
+
             generatedPasses.push(savedBp);
         }
 

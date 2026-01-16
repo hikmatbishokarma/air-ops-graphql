@@ -66,14 +66,14 @@ export class GroundHandlerInfo {
     airportCode: string;
 }
 
-@Schema({ _id: false })
-export class GroundHandlers {
-    @Prop({ type: GroundHandlerInfo, required: false })
-    source?: GroundHandlerInfo;
+// @Schema({ _id: false })
+// export class GroundHandlers {
+//     @Prop({ type: GroundHandlerInfo, required: false })
+//     source?: GroundHandlerInfo;
 
-    @Prop({ type: GroundHandlerInfo, required: false })
-    destination?: GroundHandlerInfo;
-}
+//     @Prop({ type: GroundHandlerInfo, required: false })
+//     destination?: GroundHandlerInfo;
+// }
 
 @Schema({ collection: 'boarding-passes', timestamps: true })
 export class BoardingPassEntity extends BaseEntity {
@@ -98,8 +98,8 @@ export class BoardingPassEntity extends BaseEntity {
     @Prop({ type: BoardingPassFlight, required: true })
     flight: BoardingPassFlight;
 
-    @Prop({ type: GroundHandlers, required: false })
-    groundHandlers?: GroundHandlers;
+    @Prop({ type: Object, required: false })
+    groundHandlers?: object;
 
     @Prop({ default: 'NON-SCHEDULED' })
     operationType: string;

@@ -67,11 +67,11 @@ export class GroundHandlerInfoDto {
 
 @ObjectType()
 export class GroundHandlersDto {
-    @Field(() => GroundHandlerInfoDto, { nullable: true })
-    source?: GroundHandlerInfoDto;
+    @Field(() => GraphQLJSONObject, { nullable: true })
+    source?: object;
 
-    @Field(() => GroundHandlerInfoDto, { nullable: true })
-    destination?: GroundHandlerInfoDto;
+    @Field(() => GraphQLJSONObject, { nullable: true })
+    destination?: object;
 }
 
 @ObjectType('BoardingPass')

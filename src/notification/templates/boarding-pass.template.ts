@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 export const BoardingPassTemplate = (data) => {
-    const { flight, passenger, boardingPassId, logoUrl, mapBackgroundUrl, groundHandlers, sectorNo } = data;
+  const { flight, passenger, boardingPassId, logoUrl, mapBackgroundUrl, groundHandlers, sectorNo } = data;
 
-    return `
+  return `
     <div class="boarding-pass">
         <div class="header">
             <span>BOARDING PASS</span>
@@ -69,8 +69,8 @@ export const BoardingPassTemplate = (data) => {
                         <!-- Source Handler - Below FROM -->
                         <div class="gh-item-left">
                             ${groundHandlers?.source ? `
-                                <div class="gh-name">${(groundHandlers.source.name || 'N/A').toUpperCase()}</div>
-                                <div class="gh-phone">${groundHandlers.source.phone || ''}</div>
+                                <div class="gh-name">${(groundHandlers.source.fullName || 'N/A').toUpperCase()}</div>
+                                <div class="gh-phone">${groundHandlers.source.contactNumber || ''}</div>
                             ` : `
                                 <div class="gh-name">N/A</div>
                             `}
@@ -79,8 +79,8 @@ export const BoardingPassTemplate = (data) => {
                         <!-- Destination Handler - Below TO -->
                         <div class="gh-item-right">
                             ${groundHandlers?.destination ? `
-                                <div class="gh-name">${(groundHandlers.destination.name || 'N/A').toUpperCase()}</div>
-                                <div class="gh-phone">${groundHandlers.destination.phone || ''}</div>
+                                <div class="gh-name">${(groundHandlers.destination.fullName || 'N/A').toUpperCase()}</div>
+                                <div class="gh-phone">${groundHandlers.destination.contactNumber || ''}</div>
                             ` : `
                                 <div class="gh-name">N/A</div>
                             `}

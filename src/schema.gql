@@ -3296,16 +3296,9 @@ type GroundHandlerDto {
   fullName: String
 }
 
-type GroundHandlerInfoDto {
-  airportCode: String!
-  email: String!
-  name: String!
-  phone: String!
-}
-
 type GroundHandlersDto {
-  destination: GroundHandlerInfoDto
-  source: GroundHandlerInfoDto
+  destination: JSONObject
+  source: JSONObject
 }
 
 input IDFilterComparison {
