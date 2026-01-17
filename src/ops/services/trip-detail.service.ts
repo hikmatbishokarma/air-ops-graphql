@@ -45,7 +45,6 @@ export class TripDetailService extends MongooseQueryService<TripDetailEntity> {
     const lastTrip = await this.model
       .findOne({
         tripId: { $regex: new RegExp(`^${today}`) },
-        operatorId: operatorId,
       })
       .sort({ tripId: -1 });
 

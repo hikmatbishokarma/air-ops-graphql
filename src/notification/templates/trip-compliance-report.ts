@@ -13,8 +13,8 @@ export const TripComplianceReportTemplate = (data: {
         <div class="section">
             <div class="section-title">
                 SECTOR ${sector.sectorNo}: 
-                ${sector.source?.name ? `${sector.source.name} (${sector.source.code})` : sector.source?.code} ➝ 
-                ${sector.destination?.name ? `${sector.destination.name} (${sector.destination.code})` : sector.destination?.code}
+                ${(sector.source?.city || sector.source?.name) ? `${sector.source.city || sector.source.name} (${sector.source.code})` : sector.source?.code} ➝ 
+                ${(sector.destination?.city || sector.destination?.name) ? `${sector.destination.city || sector.destination.name} (${sector.destination.code})` : sector.destination?.code}
             </div>
             
             <!-- Sector Header -->
