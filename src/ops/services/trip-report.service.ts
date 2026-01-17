@@ -159,6 +159,8 @@ export class TripReportService {
             // Find passengers for this sectorNo from passengerDetail
             const paxSector = trip.passengerDetail?.sectors?.find((s: any) => s.sectorNo === sector.sectorNo);
             sector.passengers = paxSector?.passengers || [];
+            sector.sourceGroundHandler = paxSector?.sourceGroundHandler;
+            sector.destinationGroundHandler = paxSector?.destinationGroundHandler;
         });
 
         // console.log("trippp:::", trip)

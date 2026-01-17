@@ -95,14 +95,16 @@ export class SupportService extends MongooseQueryService<TicketEntity> {
         try {
             let recipientRoles: RoleType[] = [];
 
-            if (ticket.operatorId) {
-                // Ticket has an operator - notify ADMIN and SUPPORT for that operator
-                // Note: Based on the enums, we don't have a SUPPORT role type, so we'll just use ADMIN
-                recipientRoles = [RoleType.ADMIN];
-            } else {
-                // No operator - notify all SUPER_ADMINs
-                recipientRoles = [RoleType.SUPER_ADMIN];
-            }
+            // if (ticket.operatorId) {
+            //     // Ticket has an operator - notify ADMIN and SUPPORT for that operator
+            //     // Note: Based on the enums, we don't have a SUPPORT role type, so we'll just use ADMIN
+            //     recipientRoles = [RoleType.ADMIN];
+            // } else {
+            //     // No operator - notify all SUPER_ADMINs
+            //     recipientRoles = [RoleType.SUPER_ADMIN];
+            // }
+
+            recipientRoles = [RoleType.SUPER_ADMIN];
 
             await this.notificationService.createSystemNotification({
                 title: 'New Support Ticket',

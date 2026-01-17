@@ -11,7 +11,11 @@ export const TripComplianceReportTemplate = (data: {
     const generateSectorHtml = (sector: any): string => {
         return `
         <div class="section">
-            <div class="section-title">SECTOR ${sector.sectorNo}: ${sector.source?.code} ➝ ${sector.destination?.code}</div>
+            <div class="section-title">
+                SECTOR ${sector.sectorNo}: 
+                ${sector.source?.name ? `${sector.source.name} (${sector.source.code})` : sector.source?.code} ➝ 
+                ${sector.destination?.name ? `${sector.destination.name} (${sector.destination.code})` : sector.destination?.code}
+            </div>
             
             <!-- Sector Header -->
             <div class="grid" style="background-color: #fafafa; padding: 10px; border: 1px solid #eee;">
@@ -49,6 +53,35 @@ export const TripComplianceReportTemplate = (data: {
                     </tbody>
                 </table>
             ` : '<div class="value mb-2">No passengers listed.</div>'}
+
+            <!-- Ground Handling -->
+            ${(() => {
+                const sourceGH = sector.sourceGroundHandler;
+                const destGH = sector.destinationGroundHandler;
+
+                if (!sourceGH && !destGH) return '';
+
+                const renderGH = (title: string, data: any) => {
+                    if (!data?.fullName && !data?.contactNumber && !data?.email) return '';
+                    return `
+                    <div class="grid-item" style="width: 48%; margin-right: 2%; padding: 10px; border: 1px solid #eee; background-color: #fafafa; box-sizing: border-box;">
+                        <div class="label" style="margin-bottom: 5px;">${title}</div>
+                        <div class="value" style="font-weight: 600;">${data.fullName || 'N/A'}</div>
+                        <div class="value" style="color: #666; font-size: 11px; margin-top: 3px;">
+                            📞 ${data.contactNumber || data.alternateContactNumber || 'N/A'}
+                        </div>
+                        ${data.email ? `<div class="value" style="color: #666; font-size: 11px;">✉ ${data.email}</div>` : ''}
+                    </div>
+                    `;
+                };
+
+                return `
+                <div class="grid" style="margin-top: 15px;">
+                     ${renderGH(`Source Handler (${sector.source?.code || 'Departure'})`, sourceGH)}
+                     ${renderGH(`Dest. Handler (${sector.destination?.code || 'Arrival'})`, destGH)}
+                </div>
+                `;
+            })()}
 
             <!-- Crew Assignment -->
              <h4 class="mb-2">2. Crew Assignment</h4>
@@ -148,8 +181,10 @@ export const TripComplianceReportTemplate = (data: {
                             <td>${doc.type || 'Document'}</td>
                             <td>
                                 ${doc.fileUrl
-                ? `<a href="${cloudfrontBaseUrl}${doc.fileUrl}" target="_blank" class="doc-link">View Document</a>`
-                : '-'}
+                    ? `<a href="${cloudfrontBaseUrl}${doc.fileUrl}" target="_blank" class="doc-link">View Document</a>`
+                    : doc.externalLink
+                        ? `<a href="${doc.externalLink}" target="_blank" class="doc-link">View External</a>`
+                        : '-'}
                             </td>
                         </tr>
                         `).join('')}

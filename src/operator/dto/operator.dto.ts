@@ -85,7 +85,7 @@ export class OperatorDto extends BaseDTO {
   @IsNotEmpty({ message: 'Email is required' })
   email: string;
   @FilterableField()
-  @IsPhoneNumber(null, { message: 'Phone must be a valid phone number' })
+  // @IsPhoneNumber(null, { message: 'Phone must be a valid phone number' })
   @IsNotEmpty({ message: 'Phone is required' })
   phone: string;
   @Field()
