@@ -20,20 +20,12 @@ import { TripDetailService } from 'src/ops/services/trip-detail.service';
 @Injectable()
 export class MailerService {
   private transporter = nodemailer.createTransport({
-    // host: process.env.EMAIL_HOST, // Example: smtp.example.com
-    // port: parseInt(process.env.EMAIL_PORT, 10), // Example: 587
-    // secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for 587/25
-    // auth: {
-    //   user: process.env.EMAIL_USER,
-    //   pass: process.env.EMAIL_PASS,
-    // },
-
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for port 465, false for other ports
+    host: process.env.EMAIL_HOST, // Example: smtp.example.com
+    port: parseInt(process.env.EMAIL_PORT, 10), // Example: 587
+    secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for 587/25
     auth: {
-      user: 'hikmatbk101@gmail.com',
-      pass: 'bdwv lmcm gyud zkyb', //bdwv lmcm gyud zkyb
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
